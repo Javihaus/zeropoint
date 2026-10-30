@@ -4,11 +4,13 @@ anyio==4.15.1 \
     --hash=sha256:6152fdbbf9a77fdec97731721bebf7c4c44f7c29b424b0065826173efc7ed101 \
     --hash=sha256:9f28306018cbd6d329e64a36d58256edff76dd996fe423bc957326e578b82a94
     # via httpx2
-atheris==3.0.0 \
-    --hash=sha256:1f0929c7bc3040f3fe4102e557718734190cf2d7718bbb8e3ce6d3eb56ef5bb3 \
-    --hash=sha256:510e502c57b6dc615fb174066407af620d4c7f73cf08a782c86e7761bf12c4eb \
-    --hash=sha256:8a5c8a781467c187da40fd29139784193e2647058831f837f675d0bb8cbd8746 \
-    --hash=sha256:a402cdca8a650d1371050b1f9552eb4cdc488d2db64950d603c4560318365eac
+atheris==3.1.0 \
+    --hash=sha256:315a0b5c819852b1ffe1ca72efc389c7724881f2c33e4aacb8c6bcec49bd5011 \
+    --hash=sha256:315a0b5c819852b1ffe1ca72efc389c7724881f2c33e4aacb8c6bcec49bd5011 \
+    --hash=sha256:ec5e11f21a4c197fe91f7aea2b2de88e623c73a21fc07b105ac6329a1588457b \
+    --hash=sha256:ec5e11f21a4c197fe91f7aea2b2de88e623c73a21fc07b105ac6329a1588457b \
+    --hash=sha256:f8a9f51ce8369026e8eb7b7174835e8c4c85a1a6db5d9add36c15100779d2a39 \
+    --hash=sha256:f8a9f51ce8369026e8eb7b7174835e8c4c85a1a6db5d9add36c15100779d2a39
     # via -r fuzz.in
 click==8.5.0 \
     --hash=sha256:255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360 \
@@ -321,5 +323,4 @@ typing-extensions==4.16.0 \
     --hash=sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5
     # via
     #   anyio
-    #   httpx2
     #   huggingface-hub
