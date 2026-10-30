@@ -1,7 +1,31 @@
-# ZeroPoint
+<div align="center">
+          
+# ZeroPoint: energy-based System 1 decision engine
+One forward pass turns a text into a choice among a list of options, with “none of them” as one of the possible answers.
 
-**An energy-based decision engine. It chooses one option from a list, or says that none of them fits.**
+<br>
 
+### :dart: A classifier that picks an option when none is right is hallucinating
+
+<br>
+
+
+| | ZeroPoint | Laya | Jev | Similarity |
+|---|---|---|---|---|
+| Latency per decision | **19 ms** on a 2-core CPU | 33 ms on a T4 GPU; 193–464 ms on CPU | 70–500 ms | 15 ms on a 2-core CPU |
+| Picks the right option when it is on the list | **97%** | 95% | not public | 80% |
+| Out-of-scope requests still acted on, keeping 95% of the good ones | **10%** | 32% | not public | 52% |
+
+<sub> Accuracy rows: CLINC150, 1,600 cases never seen in training (800 answerable requests, 800 out-of-scope
+requests, 20 options per case), the same cases for every system measured. Similarity uses the same encoder as
+ZeroPoint. Latency: ZeroPoint and similarity measured by us; Laya and Jev as published by their authors
+([Laya](https://pypi.org/project/laya/), [Jev](https://www.truefoundry.com/blog/typesafe-ai-jev)), on their
+own hardware. Jev is in early access and could not be tested. Full results, including support tickets, where
+Laya chooses better, are in [BENCHMARK.md](BENCHMARK.md). <sub>
+
+<br>
+
+</div>
 Many systems have to pick from a list: the support queue for a ticket, the intent behind a request, the route
 for a document. A classifier always picks something, even when the right option is not on the list or the
 text has nothing to do with the task. ZeroPoint returns the best option or `None`, and the probability of
@@ -13,6 +37,7 @@ in a few minutes.
 ```bash
 pip install zeropoint
 ```
+<br>
 
 ## A first decision
 
@@ -73,23 +98,28 @@ tickets, calibrate on your own data.
 Each model comes with two encoders: `encoder="small"` (default, faster) and `encoder="base"` (more accurate,
 slower).
 
+<br>
+
 ## How it works
 
-ZeroPoint is an energy-based model ([LeCun et al., 2006](https://yann.lecun.org/exdb/publis/pdf/lecun-06.pdf)).
+ZeroPoint is an energy-based model ([LeCun et al., 2006](http://yann.lecun.com/exdb/publis/orig/lecun-06.pdf)).
 Instead of scoring options against each other, it gives every option an energy and compares it with a
 reference state whose energy is fixed.
 
-**The text.** A frozen multilingual encoder ([E5](https://huggingface.co/intfloat/multilingual-e5-small))
+#### 1. The text
+We use [Multilingual-e5-small](https://huggingface.co/intfloat/multilingual-e5-small), a frozen multilingual encoder that
 turns the text into a vector. A small learned map places it as a point $z$ in a space of 256 dimensions.
 
-**The options.** Each option $y$ is a well in that space, built from the option's own text: a centre $c_y$, a
+#### 2. The options
+Each option $y$ is a well in that space, built from the option's own text: a centre $c_y$, a
 depth $A_y$ and a width $s_y$.
 
 $$E_y(z) = -A_y \exp\left(-\frac{\lVert z - c_y \rVert^2}{s_y^2}\right)$$
 
 Near the centre the energy is low. Far from it the well is flat and the energy is exactly zero.
 
-**The vacuum.** "None of the options" is a state of its own, with energy fixed at zero. This is the zero
+#### 3. The vacuum
+"None of the options" is a state of its own, with energy fixed at zero. This is the zero
 point. Each option is measured against it with Boltzmann's rule at a learned temperature $T$:
 
 $$w_y = e^{-E_y/T} - 1, \qquad w_{\text{none}} = 1, \qquad p(y) = \frac{w_y}{w_{\text{none}} + \sum_k w_k}$$
@@ -99,7 +129,8 @@ option a weight close to zero, and the probability stays with "none". With an or
 share all the probability among themselves, so the model cannot say that none of them fits; here it can,
 because the vacuum's energy does not move.
 
-**The edge of the data.** On the unit sphere where the learned points live, a text from another world can
+#### 4. The edge of the data
+On the unit sphere where the learned points live, a text from another world can
 still land near a well. So the vacuum also deepens when the text is far from everything the model has seen,
 measured in the encoder's own space (Mahalanobis distance to the nearest known class):
 
@@ -113,9 +144,11 @@ share of the examples have their right option removed from the list, with "none"
 model learns to leave the probability with the vacuum when nothing fits.
 
 Related ideas: deterministic uncertainty with distances to class centroids
-([DUQ, van Amersfoort et al., 2020](https://arxiv.org/abs/2003.02037)), and world models whose energy is learned up to
-a constant ([LeHami, Yalovetzky et al., 2026](https://arxiv.org/abs/2610.15267)). In ZeroPoint the constant is
+([Van Amersfoort et al., 2020](https://arxiv.org/abs/2003.02037)), and world models whose energy is learned up to
+a constant ([LeHami et al., 2026](https://arxiv.org/abs/2610.15267)). In ZeroPoint the constant is
 fixed, and that is what makes it possible to say "none".
+
+<br>
 
 ## Calibrate it on your own data
 
@@ -145,7 +178,9 @@ collapse shows up there even when the loss looks fine.
 A complete walk-through, with a held-out check and a table to choose your threshold, is in
 [notebooks/calibrate_your_own.ipynb](notebooks/calibrate_your_own.ipynb).
 
-## Speed
+<br>
+
+## Latency
 
 On a modest 2-core cloud CPU, one decision takes about **19 ms** with the default settings (small encoder,
 8-bit). The base encoder takes about 30 ms. No GPU is needed; a recent laptop is faster still.
@@ -154,7 +189,9 @@ The engine itself takes a millisecond or less. Almost all the time goes to the e
 [ONNX Runtime](https://onnxruntime.ai) in 8-bit precision by default (`precision="fp32"` for full
 precision). Details in [BENCHMARK.md](BENCHMARK.md).
 
-## How good it is
+<br>
+
+## Accuracy
 
 How often it tells cases with a right option apart from cases without one (AUROC: 1 is perfect, 0.5 a coin
 toss), on texts it never saw. Small encoder, default settings:
@@ -171,19 +208,15 @@ When the right option is on the list it chooses about as well as a classifier tr
 
 Full results, the baselines and the limits are in [BENCHMARK.md](BENCHMARK.md).
 
-## What to keep in mind
+<br>
 
-- ZeroPoint sees texts through a frozen encoder. If the encoder does not tell two kinds of text apart,
-  ZeroPoint will not either.
-- The shipped models know their own options. You can pass new option texts, and they get a well built from
-  their words, but only calibration on your data makes those wells reliable.
-- When the right option is on the list, ZeroPoint chooses about as well as an ordinary classifier trained on
-  the same data. What it adds is the "none".
+## References
 
-## Calibration on your data, as a service
+- LeCun, Y., Chopra, S., Hadsell, R., Ranzato, M., & Huang, F. (2006). A tutorial on energy-based learning. Predicting structured data, 1(0).
+- Van Amersfoort, J., Smith, L., Teh, Y. W., & Gal, Y. (2020, November). Uncertainty estimation using a single deep deterministic neural network. In International conference on machine learning (pp. 9690-9700). PMLR.
+- Yalovetzky, R., Balestriero, R., & LeCun, Y. (2026). LeHami: Symplectic Latent Dynamics for World Models. arXiv preprint arXiv:2610.15267.
 
-If you would rather have it done for you, with a report on where to set the threshold and what each
-choice costs in errors, write to javier@jmarin.info.
+<br>
 
 ## Citation
 
@@ -196,7 +229,17 @@ choice costs in errors, write to javier@jmarin.info.
 }
 ```
 
+<br>
+
 ## License
 
 Apache 2.0. The encoders are downloaded from the Hugging Face Hub at first use and keep their own MIT
 license.
+
+<br>
+
+<div align="center">
+
+<sub> Copyright Javier Marín, 2024 <sub>
+
+</div>
