@@ -10,7 +10,7 @@ readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 authors = [{ name = "Javier Marín", email = "javier@jmarin.info" }]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 keywords = ["energy-based model", "decision engine", "out-of-scope detection", "abstention", "classification", "onnx"]
 classifiers = [
     "Development Status :: 4 - Beta",

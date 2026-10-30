@@ -87,12 +87,18 @@ class ZeroPoint:
             raise ValueError(f"{name_or_path!r} is neither a file nor one of the presets {PRESETS}")
         from safetensors import safe_open
 
-        with safe_open(path, framework="np") as f:
-            config = json.loads(f.metadata()["zeropoint"])
-            weights = {k: f.get_tensor(k) for k in f.keys()}
-        if config.get("format", 1) > FORMAT:
-            raise ValueError("This model was saved by a newer version of zeropoint. Please upgrade.")
-        return cls(weights, config, precision=precision, providers=providers, threads=threads)
+        try:
+            with safe_open(path, framework="np") as f:
+                config = json.loads((f.metadata() or {})["zeropoint"])
+                weights = {k: f.get_tensor(k) for k in f.keys()}
+        except Exception as e:  # damaged file, or not written by zeropoint
+            raise ValueError(f"{path} is not a ZeroPoint model file ({type(e).__name__}).") from e
+        if not isinstance(config, dict) or config.get("format", 1) > FORMAT:
+            raise ValueError("This model was saved by a newer version of zeropoint, or is damaged. Please upgrade.")
+        try:
+            return cls(weights, config, precision=precision, providers=providers, threads=threads)
+        except (KeyError, TypeError, ValueError, AttributeError, IndexError) as e:
+            raise ValueError(f"{path} is not a valid ZeroPoint model ({type(e).__name__}: {e}).") from e
 
     def save(self, path: str) -> None:
         from safetensors.numpy import save_file

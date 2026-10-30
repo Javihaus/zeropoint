@@ -1,0 +1,6 @@
+numpy>=1.22
+safetensors>=0.4
+onnxruntime>=1.17
+tokenizers>=0.15
+huggingface_hub>=0.20
+atheris
