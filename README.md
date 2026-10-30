@@ -44,9 +44,6 @@ for a document. A classifier always picks something, even when the right option 
 text has nothing to do with the task. ZeroPoint returns the best option or `None`, and the probability of
 "none" comes out of the same calculation as the probability of each option.
 
-It runs on a CPU in milliseconds, needs no PyTorch to make decisions, and can be calibrated on your own data
-in a few minutes.
-
 ```bash
 pip install zeropoint
 ```
