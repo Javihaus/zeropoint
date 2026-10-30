@@ -114,7 +114,7 @@ slower).
 
 <br>
 
-<img src="assets/how-it-works.png" width="100%" alt="Every option is an energy well and none is the ground, fixed at zero. A billing text lands in the billing well; a text with no matching well stays on the ground; a text outside the data is pushed to none as the vacuum deepens beyond the edge. Below, ZeroPoint answers billing, none, none, while softmax answers billing, refund and account.">
+<img src="assets/how-it-works.png" width="100%" alt="Which team should handle the message: Can I change my delivery address? The options Billing and Technical are energy wells; None of these is the flat ground at energy zero. The text lands on the ground, so ZeroPoint answers none with 0.96, while softmax splits it between billing 0.55 and technical 0.45.">
 
 ZeroPoint is an energy-based model ([LeCun et al., 2006](http://yann.lecun.com/exdb/publis/orig/lecun-06.pdf)).
 Instead of scoring options against each other, it gives every option an energy and compares it with a
@@ -209,6 +209,10 @@ precision). Details in [BENCHMARK.md](BENCHMARK.md).
 
 How often it tells cases with a right option apart from cases without one (AUROC: 1 is perfect, 0.5 a coin
 toss), on texts it never saw. Small encoder, default settings:
+
+<img src="assets/none_auroc_vs_fpr95.png" width="100%" alt="AUROC against FPR at 95% recall, average of four tests. ZeroPoint sits in the green zone (AUROC 0.92, FPR 0.27); similarity with the same encoder (0.82, 0.58) and Laya (0.78, 0.65) sit in the orange zone, where many cases with no right answer still get an action.">
+
+<br>
 
 | test | ZeroPoint | similarity, same encoder |
 |---|---|---|
