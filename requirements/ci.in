@@ -1,5 +1,5 @@
 # Everything the tests need, except PyTorch. Regenerate the .txt with the command in requirements/README.md.
-numpy>=1.22
+numpy>=2.5.4
 onnxruntime>=1.17
 tokenizers>=0.15
 huggingface_hub>=0.20
