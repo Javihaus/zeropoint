@@ -1,6 +1,10 @@
 <div align="center">
 
-<img src="assets/zeropoint-light-large.png" width="160" alt="ZeroPoint logo">
+<img src="assets/zeropoint-circle-large.png" width="300" alt="ZeroPoint logo">
+
+<br>
+
+<br>
 
 [![License](https://img.shields.io/github/license/Javihaus/zeropoint?color=0000FF&cacheSeconds=86400)](https://github.com/Javihaus/zeropoint/blob/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/zeropoint?color=4169E1&cacheSeconds=3600)](https://pypi.org/project/zeropoint/)
