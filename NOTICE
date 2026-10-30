@@ -1,0 +1,6 @@
+ZeroPoint
+Copyright 2026 Javier Marín
+
+This product downloads, at first use, text encoders published by Microsoft under the MIT license
+(intfloat/multilingual-e5-small and intfloat/multilingual-e5-base on the Hugging Face Hub).
+They are not distributed with this package.

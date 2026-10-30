@@ -1,0 +1,200 @@
+"""ZeroPoint: choose among options, or say that none of them fits."""
+
+from __future__ import annotations
+
+import json
+import os
+from dataclasses import dataclass, field
+from importlib import resources
+from typing import Sequence
+
+import numpy as np
+
+from . import engine
+from .encoder import EncoderSpec, get_encoder
+
+FORMAT = 1
+PRESETS = ("tickets", "clinc150")
+DEFAULT_PRECISION = "int8"
+
+
+@dataclass(frozen=True)
+class Decision:
+    """The outcome for one text.
+
+    choice        the chosen option, or None when "none of them" is the most probable outcome
+    confidence    probability of `choice` (of "none" when choice is None)
+    p_none        probability that none of the options is right
+    probabilities probability of each option; together with p_none they sum to 1
+    energies      energy of the text in each option's well; 0 means "not in this well at all"
+    beyond_edge   how far the text lies outside the data the model was calibrated on (<= 0: inside)
+    """
+
+    choice: str | None
+    confidence: float
+    p_none: float
+    probabilities: dict[str, float] = field(repr=False)
+    energies: dict[str, float] = field(repr=False)
+    beyond_edge: float = field(repr=False, default=0.0)
+
+    def __repr__(self) -> str:
+        return f"Decision(choice={self.choice!r}, confidence={self.confidence:.2f}, p_none={self.p_none:.2f})"
+
+
+class ZeroPoint:
+    """An energy-based decision engine on top of a frozen text encoder.
+
+    Load a calibrated model with ``ZeroPoint.load("tickets")`` or calibrate your own with
+    ``ZeroPoint.fit(texts, labels)``, then call ``decide``.
+    """
+
+    def __init__(self, weights: dict[str, np.ndarray], config: dict, precision: str | None = None,
+                 providers: list[str] | None = None, threads: int | None = None):
+        self.weights = {k: np.asarray(v, dtype=np.float32) for k, v in weights.items()}
+        self.config = config
+        enc = dict(config["encoder"])
+        if precision is not None:
+            enc["precision"] = precision
+        self.encoder_spec = EncoderSpec(**enc)
+        self._providers, self._threads = providers, threads
+        self.labels: list[str] = list(config["labels"])
+        self.descriptions: list[str] = list(config["descriptions"])
+        self.temperature = float(config["temperature"])
+        self.kappa = float(config["kappa"])
+        self._known = {lab: i for i, lab in enumerate(self.labels)}
+        self._wells_cache: dict[str, tuple[np.ndarray, float, float]] = {}
+        centre, depth, width2 = engine.wells(self.weights["option_emb"], self.weights)
+        for i, lab in enumerate(self.labels):
+            self._wells_cache[lab] = (centre[i], float(depth[i]), float(width2[i]))
+
+    # ------------------------------------------------------------------ loading and saving
+
+    @classmethod
+    def load(cls, name_or_path: str, encoder: str = "small", precision: str | None = DEFAULT_PRECISION,
+             providers: list[str] | None = None, threads: int | None = None) -> "ZeroPoint":
+        """Load a calibrated model.
+
+        name_or_path  "tickets" or "clinc150" for the models shipped with the package, or a path to a file
+                      written by ``save``
+        encoder       "small" (default, faster) or "base" (more accurate); presets only
+        precision     "int8" (default, fastest on CPU) or "fp32"; None keeps the precision it was calibrated with
+        """
+        if os.path.exists(name_or_path):
+            path = name_or_path
+        elif name_or_path in PRESETS:
+            path = str(resources.files("zeropoint") / "presets" / f"{name_or_path}-{encoder}.safetensors")
+        else:
+            raise ValueError(f"{name_or_path!r} is neither a file nor one of the presets {PRESETS}")
+        from safetensors import safe_open
+
+        with safe_open(path, framework="np") as f:
+            config = json.loads(f.metadata()["zeropoint"])
+            weights = {k: f.get_tensor(k) for k in f.keys()}
+        if config.get("format", 1) > FORMAT:
+            raise ValueError("This model was saved by a newer version of zeropoint. Please upgrade.")
+        return cls(weights, config, precision=precision, providers=providers, threads=threads)
+
+    def save(self, path: str) -> None:
+        from safetensors.numpy import save_file
+
+        save_file({k: np.ascontiguousarray(v) for k, v in self.weights.items()}, path,
+                  metadata={"zeropoint": json.dumps(self.config)})
+
+    @classmethod
+    def fit(cls, texts: Sequence[str], labels: Sequence[str], **options) -> "ZeroPoint":
+        """Calibrate a model on your own labelled texts. Needs ``pip install zeropoint[train]``.
+
+        See ``zeropoint.calibrate.calibrate`` for every option.
+        """
+        from .calibrate import calibrate
+
+        return calibrate(texts, labels, **options)
+
+    # ------------------------------------------------------------------ deciding
+
+    @property
+    def encoder(self):
+        return get_encoder(self.encoder_spec, providers=self._providers, threads=self._threads)
+
+    def decide(self, text: str, options: Sequence[str] | None = None,
+               min_confidence: float | None = None) -> Decision:
+        """Choose one of `options` for `text`, or None.
+
+        options         defaults to every label the model knows
+        min_confidence  if set, `choice` is None unless the chosen option has at least this probability
+        """
+        return self.decide_many([text], options, min_confidence=min_confidence)[0]
+
+    def decide_many(self, texts: Sequence[str], options=None, min_confidence: float | None = None,
+                    batch_size: int | None = None) -> list[Decision]:
+        """Decide for many texts at once.
+
+        options         None (every known label), one list shared by all texts, or one list per text
+        min_confidence  if set, `choice` is None unless the chosen option has at least this probability
+        """
+        texts = list(texts)
+        if options is None:
+            per_text = [self.labels] * len(texts)
+        elif len(options) and not isinstance(options[0], str):
+            per_text = [list(o) for o in options]
+            if len(per_text) != len(texts):
+                raise ValueError("Give one list of options per text, or a single shared list.")
+        else:
+            per_text = [list(options)] * len(texts)
+        for o in per_text:
+            if len(o) == 0 or len(set(o)) != len(o):
+                raise ValueError("Each list of options must be non-empty and without repeats.")
+        emb = self.encoder.encode(texts, "query", batch_size=batch_size)
+        return self._decide_embedded(emb, per_text, min_confidence)
+
+    def _decide_embedded(self, emb: np.ndarray, per_text: list[list[str]],
+                         min_confidence: float | None = None) -> list[Decision]:
+        self._add_wells({o for opts in per_text for o in opts})
+        w = self.weights
+        z = engine.unit(engine.mlp(emb, w, "f"))
+        prec = self._edge_precision()
+        q = self.config["edge"][prec]
+        edge = engine.distance_beyond_edge(emb, w[f"edge.{prec}.means"], w[f"edge.{prec}.precision"],
+                                           q["q50"], q["q99"])
+        log_vacuum = self.kappa * np.maximum(edge, 0.0)
+        out: list[Decision | None] = [None] * len(per_text)
+        groups: dict[tuple, list[int]] = {}
+        for i, o in enumerate(per_text):
+            groups.setdefault(tuple(o), []).append(i)
+        for opts, idx in groups.items():
+            centre = np.stack([self._wells_cache[o][0] for o in opts])
+            depth = np.array([self._wells_cache[o][1] for o in opts], dtype=np.float32)
+            width2 = np.array([self._wells_cache[o][2] for o in opts], dtype=np.float32)
+            d2 = ((z[idx][:, None, :] - centre[None]) ** 2).sum(-1)
+            energy = -depth[None] * np.exp(-d2 / width2[None])
+            p = engine.probabilities(energy, self.temperature, log_vacuum[idx])
+            for r, i in enumerate(idx):
+                k = int(p[r].argmax())
+                choice = opts[k] if k < len(opts) else None
+                if min_confidence is not None and p[r, k] < min_confidence:
+                    choice = None
+                out[i] = Decision(choice=choice, confidence=float(p[r, k]), p_none=float(p[r, -1]),
+                                  probabilities={o: float(p[r, j]) for j, o in enumerate(opts)},
+                                  energies={o: float(energy[r, j]) for j, o in enumerate(opts)},
+                                  beyond_edge=float(edge[i]))
+        return out  # type: ignore[return-value]
+
+    def _edge_precision(self) -> str:
+        """The edge measured with the precision the encoder runs at, or the calibration one."""
+        edges = self.config["edge"]
+        return self.encoder_spec.precision if self.encoder_spec.precision in edges else next(iter(edges))
+
+    def _add_wells(self, options: set[str]) -> None:
+        """Options the model has not seen get a well from their own text. Results are cached."""
+        new = sorted(o for o in options if o not in self._wells_cache)
+        if not new:
+            return
+        emb = self.encoder.encode(new, "passage")
+        centre, depth, width2 = engine.wells(emb, self.weights)
+        for i, o in enumerate(new):
+            self._wells_cache[o] = (centre[i], float(depth[i]), float(width2[i]))
+
+    def __repr__(self) -> str:
+        enc = self.encoder_spec
+        return (f"ZeroPoint({len(self.labels)} labels, encoder={enc.repo.split('/')[-1]}, "
+                f"precision={enc.precision})")
