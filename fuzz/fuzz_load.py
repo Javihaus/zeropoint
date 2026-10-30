@@ -24,7 +24,7 @@ def test_one_input(data: bytes) -> None:
     try:
         ZeroPoint.load(PATH)
     except ValueError:
-        pass
+        return  # rejected cleanly, as it should be
 
 
 def main() -> None:
