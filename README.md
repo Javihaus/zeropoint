@@ -1,5 +1,13 @@
 <div align="center">
-          
+
+<img src="assets/zeropoint-light-large.png" width="160" alt="ZeroPoint logo">
+
+[![License](https://img.shields.io/github/license/Javihaus/zeropoint?color=0000FF&cacheSeconds=86400)](https://github.com/Javihaus/zeropoint/blob/main/LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/zeropoint?color=4169E1&cacheSeconds=3600)](https://pypi.org/project/zeropoint/)
+[![Python](https://img.shields.io/pypi/pyversions/zeropoint?color=1E90FF)](https://pypi.org/project/zeropoint/)
+[![Tests](https://github.com/Javihaus/zeropoint/actions/workflows/tests.yml/badge.svg)](https://github.com/Javihaus/zeropoint/actions/workflows/tests.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Javihaus/zeropoint/badge)](https://scorecard.dev/viewer/?uri=github.com/Javihaus/zeropoint)
+
 # ZeroPoint: energy-based System 1 decision engine
 One forward pass turns a text into a choice among a list of options, with “none of them” as one of the possible answers.
 
@@ -21,7 +29,7 @@ requests, 20 options per case), the same cases for every system measured. Simila
 ZeroPoint. Latency: ZeroPoint and similarity measured by us; Laya and Jev as published by their authors
 ([Laya](https://pypi.org/project/laya/), [Jev](https://www.truefoundry.com/blog/typesafe-ai-jev)), on their
 own hardware. Jev is in early access and could not be tested. Full results, including support tickets, where
-Laya chooses better, are in [BENCHMARK.md](BENCHMARK.md). <sub>
+Laya chooses better, are in [BENCHMARK.md](BENCHMARK.md).</sub>
 
 <br>
 
