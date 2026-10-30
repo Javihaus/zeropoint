@@ -1,0 +1,23 @@
+name: publish
+# Publishing a GitHub release tagged vX.Y.Z uploads zeropoint X.Y.Z to PyPI.
+# One-time setup on pypi.org: add this repository as a trusted publisher (workflow publish.yml, environment pypi).
+on:
+  release:
+    types: [published]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tag and package version must match
+        run: |
+          v=$(python -c "import re;print(re.search(r'__version__ = \"(.+?)\"', open('src/zeropoint/__init__.py').read()).group(1))")
+          test "v$v" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} != version $v"; exit 1; }
+      - run: pip install build && python -m build
+      - uses: pypa/gh-action-pypi-publish@release/v1
