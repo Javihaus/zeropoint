@@ -113,7 +113,11 @@ slower).
 
 <br>
 
-## How it works
+## Energy based models
+
+<br>
+
+<img src="assets/how-it-works.png" width="100%" alt="Every option is an energy well and none is the ground, fixed at zero. A billing text lands in the billing well; a text with no matching well stays on the ground; a text outside the data is pushed to none as the vacuum deepens beyond the edge. Below, ZeroPoint answers billing, none, none, while softmax answers billing, refund and account.">
 
 ZeroPoint is an energy-based model ([LeCun et al., 2006](http://yann.lecun.com/exdb/publis/orig/lecun-06.pdf)).
 Instead of scoring options against each other, it gives every option an energy and compares it with a
