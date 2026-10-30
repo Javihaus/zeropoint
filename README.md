@@ -210,7 +210,7 @@ precision). Details in [BENCHMARK.md](BENCHMARK.md).
 How often it tells cases with a right option apart from cases without one (AUROC: 1 is perfect, 0.5 a coin
 toss), on texts it never saw. Small encoder, default settings:
 
-<img src="assets/none_auroc_vs_fpr95.png" width="100%" alt="AUROC against FPR at 95% recall, average of four tests. ZeroPoint sits in the green zone (AUROC 0.92, FPR 0.27); similarity with the same encoder (0.82, 0.58) and Laya (0.78, 0.65) sit in the orange zone, where many cases with no right answer still get an action.">
+<img src="assets/benchmark-chart.png" width="100%" alt="AUROC against FPR at 95% recall, average of four tests. ZeroPoint sits in the green zone (AUROC 0.92, FPR 0.27); similarity with the same encoder (0.82, 0.58) and Laya (0.78, 0.65) sit in the orange zone, where many cases with no right answer still get an action.">
 
 <br>
 
