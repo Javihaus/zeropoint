@@ -11,9 +11,9 @@ from typing import Sequence
 import numpy as np
 
 from . import engine
+from ._version import FORMAT
 from .encoder import EncoderSpec, get_encoder
 
-FORMAT = 1
 PRESETS = ("tickets", "clinc150")
 DEFAULT_PRECISION = "int8"
 
@@ -110,11 +110,12 @@ class ZeroPoint:
     def fit(cls, texts: Sequence[str], labels: Sequence[str], **options) -> "ZeroPoint":
         """Calibrate a model on your own labelled texts. Needs ``pip install zeropoint[train]``.
 
-        See ``zeropoint.calibrate.calibrate`` for every option.
+        See ``zeropoint.calibrate.train`` for every option.
         """
-        from .calibrate import calibrate
+        from .calibrate import train
 
-        return calibrate(texts, labels, **options)
+        weights, config = train(texts, labels, **options)
+        return cls(weights, config)
 
     # ------------------------------------------------------------------ deciding
 

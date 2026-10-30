@@ -45,7 +45,7 @@ Benchmark = "https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md"
 Issues = "https://github.com/Javihaus/zeropoint/issues"
 
 [tool.hatch.version]
-path = "src/zeropoint/__init__.py"
+path = "src/zeropoint/_version.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/zeropoint"]

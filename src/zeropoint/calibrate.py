@@ -22,7 +22,7 @@ from typing import Sequence
 
 import numpy as np
 
-from . import __version__
+from ._version import FORMAT, __version__
 from .encoder import EncoderSpec, get_encoder
 
 RECIPE = {
@@ -111,11 +111,13 @@ def _layouts(y: np.ndarray, n: int, catch_all: set[int], rng, with_none: bool, r
     return out
 
 
-def calibrate(texts: Sequence[str], labels: Sequence[str], *, descriptions: dict[str, str] | None = None,
+def train(texts: Sequence[str], labels: Sequence[str], *, descriptions: dict[str, str] | None = None,
               catch_all: Sequence[str] = (), encoder: str = "small", precision: str = "fp32",
               seed: int = 0, monitor: bool = False, device: str | None = None, embeddings: np.ndarray | None = None,
-              recipe: dict | None = None, edge_int8: bool = True, verbose: bool = True):
-    """Calibrate ZeroPoint on labelled texts and return the model.
+              recipe: dict | None = None, edge_int8: bool = True, verbose: bool = True) -> tuple[dict, dict]:
+    """Calibrate ZeroPoint on labelled texts. Returns the weights and the configuration of the model.
+
+    Use it through ``ZeroPoint.fit``, which takes the same options and returns a ready model.
 
     texts, labels  one label per text; every distinct label becomes an option
     descriptions   optional {label: short description}; the well of each option is built from
@@ -135,8 +137,6 @@ def calibrate(texts: Sequence[str], labels: Sequence[str], *, descriptions: dict
     import torch
     import torch.nn as nn
     import torch.nn.functional as F
-
-    from .model import FORMAT, ZeroPoint
 
     r = {**RECIPE, **(recipe or {})}
     texts, labels = list(texts), list(labels)
@@ -324,11 +324,10 @@ def calibrate(texts: Sequence[str], labels: Sequence[str], *, descriptions: dict
                      "validation_accuracy": acc, "chance": chance, "history": history,
                      "participation_ratio": participation},
     }
-    zp = ZeroPoint(weights, config)
     if precision != "int8" and edge_int8:
         log("Measuring the edge of the data with the 8-bit encoder as well (the default at inference)...")
-        add_edge(zp, texts, labels, "int8", seed=seed)
-    return zp
+        _measure_edge(weights, config, texts, labels, "int8", seed=seed)
+    return weights, config
 
 
 def add_edge(zp, texts: Sequence[str], labels: Sequence[str], precision: str,
@@ -338,10 +337,16 @@ def add_edge(zp, texts: Sequence[str], labels: Sequence[str], precision: str,
     The edge is a distance in the encoder's own space, so it shifts a little between fp32 and int8. With an
     edge per precision, the model uses the one that matches the encoder it runs with. Needs no PyTorch.
     """
-    spec = EncoderSpec(**{**zp.config["encoder"], "precision": precision})
+    _measure_edge(zp.weights, zp.config, texts, labels, precision, embeddings, seed)
+
+
+def _measure_edge(weights: dict, config: dict, texts: Sequence[str], labels: Sequence[str], precision: str,
+                  embeddings: np.ndarray | None = None, seed: int = 0) -> None:
+    spec = EncoderSpec(**{**config["encoder"], "precision": precision})
     if embeddings is None:
         embeddings = get_encoder(spec).encode(list(texts), "query")
-    y = np.array([zp.labels.index(lab) for lab in labels])
-    means, prec, q50, q99 = _edge(np.asarray(embeddings, dtype=np.float32), y, len(zp.labels), seed + 5)
-    zp.weights[f"edge.{precision}.means"], zp.weights[f"edge.{precision}.precision"] = means, prec
-    zp.config["edge"][precision] = {"q50": q50, "q99": q99}
+    names = list(config["labels"])
+    y = np.array([names.index(lab) for lab in labels])
+    means, prec, q50, q99 = _edge(np.asarray(embeddings, dtype=np.float32), y, len(names), seed + 5)
+    weights[f"edge.{precision}.means"], weights[f"edge.{precision}.precision"] = means, prec
+    config["edge"][precision] = {"q50": q50, "q99": q99}

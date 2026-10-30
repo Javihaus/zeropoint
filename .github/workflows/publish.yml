@@ -22,7 +22,7 @@ jobs:
           python-version: "3.12"
       - name: Tag and package version must match
         run: |
-          v=$(python -c "import re;print(re.search(r'__version__ = \"(.+?)\"', open('src/zeropoint/__init__.py').read()).group(1))")
+          v=$(python -c "import re;print(re.search(r'__version__ = \"(.+?)\"', open('src/zeropoint/_version.py').read()).group(1))")
           test "v$v" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} != version $v"; exit 1; }
       - name: Build with pinned tools (hashes checked)
         run: |

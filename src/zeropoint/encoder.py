@@ -66,11 +66,8 @@ class Encoder:
         if threads:
             options.intra_op_num_threads = threads
         model_path = fetch(ONNX_FILES[spec.precision])
-        if spec.precision == "fp32":  # external weights, if the repo splits them
-            try:
-                fetch(ONNX_FILES["fp32"] + "_data")
-            except Exception:
-                pass
+        if spec.precision == "fp32" and _has_file(spec, ONNX_FILES["fp32"] + "_data"):
+            fetch(ONNX_FILES["fp32"] + "_data")  # external weights, when the repo splits them out
         if providers is None:  # CUDA when present, else CPU; other providers only when asked for
             gpu = "CUDAExecutionProvider" in ort.get_available_providers() and spec.precision == "fp32"
             providers = ["CUDAExecutionProvider", "CPUExecutionProvider"] if gpu else ["CPUExecutionProvider"]
@@ -117,6 +114,16 @@ class Encoder:
             pooled = (hidden * m).sum(1) / np.maximum(m.sum(1), 1e-9)
             out[idx] = pooled / np.maximum(np.linalg.norm(pooled, axis=1, keepdims=True), 1e-12)
         return out
+
+
+def _has_file(spec: EncoderSpec, filename: str) -> bool:
+    """Whether the model repository contains `filename`. Without network access, assume it does not."""
+    from huggingface_hub import file_exists
+
+    try:
+        return file_exists(spec.repo, filename, revision=spec.revision)
+    except Exception:  # offline or Hub unreachable: the main file came from the local cache, so use it alone
+        return False
 
 
 _CACHE: dict = {}
