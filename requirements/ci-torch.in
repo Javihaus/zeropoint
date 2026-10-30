@@ -1,0 +1,10 @@
+# The tests' dependencies plus PyTorch's own dependencies, all from PyPI.
+# PyTorch itself comes from torch-cpu.txt (CPU build, PyTorch index), installed with --no-deps.
+-r ci.in
+filelock
+typing-extensions
+sympy
+networkx
+jinja2
+fsspec
+setuptools
