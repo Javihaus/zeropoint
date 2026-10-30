@@ -1,4 +1,6 @@
 name: tests
+# Linux, macOS and Windows on the two newest Python versions ZeroPoint supports, plus the oldest on Linux.
+# Python 3.15 is not tested yet: onnxruntime has no build for it.
 on:
   pull_request:
   push:
@@ -8,11 +10,17 @@ permissions:
   contents: read
 
 jobs:
-  linux:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        python: ["3.10", "3.13"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.13", "3.14"]
+        include:
+          - os: ubuntu-latest
+            python: "3.10"
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -25,19 +33,5 @@ jobs:
           python -m pip install --require-hashes -r requirements/ci-torch.txt
           python -m pip install --require-hashes --no-deps -r requirements/torch-cpu.txt
           python -m pip install --no-deps -e .
-      - run: python -m pytest -q
-
-  macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
-        with:
-          python-version: "3.13"
-      - name: Install pinned dependencies (hashes checked)
-        run: |
-          python -m pip install --require-hashes -r requirements/ci.txt
-          python -m pip install --no-deps -e .
-      - run: python -m pytest -q
+      - name: Run the tests
+        run: python -m pytest -q
