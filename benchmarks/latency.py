@@ -53,7 +53,7 @@ def main():
     rows = []
     for encoder in a.encoders:
         for precision in a.precisions:
-            zp = ZeroPoint.load("tickets", encoder=encoder, precision=precision, providers=a.providers,
+            zp = ZeroPoint.load("support", encoder=encoder, precision=precision, providers=a.providers,
                                threads=a.threads)
             enc = zp.encoder
             for batch in [1, 32]:

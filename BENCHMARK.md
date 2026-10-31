@@ -1,6 +1,6 @@
 # Benchmark
 
-What the two shipped models do on cases they never saw, against a similarity baseline with the same encoder
+What the two landscapes that ship with ZeroPoint (`everyday` and `support`) do on cases they never saw, against a similarity baseline with the same encoder
 and against [Laya](https://pypi.org/project/laya/), a published decision model. Everything here can be
 rebuilt from public data with the scripts in [benchmarks/](benchmarks) and
 [scripts/build_presets.py](scripts/build_presets.py).
@@ -14,8 +14,8 @@ Most benchmarks only measure the first job. This one measures both.
 
 | | training | tests |
 |---|---|---|
-| **tickets** | 20,000 English support tickets with 10 queues ([Tobi-Bueck/customer-support-tickets](https://huggingface.co/datasets/Tobi-Bueck/customer-support-tickets)) | 2,261 other tickets from the same dataset, plus 300 unrelated texts |
-| **clinc150** | 15,000 requests with 150 intents ([CLINC150](https://huggingface.co/datasets/clinc_oos)) | 800 requests and 800 out-of-scope requests from the test split |
+| **support** | 20,000 English support tickets with 10 queues ([Tobi-Bueck/customer-support-tickets](https://huggingface.co/datasets/Tobi-Bueck/customer-support-tickets)) | 2,261 other tickets from the same dataset, plus 300 unrelated texts |
+| **everyday** | 15,000 requests with 150 intents ([CLINC150](https://huggingface.co/datasets/clinc_oos)) | 800 requests and 800 out-of-scope requests from the test split |
 
 No test case is ever in a training set, and no out-of-scope text is used anywhere in training. The ticket
 test cases are the same ones used in the [Laya audit](https://github.com/Javihaus/laya-audit).
@@ -102,7 +102,7 @@ data the zero of energy stays where it is.
 ## 8-bit or full precision
 
 The 8-bit encoder costs about 0.01 AUROC at most, and on a CPU it is up to three times faster.
-Each shipped model stores the edge of its data measured with both precisions, so neither setting is
+Each shipped landscape stores the edge of its data measured with both precisions, so neither setting is
 penalised.
 
 | test (AUROC) | small fp32 | small int8 | base fp32 | base int8 |
@@ -138,7 +138,7 @@ Run `python benchmarks/latency.py` to measure on your own machine.
   because a model without a sense of distance, such as Laya or ZeroPoint without the edge, fails it.
 - **`tickets_made` is hard for everyone.** A ticket whose right queue is missing usually still resembles one
   of the listed queues. ZeroPoint's 0.71 is the best of the systems here and still far from solved.
-- **One training seed per shipped model.** The research runs averaged two seeds and found the same numbers
+- **One training seed per shipped landscape.** The research runs averaged two seeds and found the same numbers
   within 0.01.
 - **The encoder sets the ceiling.** All results use E5 encoders. A domain the encoder does not understand
   will not be understood by ZeroPoint either.

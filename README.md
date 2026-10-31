@@ -51,62 +51,141 @@ pip install zeropoint
 
 ## A first decision
 
+ZeroPoint answers one question: which of these options fits this text, if any. It decides with an **energy
+landscape**, calibrated on real texts, that knows a set of options. Two landscapes come with the package.
+
+### Everyday requests
+
+`ZeroPoint.load()` loads the default landscape, `everyday`: 150 kinds of everyday requests to an assistant.
+
+**One of the options is right.**
+
 ```python
 from zeropoint import ZeroPoint
 
-zp = ZeroPoint.load("clinc150")     # 150 everyday requests: banking, travel, home, work, small talk
-
-zp.decide("Can you move 200 euros from my savings to my checking account?")
-# Decision(choice='transfer', confidence=0.88, p_none=0.01)
-
-zp.decide("Who won the football match yesterday?")
-# Decision(choice=None, confidence=0.38, p_none=0.38)
+zp = ZeroPoint.load()
+zp.decide("Can you move 200 euros from my savings to my checking account?",
+          options=["transfer", "balance", "pay bill"])
 ```
 
-Give it the options that are open at that moment. If the right one is missing, it says so:
+```text
+transfer  0.98  ███████████████████▋
+balance   0.01  ▏
+pay bill  0.00
+none      0.01  ▏
+→ transfer · 9 ms
+```
+
+**None of the options is right.**
 
 ```python
-zp.decide("Can you move 200 euros from my savings to my checking account?",
-          options=["balance", "pay bill", "freeze account"])
-# Decision(choice=None, confidence=0.50, p_none=0.50)
-
-zp.decide("Can you move 200 euros from my savings to my checking account?",
-          options=["balance", "transfer", "freeze account"])
-# Decision(choice='transfer', confidence=0.98, p_none=0.01)
+zp.decide("Set an alarm for 6:30 tomorrow morning",
+          options=["transfer", "balance", "pay bill"])
 ```
+
+```text
+pay bill  0.00
+transfer  0.00
+balance   0.00
+none      1.00  ███████████████████▉
+→ none · 8 ms
+```
+
+### Support tickets
+
+`ZeroPoint.load("support")` loads a landscape calibrated on customer support tickets, which routes each
+ticket to one of 10 queues.
+
+**Three options, and it chooses one.**
+
+```python
+zp = ZeroPoint.load("support")
+zp.decide("Subject: Charged twice for my subscription\n"
+          "Hello, my credit card was charged twice for the March invoice. Could you refund the duplicate payment?",
+          options=["Billing and Payments", "Technical Support", "Human Resources"])
+```
+
+```text
+Billing and Payments  0.91  ██████████████████▏
+Human Resources       0.00
+Technical Support     0.00
+none                  0.09  █▊
+→ Billing and Payments · 14 ms
+```
+
+**No options given.** This case is different: you don't pass a list, so ZeroPoint chooses among all the
+options the landscape knows, here its 10 queues (listed in `zp.labels`). The five most probable are shown.
+
+```python
+zp.decide("Subject: Service down since this morning\n"
+          "Our dashboard has been unreachable since 8am and all requests time out. "
+          "Is there an outage or scheduled maintenance?")
+```
+
+```text
+Service Outages and Maintenance  0.83  ████████████████▋
+IT Support                       0.05  █
+Technical Support                0.03  ▌
+Human Resources                  0.01  ▎
+Product Support                  0.01  ▏
+                                 (+5 more options)
+none                             0.06  █▏
+→ Service Outages and Maintenance · 12 ms
+```
+
+The support landscape knows tickets in the style of its dataset (a subject line and a body) and treats very
+different writing as outside what it knows. For your own tickets, calibrate on your own data.
+
+### Landscapes
+
+```python
+import zeropoint
+zeropoint.landscapes()
+```
+
+```text
+everyday    150 options   everyday requests to an assistant: banking, travel, home, work, small talk   (default)
+support      10 options   customer support tickets, routed to a queue
+```
+
+| landscape | what it decides | calibrated on |
+|---|---|---|
+| `everyday` (default) | 150 kinds of everyday requests | [CLINC150](https://huggingface.co/datasets/clinc_oos), 15,000 requests written by people |
+| `support` | 10 support queues | a [public dataset](https://huggingface.co/datasets/Tobi-Bueck/customer-support-tickets) of 20,000 support tickets |
+
+Each landscape comes with two encoders: `encoder="small"` (default, faster) and `encoder="base"` (more
+accurate, slower). Your own landscape, calibrated on your data, loads the same way: `ZeroPoint.load(path)`.
+
+### Setting a threshold
 
 With many options, a text that fits none of them can still leave a weak favourite. A low confidence is the
-warning, and `min_confidence` turns it into a `None`:
+warning, and `min_confidence` turns it into "none":
 
 ```python
-zp.decide("Write me a poem about the sea")
-# Decision(choice='timezone', confidence=0.28, p_none=0.16)
-
+zp = ZeroPoint.load()
 zp.decide("Write me a poem about the sea", min_confidence=0.5)
-# Decision(choice=None, confidence=0.28, p_none=0.16)
+```
+
+```text
+timezone   0.28  █████▋
+time       0.05  ▉
+text       0.05  ▉
+weather    0.04  ▉
+what song  0.04  ▊
+           (+145 more options)
+none       0.16  ███▏
+→ none · 7 ms
 ```
 
 The right threshold depends on what a wrong action costs you.
 [notebooks/calibrate_your_own.ipynb](notebooks/calibrate_your_own.ipynb) shows how to read it off your own data.
 
-For many texts, `decide_many(texts)` takes the same arguments, plus one list of options per text if they
-differ. Each `Decision` carries `choice`, `confidence`, `p_none`, the `probabilities` and `energies` of every
-option, and `beyond_edge`, which says how far the text lies outside the data the model was calibrated on
-(zero or below means inside).
+### What a decision carries
 
-### The models that come with it
-
-| name | what it decides | learned from |
-|---|---|---|
-| `"clinc150"` | 150 intents of everyday requests | [CLINC150](https://huggingface.co/datasets/clinc_oos), 15,000 requests written by people |
-| `"tickets"` | 10 support queues | a [public dataset](https://huggingface.co/datasets/Tobi-Bueck/customer-support-tickets) of 20,000 support tickets |
-
-The tickets model is there to try the engine on longer texts. It knows tickets in the style of its dataset
-(a subject line and a body) and treats very different writing as outside what it knows. For your own
-tickets, calibrate on your own data.
-
-Each model comes with two encoders: `encoder="small"` (default, faster) and `encoder="base"` (more accurate,
-slower).
+Each decision is a `Decision` with `choice` (the option, or `None`), `confidence`, `p_none`, the
+`probabilities` and `energies` of every option, `latency_ms`, and `beyond_edge`, which says how far the text
+lies outside the data the landscape was calibrated on (zero or below means inside). For many texts,
+`decide_many(texts)` takes the same arguments, plus one list of options per text if they differ.
 
 <br>
 

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import json
 import os
+import time
+import dataclasses
 from dataclasses import dataclass, field
 from importlib import resources
 from typing import Sequence
@@ -14,8 +16,52 @@ from . import engine
 from ._version import FORMAT
 from .encoder import EncoderSpec, get_encoder
 
-PRESETS = ("tickets", "clinc150")
 DEFAULT_PRECISION = "int8"
+DEFAULT_LANDSCAPE = "everyday"
+
+
+@dataclass(frozen=True)
+class Landscape:
+    """A calibrated energy landscape that ships with the package."""
+
+    name: str
+    options: int
+    description: str
+    examples: tuple[str, ...]
+    source: str
+
+
+LANDSCAPES: dict[str, Landscape] = {
+    "everyday": Landscape(
+        "everyday", 150, "everyday requests to an assistant: banking, travel, home, work, small talk",
+        ("transfer", "book flight", "alarm", "weather"),
+        "calibrated on CLINC150 (Larson et al., 2019): 15,000 requests written by people"),
+    "support": Landscape(
+        "support", 10, "customer support tickets, routed to a queue",
+        ("Billing and Payments", "Technical Support", "Returns and Exchanges", "Human Resources"),
+        "calibrated on 20,000 public support tickets (Tobi-Bueck/customer-support-tickets)"),
+}
+
+
+class _LandscapeList(list):
+    def __repr__(self) -> str:
+        rows = []
+        for ls in self:
+            default = "   (default)" if ls.name == DEFAULT_LANDSCAPE else ""
+            rows.append(f"{ls.name:<10} {ls.options:>4} options   {ls.description}{default}")
+        return "\n".join(rows)
+
+
+def landscapes() -> list[Landscape]:
+    """The calibrated landscapes that ship with ZeroPoint. Load one with ``ZeroPoint.load(name)``."""
+    return _LandscapeList(LANDSCAPES.values())
+
+
+def _bar(p: float, width: int = 20) -> str:
+    cells = p * width
+    full = int(cells)
+    part = " ▏▎▍▌▋▊▉"[int((cells - full) * 8)]
+    return ("█" * full + (part if full < width else "")).rstrip()
 
 
 @dataclass(frozen=True)
@@ -28,6 +74,7 @@ class Decision:
     probabilities probability of each option; together with p_none they sum to 1
     energies      energy of the text in each option's well; 0 means "not in this well at all"
     beyond_edge   how far the text lies outside the data the model was calibrated on (<= 0: inside)
+    latency_ms    time to decide, in milliseconds (in decide_many, the batch time divided by its texts)
     """
 
     choice: str | None
@@ -36,15 +83,28 @@ class Decision:
     probabilities: dict[str, float] = field(repr=False)
     energies: dict[str, float] = field(repr=False)
     beyond_edge: float = field(repr=False, default=0.0)
+    latency_ms: float = field(repr=False, default=0.0)
 
     def __repr__(self) -> str:
-        return f"Decision(choice={self.choice!r}, confidence={self.confidence:.2f}, p_none={self.p_none:.2f})"
+        """A small table: each option with its probability, then "none", then the decision.
+
+        With more than 6 options, the 5 most probable are shown.
+        """
+        items = sorted(self.probabilities.items(), key=lambda kv: -kv[1])
+        shown = items if len(items) <= 6 else items[:5]
+        width = max([len(k) for k, _ in shown] + [4])
+        lines = [f"{k:<{width}}  {v:.2f}  {_bar(v)}" for k, v in shown]
+        if len(shown) < len(items):
+            lines.append(f"{'':<{width}}  (+{len(items) - len(shown)} more options)")
+        lines.append(f"{'none':<{width}}  {self.p_none:.2f}  {_bar(self.p_none)}")
+        lines.append(f"→ {self.choice if self.choice is not None else 'none'} · {self.latency_ms:.0f} ms")
+        return "\n".join(lines)
 
 
 class ZeroPoint:
     """An energy-based decision engine on top of a frozen text encoder.
 
-    Load a calibrated model with ``ZeroPoint.load("tickets")`` or calibrate your own with
+    Load a calibrated landscape with ``ZeroPoint.load()`` (see ``zeropoint.landscapes()``) or calibrate your own with
     ``ZeroPoint.fit(texts, labels)``, then call ``decide``.
     """
 
@@ -70,21 +130,23 @@ class ZeroPoint:
     # ------------------------------------------------------------------ loading and saving
 
     @classmethod
-    def load(cls, name_or_path: str, encoder: str = "small", precision: str | None = DEFAULT_PRECISION,
-             providers: list[str] | None = None, threads: int | None = None) -> "ZeroPoint":
-        """Load a calibrated model.
+    def load(cls, name_or_path: str = DEFAULT_LANDSCAPE, encoder: str = "small",
+             precision: str | None = DEFAULT_PRECISION, providers: list[str] | None = None,
+             threads: int | None = None) -> "ZeroPoint":
+        """Load a calibrated energy landscape.
 
-        name_or_path  "tickets" or "clinc150" for the models shipped with the package, or a path to a file
-                      written by ``save``
-        encoder       "small" (default, faster) or "base" (more accurate); presets only
+        name_or_path  a landscape that ships with the package ("everyday", the default, or "support"; see
+                      ``zeropoint.landscapes()``), or the path to a file written by ``save``
+        encoder       "small" (default, faster) or "base" (more accurate); shipped landscapes only
         precision     "int8" (default, fastest on CPU) or "fp32"; None keeps the precision it was calibrated with
         """
-        if os.path.exists(name_or_path):
-            path = name_or_path
-        elif name_or_path in PRESETS:
+        if name_or_path in LANDSCAPES:
             path = str(resources.files("zeropoint") / "presets" / f"{name_or_path}-{encoder}.safetensors")
+        elif os.path.exists(name_or_path):
+            path = name_or_path
         else:
-            raise ValueError(f"{name_or_path!r} is neither a file nor one of the presets {PRESETS}")
+            raise ValueError(f"{name_or_path!r} is neither a file nor a shipped landscape. Available:\n"
+                             f"{landscapes()!r}")
         from safetensors import safe_open
 
         try:
@@ -151,8 +213,12 @@ class ZeroPoint:
         for o in per_text:
             if len(o) == 0 or len(set(o)) != len(o):
                 raise ValueError("Each list of options must be non-empty and without repeats.")
-        emb = self.encoder.encode(texts, "query", batch_size=batch_size)
-        return self._decide_embedded(emb, per_text, min_confidence)
+        encoder = self.encoder  # loading the encoder is a one-time cost, kept out of the latency
+        start = time.perf_counter()
+        emb = encoder.encode(texts, "query", batch_size=batch_size)
+        out = self._decide_embedded(emb, per_text, min_confidence)
+        ms = (time.perf_counter() - start) * 1000 / max(len(texts), 1)
+        return [dataclasses.replace(d, latency_ms=ms) for d in out]
 
     def _decide_embedded(self, emb: np.ndarray, per_text: list[list[str]],
                          min_confidence: float | None = None) -> list[Decision]:
@@ -203,5 +269,5 @@ class ZeroPoint:
 
     def __repr__(self) -> str:
         enc = self.encoder_spec
-        return (f"ZeroPoint({len(self.labels)} labels, encoder={enc.repo.split('/')[-1]}, "
+        return (f"ZeroPoint({len(self.labels)} options, encoder={enc.repo.split('/')[-1]}, "
                 f"precision={enc.precision})")

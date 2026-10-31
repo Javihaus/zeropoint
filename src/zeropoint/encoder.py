@@ -73,6 +73,7 @@ class Encoder:
             providers = ["CUDAExecutionProvider", "CPUExecutionProvider"] if gpu else ["CPUExecutionProvider"]
         self.session = ort.InferenceSession(model_path, options, providers=providers)
         self._inputs = {i.name for i in self.session.get_inputs()}
+        self.encode(["warm up"])  # the first run initialises ONNX Runtime; keep it out of the first decision
 
     @property
     def dim(self) -> int:

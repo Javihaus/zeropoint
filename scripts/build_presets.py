@@ -4,7 +4,7 @@
     python scripts/build_presets.py --encoder small
     python scripts/build_presets.py --encoder base
 
-Writes src/zeropoint/presets/{tickets,clinc150}-{encoder}.safetensors. Embeddings are cached in
+Writes src/zeropoint/presets/{support,everyday}-{encoder}.safetensors. Embeddings are cached in
 .cache/ so the benchmark can reuse them.
 """
 
@@ -50,8 +50,8 @@ def main():
     a = ap.parse_args()
     os.makedirs(PRESETS, exist_ok=True)
     jobs = {
-        "tickets": (data.tickets()[0], {"descriptions": data.QUEUES, "catch_all": [data.GI]}),
-        "clinc150": (data.clinc150()[0], {}),
+        "support": (data.tickets()[0], {"descriptions": data.QUEUES, "catch_all": [data.GI]}),
+        "everyday": (data.clinc150()[0], {}),
     }
     for name, (pool, opts) in jobs.items():
         texts, labels = [t for t, _ in pool], [y for _, y in pool]

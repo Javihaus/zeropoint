@@ -66,12 +66,12 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     _, tt = data.tickets()
     _, tc = data.clinc150()
-    tests = {**{k: ("tickets", v) for k, v in tt.items()}, **{k: ("clinc150", v) for k, v in tc.items()}}
+    tests = {**{k: ("support", v) for k, v in tt.items()}, **{k: ("everyday", v) for k, v in tc.items()}}
     option_text = {**{q: f"{q}: {d}" for q, d in data.QUEUES.items()}}
     rows, acc_rows = [], []
     for encoder in ["small", "base"]:
         for precision in ["int8", "fp32"]:
-            models = {n: ZeroPoint.load(n, encoder=encoder, precision=precision) for n in ["tickets", "clinc150"]}
+            models = {n: ZeroPoint.load(n, encoder=encoder, precision=precision) for n in ["support", "everyday"]}
             enc = get_encoder(EncoderSpec.resolve(encoder, precision))
             for test, (task, (ans, none)) in tests.items():
                 zp = models[task]
