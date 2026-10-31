@@ -1,12 +1,11 @@
 [build-system]
-requires = ["hatchling>=1.24"]
+requires = ["hatchling>=1.24", "hatch-fancy-pypi-readme>=24.1"]
 build-backend = "hatchling.build"
 
 [project]
 name = "zeropoint"
-dynamic = ["version"]
+dynamic = ["version", "readme"]
 description = "An energy-based decision engine that chooses among options, or says that none of them fits."
-readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 authors = [{ name = "Javier Marín", email = "javier@jmarin.info" }]
@@ -44,6 +43,29 @@ Homepage = "https://github.com/Javihaus/zeropoint"
 Documentation = "https://javihaus.github.io/zeropoint/"
 Benchmark = "https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md"
 Issues = "https://github.com/Javihaus/zeropoint/issues"
+
+# PyPI does not render LaTeX. Its description is the README without the equations of "Energy-based models",
+# which stay on GitHub; everything else is the README as it is.
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+end-before = "#### 1. The text"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """
+The step-by-step explanation, with the equations, is in the
+[README on GitHub](https://github.com/Javihaus/zeropoint#energy-based-models): the text, the options, the vacuum,
+Boltzmann's rule, and the edge of the data.
+
+<br>
+
+"""
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+start-at = "## Choosing the energy landscape"
 
 [tool.hatch.version]
 path = "src/zeropoint/_version.py"
