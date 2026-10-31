@@ -3,7 +3,7 @@ import pytest
 
 from zeropoint import ZeroPoint, engine
 from zeropoint.calibrate import ledoit_wolf_precision
-from zeropoint.model import PRESETS
+from zeropoint.model import LANDSCAPES
 
 
 def test_probabilities_sum_to_one_and_vacuum_wins_far_from_every_well():
@@ -40,7 +40,7 @@ def test_ledoit_wolf_matches_scikit_learn():
     assert np.allclose(ledoit_wolf_precision(x), sk.LedoitWolf().fit(x).precision_, atol=1e-8)
 
 
-@pytest.mark.parametrize("name", PRESETS)
+@pytest.mark.parametrize("name", list(LANDSCAPES))
 @pytest.mark.parametrize("encoder", ["small", "base"])
 def test_presets_load_and_decide_on_embeddings(name, encoder):
     zp = ZeroPoint.load(name, encoder=encoder)
@@ -50,3 +50,23 @@ def test_presets_load_and_decide_on_embeddings(name, encoder):
     for d in out:
         assert np.isclose(sum(d.probabilities.values()) + d.p_none, 1, atol=1e-5)
         assert d.choice is None or d.choice in zp.labels[:5]
+
+
+def test_landscapes_are_listed_and_unknown_names_show_them():
+    from zeropoint import landscapes
+
+    names = [ls.name for ls in landscapes()]
+    assert names == ["everyday", "support"]
+    assert "everyday" in repr(landscapes())
+    with pytest.raises(ValueError, match="support"):
+        ZeroPoint.load("no-such-landscape")
+
+
+def test_decision_prints_as_a_table():
+    from zeropoint import Decision
+
+    d = Decision(choice="transfer", confidence=0.98, p_none=0.01,
+                 probabilities={"transfer": 0.98, "balance": 0.01, "pay bill": 0.0}, energies={}, latency_ms=19.4)
+    text = repr(d)
+    assert text.splitlines()[0].startswith("transfer")
+    assert "none" in text and text.endswith("→ transfer · 19 ms")

@@ -8,7 +8,7 @@ from zeropoint import ZeroPoint
 
 @pytest.fixture(scope="module")
 def tickets():
-    return ZeroPoint.load("tickets")
+    return ZeroPoint.load("support")
 
 
 def test_chooses_the_obvious_queue(tickets):
@@ -55,3 +55,11 @@ def test_fit_save_load_roundtrip(tmp_path):
     zp.kappa = back.kappa = 0.0
     assert back.decide("refund my card payment").choice == "billing"
     assert np.isclose(back.decide("app crash").p_none, zp.decide("app crash").p_none)
+
+
+def test_default_landscape_and_latency():
+    zp = ZeroPoint.load()
+    d = zp.decide("Can you move 200 euros from my savings to my checking account?",
+                  options=["transfer", "balance", "pay bill"])
+    assert d.choice == "transfer"
+    assert 0 < d.latency_ms < 5000
