@@ -14,6 +14,7 @@ nav:
   - API reference: api.md
   - How it works: https://github.com/Javihaus/zeropoint#energy-based-models
   - Benchmark: https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md
+  - Changelog: https://github.com/Javihaus/zeropoint/blob/main/CHANGELOG.md
 
 theme:
   name: material
