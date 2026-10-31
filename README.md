@@ -234,6 +234,8 @@ own right, not a remainder.
 
 #### 5. The edge of the data: off-topic texts
 
+<img src="assets/edge-of-the-data.png" width="100%" alt="A movie review sent to the support landscape. After the map, every text sits on a sphere and the review lands next to Billing. Before the map, the review lies beyond the edge of the calibration tickets. Without the edge: billing 0.70. With the edge: none 0.98.">
+
 The learned map places every text on the surface of a sphere: every point has length 1. On a sphere there is
 no "far away". Every text, even one unlike anything the landscape has seen, lands somewhere on that surface,
 and it can land close to a well by chance. A movie review given to the support landscape can end up near
