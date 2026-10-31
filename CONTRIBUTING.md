@@ -65,10 +65,36 @@ badly. Open an issue with the dataset, the code you ran and the numbers.
 Documentation is written for someone who arrives knowing nothing about the project: plain words first,
 technical terms after. Numbers in the documentation must come from a script in this repository.
 
-## Releases
+## Versions and releases
 
-Each release has one version number, the same in the git tag and on PyPI (tag `v0.2.0` publishes
-`zeropoint 0.2.0`). Releases are made by the maintainer.
+ZeroPoint follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html). A version number is
+`MAJOR.MINOR.PATCH`, and it lives in one place only: `src/zeropoint/_version.py`.
+
+| Change | Version step | Examples |
+|---|---|---|
+| Breaks code that works today | MAJOR (`1.4.2` → `2.0.0`) | a renamed or removed argument, a model file older versions cannot read |
+| Adds something, or changes decisions | MINOR (`1.4.2` → `1.5.0`) | a new landscape, a new option, rebuilt shipped models, a new calibration recipe |
+| Fixes a bug without changing decisions | PATCH (`1.4.2` → `1.4.3`) | a crash, a wrong error message, documentation |
+
+While the version starts with `0.`, a change that breaks code steps MINOR instead of MAJOR.
+
+Rebuilding a shipped landscape is never a patch: the same text can get a different decision, and users
+need to see that in the version number. `FORMAT` in `_version.py` is a separate number for the model file
+format; it goes up only when older versions of ZeroPoint can no longer read a saved model, and that is
+always a MAJOR step.
+
+Every pull request that users would notice adds a line under **Unreleased** in
+[CHANGELOG.md](CHANGELOG.md).
+
+A release is made by the maintainer:
+
+1. Move the **Unreleased** lines to a new section `## [X.Y.Z] - YYYY-MM-DD`, update the links at the end
+   of the changelog, and set `__version__ = "X.Y.Z"`, all in one pull request. The tests check that the
+   version and the changelog agree.
+2. After merging, create the GitHub release with tag `vX.Y.Z` and the changelog section as notes:
+   `gh release create vX.Y.Z --title "ZeroPoint X.Y.Z" --notes "$(python scripts/release_notes.py)"`.
+3. The `publish` workflow checks that the tag, the version and the changelog agree, builds the package and
+   uploads it to PyPI. The tag and the PyPI version are always the same number.
 
 ## License
 

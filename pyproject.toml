@@ -42,6 +42,7 @@ dev = ["pytest>=7", "torch>=2.1"]
 Homepage = "https://github.com/Javihaus/zeropoint"
 Documentation = "https://javihaus.github.io/zeropoint/"
 Benchmark = "https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md"
+Changelog = "https://github.com/Javihaus/zeropoint/blob/main/CHANGELOG.md"
 Issues = "https://github.com/Javihaus/zeropoint/issues"
 
 # PyPI does not render LaTeX. Its description is the README without the equations of "Energy-based models",
@@ -74,7 +75,7 @@ path = "src/zeropoint/_version.py"
 packages = ["src/zeropoint"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/zeropoint", "tests", "README.md", "BENCHMARK.md", "LICENSE", "NOTICE"]
+include = ["src/zeropoint", "tests", "README.md", "BENCHMARK.md", "CHANGELOG.md", "LICENSE", "NOTICE"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
