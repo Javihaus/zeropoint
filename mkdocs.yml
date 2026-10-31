@@ -1,0 +1,53 @@
+site_name: ZeroPoint
+site_description: An energy-based decision engine that chooses among options, or says that none of them fits.
+site_url: https://javihaus.github.io/zeropoint/
+repo_url: https://github.com/Javihaus/zeropoint
+repo_name: Javihaus/zeropoint
+edit_uri: edit/main/docs/
+copyright: Copyright Javier Marín, 2026. Apache 2.0.
+
+nav:
+  - Overview: index.md
+  - Making decisions: usage.md
+  - Calibrating your own landscape: calibration.md
+  - Running in production: deployment.md
+  - API reference: api.md
+  - How it works: https://github.com/Javihaus/zeropoint#energy-based-models
+  - Benchmark: https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  font:
+    text: Archivo
+    code: IBM Plex Mono
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
+  features:
+    - content.code.copy
+    - navigation.footer
+
+extra_css:
+  - assets/extra.css
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences

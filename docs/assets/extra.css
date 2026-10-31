@@ -1,0 +1,9 @@
+/* Colors of the README figures: blue #6a8bb5, orange #e07f5f. */
+:root,
+[data-md-color-scheme="default"],
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #6a8bb5;
+  --md-primary-fg-color--light: #86a3c9;
+  --md-primary-fg-color--dark: #4f6f97;
+  --md-accent-fg-color: #e07f5f;
+}

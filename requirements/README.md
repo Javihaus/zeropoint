@@ -11,6 +11,7 @@ rm -f *.txt
 uv pip compile ci.in       --universal --python-version 3.10 --generate-hashes -o ci.txt
 uv pip compile ci-torch.in --universal --python-version 3.10 --generate-hashes -o ci-torch.txt
 uv pip compile build.in    --universal --python-version 3.10 --generate-hashes -o build.txt
+uv pip compile docs.in     --universal --python-version 3.10 --generate-hashes -o docs.txt
 uv pip compile fuzz.in     --python-version 3.11 --python-platform x86_64-manylinux_2_28 --generate-hashes -o fuzz.txt
 uv pip compile torch-cpu.in --universal --python-version 3.10 --generate-hashes --no-deps \
     --index-url https://download.pytorch.org/whl/cpu --emit-index-url -o torch-cpu.txt

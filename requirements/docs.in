@@ -1,0 +1,3 @@
+# What the documentation site needs. Regenerate the .txt with the command in requirements/README.md.
+mkdocs
+mkdocs-material
