@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/zeropoint-circle-large.png" width="200" alt="ZeroPoint logo">
+<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/zeropoint-circle-large.png" width="200" alt="ZeroPoint logo">
 
 <br>
 
@@ -11,6 +11,7 @@
 [![License](https://img.shields.io/github/license/Javihaus/zeropoint?color=0000FF&cacheSeconds=86400)](https://github.com/Javihaus/zeropoint/blob/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/zeropoint?color=4169E1&cacheSeconds=3600)](https://pypi.org/project/zeropoint/)
 [![Python](https://img.shields.io/pypi/pyversions/zeropoint?color=1E90FF)](https://pypi.org/project/zeropoint/)
+[![Docs](https://img.shields.io/badge/docs-javihaus.github.io-6a8bb5)](https://javihaus.github.io/zeropoint/)
 [![Tests](https://github.com/Javihaus/zeropoint/actions/workflows/tests.yml/badge.svg)](https://github.com/Javihaus/zeropoint/actions/workflows/tests.yml)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/16100/badge)](https://www.bestpractices.dev/projects/16100)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Javihaus/zeropoint/badge)](https://scorecard.dev/viewer/?uri=github.com/Javihaus/zeropoint)
@@ -39,7 +40,7 @@ Results on CLINC150:
 options per case), the same cases for every system measured. Similarity uses the same encoder as ZeroPoint.
 Latency: ZeroPoint and similarity were measured with the benchmark in this repository; Laya and Jev as
 published by their authors ([Laya](https://pypi.org/project/laya/), [Jev](https://www.truefoundry.com/blog/typesafe-ai-jev)).
-Full results are in [BENCHMARK.md](BENCHMARK.md).</sub>
+Full results are in [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).</sub>
 
 <br>
 
@@ -58,6 +59,9 @@ pip install zeropoint
 
 ZeroPoint answers one question: which of these options fits this text, if any. It decides with an **energy
 landscape** that knows a set of options and is calibrated on real texts. Two landscapes come with the package.
+
+The first call downloads the encoder from the Hugging Face Hub (about 130 MB) and takes a few seconds; later
+calls take milliseconds. The full documentation is at [javihaus.github.io/zeropoint](https://javihaus.github.io/zeropoint/).
 
 ### Default energy landscape
 
@@ -160,7 +164,7 @@ own data.
 
 <br>
 
-<img src="assets/how-it-works.png" width="100%" alt="Which team should handle the message: Can I change my delivery address? The options Billing and Technical are energy wells; None of these is the flat ground at energy zero. The text lands on the ground, so ZeroPoint answers none with 0.96, while softmax splits it between billing 0.55 and technical 0.45.">
+<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/how-it-works.png" width="100%" alt="Which team should handle the message: Can I change my delivery address? The options Billing and Technical are energy wells; None of these is the flat ground at energy zero. The text lands on the ground, so ZeroPoint answers none with 0.96, while softmax splits it between billing 0.55 and technical 0.45.">
 
 ZeroPoint is an energy-based model ([LeCun et al., 2006](http://yann.lecun.com/exdb/publis/orig/lecun-06.pdf)).
 Instead of scoring options against each other, it gives every option an energy and compares it with a
@@ -234,7 +238,7 @@ own right, not a remainder.
 
 #### 5. The edge of the data: off-topic texts
 
-<img src="assets/edge-of-the-data.png" width="100%" alt="A movie review sent to the support landscape. After the map, every text sits on a sphere and the review lands next to Billing. Before the map, the review lies beyond the edge of the calibration tickets. Without the edge: billing 0.70. With the edge: none 0.98.">
+<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/edge-of-the-data.png" width="100%" alt="A movie review sent to the support landscape. After the map, every text sits on a sphere and the review lands next to Billing. Before the map, the review lies beyond the edge of the calibration tickets. Without the edge: billing 0.70. With the edge: none 0.98.">
 
 The learned map places every text on the surface of a sphere: every point has length 1. On a sphere there is
 no "far away". Every text, even one unlike anything the landscape has seen, lands somewhere on that surface,
@@ -287,7 +291,7 @@ learns to leave the probability with the vacuum when no option fits.
 
 A landscape is what ZeroPoint knows: one valley for each option it can choose, and flat ground at energy zero
 that means *none of these*. It is calibrated from labeled texts.
-[Energy-based models](#energy-based-models) explains how it decides.
+[Energy-based models](https://github.com/Javihaus/zeropoint#energy-based-models) explains how it decides.
 
 ```python
 import zeropoint
@@ -335,7 +339,7 @@ none       0.16  ███▏
 → none · 7 ms
 ```
 
-> The right threshold depends on the cost of a wrong action. [notebooks/calibrate_your_own.ipynb](notebooks/calibrate_your_own.ipynb) shows how to choose it from your own data.
+> The right threshold depends on the cost of a wrong action. [notebooks/calibrate_your_own.ipynb](https://github.com/Javihaus/zeropoint/blob/main/notebooks/calibrate_your_own.ipynb) shows how to choose it from your own data.
 
 <br>
 
@@ -365,7 +369,7 @@ texts by ten percentage points, `fit` stops with an error instead of returning a
 > uses; a collapse shows up there even when the loss looks normal.
 
 > A complete walk-through, with a held-out check and a table for choosing your threshold, is in
-> [notebooks/calibrate_your_own.ipynb](notebooks/calibrate_your_own.ipynb).
+> [notebooks/calibrate_your_own.ipynb](https://github.com/Javihaus/zeropoint/blob/main/notebooks/calibrate_your_own.ipynb).
 
 <br>
 
@@ -374,7 +378,7 @@ texts by ten percentage points, `fit` stops with an error instead of returning a
 AUROC measures how well ZeroPoint separates cases that have a right option from cases that have none, on texts
 it never saw (1 is perfect, 0.5 is chance). Small encoder, default settings:
 
-<img src="assets/benchmark-chart.png" width="100%" alt="AUROC against FPR at 95% recall, average of four tests. ZeroPoint sits in the green zone (AUROC 0.92, FPR 0.27); similarity with the same encoder (0.82, 0.58) and Laya (0.78, 0.65) sit in the orange zone, where many cases with no right answer still get an action.">
+<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/benchmark-chart.png" width="100%" alt="AUROC against FPR at 95% recall, average of four tests. ZeroPoint sits in the green zone (AUROC 0.92, FPR 0.27); similarity with the same encoder (0.82, 0.58) and Laya (0.78, 0.65) sit in the orange zone, where many cases with no right answer still get an action.">
 
 | Test | ZeroPoint | Similarity, same encoder |
 |---|---|---|
@@ -395,7 +399,7 @@ base encoder takes about 30 ms. No GPU is needed, and a recent laptop is faster.
 
 The engine itself takes a millisecond or less. Almost all the time goes to the encoder, which runs with
 [ONNX Runtime](https://onnxruntime.ai) in 8-bit precision by default (`precision="fp32"` for full
-precision). Details are in [BENCHMARK.md](BENCHMARK.md).
+precision). Details are in [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).
 
 <br>
 
