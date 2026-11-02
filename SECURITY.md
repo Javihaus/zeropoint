@@ -40,6 +40,24 @@ Out of scope: vulnerabilities in dependencies (ONNX Runtime, tokenizers, NumPy, 
 encoders on the Hugging Face Hub. Please report those to their own projects. If one of them affects
 ZeroPoint in a specific way, we still want to hear about it.
 
+## Verifying a release
+
+Every release is built once by the `publish` workflow in this repository, from the tagged commit, with build
+tools pinned by hash. The same files go to the GitHub release and to PyPI, with two kinds of signed proof of
+where they were built:
+
+- **SLSA level 3 provenance**, attached to each GitHub release as `multiple.intoto.jsonl`. To check a wheel
+  downloaded from PyPI or from the release, with [slsa-verifier](https://github.com/slsa-framework/slsa-verifier):
+
+  ```bash
+  slsa-verifier verify-artifact zeropoint-X.Y.Z-py3-none-any.whl \
+      --provenance-path multiple.intoto.jsonl \
+      --source-uri github.com/Javihaus/zeropoint --source-tag vX.Y.Z
+  ```
+
+- **PyPI attestations**: PyPI records, for each file, that it was uploaded by this repository's `publish`
+  workflow through trusted publishing. They are shown on the project's PyPI page, next to each file.
+
 ## How ZeroPoint limits risk
 
 - Models are stored as `safetensors` files, which hold numbers only and cannot run code when loaded.

@@ -1,5 +1,9 @@
 name: publish
-# Publishing a GitHub release tagged vX.Y.Z uploads zeropoint X.Y.Z to PyPI.
+# Publishing a GitHub release tagged vX.Y.Z:
+#   1. builds zeropoint X.Y.Z once, with pinned tools;
+#   2. signs SLSA level 3 provenance for the wheel and the sdist and attaches it to the release;
+#   3. attaches the wheel and the sdist to the release;
+#   4. uploads the same files to PyPI (with PyPI's own attestations).
 on:
   release:
     types: [published]
@@ -8,11 +12,10 @@ permissions:
   contents: read
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-    environment: pypi
-    permissions:
-      id-token: write
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -30,4 +33,54 @@ jobs:
         run: |
           python -m pip install --require-hashes -r requirements/build.txt
           python -m build --no-isolation
+      - name: Hash the files to sign
+        id: hash
+        run: |
+          cd dist
+          echo "hashes=$(sha256sum * | base64 -w0)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  provenance:
+    needs: build
+    permissions:
+      actions: read      # to read the workflow run
+      id-token: write    # to sign the provenance with Sigstore
+      contents: write    # to attach the provenance to the release
+    # Reusable workflows of the SLSA generator are referenced by tag, not by commit: the generator checks its
+    # own identity from the tag to reach SLSA level 3.
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
+    with:
+      base64-subjects: ${{ needs.build.outputs.hashes }}
+      upload-assets: true
+
+  release-files:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write    # to attach the wheel and the sdist to the release
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist
+      - name: Attach the wheel and the sdist to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --clobber
+
+  pypi:
+    needs: [build, provenance]
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write    # trusted publishing to PyPI
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist
       - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3

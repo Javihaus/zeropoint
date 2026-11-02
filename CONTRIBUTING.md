@@ -93,8 +93,9 @@ A release is made by the maintainer:
    version and the changelog agree.
 2. After merging, create the GitHub release with tag `vX.Y.Z` and the changelog section as notes:
    `gh release create vX.Y.Z --title "ZeroPoint X.Y.Z" --notes "$(python scripts/release_notes.py)"`.
-3. The `publish` workflow checks that the tag, the version and the changelog agree, builds the package and
-   uploads it to PyPI. The tag and the PyPI version are always the same number.
+3. The `publish` workflow checks that the tag, the version and the changelog agree, builds the package once,
+   signs SLSA level 3 provenance for it, attaches the files and the provenance to the GitHub release, and
+   uploads the same files to PyPI. The tag and the PyPI version are always the same number.
 
 ## License
 
