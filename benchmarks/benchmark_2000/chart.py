@@ -31,21 +31,27 @@ DPI = 120
 PT = 72 / DPI                     # points per pixel
 px = lambda v: v * PT             # size in pixels -> points
 
-BLUE, LINE, ORANGE, LIGHT = "#6a8bb5", "#86a3c9", "#e07f5f", "#a9c1e0"
+BLUE, LINE = "#6a8bb5", "#86a3c9"          # axes and grid, as in benchmark-chart.png
+# One colour per system, each with at least 3:1 contrast on GitHub's dark background (#0d1117) and on white.
+ZP = "#e9622b"        # ZeroPoint            dark 5.6 · white 3.4
+LAYA = "#3d7cc9"      # Laya                 dark 4.4 · white 4.3
+SR = "#9b6fd0"        # Semantic Router      dark 5.0 · white 3.8
+NLI = "#b8862b"       # zero-shot NLI        dark 5.8 · white 3.2
+NEUTRAL = BLUE        # legend and "chance"  dark 5.4 · white 3.5
 ZONE_GREEN, ZONE_AMBER, ZONE_RED = (75 / 255, 174 / 255, 124 / 255, 0.16), (224 / 255, 168 / 255, 81 / 255, 0.16), \
     (214 / 255, 82 / 255, 107 / 255, 0.12)
-TXT_GREEN, TXT_AMBER, TXT_RED = "#3f9c6c", "#c48a35", "#c9566a"
+TXT_GREEN, TXT_AMBER, TXT_RED = "#3f9c6c", "#b8822c", "#c9566a"
 
 BIG, SMALL = px(58) ** 2, px(28) ** 2          # marker areas (pt^2) for 58 px and 28 px circles
 
 # system -> label, colour, filled, label anchor (x, y in data units), alignment
 STYLE = {
-    "zeropoint": ("ZeroPoint", ORANGE, True, (0.395, 0.857), "right"),
-    "zeropoint_k025": (r"ZeroPoint, $\kappa$ = 0.25", ORANGE, False, (0.455, 0.80), "right"),
-    "sr_fewshot": ("Semantic Router, 10 examples", LINE, False, (0.525, 0.905), "left"),
-    "sr_names": ("Semantic Router, names only", LIGHT, False, (1.0, 0.86), "right"),
-    "laya": ("Laya", BLUE, True, (1.0, 0.745), "right"),
-    "nli_deberta": ("Zero-shot NLI (DeBERTa)", LIGHT, True, (0.755, 0.79), "right"),
+    "zeropoint": ("ZeroPoint", ZP, True, (0.395, 0.857), "right"),
+    "zeropoint_k025": (r"ZeroPoint, $\kappa$ = 0.25", ZP, False, (0.455, 0.80), "right"),
+    "sr_fewshot": ("Semantic Router, 10 examples", SR, True, (0.525, 0.905), "left"),
+    "sr_names": ("Semantic Router, names only", SR, False, (0.99, 0.843), "right"),
+    "laya": ("Laya", LAYA, True, (0.95, 0.745), "right"),
+    "nli_deberta": ("Zero-shot NLI (DeBERTa)", NLI, True, (0.755, 0.79), "right"),
 }
 
 
@@ -87,7 +93,7 @@ def main(results_path, out_path):
     ax.text(0.99, 0.99, "ranks cases, but acts on many\nwith no right answer", fontsize=px(36), color=TXT_AMBER,
             weight="semibold", ha="right", va="top", linespacing=1.15)
     ax.text(0.99, 0.416, "cannot tell", fontsize=px(36), color=TXT_RED, weight="semibold", ha="right")
-    ax.text(0.015, 0.512, "chance", fontsize=px(35), color=LINE)
+    ax.text(0.015, 0.512, "chance", fontsize=px(35), color=NEUTRAL)
 
     for n, (label, col, filled, (lx, ly), ha) in STYLE.items():
         if n not in R:
@@ -103,16 +109,16 @@ def main(results_path, out_path):
             ax.scatter([e["fpr95"]], [e["auroc"]], s=BIG, color=col, lw=0, zorder=4)
         else:
             ax.scatter([e["fpr95"]], [e["auroc"]], s=BIG, facecolor="none", edgecolor=col, lw=px(6), zorder=4)
-        tcol = LINE if col == LIGHT else col
+        tcol = col
         ax.text(lx, ly, label, fontsize=px(43.5), color=tcol, weight="semibold", ha=ha, va="bottom", zorder=5)
         ax.text(lx, ly - 0.006, f"AUROC {e['auroc']:.2f} · FPR {e['fpr95']:.2f}", fontsize=px(36), color=tcol,
                 ha=ha, va="top", zorder=5)
 
     # legend, as in the original: big marker = the whole benchmark, small = one part of it
-    ax.scatter([0.0175], [0.4415], s=px(36) ** 2, color=LINE, lw=0, zorder=4)
-    ax.text(0.037, 0.4415, "all 2,000 cases", fontsize=px(31.6), color=LINE, va="center")
-    ax.scatter([0.21], [0.4415], s=px(20) ** 2, color=LINE, alpha=0.78, lw=0, zorder=4)
-    ax.text(0.225, 0.4415, "each landscape (everyday, support)", fontsize=px(31.6), color=LINE, va="center")
+    ax.scatter([0.0175], [0.4415], s=px(36) ** 2, color=NEUTRAL, lw=0, zorder=4)
+    ax.text(0.037, 0.4415, "all 2,000 cases", fontsize=px(31.6), color=NEUTRAL, va="center")
+    ax.scatter([0.21], [0.4415], s=px(20) ** 2, color=NEUTRAL, alpha=0.78, lw=0, zorder=4)
+    ax.text(0.225, 0.4415, "each landscape (everyday, support)", fontsize=px(31.6), color=NEUTRAL, va="center")
 
     fig.savefig(out_path, dpi=DPI, transparent=True)
 
