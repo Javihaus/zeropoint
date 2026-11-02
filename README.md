@@ -13,7 +13,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/zeropoint?color=1E90FF)](https://pypi.org/project/zeropoint/)
 [![Docs](https://img.shields.io/badge/docs-javihaus.github.io-6a8bb5)](https://javihaus.github.io/zeropoint/)
 [![Tests](https://github.com/Javihaus/zeropoint/actions/workflows/tests.yml/badge.svg)](https://github.com/Javihaus/zeropoint/actions/workflows/tests.yml)
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/16100/badge)](https://www.bestpractices.dev/projects/16100)
+[![SLSA 3](https://slsa.dev/images/gh-badge-level3.svg)](https://slsa.dev)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Javihaus/zeropoint/badge)](https://scorecard.dev/viewer/?uri=github.com/Javihaus/zeropoint)
 
 <br>
