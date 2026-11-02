@@ -75,6 +75,9 @@ class Decision:
     energies      energy of the text in each option's well; 0 means "not in this well at all"
     beyond_edge   how far the text lies outside the data the model was calibrated on (<= 0: inside)
     latency_ms    time to decide, in milliseconds (in decide_many, the batch time divided by its texts)
+    unseen_options  options the landscape was not calibrated on; their wells were built on the spot from the
+                    option's text, so treat their probabilities with more care
+    truncated     True when the text was longer than the encoder reads (512 tokens) and its end was ignored
     """
 
     choice: str | None
@@ -84,6 +87,8 @@ class Decision:
     energies: dict[str, float] = field(repr=False)
     beyond_edge: float = field(repr=False, default=0.0)
     latency_ms: float = field(repr=False, default=0.0)
+    unseen_options: tuple[str, ...] = field(repr=False, default=())
+    truncated: bool = field(repr=False, default=False)
 
     def __repr__(self) -> str:
         """A small table: each option with its probability, then "none", then the decision.
@@ -109,7 +114,7 @@ class ZeroPoint:
     """
 
     def __init__(self, weights: dict[str, np.ndarray], config: dict, precision: str | None = None,
-                 providers: list[str] | None = None, threads: int | None = None):
+                 providers: list[str] | None = None, threads: int | None = None, kappa: float | None = None):
         self.weights = {k: np.asarray(v, dtype=np.float32) for k, v in weights.items()}
         self.config = config
         enc = dict(config["encoder"])
@@ -120,25 +125,40 @@ class ZeroPoint:
         self.labels: list[str] = list(config["labels"])
         self.descriptions: list[str] = list(config["descriptions"])
         self.temperature = float(config["temperature"])
-        self.kappa = float(config["kappa"])
+        self.kappa = float(config["kappa"]) if kappa is None else kappa
         self._known = {lab: i for i, lab in enumerate(self.labels)}
         self._wells_cache: dict[str, tuple[np.ndarray, float, float]] = {}
         centre, depth, width2 = engine.wells(self.weights["option_emb"], self.weights)
         for i, lab in enumerate(self.labels):
             self._wells_cache[lab] = (centre[i], float(depth[i]), float(width2[i]))
 
+    @property
+    def kappa(self) -> float:
+        """How fast the probability moves to "none" beyond the edge of the data. 0 turns the edge off."""
+        return self._kappa
+
+    @kappa.setter
+    def kappa(self, value: float) -> None:
+        value = float(value)
+        if not np.isfinite(value) or value < 0:
+            raise ValueError(f"kappa must be a number >= 0, got {value!r}")
+        self._kappa = value
+
     # ------------------------------------------------------------------ loading and saving
 
     @classmethod
     def load(cls, name_or_path: str = DEFAULT_LANDSCAPE, encoder: str = "small",
              precision: str | None = DEFAULT_PRECISION, providers: list[str] | None = None,
-             threads: int | None = None) -> "ZeroPoint":
+             threads: int | None = None, kappa: float | None = None) -> "ZeroPoint":
         """Load a calibrated energy landscape.
 
         name_or_path  a landscape that ships with the package ("everyday", the default, or "support"; see
                       ``zeropoint.landscapes()``), or the path to a file written by ``save``
         encoder       "small" (default, faster) or "base" (more accurate); shipped landscapes only
         precision     "int8" (default, fastest on CPU) or "fp32"; None keeps the precision it was calibrated with
+        kappa         how fast the probability moves to "none" beyond the edge of the data; None keeps the
+                      landscape's own value (2 for the shipped ones). Lower it when legitimate texts unlike the
+                      calibration data are expected; 0 turns the edge off
         """
         if name_or_path in LANDSCAPES:
             path = str(resources.files("zeropoint") / "presets" / f"{name_or_path}-{encoder}.safetensors")
@@ -158,9 +178,12 @@ class ZeroPoint:
         if not isinstance(config, dict) or config.get("format", 1) > FORMAT:
             raise ValueError("This model was saved by a newer version of zeropoint, or is damaged. Please upgrade.")
         try:
-            return cls(weights, config, precision=precision, providers=providers, threads=threads)
+            model = cls(weights, config, precision=precision, providers=providers, threads=threads)
         except (KeyError, TypeError, ValueError, AttributeError, IndexError) as e:
             raise ValueError(f"{path} is not a valid ZeroPoint model ({type(e).__name__}: {e}).") from e
+        if kappa is not None:
+            model.kappa = kappa
+        return model
 
     def save(self, path: str) -> None:
         from safetensors.numpy import save_file
@@ -215,10 +238,10 @@ class ZeroPoint:
                 raise ValueError("Each list of options must be non-empty and without repeats.")
         encoder = self.encoder  # loading the encoder is a one-time cost, kept out of the latency
         start = time.perf_counter()
-        emb = encoder.encode(texts, "query", batch_size=batch_size)
+        emb, truncated = encoder.encode(texts, "query", batch_size=batch_size, return_truncated=True)
         out = self._decide_embedded(emb, per_text, min_confidence)
         ms = (time.perf_counter() - start) * 1000 / max(len(texts), 1)
-        return [dataclasses.replace(d, latency_ms=ms) for d in out]
+        return [dataclasses.replace(d, latency_ms=ms, truncated=bool(t)) for d, t in zip(out, truncated)]
 
     def _decide_embedded(self, emb: np.ndarray, per_text: list[list[str]],
                          min_confidence: float | None = None) -> list[Decision]:
@@ -241,6 +264,7 @@ class ZeroPoint:
             d2 = ((z[idx][:, None, :] - centre[None]) ** 2).sum(-1)
             energy = -depth[None] * np.exp(-d2 / width2[None])
             p = engine.probabilities(energy, self.temperature, log_vacuum[idx])
+            unseen = tuple(o for o in opts if o not in self._known)
             for r, i in enumerate(idx):
                 k = int(p[r].argmax())
                 choice = opts[k] if k < len(opts) else None
@@ -249,7 +273,7 @@ class ZeroPoint:
                 out[i] = Decision(choice=choice, confidence=float(p[r, k]), p_none=float(p[r, -1]),
                                   probabilities={o: float(p[r, j]) for j, o in enumerate(opts)},
                                   energies={o: float(energy[r, j]) for j, o in enumerate(opts)},
-                                  beyond_edge=float(edge[i]))
+                                  beyond_edge=float(edge[i]), unseen_options=unseen)
         return out  # type: ignore[return-value]
 
     def _edge_precision(self) -> str:

@@ -40,6 +40,9 @@ d.confidence     # 0.98
   from its own text, so `options` may include new names. Known options work best.
 - **Without `options`**, ZeroPoint chooses among every option the landscape knows.
 
+New options are listed in `Decision.unseen_options`. Their probabilities come from a well built from the
+option's name alone, with no calibration behind it, so check them on your own data before relying on them.
+
 ## What a decision holds
 
 | Field | What it holds |
@@ -51,6 +54,8 @@ d.confidence     # 0.98
 | `energies` | energy of the text in each option's well; 0 means the text is not in that well at all |
 | `beyond_edge` | how far the text lies from the texts the landscape was calibrated on; zero or below means familiar |
 | `latency_ms` | time the decision took, in milliseconds |
+| `unseen_options` | options the landscape was not calibrated on; their wells were built from the option's text alone |
+| `truncated` | `True` when the text was longer than 512 tokens and its end was ignored |
 
 Printing a decision shows a small table with the five most probable options, *none*, the choice and the
 time.
