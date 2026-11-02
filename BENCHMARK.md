@@ -132,6 +132,58 @@ For a GPU, install `onnxruntime-gpu` and use `precision="fp32"`; ZeroPoint picks
 
 Run `python benchmarks/latency.py` to measure on your own machine.
 
+## A second benchmark: 2,000 cases
+
+A separate set of 2,000 cases, each a text with 4 to 9 options: 1,000 with a right option and 1,000 without
+one (out-of-scope requests, near misses, unrelated text). ZeroPoint 0.1.0 from PyPI, default settings, against
+Laya, Semantic Router and a zero-shot NLI model. Data, code, per-case outputs and the full tables are in
+[benchmarks/benchmark_2000](benchmarks/benchmark_2000).
+
+<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/benchmark-2000-chart.png" width="100%" alt="AUROC against FPR at 95% recall on 2,000 cases. ZeroPoint (AUROC 0.89, FPR 0.44) is the only system in the green zone. Semantic Router with 10 examples per option (0.85, 0.57), Semantic Router with option names (0.82, 0.78), zero-shot NLI (0.79, 0.81) and Laya (0.79, 0.86) sit in the orange zone.">
+
+| System | Accuracy, choosing | Accuracy, default | AUROC | FPR95 |
+|---|---|---|---|---|
+| **ZeroPoint** (κ = 2, default) | 0.77 [0.73, 0.82] | **0.76** | **0.89** [0.86, 0.92] | **0.44** [0.32, 0.58] |
+| ZeroPoint, κ = 0.25 | 0.77 [0.73, 0.82] | 0.74 | 0.89 [0.85, 0.92] | 0.47 [0.38, 0.54] |
+| Laya | **0.88** [0.85, 0.91] | 0.44 | 0.79 [0.75, 0.83] | 0.86 [0.75, 0.93] |
+| Semantic Router, 10 examples per option | 0.75 [0.71, 0.80] | 0.38 | 0.85 [0.82, 0.89] | 0.57 [0.48, 0.66] |
+| Semantic Router, option names only | 0.71 [0.66, 0.76] | 0.36 | 0.82 [0.78, 0.86] | 0.78 [0.65, 0.88] |
+| Zero-shot NLI, DeBERTa-v3-base | 0.76 [0.71, 0.80] | 0.38 | 0.79 [0.74, 0.83] | 0.81 [0.72, 0.89] |
+
+*Accuracy, choosing*: the top option is right, on the 1,000 cases that have a right option. *Accuracy,
+default*: each system's own decision on all 2,000 cases; only ZeroPoint answers *none* without a threshold,
+so the others cannot exceed 0.50. Brackets: 95% interval, resampling the 552 distinct texts.
+
+By landscape (AUROC / FPR95, and accuracy choosing):
+
+| System | everyday (1,415 cases) | support (585 cases) |
+|---|---|---|
+| ZeroPoint | **0.94 / 0.27** (0.93) | **0.78** / **0.78** (0.38) |
+| Laya | 0.89 / 0.41 (**0.98**) | 0.65 / 0.98 (**0.64**) |
+| Semantic Router, 10 examples | 0.92 / 0.31 (0.90) | 0.75 / 0.78 (0.38) |
+| Semantic Router, names only | 0.91 / 0.49 (0.85) | 0.64 / 0.87 (0.36) |
+| Zero-shot NLI | 0.87 / 0.51 (0.88) | 0.62 / 0.85 (0.47) |
+
+What the numbers say:
+
+- **ZeroPoint separates the cases with a right option from the cases without one better than the other
+  systems**, most clearly on unrelated text (it answers *none* to 90% of it at the 95% threshold, against
+  16–87% for the others) and on out-of-scope requests (47%, against 13–20%).
+- **Laya chooses better when the right option is on the list** (0.88 against 0.77), and on `support` by a wide
+  margin (0.64 against 0.38). It rarely says that no option fits.
+- **Semantic Router with 10 examples per option is the closest.** Its intervals overlap ZeroPoint's on both
+  AUROC and FPR95, so this benchmark does not separate the two.
+- **The `support` landscape is ZeroPoint's weak point.** It chooses the right queue in 38% of the tickets.
+  Its queues come from a public dataset where they overlap heavily; for real tickets, calibrate on your own.
+- **κ = 0.25 does not help here.** It answers *none* to less unrelated text (0.68 against 0.90 at the 95%
+  threshold), which supports keeping κ = 2 as the default.
+- **Near misses are hard for every system**: at most 44% are answered *none* at the 95% threshold.
+
+Caveats. ZeroPoint's landscapes were calibrated on data with these option names; Laya, the NLI model and
+Semantic Router with names only use no training data, and Semantic Router with 10 examples uses a little.
+23 `everyday` cases (9 texts) are word for word in CLINC150; without them ZeroPoint's AUROC goes from 0.895
+to 0.893. Latency is not compared: the systems shared the CPU while running.
+
 ## Limits
 
 - **`tickets_far` is easy for any distance.** Plain similarity also reaches 0.995 there. It is in the table

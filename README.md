@@ -390,6 +390,13 @@ it never saw (1 is perfect, 0.5 is chance). Small encoder, default settings:
 When the right option is on the list, ZeroPoint chooses about as well as a classifier trained on the same
 data: 97% on CLINC150 with 20 options per request.
 
+On a second benchmark of 2,000 new cases, against Laya, Semantic Router and a zero-shot NLI model, ZeroPoint
+again separates cases with and without a right option best (AUROC 0.89, FPR95 0.44). Laya chooses better when
+the right option is on the list (88% against 77%), and ZeroPoint's `support` landscape chooses the right queue
+in only 38% of tickets. Details in [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).
+
+<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/benchmark-2000-chart.png" width="100%" alt="AUROC against FPR at 95% recall on 2,000 new cases. ZeroPoint (AUROC 0.89, FPR 0.44) is the only system in the green zone. Semantic Router with 10 examples per option (0.85, 0.57), Semantic Router with option names (0.82, 0.78), zero-shot NLI (0.79, 0.81) and Laya (0.79, 0.86) sit in the orange zone.">
+
 <br>
 
 ## Latency
