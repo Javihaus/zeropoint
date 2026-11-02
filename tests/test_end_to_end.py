@@ -63,3 +63,29 @@ def test_default_landscape_and_latency():
                   options=["transfer", "balance", "pay bill"])
     assert d.choice == "transfer"
     assert 0 < d.latency_ms < 5000
+
+
+FAR = ("Subject: Great film\nThe cinematography is stunning and the lead actor gives the performance of his "
+       "career. I laughed, I cried, and I would watch it again tomorrow.")
+
+
+def test_kappa_can_be_set_at_load_and_zero_turns_the_edge_off(tickets):
+    assert tickets.kappa == 2.0
+    no_edge = ZeroPoint.load("support", kappa=0.0)
+    assert no_edge.kappa == 0.0
+    assert no_edge.decide(FAR).p_none < tickets.decide(FAR).p_none
+    for bad in (-1, float("nan"), float("inf")):
+        with pytest.raises(ValueError):
+            ZeroPoint.load("support", kappa=bad)
+
+
+def test_unseen_options_are_flagged(tickets):
+    text = "Subject: charged twice\nI was billed two times for my March invoice. Please refund one."
+    assert tickets.decide(text).unseen_options == ()
+    d = tickets.decide(text, options=["Billing and Payments", "Coffee machine"])
+    assert d.unseen_options == ("Coffee machine",)
+
+
+def test_long_texts_are_flagged_as_truncated(tickets):
+    assert not tickets.decide("My laptop cannot connect to the office VPN.").truncated
+    assert tickets.decide("The VPN drops every few minutes. " * 300).truncated

@@ -25,6 +25,32 @@ Time per decision on a 2-core cloud CPU, median:
 Almost all of it is the encoder; the engine itself takes a millisecond or less. Run
 `python benchmarks/latency.py` from the repository to measure on your own machine.
 
+## Texts unlike the calibration data
+
+Beyond the edge of the data a landscape was calibrated on, the probability moves to *none*. κ sets how fast:
+
+```python
+zp = ZeroPoint.load("support", kappa=0.5)   # 2 by default
+zp.kappa = 0.5                              # or after loading
+```
+
+| κ | Effect |
+|---|---|
+| lower (e.g. 0.25–1) | more room for legitimate texts unlike the calibration data, such as new kinds of request |
+| 2 (default) | rejects unrelated texts strongly |
+| 0 | the edge is off; only the wells decide |
+
+The right value depends on your data. Choose it on texts kept apart from calibration, ideally grouped so that
+whole kinds of request are left out, and check both how many right answers you keep and how many unrelated
+texts you reject. On the [2,000-case benchmark](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md),
+lowering κ to 0.25 let more unrelated text through, so the default stays at 2.
+
+## Long texts
+
+The encoder reads the first 512 tokens of a text, about 350 words. Anything after that is ignored, and the
+decision says so with `truncated=True`. For long documents, decide on the part that matters (subject and
+first paragraphs) or on a summary.
+
 ## Threads
 
 `threads` sets how many CPU threads ONNX Runtime uses. By default ONNX Runtime chooses, usually one per physical core.

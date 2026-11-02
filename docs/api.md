@@ -10,7 +10,7 @@ from zeropoint import ZeroPoint, Decision, Landscape, landscapes, __version__
 
 ```python
 ZeroPoint.load(name_or_path="everyday", encoder="small", precision="int8",
-               providers=None, threads=None) -> ZeroPoint
+               providers=None, threads=None, kappa=None) -> ZeroPoint
 ```
 
 Load a landscape that ships with the package, or one saved with `save`.
@@ -22,9 +22,10 @@ Load a landscape that ships with the package, or one saved with `save`.
 | `precision` | `"int8"` (default) or `"fp32"`; `None` keeps the precision the model was calibrated with |
 | `providers` | ONNX Runtime execution providers; by default CUDA when available with `fp32`, otherwise CPU |
 | `threads` | number of CPU threads for ONNX Runtime; by default ONNX Runtime chooses |
+| `kappa` | how fast the probability moves to *none* beyond the edge of the data (≥ 0); `None` keeps the landscape's value, 2 for the shipped ones; 0 turns the edge off |
 
-Raises `ValueError` when the name is neither a shipped landscape nor an existing file, or when the file is not
-a valid ZeroPoint model.
+Raises `ValueError` when the name is neither a shipped landscape nor an existing file, when the file is not
+a valid ZeroPoint model, or when `kappa` is negative or not a number.
 
 ## `ZeroPoint.decide`
 
@@ -79,6 +80,7 @@ Write the landscape to a `.safetensors` file. Load it back with `ZeroPoint.load(
 | `labels` | the options the landscape knows |
 | `descriptions` | the text each known option's well was built from |
 | `temperature` | the temperature of Boltzmann's rule, learned during calibration |
+| `kappa` | how fast the probability moves to *none* beyond the edge of the data; can be changed after loading |
 | `encoder_spec` | the encoder repository, revision and precision |
 
 ## `Decision`
@@ -94,6 +96,8 @@ The result of one decision. Frozen dataclass.
 | `energies` | `dict[str, float]` | energy of the text in each option's well; 0 means not in the well |
 | `beyond_edge` | `float` | distance beyond the edge of the calibration data; zero or below means inside |
 | `latency_ms` | `float` | time to decide, in milliseconds |
+| `unseen_options` | `tuple[str, ...]` | listed options the landscape was not calibrated on |
+| `truncated` | `bool` | the text was longer than 512 tokens and its end was ignored |
 
 ## `landscapes`
 

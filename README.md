@@ -236,52 +236,67 @@ all the probability between the two options and answers *billing*. ZeroPoint fin
 below the ground and answers *none*. Because the ground never moves, *none* is an outcome of the model in its
 own right, not a remainder.
 
-#### 5. The edge of the data: off-topic texts
+#### 5. The edge of the data: texts unlike anything the landscape knows
 
 <img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/edge-of-the-data.png" width="100%" alt="A movie review sent to the support landscape. After the map, every text sits on a sphere and the review lands next to Billing. Before the map, the review lies beyond the edge of the calibration tickets. Without the edge: billing 0.70. With the edge: none 0.98.">
 
-The learned map places every text on the surface of a sphere: every point has length 1. On a sphere there is
-no "far away". Every text, even one unlike anything the landscape has seen, lands somewhere on that surface,
-and it can land close to a well by chance. A movie review given to the support landscape can end up near
-*Billing*, and the rule above would then give *billing* some probability. In the benchmark, without this
-correction, ZeroPoint separated support tickets from reviews and forum posts with an AUROC of only 0.68.
+**The problem.** The map places every text on the surface of a sphere. On a sphere nothing is far away: every
+text, however unrelated, lands somewhere on the surface, and it can land close to a well by chance. A movie
+review given to the support landscape can land near *Billing* and get some probability for *billing*.
+Without a correction, ZeroPoint told support tickets apart from movie reviews and forum posts with an AUROC
+of only 0.68.
 
-To correct this, ZeroPoint asks a simpler question in the encoder's own space, before the map, where unrelated
-texts are far apart: *does this text resemble the texts this landscape was calibrated on?* It answers with the
-**Mahalanobis distance** ([Mahalanobis, 1936](https://link.springer.com/article/10.1007/s13171-019-00164-5)).
+**The idea.** Before the map, in the encoder's own space, unrelated texts do end up far away. So ZeroPoint
+asks a second, simpler question there: *does this text look like the texts this landscape was calibrated
+on?* If it does not, the probability moves to *none*, whatever the wells say.
 
-- **How far.** An ordinary distance treats every direction the same. The Mahalanobis distance takes into
-  account how the calibration texts spread out: in directions where they vary a lot, a step counts less; in
-  directions where they barely vary, the same step counts more. A text that is unusual in a way the
-  calibration texts never are ends up far away, even when an ordinary distance would place it close.
-  ZeroPoint measures this distance from the text $x$ to the nearest known class:
+**How it works**, in three steps.
 
-$$d(x) = \min_c \,(x - \mu_c)^\top \, \Sigma^{-1} \,(x - \mu_c)$$
+1. **Measure how unusual the text is.** ZeroPoint uses the Mahalanobis distance
+   ([Mahalanobis, 1936](https://link.springer.com/article/10.1007/s13171-019-00164-5)). It is a distance that
+   weighs each difference by how common that difference is in the calibration texts. Among people, being
+   10 cm taller than average is ordinary; having a foot 10 cm longer than average is not. The Mahalanobis
+   distance counts the second difference as much larger, because feet vary much less than heights. In the
+   same way, a text that differs from the calibration texts where they barely vary ends up far away, even
+   when an ordinary distance would call it close. ZeroPoint measures the distance from the text $x$ to the
+   nearest option:
 
-  where $\mu_c$ is the average of the calibration texts of class $c$, and $\Sigma$ describes how they spread
-  around those averages (one covariance shared by all classes, estimated with Ledoit-Wolf shrinkage so that
-  it stays stable with few texts).
-- **Where the edge is.** Calibration measures $d$ for in-domain texts that were not used for training. The
-  edge is the distance within which 99% of them fall (the 99th percentile).
-- **What happens beyond it.** Inside the edge, nothing changes. Beyond it, the weight of the ground grows with
-  the distance past the edge, so the probability moves to *none*:
+   ```math
+   d(x) = \min_c \,(x - \mu_c)^\top \, \Sigma^{-1} \,(x - \mu_c)
+   ```
 
-$$w_{\text{none}} = e^{\kappa \cdot \max(0,\,u)}, \qquad \kappa = 2$$
+   $\mu_c$ is the average of the calibration texts of option $c$, and $\Sigma$ describes how those texts spread
+   around their averages (one estimate shared by all options, made stable with Ledoit-Wolf shrinkage).
 
-$u$ is the distance rescaled so that $u = 0$ at the edge and $u = 1$ one typical spread beyond it (the gap
-between the median distance and the 99th percentile). One spread beyond the edge, the ground weighs
-$e^2 \approx 7$ instead of 1. Three spreads beyond, it weighs about 400, and *none* takes almost all the
-probability.
+2. **Set the edge.** During calibration, ZeroPoint measures $d$ for labeled texts kept apart for this purpose.
+   The edge is the distance within which 99% of them fall. A text inside the edge looks like the texts the
+   landscape knows; a text beyond it does not.
 
-With the edge, the same test goes from 0.68 to 1.00. The edge has three properties:
+3. **Beyond the edge, move the probability to *none*.** The ground's weight, 1 in Boltzmann's rule above, grows
+   with the distance past the edge:
 
-- it is set from in-domain texts only, so no *out-of-scope* examples are needed;
-- it never changes which option ranks first among the options, only how they compare with *none*;
-- inside the data, where almost all real requests fall, it has no effect.
+   ```math
+   w_{\text{none}} = e^{\kappa \cdot u}
+   ```
 
-Calibration learns the map, the wells and the temperature from labeled texts. During training, a share of
-the examples have their right option removed from the list, with *none* as the answer, so that the model
-learns to leave the probability with the vacuum when no option fits.
+   $u$ is how far past the edge the text is, counted in typical spreads of the calibration texts (the gap
+   between their median distance and the edge): $u = 0$ at the edge, $u = 1$ one spread beyond it. Inside the
+   edge, $u$ is taken as 0, the ground keeps its weight of 1, and nothing changes.
+
+   **κ (kappa) sets how fast the probability moves to *none*** once a text is past the edge. With κ = 2, the
+   default, the ground weighs about 7 one spread beyond the edge and about 400 three spreads beyond, where
+   *none* takes almost all the probability. A lower κ leaves more room for legitimate texts that look
+   different from the calibration data, such as a new kind of request. A higher κ rejects unrelated texts
+   sooner. κ = 0 turns the edge off. It can be set when a landscape is loaded, `ZeroPoint.load(kappa=0.5)`;
+   check the value on texts kept apart from calibration.
+
+With the edge, the test with movie reviews and forum posts goes from 0.68 to 1.00. The edge needs no examples
+of off-topic text: it is set from the landscape's own calibration texts. It never changes which option ranks
+first, only how the options compare with *none*. And inside the data, where almost all real requests fall,
+it has no effect.
+
+During calibration, ZeroPoint also learns when to say *none* inside the data: a share of the training examples
+have their right option removed from the list, with *none* as the answer.
 
 > Related work: deterministic uncertainty with distances to class centroids ([van Amersfoort et al., 2020](https://arxiv.org/abs/2003.02037)), Mahalanobis distance to class averages for detecting off-topic inputs ([Lee et al., 2018](https://arxiv.org/abs/1807.03888)), and world models whose energy is learned up to a constant ([Yalovetzky et al., 2026](https://arxiv.org/abs/2610.15267)). In ZeroPoint the constant is fixed, and that is what makes it possible to answer *none*.
 
@@ -309,6 +324,10 @@ support      10 options   customer support tickets, routed to a queue
 |---|---|---|
 | `everyday` (default) | 150 kinds of everyday requests | [CLINC150](https://huggingface.co/datasets/clinc_oos), 15,000 requests written by people |
 | `support` | 10 support queues | a [public dataset](https://huggingface.co/datasets/Tobi-Bueck/customer-support-tickets) of 20,000 support tickets |
+
+> The `support` landscape chooses poorly between queues that overlap (38% right on the
+> [2,000-case benchmark](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md)). For your own tickets,
+> calibrate a landscape on your data.
 
 > Each landscape comes with two encoders: `encoder="small"` (default, faster) and `encoder="base"` (more accurate, slower). A landscape calibrated on your own data loads the same way: `ZeroPoint.load(path)`.
 
@@ -434,6 +453,8 @@ else:
 | `probabilities` | one probability per option | show the runner-up, or rank the options |
 | `beyond_edge` | how far the text is from anything the landscape has seen (zero or below: familiar) | detect unusual texts, or a change in the kind of requests you receive |
 | `latency_ms` | time the decision took | monitor speed in production |
+| `unseen_options` | options the landscape was not calibrated on | treat their probabilities with more care |
+| `truncated` | `True` if the text was longer than 512 tokens and its end was ignored | split long texts, or summarize them first |
 | `energies` | energy of the text in each option's valley | inspect how the decision was made |
 
 <br>

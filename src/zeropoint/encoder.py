@@ -83,8 +83,12 @@ class Encoder:
     def on_cpu(self) -> bool:
         return self.session.get_providers()[0] == "CPUExecutionProvider"
 
-    def encode(self, texts: list[str], kind: str = "query", batch_size: int | None = None) -> np.ndarray:
+    def encode(self, texts: list[str], kind: str = "query", batch_size: int | None = None,
+               return_truncated: bool = False):
         """Embeddings of shape (len(texts), dim), float32, unit length.
+
+        With return_truncated, also a boolean array: True where the text was longer than max_length tokens and
+        its end was cut off.
 
         batch_size defaults to 1 for the 8-bit encoder, 4 on CPU and 32 on GPU. The 8-bit encoder quantizes
         each batch as a whole, so a text's embedding would shift slightly with its neighbours in the batch;
@@ -95,8 +99,10 @@ class Encoder:
         if kind not in ("query", "passage"):
             raise ValueError("kind must be 'query' or 'passage'")
         if not texts:
-            return np.zeros((0, self.dim), dtype=np.float32)
+            empty = np.zeros((0, self.dim), dtype=np.float32)
+            return (empty, np.zeros(0, dtype=bool)) if return_truncated else empty
         encs = self.tokenizer.encode_batch([f"{kind}: {t}" for t in texts])
+        truncated = np.array([len(e.overflowing) > 0 for e in encs], dtype=bool)
         order = np.argsort([len(e.ids) for e in encs])  # similar lengths together: less padding, faster
         out = np.empty((len(texts), self.dim), dtype=np.float32)
         for start in range(0, len(order), batch_size):
@@ -114,7 +120,7 @@ class Encoder:
             m = mask[..., None].astype(np.float32)
             pooled = (hidden * m).sum(1) / np.maximum(m.sum(1), 1e-9)
             out[idx] = pooled / np.maximum(np.linalg.norm(pooled, axis=1, keepdims=True), 1e-12)
-        return out
+        return (out, truncated) if return_truncated else out
 
 
 def _has_file(spec: EncoderSpec, filename: str) -> bool:
