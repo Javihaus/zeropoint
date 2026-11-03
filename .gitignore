@@ -10,3 +10,4 @@ site/
 
 # comparison: test texts are rebuilt by build_tests.py, not redistributed
 benchmarks/compare/tests/*.json
+!benchmarks/compare/tests/overlap_report.json

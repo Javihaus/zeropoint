@@ -1,0 +1,30 @@
+{
+ "snips": {
+  "test_rows": 1400,
+  "removed_as_in_training": 1
+ },
+ "hwu64": {
+  "test_rows": 1076,
+  "removed_as_in_training": 542
+ },
+ "atis": {
+  "test_rows": 893,
+  "removed_as_in_training": 0
+ },
+ "mtop_es": {
+  "test_rows": 1473,
+  "removed_as_in_training": 2
+ },
+ "tickets_far": {
+  "test_rows": 600,
+  "in_training": 0
+ },
+ "tickets_made": {
+  "test_rows": 600,
+  "in_training": 0
+ },
+ "bench2000": {
+  "test_rows": 2000,
+  "in_training": 4
+ }
+}
