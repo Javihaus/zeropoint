@@ -7,8 +7,9 @@ Inputs
   --vocab  folder with the 25-language tokenizer.json, keep_ids.npy and report.json
 
 Outputs (every file is listed with its sha256 in manifest.json, and the package checks them when it loads)
-  encoder.onnx     the transformer layers. Weights stored in fp16; a Cast to fp32 in front of each one is folded
-                   when the session starts, so all arithmetic is fp32. Inputs: inputs_embeds (1, L, 384) and
+  encoder.onnx     the transformer layers. Weights stored in fp16 under their PyTorch names (no constant folding at
+                   export, so fit() can find every weight by name); the Cast to fp32 in front of each one and the
+                   transposes are folded when the session starts, so all arithmetic is fp32. Inputs: inputs_embeds (1, L, 384) and
                    position_ids (1, L); output: last hidden states (1, L, 384).
   vocab_int8.npy   the word-embedding table of the reduced vocabulary, int8, one row per piece
   vocab_scale.npy  one fp32 scale per row: embedding = int8 * scale
@@ -106,7 +107,7 @@ def main():
     torch.onnx.export(Encoder(enc), (torch.zeros(1, L, cfg.hidden_size), torch.arange(L)[None]), onnx_path,
                       input_names=["inputs_embeds", "position_ids"], output_names=["hidden"],
                       dynamic_axes={"inputs_embeds": {1: "L"}, "position_ids": {1: "L"}, "hidden": {1: "L"}},
-                      opset_version=17, dynamo=False)
+                      opset_version=17, dynamo=False, do_constant_folding=False)
     fp16_weights(onnx_path)
 
     # head, temperature and "none" level, exact
@@ -126,6 +127,9 @@ def main():
         "format": 1,
         "encoder": ENCODER,
         "hidden_size": cfg.hidden_size,
+        "layers": cfg.num_hidden_layers,
+        "attention_heads": cfg.num_attention_heads,
+        "layer_norm_eps": cfg.layer_norm_eps,
         "vocabulary": {"pieces": int(len(keep)), "languages": sorted(
             json.load(open(os.path.join(args.vocab, "report.json")))["per_language_needed"])},
         "reading": READING,

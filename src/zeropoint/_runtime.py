@@ -26,7 +26,7 @@ MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model")
 # The manifest of the model shipped with this version. The manifest holds the sha256 of every other file, so this
 # one constant pins every byte of the shipped model.
 MODEL_FILES = ("encoder.onnx", "vocab_int8.npy", "vocab_scale.npy", "head.json", "tokenizer.json")
-SHIPPED_MANIFEST_SHA256 = "7338a12da7b76bcab5d5d7216ad98c2785ad0852af0b7c87e72867c7fd805301"
+SHIPPED_MANIFEST_SHA256 = "a419728cff6281b8e27506167e5f15e4085854667b9af61f754bd3c39238fc1a"
 
 
 class ModelFilesError(RuntimeError):
@@ -106,8 +106,10 @@ class Runtime:
         head = json.load(open(os.path.join(model_dir, "head.json"), encoding="utf-8"))
         self.w = np.array([float.fromhex(x) for x in head["weight"]], dtype=np.float64)
         self.bias = float.fromhex(head["bias"])
-        self.temperature = float(np.exp(float.fromhex(head["log_temperature"])))
+        self.log_temperature = float.fromhex(head["log_temperature"])
+        self.temperature = float(np.exp(self.log_temperature))
         self.none_level = float.fromhex(head["none_level"])
+        self.model_dir = model_dir
 
         so = ort.SessionOptions()
         so.intra_op_num_threads = int(threads)
@@ -128,8 +130,9 @@ class Runtime:
         idx = np.asarray(ids, dtype=np.int64)
         return (self.vocab[idx].astype(np.float32) * self.scale[idx][:, None])[None]
 
-    def depths(self, text: str, canon: list[str]) -> tuple[np.ndarray, Reading]:
-        """Depth of the well of every option (canonical order), float64."""
+    def sequences(self, text: str, canon: list[str]):
+        """The token sequences the encoder reads for one case: one per block of options (canonical order).
+        Each item is (ids, position_ids, spans), a span being the [start, end) of an option's pieces."""
         t = self._pieces(self.prefix + text)
         reading = Reading(text_pieces=min(len(t), self.text_max), text_truncated=len(t) > self.text_max)
         t = [self.cls] + t[:self.text_max] + [self.sep]
@@ -139,27 +142,40 @@ class Runtime:
             if len(oi) > self.opt_max:
                 reading.options_truncated.append(o)
             opt_ids.append((oi[:self.opt_max] or [self.unk]) + [self.sep])
-        out = np.empty(len(canon), dtype=np.float64)
         reading.blocks = (len(canon) + self.block - 1) // self.block
+        seqs = []
         for s in range(0, len(canon), self.block):
             ids, pos, spans = list(t), list(range(len(t))), []
             for oi in opt_ids[s:s + self.block]:
                 spans.append((len(ids), len(ids) + len(oi) - 1))
                 ids += oi
                 pos += range(len(t), len(t) + len(oi))
+            seqs.append((ids, [p + self.pos0 for p in pos], spans))
+        return seqs, reading
+
+    def depths(self, text: str, canon: list[str]) -> tuple[np.ndarray, Reading]:
+        """Depth of the well of every option (canonical order), float64."""
+        seqs, reading = self.sequences(text, canon)
+        out = np.empty(len(canon), dtype=np.float64)
+        k = 0
+        for ids, pos, spans in seqs:
             h = self.session.run(None, {"inputs_embeds": self._embed(ids),
-                                        "position_ids": (np.asarray(pos, dtype=np.int64) + self.pos0)[None]})[0][0]
-            for j, (a, b) in enumerate(spans):
+                                        "position_ids": np.asarray(pos, dtype=np.int64)[None]})[0][0]
+            for a, b in spans:
                 z = float(h[a:b].astype(np.float64).mean(axis=0) @ self.w) + self.bias
-                out[s + j] = np.logaddexp(0.0, z)          # softplus: depth >= 0
+                out[k] = np.logaddexp(0.0, z)              # softplus: depth >= 0
+                k += 1
         return out, reading
 
     # ---------------------------------------------------------------- Boltzmann distribution
 
-    def distribution(self, depths: np.ndarray) -> np.ndarray:
+    def distribution(self, depths: np.ndarray, temperature: float | None = None,
+                     none_level: float | None = None) -> np.ndarray:
         """Probabilities of every option and, last, of "none" (energy zero)."""
-        x = np.clip(depths / self.temperature, 1e-6, 60.0)
+        t = self.temperature if temperature is None else temperature
+        b = self.none_level if none_level is None else none_level
+        x = np.clip(depths / t, 1e-6, 60.0)
         logw = x + np.log(-np.expm1(-x))                    # log(exp(x) - 1), stable
-        lg = np.concatenate([logw, [self.none_level]])
+        lg = np.concatenate([logw, [b]])
         p = np.exp(lg - lg.max())
         return p / p.sum()
