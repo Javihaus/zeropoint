@@ -181,7 +181,8 @@ class ZeroPoint:
     def save(self, path: str) -> None:
         """Write this model to a folder; load it later with ZeroPoint(path)."""
         from .fit import write_model_dir
-        head = json.load(open(os.path.join(self._rt.model_dir, "head.json"), encoding="utf-8"))
+        with open(os.path.join(self._rt.model_dir, "head.json"), encoding="utf-8") as f:
+            head = json.load(f)
         head["log_temperature"] = float(self._log_temperature).hex()
         head["none_level"] = float(self._none_level).hex()
         manifest = dict(self._rt.manifest)

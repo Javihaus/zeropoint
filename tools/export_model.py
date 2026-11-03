@@ -115,7 +115,8 @@ def main():
             "bias": float(sd["head.bias"].reshape(-1)[0]).hex(),
             "log_temperature": float(sd["log_t"]).hex(),
             "none_level": float(sd["b"]).hex()}
-    json.dump(head, open(os.path.join(args.out, "head.json"), "w"), indent=1)
+    with open(os.path.join(args.out, "head.json"), "w") as f:
+        json.dump(head, f, indent=1)
     shutil.copy(os.path.join(args.vocab, "tokenizer.json"), os.path.join(args.out, "tokenizer.json"))
 
     from tokenizers import Tokenizer
@@ -123,6 +124,8 @@ def main():
     special = {name: tk.token_to_id(tok) for name, tok in
                [("cls", "<s>"), ("sep", "</s>"), ("pad", "<pad>"), ("unk", "<unk>")]}
     files = ["encoder.onnx", "vocab_int8.npy", "vocab_scale.npy", "head.json", "tokenizer.json"]
+    with open(os.path.join(args.vocab, "report.json")) as f:
+        vocab_report = json.load(f)
     manifest = {
         "format": 1,
         "encoder": ENCODER,
@@ -131,14 +134,15 @@ def main():
         "attention_heads": cfg.num_attention_heads,
         "layer_norm_eps": cfg.layer_norm_eps,
         "vocabulary": {"pieces": int(len(keep)), "languages": sorted(
-            json.load(open(os.path.join(args.vocab, "report.json")))["per_language_needed"])},
+            vocab_report["per_language_needed"])},
         "reading": READING,
         "special_ids": special,
         "source_checkpoint_sha256": sha256(args.ckpt),
         "files": {f: sha256(os.path.join(args.out, f)) for f in files},
         "exported_with": {"torch": torch.__version__, "onnx": onnx.__version__},
     }
-    json.dump(manifest, open(os.path.join(args.out, "manifest.json"), "w"), indent=1)
+    with open(os.path.join(args.out, "manifest.json"), "w") as f:
+        json.dump(manifest, f, indent=1)
     total = sum(os.path.getsize(os.path.join(args.out, f)) for f in files)
     print(json.dumps({"MB": round(total / 1e6, 1), **manifest["files"]}, indent=1))
 

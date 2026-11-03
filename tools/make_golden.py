@@ -22,8 +22,10 @@ from zeropoint import ZeroPoint  # noqa: E402
 
 def build_cases(synth_path, pools_path, seed=20261103):
     rng = np.random.default_rng(seed)
-    rows = [json.loads(l) for l in open(synth_path, encoding="utf-8")]
-    pools = {k: v["labels"] for k, v in json.load(open(pools_path, encoding="utf-8")).items() if not k.startswith("_")}
+    with open(synth_path, encoding="utf-8") as f:
+        rows = [json.loads(line) for line in f]
+    with open(pools_path, encoding="utf-8") as f:
+        pools = {k: v["labels"] for k, v in json.load(f).items() if not k.startswith("_")}
     rng.shuffle(rows)
     cases = []
     for r in rows[:400]:
@@ -72,10 +74,12 @@ def main():
                          "p": [d.probabilities[o].hex() for o in c["options"]]})
     out = os.path.join(ROOT, "tests", "golden")
     os.makedirs(out, exist_ok=True)
-    json.dump(cases, open(os.path.join(out, "cases.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
-    json.dump({"model": zp.model_id, "made_with": {"onnxruntime": __import__("onnxruntime").__version__,
-                                                  "numpy": np.__version__, "tokenizers": __import__("tokenizers").__version__},
-               "cases": expected}, open(os.path.join(out, "expected.json"), "w"), indent=0)
+    with open(os.path.join(out, "cases.json"), "w", encoding="utf-8") as f:
+        json.dump(cases, f, ensure_ascii=False, indent=0)
+    made_with = {"onnxruntime": __import__("onnxruntime").__version__, "numpy": np.__version__,
+                 "tokenizers": __import__("tokenizers").__version__}
+    with open(os.path.join(out, "expected.json"), "w") as f:
+        json.dump({"model": zp.model_id, "made_with": made_with, "cases": expected}, f, indent=0)
     print(len(cases), "cases;", sum(e["choice"] is None for e in expected), "decided as none")
 
 

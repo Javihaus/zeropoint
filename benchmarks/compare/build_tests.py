@@ -191,7 +191,8 @@ def main():
     tests["clinc_real_indomain"] = [{"text": t, "options": [norm(x) for x in o], "gold": norm(g) if g else None}
                                     for t, o, g in ans + none]
 
-    b2 = json.load(open(os.path.join(HERE, "..", "benchmark_2000", "data.json"), encoding="utf-8"))
+    with open(os.path.join(HERE, "..", "benchmark_2000", "data.json"), encoding="utf-8") as f:
+        b2 = json.load(f)
     tests["bench2000"] = [{"text": c["text"], "options": c["options"], "gold": c["expected_choice"]} for c in b2]
     report["bench2000"] = {"test_rows": len(b2), "in_training": sum(c["text"].strip().lower() in seen for c in b2)}
 
@@ -200,10 +201,13 @@ def main():
         p = os.path.join(out, f"{k}.json")
         with open(p, "w", encoding="utf-8") as f:
             json.dump(tests[k], f, ensure_ascii=False)
-        sums.append(f"{hashlib.sha256(open(p, 'rb').read()).hexdigest()}  {k}.json")
+        with open(p, "rb") as f:
+            sums.append(f"{hashlib.sha256(f.read()).hexdigest()}  {k}.json")
         print(f"{k:22s} {len(tests[k]):5d} cases, {sum(it['gold'] is not None for it in tests[k]):4d} with a right option")
-    open(os.path.join(out, "SHA256SUMS"), "w").write("\n".join(sums) + "\n")
-    json.dump(report, open(os.path.join(out, "overlap_report.json"), "w"), indent=1)
+    with open(os.path.join(out, "SHA256SUMS"), "w") as f:
+        f.write("\n".join(sums) + "\n")
+    with open(os.path.join(out, "overlap_report.json"), "w") as f:
+        json.dump(report, f, indent=1)
 
 
 if __name__ == "__main__":

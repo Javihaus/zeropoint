@@ -10,6 +10,7 @@ import argparse
 import json
 import os
 import platform
+import subprocess
 import sys
 import time
 
@@ -33,11 +34,13 @@ BUDGET_MS = {5: 40.0, 20: 90.0}
 def cpu_name():
     try:
         if sys.platform.startswith("linux"):
-            for line in open("/proc/cpuinfo"):
-                if line.startswith("model name"):
-                    return line.split(":", 1)[1].strip()
+            with open("/proc/cpuinfo") as f:
+                for line in f:
+                    if line.startswith("model name"):
+                        return line.split(":", 1)[1].strip()
         if sys.platform == "darwin":
-            return os.popen("sysctl -n machdep.cpu.brand_string").read().strip()
+            return subprocess.run(["sysctl", "-n", "machdep.cpu.brand_string"], capture_output=True,
+                                  text=True, check=False).stdout.strip()
     except OSError:
         pass
     return platform.processor() or platform.machine()
@@ -72,7 +75,8 @@ def main():
     print("| threads | options | median ms | p99 ms |\n|---|---|---|---|")
     for r in rows:
         print(f"| {r['threads']} | {r['options']} | {r['median_ms']} | {r['p99_ms']} |")
-    json.dump({"machine": info, "latency": rows}, open(args.out, "w"), indent=1)
+    with open(args.out, "w") as f:
+        json.dump({"machine": info, "latency": rows}, f, indent=1)
     if args.check:
         bad = [r for r in rows if r["threads"] == 2 and r["options"] in BUDGET_MS and r["median_ms"] > BUDGET_MS[r["options"]]]
         if bad:
