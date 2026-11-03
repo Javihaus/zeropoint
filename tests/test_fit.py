@@ -14,7 +14,8 @@ pytest.importorskip("onnx")
 
 
 def sha(path):
-    return hashlib.sha256(open(path, "rb").read()).hexdigest()
+    with open(path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
 
 
 @pytest.fixture(scope="module")

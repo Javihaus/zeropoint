@@ -48,7 +48,8 @@ REVISIONS = {
 
 
 def load(test):
-    return json.load(open(os.path.join(HERE, "tests", f"{test}.json"), encoding="utf-8"))
+    with open(os.path.join(HERE, "tests", f"{test}.json"), encoding="utf-8") as f:
+        return json.load(f)
 
 
 def sample(items, n=300, seed=13):
@@ -176,10 +177,11 @@ def environment():
     info = {"python": platform.python_version(), "machine": platform.machine(), "system": platform.system(),
             "threads": THREADS, "cpus": os.cpu_count()}
     try:
-        for line in open("/proc/cpuinfo"):
-            if line.startswith("model name"):
-                info["cpu"] = line.split(":", 1)[1].strip()
-                break
+        with open("/proc/cpuinfo") as f:
+            for line in f:
+                if line.startswith("model name"):
+                    info["cpu"] = line.split(":", 1)[1].strip()
+                    break
     except OSError:
         pass
     for p in ["zeropoint", "onnxruntime", "numpy", "laya", "semantic-router", "transformers", "torch"]:
@@ -200,7 +202,8 @@ def run(system, tests):
         pass
     out = os.path.join(HERE, "out", system)
     os.makedirs(out, exist_ok=True)
-    json.dump(environment(), open(os.path.join(out, "environment.json"), "w"), indent=1)
+    with open(os.path.join(out, "environment.json"), "w") as f:
+        json.dump(environment(), f, indent=1)
     for test in tests:
         path = os.path.join(out, f"{test}.json")
         if os.path.exists(path) and os.path.exists(path.replace(".json", ".shuffled.json")):
@@ -224,8 +227,8 @@ def run(system, tests):
                 rows.append(row)
                 if n % 200 == 0:
                     print(f"{system} {test}{name} {n}/{len(idx)} {time.time() - t0:.0f}s", flush=True)
-            json.dump(rows, open(os.path.join(out, f"{test}{name}.json"), "w", encoding="utf-8"),
-                      ensure_ascii=False)
+            with open(os.path.join(out, f"{test}{name}.json"), "w", encoding="utf-8") as f:
+                json.dump(rows, f, ensure_ascii=False)
             print(f"{system} {test}{name}: {len(rows)} cases, {time.time() - t0:.0f}s", flush=True)
 
 

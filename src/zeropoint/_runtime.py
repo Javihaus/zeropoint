@@ -73,7 +73,8 @@ class Runtime:
                 and _sha256(mpath) != SHIPPED_MANIFEST_SHA256:
             raise ModelFilesError("the shipped manifest.json was changed")
         try:
-            self.manifest = json.load(open(mpath, encoding="utf-8"))
+            with open(mpath, encoding="utf-8") as f:
+                self.manifest = json.load(f)
             files = dict(self.manifest["files"])
         except (ValueError, KeyError, TypeError) as e:
             raise ModelFilesError(f"manifest.json cannot be read: {e}") from None
@@ -103,7 +104,8 @@ class Runtime:
         self.tok.no_padding()
         self.vocab = np.load(os.path.join(model_dir, "vocab_int8.npy"))
         self.scale = np.load(os.path.join(model_dir, "vocab_scale.npy"))
-        head = json.load(open(os.path.join(model_dir, "head.json"), encoding="utf-8"))
+        with open(os.path.join(model_dir, "head.json"), encoding="utf-8") as f:
+            head = json.load(f)
         self.w = np.array([float.fromhex(x) for x in head["weight"]], dtype=np.float64)
         self.bias = float.fromhex(head["bias"])
         self.log_temperature = float.fromhex(head["log_temperature"])

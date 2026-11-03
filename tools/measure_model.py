@@ -76,7 +76,8 @@ def main():
         sets += [("long", f) for f in sorted(glob.glob(os.path.join(args.long, "*.json")))]
     for kind, f in sets:
         name = os.path.basename(f)[:-5]
-        items = json.load(open(f, encoding="utf-8"))
+        with open(f, encoding="utf-8") as fh:
+            items = json.load(fh)
         rows = []
         for it in items:
             t0 = time.perf_counter()
@@ -85,7 +86,8 @@ def main():
             rows.append(r)
         report[kind][name] = scores(items, rows)
         if args.reference and os.path.exists(os.path.join(args.reference, f"s0_cases_{name}.json")):
-            ref = json.load(open(os.path.join(args.reference, f"s0_cases_{name}.json")))
+            with open(os.path.join(args.reference, f"s0_cases_{name}.json")) as fh:
+                ref = json.load(fh)
             diff = max(max(abs(a["p"][o] - b["p"][o]) for o in a["p"]) for a, b in zip(rows, ref))
             report["against_reference"][name] = {
                 "decision_changes": int(sum(a["decision"] != b["decision"] for a, b in zip(rows, ref))),
@@ -93,7 +95,8 @@ def main():
         print(kind, name, json.dumps({k: (round(v, 4) if isinstance(v, float) else v)
                                       for k, v in report[kind][name].items()}),
               report["against_reference"].get(name, ""), flush=True)
-    json.dump(report, open(args.out, "w"), indent=1)
+    with open(args.out, "w") as fh:
+        json.dump(report, fh, indent=1)
 
 
 if __name__ == "__main__":

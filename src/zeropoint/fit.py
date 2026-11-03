@@ -290,12 +290,15 @@ def write_model_dir(base_dir: str, out_dir: str, encoder_bytes: bytes | None, he
     for f in MODEL_FILES:
         dst = os.path.join(out_dir, f)
         if f == "encoder.onnx" and encoder_bytes is not None:
-            open(dst, "wb").write(encoder_bytes)
+            with open(dst, "wb") as fh:
+                fh.write(encoder_bytes)
         elif f == "head.json":
-            json.dump(head, open(dst, "w"), indent=1)
+            with open(dst, "w") as fh:
+                json.dump(head, fh, indent=1)
         elif os.path.abspath(base_dir) != os.path.abspath(out_dir):
             shutil.copyfile(os.path.join(base_dir, f), dst)
     from ._runtime import _sha256
     manifest = dict(manifest)
     manifest["files"] = {f: _sha256(os.path.join(out_dir, f)) for f in MODEL_FILES}
-    json.dump(manifest, open(os.path.join(out_dir, "manifest.json"), "w"), indent=1)
+    with open(os.path.join(out_dir, "manifest.json"), "w") as fh:
+        json.dump(manifest, fh, indent=1)
