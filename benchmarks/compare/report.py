@@ -28,6 +28,17 @@ from sklearn.metrics import roc_auc_score
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TESTS = ["bench2000", "snips", "atis", "mtop_es", "hwu64", "clinc_real_indomain", "tickets_made", "tickets_far"]
+TEST_ABOUT = {
+    "bench2000": "everyday requests and support tickets, with hard wording, typos and unrelated texts",
+    "snips": "voice-assistant requests (English)",
+    "atis": "airline travel questions (English)",
+    "mtop_es": "assistant requests in Spanish",
+    "hwu64": "home-assistant requests (English)",
+    "clinc_real_indomain": "banking, travel and everyday requests; cases with no right option are real out-of-scope "
+                           "questions. ZeroPoint was trained on other texts of this dataset (its train split)",
+    "tickets_made": "support tickets; for cases with no right option, the ticket's own queue is removed from the list",
+    "tickets_far": "support queues; cases with no right option are film reviews and newsgroup posts",
+}
 TEST_NAMES = {"bench2000": "2,000-case benchmark", "snips": "SNIPS", "atis": "ATIS", "mtop_es": "MTOP (Spanish)",
               "hwu64": "HWU64", "clinc_real_indomain": "CLINC150 (20 options)", "tickets_made": "Tickets, queue removed",
               "tickets_far": "Tickets, unrelated texts"}
@@ -117,11 +128,18 @@ def order_changed(rows, shuffled_rows):
     return float(np.mean([a[i] != b[i] for i in common])), len(common)
 
 
+def options_range(items):
+    n = [len(it["options"]) for it in items]
+    return str(min(n)) if min(n) == max(n) else f"{min(n)}–{max(n)}"
+
+
 def main():
     from run import sample
     rng = np.random.default_rng(13)
     tests = {t: json.load(open(os.path.join(HERE, "tests", f"{t}.json"), encoding="utf-8")) for t in TESTS}
     summary = {"tests": {t: {"cases": len(tests[t]),
+                             "with_right_option": sum(it["gold"] is not None for it in tests[t]),
+                             "options": options_range(tests[t]),
                              "sha256": hashlib.sha256(open(os.path.join(HERE, "tests", f"{t}.json"), "rb")
                                                       .read()).hexdigest()} for t in TESTS},
                "systems": {}}
@@ -169,28 +187,73 @@ def mean_over(res, key, sample=False):
     return float(np.mean(v)) if len(v) == len(TESTS) else None
 
 
+def conditions(S):
+    env = next(iter(S.values()))["environment"] or {}
+    return (f"All systems ran on the same machine ({env.get('cpu', 'CPU')}, {env.get('system', '')} "
+            f"{env.get('machine', '')}, Python {env.get('python', '')}), on CPU with {env.get('threads')} threads, "
+            "one case at a time, at their default settings, on the same test cases.")
+
+
+NLI_NOTE = ("Zero-shot NLI reads a fixed sample of 300 cases per test (150 with a right option, 150 without), "
+            "because it runs the model once per option and is too slow for every case; the others read every case.")
+DASH = "A dash means the measure does not apply to that system or the run has not finished."
+
+CAPTIONS = {
+    "choice": "Share of the cases with a right option in which the system scores the right option highest. "
+              "Higher is better. It ignores whether the system would also say that no option fits.",
+    "sure_wrong": "Share of the cases with no right option in which the system still picks an option and gives it "
+                  "a probability of 0.9 or more: a confident wrong answer. Lower is better. Semantic Router has no "
+                  "value because its scores are similarities, not probabilities. Laya without \"None of these\" "
+                  "always picks an option, so its value is the share of those cases where it does so at 0.9 or more.",
+    "fpr95": "Share of the cases with no right option that the system still acts on, when its threshold is set so "
+             "that it keeps 95% of the cases with a right option. Lower is better. It uses 1 − p(none) for systems "
+             "that give p(none), and the top option's score otherwise, so every system can be measured.",
+    "decision": "Share of all cases in which the system's own answer at its default settings is right. On a case "
+                "with no right option only \"no option fits\" is right, so a system that always picks an option "
+                "(Semantic Router, zero-shot NLI, Laya without \"None of these\") gets none of those cases right.",
+    "order_changed": "Share of cases whose decision changes when the system reads the same text and the same "
+                     "options in another order (a fixed shuffle per case), on the 300-case sample of each test. "
+                     "Lower is better; 0% means the order never matters.",
+    "ms_median": "Median time per case in milliseconds, from the call with the text and the options to the answer, "
+                 "with nothing cached between cases. Lower is better. It grows with the number of options and the "
+                 "length of the text, so the tests differ.",
+}
+
+
 def tables(summary):
     S = summary["systems"]
     lines = ["# Comparison results", "",
-             "Generated by `report.py` from `out/`. Same machine, same test cases, CPU, 2 threads, one case at a time.",
-             ""]
+             "Generated by `report.py` from `out/`. " + conditions(S), ""]
     lines += ["## Summary (mean over the eight tests)", "",
               "| System | Choice | Sure and wrong | FPR95 | Order changes the decision | Median latency | "
               "Model size | Reads the options together |", "|---|---|---|---|---|---|---|---|"]
     for s, r in S.items():
         nli = s == "nli"
         oc = [x.get("order_changed") for x in r["tests"].values()]
-        oc = float(np.mean(oc)) if all(v is not None for v in oc) else None
+        oc = float(np.mean(oc)) if len(oc) == len(TESTS) and all(v is not None for v in oc) else None
         size = f"{r['model_bytes'] / 1e6:.0f} MB" if r.get("model_bytes") else "–"
         lines.append(f"| {r['name']}{' ¹' if nli else ''} | {pct(mean_over(r, 'choice'))} | "
                      f"{pct(mean_over(r, 'sure_wrong'))} | {pct(mean_over(r, 'fpr95'))} | {pct(oc)} | "
                      f"{r['ms_median_all']:.0f} ms | {size} | {r['reads_options_together']} |")
-    lines += ["", "¹ 300-case sample per test (150 with a right option, 150 without).", ""]
-    lines += ["## The same, on the 300-case sample of every test (identical cases for every system)", "",
+    lines += ["",
+              "*Each percentage is the mean of the eight per-test values in the tables below. "
+              "**Choice**: the right option is scored highest, on cases that have one (higher is better). "
+              "**Sure and wrong**: on cases with no right option, an option picked with probability 0.9 or more "
+              "(lower is better). **FPR95**: on cases with no right option, the share still acted on when the "
+              "threshold keeps 95% of the cases with a right option (lower is better). "
+              "**Order changes the decision**: share of cases whose decision changes when the options come in "
+              "another order (lower is better). **Median latency**: over every case of every test. "
+              "**Model size**: the model weights the system read during the run. "
+              "**Reads the options together**: the model sees all options at once rather than one at a time. "
+              + conditions(S) + " ¹ " + NLI_NOTE + " " + DASH + "*", ""]
+    lines += ["## The same, on the 300-case sample of every test", "",
               "| System | Choice | Sure and wrong | FPR95 |", "|---|---|---|---|"]
     for s, r in S.items():
         lines.append(f"| {r['name']} | {pct(mean_over(r, 'choice', True))} | "
                      f"{pct(mean_over(r, 'sure_wrong', True))} | {pct(mean_over(r, 'fpr95', True))} |")
+    lines += ["", "*The same measures as the summary, but every system is scored only on the 300-case sample that "
+              "zero-shot NLI reads (150 cases with a right option and 150 without, per test), so all rows come from "
+              "identical cases. Mean over the eight tests. " + DASH + "*"]
     for key, title in [("choice", "Choice: the right option scored highest (cases with a right option)"),
                        ("sure_wrong", "Sure and wrong: an option picked with probability ≥ 0.9 when none is right"),
                        ("fpr95", "FPR95: cases with no right option still acted on, at 95% recall"),
@@ -210,9 +273,19 @@ def tables(summary):
                     c = x.get(f"{key}_ci")
                     cells.append(pct(v) + (f" ({100 * c[0]:.1f}–{100 * c[1]:.1f})" if c else ""))
             lines.append(f"| {TEST_NAMES[t]} | " + " | ".join(cells) + " |")
-    env = next(iter(S.values()))["environment"] or {}
-    lines += ["", f"Machine: {env.get('cpu', '?')}, {env.get('system', '')} {env.get('machine', '')}, "
-              f"Python {env.get('python', '')}, {env.get('threads')} threads.", ""]
+        ci_note = " In brackets, the 95% confidence interval (2,000 bootstrap resamples of the cases)." \
+            if key in ("choice", "sure_wrong") else ""
+        nli_note = " " + NLI_NOTE if key not in ("order_changed",) else ""
+        lines += ["", "*" + CAPTIONS[key] + ci_note + nli_note + " " + DASH + "*"]
+    lines += ["", "## The tests", "",
+              "| Test | Cases | With a right option | Options per case | What it is |", "|---|---|---|---|---|"]
+    for t in TESTS:
+        info = summary["tests"][t]
+        lines.append(f"| {TEST_NAMES[t]} | {info['cases']:,} | {info['with_right_option']:,} | "
+                     f"{info['options']} | {TEST_ABOUT[t]} |")
+    lines += ["", "*In a case with a right option, the right option is on the list among others. In a case without "
+              "one, the list is made of other options only. The test files are rebuilt by `build_tests.py`; their "
+              "sha256 are in `summary.json`.*", ""]
     return "\n".join(lines)
 
 
