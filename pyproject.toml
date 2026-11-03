@@ -29,14 +29,10 @@ dependencies = [
     "numpy>=1.22",
     "onnxruntime>=1.17",
     "tokenizers>=0.15",
-    "huggingface_hub>=0.20",
-    "safetensors>=0.4",
 ]
 
 [project.optional-dependencies]
-train = ["torch>=2.1"]
-monitor = ["torch>=2.1", "ndtracker>=2.0"]
-dev = ["pytest>=7", "torch>=2.1"]
+dev = ["pytest>=7"]
 
 [project.urls]
 Homepage = "https://github.com/Javihaus/zeropoint"

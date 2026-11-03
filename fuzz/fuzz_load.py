@@ -1,36 +1,45 @@
-"""Fuzz model loading with damaged and hostile files.
+"""Fuzz model loading with damaged files.
 
-A file that is not a valid ZeroPoint model must be rejected with a ValueError, never crash the process or
-raise anything else. Seeds are the shipped models, so the fuzzer starts from realistic files and mutates them.
+Any change to any byte of any model file must be refused with ModelFilesError before the file is parsed,
+never crash the process or load a different model.
 
     pip install atheris && python fuzz/fuzz_load.py -max_total_time=60
 """
 
 import os
+import shutil
 import sys
 import tempfile
 
 import atheris
 
 with atheris.instrument_imports():
-    from zeropoint import ZeroPoint
+    from zeropoint._runtime import MODEL_DIR, ModelFilesError, Runtime
 
-PATH = os.path.join(tempfile.mkdtemp(prefix="zp-fuzz-"), "model.safetensors")
+WORK = os.path.join(tempfile.mkdtemp(prefix="zp-fuzz-"), "model")
+shutil.copytree(MODEL_DIR, WORK)
+SMALL = ["head.json", "manifest.json", "vocab_scale.npy"]
+ORIGINAL = {f: open(os.path.join(MODEL_DIR, f), "rb").read() for f in SMALL}
 
 
 def test_one_input(data: bytes) -> None:
-    with open(PATH, "wb") as f:
-        f.write(data)
+    fdp = atheris.FuzzedDataProvider(data)
+    name = SMALL[fdp.ConsumeIntInRange(0, len(SMALL) - 1)]
+    content = fdp.ConsumeBytes(fdp.ConsumeIntInRange(0, 4096))
+    if content == ORIGINAL[name]:
+        return
+    path = os.path.join(WORK, name)
+    with open(path, "wb") as f:
+        f.write(content)
     try:
-        ZeroPoint.load(PATH)
-    except ValueError:
-        return  # rejected cleanly, as it should be
+        Runtime(WORK, threads=1)
+        raise AssertionError(f"a damaged {name} was accepted")
+    except ModelFilesError:
+        pass
+    finally:
+        with open(path, "wb") as f:
+            f.write(ORIGINAL[name])
 
 
-def main() -> None:
-    atheris.Setup(sys.argv, test_one_input)
-    atheris.Fuzz()
-
-
-if __name__ == "__main__":
-    main()
+atheris.Setup(sys.argv, test_one_input)
+atheris.Fuzz()

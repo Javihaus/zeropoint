@@ -23,6 +23,10 @@ import onnxruntime as ort
 from tokenizers import Tokenizer
 
 MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model")
+# The manifest of the model shipped with this version. The manifest holds the sha256 of every other file, so this
+# one constant pins every byte of the shipped model.
+MODEL_FILES = ("encoder.onnx", "vocab_int8.npy", "vocab_scale.npy", "head.json", "tokenizer.json")
+SHIPPED_MANIFEST_SHA256 = "7338a12da7b76bcab5d5d7216ad98c2785ad0852af0b7c87e72867c7fd805301"
 
 
 class ModelFilesError(RuntimeError):
@@ -65,22 +69,34 @@ class Runtime:
         mpath = os.path.join(model_dir, "manifest.json")
         if not os.path.exists(mpath):
             raise ModelFilesError(f"no manifest.json in {model_dir}")
-        self.manifest = json.load(open(mpath, encoding="utf-8"))
+        if verify and os.path.realpath(model_dir) == os.path.realpath(MODEL_DIR) \
+                and _sha256(mpath) != SHIPPED_MANIFEST_SHA256:
+            raise ModelFilesError("the shipped manifest.json was changed")
+        try:
+            self.manifest = json.load(open(mpath, encoding="utf-8"))
+            files = dict(self.manifest["files"])
+        except (ValueError, KeyError, TypeError) as e:
+            raise ModelFilesError(f"manifest.json cannot be read: {e}") from None
+        if set(files) != set(MODEL_FILES):
+            raise ModelFilesError(f"manifest.json must list exactly {', '.join(MODEL_FILES)}")
         if verify:
-            for name, digest in self.manifest["files"].items():
+            for name in MODEL_FILES:
                 p = os.path.join(model_dir, name)
                 if not os.path.exists(p):
                     raise ModelFilesError(f"missing model file {name}")
-                if _sha256(p) != digest:
+                if _sha256(p) != files[name]:
                     raise ModelFilesError(f"{name} does not match its sha256 in manifest.json")
-        r = self.manifest["reading"]
-        self.prefix = r["text_prefix"]
-        self.text_max = int(r["text_max_pieces"])
-        self.opt_max = int(r["option_max_pieces"])
-        self.block = int(r["options_per_block"])
-        self.pos0 = int(r["position_offset"])
-        sp = self.manifest["special_ids"]
-        self.cls, self.sep, self.unk = sp["cls"], sp["sep"], sp["unk"]
+        try:
+            r = self.manifest["reading"]
+            self.prefix = str(r["text_prefix"])
+            self.text_max = int(r["text_max_pieces"])
+            self.opt_max = int(r["option_max_pieces"])
+            self.block = int(r["options_per_block"])
+            self.pos0 = int(r["position_offset"])
+            sp = self.manifest["special_ids"]
+            self.cls, self.sep, self.unk = int(sp["cls"]), int(sp["sep"]), int(sp["unk"])
+        except (ValueError, KeyError, TypeError) as e:
+            raise ModelFilesError(f"manifest.json cannot be read: {e}") from None
 
         self.tok = Tokenizer.from_file(os.path.join(model_dir, "tokenizer.json"))
         self.tok.no_truncation()
