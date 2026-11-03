@@ -1,6 +1,10 @@
 name: tests
-# Linux, macOS and Windows on the two newest Python versions ZeroPoint supports, plus the oldest on Linux.
-# Python 3.15 is not tested yet: onnxruntime has no build for it.
+# Linux (x86 and ARM), macOS (ARM) and Windows on the two newest Python versions ZeroPoint supports, plus the oldest
+# on Linux. Python 3.15 is not tested yet: onnxruntime has no build for it.
+#
+# Every job checks the 500 golden cases (same decisions, no probability moving more than 1e-5) and uploads a
+# report saying whether the outputs were also identical to the last bit on that platform. Every job measures
+# latency; the budget is enforced on Linux x86, the platform the published numbers come from.
 on:
   pull_request:
   push:
@@ -15,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, windows-latest]
         python: ["3.13", "3.14"]
         include:
           - os: ubuntu-latest
@@ -33,4 +37,21 @@ jobs:
           python -m pip install --require-hashes -r requirements/ci.txt
           python -m pip install --no-deps -e .
       - name: Run the tests
+        env:
+          ZP_GOLDEN_REPORT: golden-${{ matrix.os }}-${{ matrix.python }}.json
         run: python -m pytest -q
+      - name: Measure latency
+        shell: bash
+        run: |
+          check=""
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ] && [ "${{ matrix.python }}" = "3.13" ]; then check="--check"; fi
+          python benchmarks/latency.py $check --out latency-${{ matrix.os }}-${{ matrix.python }}.json
+      - name: Keep the golden and latency reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: reports-${{ matrix.os }}-${{ matrix.python }}
+          path: |
+            golden-*.json
+            latency-*.json
+          if-no-files-found: ignore
