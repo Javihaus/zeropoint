@@ -1,0 +1,61 @@
+{
+ "format": 1,
+ "encoder": "intfloat/multilingual-e5-small",
+ "hidden_size": 384,
+ "vocabulary": {
+  "pieces": 107299,
+  "languages": [
+   "ca",
+   "cs",
+   "da",
+   "de",
+   "en",
+   "es",
+   "et",
+   "eu",
+   "fi",
+   "fr",
+   "ga",
+   "gl",
+   "hr",
+   "hu",
+   "it",
+   "lt",
+   "lv",
+   "mt",
+   "nl",
+   "pl",
+   "pt",
+   "ro",
+   "sk",
+   "sl",
+   "sv"
+  ]
+ },
+ "reading": {
+  "text_prefix": "query: ",
+  "text_max_pieces": 192,
+  "option_max_pieces": 16,
+  "options_per_block": 20,
+  "unicode_normalization": "NFC",
+  "position_offset": 0
+ },
+ "special_ids": {
+  "cls": 0,
+  "sep": 2,
+  "pad": 1,
+  "unk": 3
+ },
+ "source_checkpoint_sha256": "fb0998fc59d7cba2fe4c956fb284614c6dfc40d4e19917c9b38332e4bd694ac2",
+ "files": {
+  "encoder.onnx": "1de1b50b226f6162a0de21c05da0fc03cdfae6a88dfde73c73b781f8d98f296e",
+  "vocab_int8.npy": "4fb29c04e66af667d27a82c514b7ee12cce803d1fc05fcd51abac36c145997ee",
+  "vocab_scale.npy": "50977162bc7ca57ce8d43758c3f487ac73d2515290c8dabe3ddc83ad3aafb2f7",
+  "head.json": "383e1a58581dbb89c1309b9949d94d455eeda5bcb72984e005241af7cca62261",
+  "tokenizer.json": "ba8534cd34aa0e688ac831edb1699b8bccdeb34fc82f5d75f5bea30593dfdb8d"
+ },
+ "exported_with": {
+  "torch": "2.15.0+cu132",
+  "onnx": "1.23.2"
+ }
+}
