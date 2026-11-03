@@ -32,6 +32,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# fit() trains on your labelled texts; deciding never needs these
+fit = ["torch>=2.1", "onnx>=1.15"]
 dev = ["pytest>=7"]
 
 [project.urls]

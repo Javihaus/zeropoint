@@ -1,6 +1,7 @@
-# The tests' dependencies plus PyTorch's own dependencies, all from PyPI.
+# The tests with fit(): the test dependencies plus onnx and PyTorch's own dependencies, all from PyPI.
 # PyTorch itself comes from torch-cpu.txt (CPU build, PyTorch index), installed with --no-deps.
 -r ci.in
+onnx>=1.15
 filelock
 typing-extensions
 sympy

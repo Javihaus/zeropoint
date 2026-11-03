@@ -1,8 +1,13 @@
 """500 fixed cases with their exact expected outputs (tests/golden, made by tools/make_golden.py).
 
-On every platform the decisions must be the same and no probability may move by more than 1e-5. Whether the
-outputs are also identical to the last bit is measured and written to the report (ZP_GOLDEN_REPORT), so the
-statement about bit-identical results across machines rests on data from every CI platform."""
+On every platform the decisions must be the same and no probability may move by more than 1e-5. The report
+(ZP_GOLDEN_REPORT) says how many outputs are identical to the last bit and gives a sha256 of all of them, so
+platforms that compute the same bits can be recognised by equal hashes.
+
+Measured on the first CI run (Nov 2026): decisions identical everywhere; probabilities within 2.8e-6 of the
+reference machine (Intel with AVX-512) on Linux x86, Windows x86, macOS ARM and Linux ARM, with onnxruntime 1.23
+and 1.31."""
+import hashlib
 import json
 import os
 import platform
@@ -29,16 +34,19 @@ def results():
 
 def test_golden_outputs(results):
     choice_changes, bit_identical, max_diff = [], 0, 0.0
+    digest = hashlib.sha256()
     for i, (case, exp, d) in enumerate(zip(CASES, EXPECTED["cases"], results)):
         if d.choice != exp["choice"]:
             choice_changes.append(i)
         got = [d.p_none] + [d.probabilities[o] for o in case["options"]]
         want = [float.fromhex(exp["p_none"])] + [float.fromhex(x) for x in exp["p"]]
         bit_identical += got == want
+        digest.update(np.array(got, dtype=np.float64).tobytes())
         max_diff = max(max_diff, float(np.max(np.abs(np.array(got) - np.array(want)))))
     report = {"platform": platform.platform(), "machine": platform.machine(), "python": platform.python_version(),
               "onnxruntime": onnxruntime.__version__, "numpy": np.__version__, "cases": len(CASES),
-              "bit_identical": bit_identical, "choice_changes": choice_changes, "max_abs_diff": max_diff}
+              "bit_identical": bit_identical, "choice_changes": choice_changes, "max_abs_diff": max_diff,
+              "outputs_sha256": digest.hexdigest()}
     print("\ngolden:", json.dumps(report))
     if os.environ.get("ZP_GOLDEN_REPORT"):
         Path(os.environ["ZP_GOLDEN_REPORT"]).write_text(json.dumps(report, indent=1))

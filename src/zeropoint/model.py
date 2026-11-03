@@ -15,6 +15,9 @@ at the same time. The same text and options always give the same numbers.
 """
 from __future__ import annotations
 
+import json
+import os
+import tempfile
 import time
 import unicodedata
 from dataclasses import dataclass, field
@@ -93,6 +96,9 @@ class ZeroPoint:
         self._rt = Runtime(model_dir, threads=threads)
         self.languages: tuple[str, ...] = tuple(self._rt.manifest["vocabulary"]["languages"])
         self.model_id: str = self._rt.manifest["source_checkpoint_sha256"][:12]
+        self._log_temperature = self._rt.log_temperature
+        self._none_level = self._rt.none_level
+        self.report: dict | None = self._rt.manifest.get("report")
 
     @property
     def threads(self) -> int:
@@ -105,7 +111,7 @@ class ZeroPoint:
         order = canonical_order(options)
         canon = [options[i] for i in order]
         depths, reading = self._rt.depths(text, canon)
-        p = self._rt.distribution(depths)
+        p = self._rt.distribution(depths, float(np.exp(self._log_temperature)), self._none_level)
         best = max(range(len(canon)), key=lambda j: (p[j], -j))      # ties: first in canonical order
         p_canon = {canon[j]: float(p[j]) for j in range(len(canon))}
         d_canon = {canon[j]: float(depths[j]) for j in range(len(canon))}
@@ -135,6 +141,85 @@ class ZeroPoint:
                     and all(isinstance(o, (list, tuple)) for o in options))
         return [self.decide(t, options[i] if per_text else options) for i, t in enumerate(texts)]
 
+    # ---------------------------------------------------------------- adapting to your data
+
+    def fit(self, texts: Sequence[str], labels: Sequence[str | None], **options):
+        """Adapt the model to your labelled texts. Returns (new model, report). Needs zeropoint[fit].
+        See zeropoint.fit for what happens and for the options (groups, steps, frozen_layers, seed, threads)."""
+        from .fit import fit
+        return fit(self, texts, labels, **options)
+
+    def recalibrate(self, texts: Sequence[str], labels: Sequence[str | None], *, groups=None, seed: int = 0):
+        """Re-fit only the temperature and the "none" level on your labelled texts, nothing else.
+        No torch needed. Returns (new model, report); the report compares before and after on a held-out 20%."""
+        from .fit import _held_out, _lists, _evaluate
+        texts, labels = list(texts), list(labels)
+        label_set = sorted({l for l in labels if l is not None}, key=lambda s: s.encode("utf-8"))
+        if len(label_set) < 2:
+            raise ValueError("recalibrate needs at least two different labels")
+        keys = list(groups) if groups is not None else texts
+        hold = [_held_out(str(k)) for k in keys]
+        rng = np.random.default_rng(seed)
+        cal = _lists([t for t, h in zip(texts, hold) if not h], [y for y, h in zip(labels, hold) if not h],
+                     label_set, rng, repeat=2)
+        held = _lists([t for t, h in zip(texts, hold) if h], [y for y, h in zip(labels, hold) if h], label_set,
+                      np.random.default_rng(seed + 1))
+        if len(cal) < 20:
+            raise ValueError("recalibrate needs at least 10 examples outside the held-out 20%")
+        data = []
+        for t, canon, gold in cal:
+            d, _ = self._rt.depths(t, canon)
+            data.append((d, canon.index(gold) if gold is not None else len(canon)))
+        log_t, b = _fit_two_numbers(data, self._log_temperature, self._none_level)
+        new = self._derived(log_t=log_t, none_level=b)
+        report = {"before": _evaluate(self, held), "after": _evaluate(new, held),
+                  "temperature": {"before": float(np.exp(self._log_temperature)), "after": float(np.exp(log_t))},
+                  "none_level": {"before": self._none_level, "after": b}, "calibration_lists": len(cal)}
+        new.report = report
+        return new, report
+
+    def save(self, path: str) -> None:
+        """Write this model to a folder; load it later with ZeroPoint(path)."""
+        from .fit import write_model_dir
+        head = json.load(open(os.path.join(self._rt.model_dir, "head.json"), encoding="utf-8"))
+        head["log_temperature"] = float(self._log_temperature).hex()
+        head["none_level"] = float(self._none_level).hex()
+        manifest = dict(self._rt.manifest)
+        if self.report is not None:
+            manifest["report"] = self.report
+        write_model_dir(self._rt.model_dir, path, None, head, manifest)
+
+    def _derived(self, log_t: float, none_level: float) -> "ZeroPoint":
+        new = object.__new__(ZeroPoint)
+        new.__dict__.update(self.__dict__)
+        new._log_temperature, new._none_level, new.report = float(log_t), float(none_level), None
+        return new
+
+    @classmethod
+    def _from_fit(cls, base: "ZeroPoint", weights, w, bias, log_t, none_level, fit_info) -> "ZeroPoint":
+        import hashlib
+        import onnx
+        from onnx import numpy_helper
+        from .fit import write_model_dir
+        m = onnx.load(os.path.join(base._rt.model_dir, "encoder.onnx"))
+        for i, init in enumerate(m.graph.initializer):
+            name = init.name[:-6] if init.name.endswith("__fp16") else init.name
+            if name.startswith("enc.") and name[4:] in weights:
+                a = weights[name[4:]]
+                arr = a.astype(np.float16) if init.name.endswith("__fp16") else a.astype(np.float32)
+                m.graph.initializer[i].CopyFrom(numpy_helper.from_array(arr, init.name))
+        enc_bytes = m.SerializeToString()
+        head = {"weight": [float(x).hex() for x in np.asarray(w, np.float32)],
+                "bias": float(np.float32(bias)).hex(),
+                "log_temperature": float(np.float32(log_t)).hex(), "none_level": float(np.float32(none_level)).hex()}
+        manifest = dict(base._rt.manifest)
+        manifest["derived_from"] = base.model_id
+        manifest["fit"] = fit_info
+        manifest["source_checkpoint_sha256"] = hashlib.sha256(enc_bytes + json.dumps(head).encode()).hexdigest()
+        out = tempfile.mkdtemp(prefix="zeropoint-fit-")
+        write_model_dir(base._rt.model_dir, out, enc_bytes, head, manifest)
+        return cls(out, threads=base.threads)
+
     def _check(self, text, options) -> list[str]:
         if not isinstance(text, str):
             raise TypeError("text must be a string")
@@ -158,3 +243,43 @@ class ZeroPoint:
 
     def __repr__(self) -> str:
         return f"ZeroPoint(model={self.model_id}, languages={len(self.languages)}, threads={self.threads})"
+
+
+def _fit_two_numbers(data, log_t: float, b: float, iters: int = 300):
+    """Minimise the negative log-likelihood over (log temperature, none level) by gradient descent with a
+    backtracking line search, in float64. Deterministic: no randomness, fixed number of iterations at most."""
+    def nll_grad(lt, bb):
+        t = np.exp(lt)
+        tot, g_lt, g_b = 0.0, 0.0, 0.0
+        for d, gold in data:
+            x = d / t
+            inside = (x > 1e-6) & (x < 60.0)
+            xc = np.clip(x, 1e-6, 60.0)
+            lw = xc + np.log(-np.expm1(-xc))
+            lg = np.concatenate([lw, [bb]])
+            m = lg.max()
+            p = np.exp(lg - m)
+            z = p.sum()
+            p /= z
+            tot += (m + np.log(z)) - lg[gold]
+            dl = p.copy()
+            dl[gold] -= 1.0
+            dlw_dx = 1.0 / (-np.expm1(-xc))
+            g_lt += float(np.sum(dl[:-1] * dlw_dx * (-xc) * inside))
+            g_b += float(dl[-1])
+        n = len(data)
+        return tot / n, np.array([g_lt / n, g_b / n])
+    x = np.array([log_t, b], dtype=np.float64)
+    f, g = nll_grad(*x)
+    for _ in range(iters):
+        step = 1.0
+        while step > 1e-8:
+            cand = x - step * g
+            fc, gc = nll_grad(*cand)
+            if fc <= f - 1e-4 * step * float(g @ g):
+                break
+            step *= 0.5
+        if step <= 1e-8 or abs(f - fc) < 1e-12:
+            break
+        x, f, g = cand, fc, gc
+    return float(x[0]), float(x[1])

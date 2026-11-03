@@ -2,6 +2,9 @@
  "format": 1,
  "encoder": "intfloat/multilingual-e5-small",
  "hidden_size": 384,
+ "layers": 12,
+ "attention_heads": 12,
+ "layer_norm_eps": 1e-12,
  "vocabulary": {
   "pieces": 107299,
   "languages": [
@@ -48,7 +51,7 @@
  },
  "source_checkpoint_sha256": "fb0998fc59d7cba2fe4c956fb284614c6dfc40d4e19917c9b38332e4bd694ac2",
  "files": {
-  "encoder.onnx": "1de1b50b226f6162a0de21c05da0fc03cdfae6a88dfde73c73b781f8d98f296e",
+  "encoder.onnx": "30fc6230832c62e90f35627a49db9bbbdaf773c60ed6c29ee9f3d45b44301956",
   "vocab_int8.npy": "4fb29c04e66af667d27a82c514b7ee12cce803d1fc05fcd51abac36c145997ee",
   "vocab_scale.npy": "50977162bc7ca57ce8d43758c3f487ac73d2515290c8dabe3ddc83ad3aafb2f7",
   "head.json": "383e1a58581dbb89c1309b9949d94d455eeda5bcb72984e005241af7cca62261",
