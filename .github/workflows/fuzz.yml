@@ -1,5 +1,5 @@
 name: fuzz
-# Fuzzing with Atheris: the decision rule with arbitrary numbers, and model loading with damaged files.
+# Fuzzing with Atheris: the decision rule and option ordering with arbitrary inputs, and model loading with damaged files.
 on:
   pull_request:
   push:
@@ -26,7 +26,5 @@ jobs:
           python -m pip install --no-deps -e .
       - name: Fuzz the decision rule
         run: python fuzz/fuzz_engine.py -max_total_time=120
-      - name: Fuzz model loading, starting from the shipped models
-        run: |
-          mkdir -p corpus && cp src/zeropoint/presets/*-small.safetensors corpus/
-          python fuzz/fuzz_load.py corpus -max_total_time=120 -rss_limit_mb=4096
+      - name: Fuzz model loading with damaged files
+        run: python fuzz/fuzz_load.py -max_total_time=120 -rss_limit_mb=4096

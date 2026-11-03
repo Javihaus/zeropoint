@@ -1,6 +1,7 @@
-"""ZeroPoint: an energy-based decision engine that can say "none of these"."""
+"""ZeroPoint: choose among a list of options, or say that none of them fits."""
 
+from ._runtime import ModelFilesError
 from ._version import __version__
-from .model import Decision, Landscape, ZeroPoint, landscapes
+from .model import Decision, UnsupportedLanguage, ZeroPoint
 
-__all__ = ["ZeroPoint", "Decision", "Landscape", "landscapes", "__version__"]
+__all__ = ["ZeroPoint", "Decision", "UnsupportedLanguage", "ModelFilesError", "__version__"]

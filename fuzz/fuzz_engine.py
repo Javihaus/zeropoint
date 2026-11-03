@@ -1,7 +1,8 @@
-"""Fuzz the decision rule with arbitrary numbers.
+"""Fuzz the decision rule and the option ordering with arbitrary inputs.
 
-Whatever the energies, temperature and distance to the edge, the probabilities must be finite, non-negative
-and sum to one, and a deeper vacuum must never change the ranking of the options.
+Whatever the depths of the wells, the probabilities must be finite, non-negative and sum to one. Whatever the
+option strings, the canonical order must be a permutation that does not depend on the order they arrive in, and
+anything that is not a valid list (empty or duplicate options) must raise ValueError, never anything else.
 
     pip install atheris && python fuzz/fuzz_engine.py -max_total_time=60
 """
@@ -13,39 +14,30 @@ import atheris
 with atheris.instrument_imports():
     import numpy as np
 
-    from zeropoint import engine
+    from zeropoint._runtime import Runtime, canonical_order
+
+RT = Runtime(threads=1)
 
 
 def test_one_input(data: bytes) -> None:
     fdp = atheris.FuzzedDataProvider(data)
-    n_texts = fdp.ConsumeIntInRange(1, 4)
-    n_options = fdp.ConsumeIntInRange(1, 24)
-    energy = -np.abs(np.array(fdp.ConsumeFloatListInRange(n_texts * n_options, 0.0, 1e4), dtype=np.float64))
-    if energy.size != n_texts * n_options:
+    n = fdp.ConsumeIntInRange(1, 200)
+    depths = np.array(fdp.ConsumeFloatListInRange(n, 0.0, 1e6), dtype=np.float64)
+    if depths.size:
+        p = RT.distribution(depths)
+        assert p.shape == (depths.size + 1,)
+        assert np.all(np.isfinite(p)) and np.all(p >= 0)
+        assert abs(p.sum() - 1.0) < 1e-9
+    options = [fdp.ConsumeUnicodeNoSurrogates(fdp.ConsumeIntInRange(0, 30)) for _ in range(fdp.ConsumeIntInRange(1, 12))]
+    try:
+        order = canonical_order(options)
+    except ValueError:
         return
-    energy = energy.reshape(n_texts, n_options)
-    temperature = fdp.ConsumeFloatInRange(1e-3, 1e3)
-    edge = np.array(fdp.ConsumeFloatListInRange(n_texts, -50.0, 50.0), dtype=np.float64)
-    if edge.size != n_texts:
-        return
-    kappa = fdp.ConsumeFloatInRange(0.0, 10.0)
-
-    p = engine.probabilities(energy, temperature, kappa * np.maximum(edge, 0.0))
-    assert p.shape == (n_texts, n_options + 1)
-    assert np.all(np.isfinite(p)) and np.all(p >= 0)
-    assert np.allclose(p.sum(1), 1.0)
-
-    p0 = engine.probabilities(energy, temperature, np.zeros(n_texts))
-    order = np.argsort(-p0[:, :-1], axis=1, kind="stable")
-    for r in range(n_texts):
-        ranked = p[r, :-1][order[r]]
-        assert np.all(np.diff(ranked) <= 1e-12 + 1e-9 * np.abs(ranked[:-1]))
+    assert sorted(order) == list(range(len(options)))
+    canon = [options[i] for i in order]
+    shuffled = options[::-1]
+    assert [shuffled[i] for i in canonical_order(shuffled)] == canon
 
 
-def main() -> None:
-    atheris.Setup(sys.argv, test_one_input)
-    atheris.Fuzz()
-
-
-if __name__ == "__main__":
-    main()
+atheris.Setup(sys.argv, test_one_input)
+atheris.Fuzz()
