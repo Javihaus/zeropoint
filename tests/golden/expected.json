@@ -1,0 +1,7780 @@
+{
+"model": "fb0998fc59d7",
+"made_with": {
+"onnxruntime": "1.31.1",
+"numpy": "2.5.4",
+"tokenizers": "0.23.3"
+},
+"cases": [
+{
+"choice": null,
+"p_none": "0x1.e5d47cd7ce09ep-1",
+"p": [
+"0x1.da2a3c621501ep-10",
+"0x1.8fa12e3e49cb8p-8",
+"0x1.563b4766b0f2cp-8",
+"0x1.1994f6666ed9ep-7",
+"0x1.c0e203a3096b3p-6",
+"0x1.05512804ef57bp-9"
+]
+},
+{
+"choice": "Maths and Conversions",
+"p_none": "0x1.208aeab9da866p-7",
+"p": [
+"0x1.4ed18f041fa51p-19",
+"0x1.552b6a52ce871p-19",
+"0x1.6269474e65149p-12",
+"0x1.dcf09117e4e7bp-14",
+"0x1.fb41f6a867b47p-1"
+]
+},
+{
+"choice": "move a meeting",
+"p_none": "0x1.69742844c3731p-3",
+"p": [
+"0x1.33814fd589ecbp-8",
+"0x1.99c6c9a821bbep-8",
+"0x1.02816224aa77dp-11",
+"0x1.d22c3a80b0624p-11",
+"0x1.5fda763cee64fp-1",
+"0x1.bb458ac0e67a4p-9",
+"0x1.da22613d5015fp-4",
+"0x1.55a46b717ddebp-11",
+"0x1.11e4a53a63c2bp-8"
+]
+},
+{
+"choice": "cancelar un vuelo",
+"p_none": "0x1.00567fcab20cap-3",
+"p": [
+"0x1.03f91d8cbeaadp-8",
+"0x1.e9c015292cc23p-11",
+"0x1.5fa8850400492p-1",
+"0x1.95b4d906b6fefp-8",
+"0x1.5a77a17efb4a6p-3",
+"0x1.c7a9ca3844c9ep-8",
+"0x1.39c06c2c27f9ap-12",
+"0x1.fcd8a968e07d2p-12"
+]
+},
+{
+"choice": "Campus IT",
+"p_none": "0x1.27aa5e2239c0dp-2",
+"p": [
+"0x1.642d8dd513f88p-1",
+"0x1.46c8705a8490ep-7",
+"0x1.cb23cdee68816p-11",
+"0x1.0282e97873161p-8",
+"0x1.a94a47e25283bp-11"
+]
+},
+{
+"choice": "move a meeting",
+"p_none": "0x1.3fc39b433feb9p-4",
+"p": [
+"0x1.d52f92a19f7c5p-1",
+"0x1.53b28ba8ea842p-10",
+"0x1.a5d9751485f2ep-12",
+"0x1.699b420fd11cfp-10",
+"0x1.4040d2a33c042p-11",
+"0x1.e90f57a19195cp-10"
+]
+},
+{
+"choice": "People Team",
+"p_none": "0x1.5cbcfac9336fep-5",
+"p": [
+"0x1.507dad008452cp-11",
+"0x1.cbae3b956077fp-3",
+"0x1.20f041b9cca5dp-9",
+"0x1.2b344f2f9e748p-7",
+"0x1.8354fedc6d7ccp-8",
+"0x1.6d2533f0b66aep-1",
+"0x1.45bee6efb7ee7p-11",
+"0x1.52e5b8621f408p-10"
+]
+},
+{
+"choice": "Payment Arrangements",
+"p_none": "0x1.82e70d72ce77ep-4",
+"p": [
+"0x1.ac016a7b536f3p-12",
+"0x1.6377b6a2475aep-10",
+"0x1.35252286024b8p-12",
+"0x1.ce953da4b4e29p-1"
+]
+},
+{
+"choice": "Paperwork and Government",
+"p_none": "0x1.ec849c3d3f243p-4",
+"p": [
+"0x1.116f3756c3aafp-12",
+"0x1.33756057df70bp-15",
+"0x1.1cb2b0aaf0460p-10",
+"0x1.ea76ef9ffdbe8p-15",
+"0x1.c1b26d87d7eb7p-1"
+]
+},
+{
+"choice": "check account balance",
+"p_none": "0x1.377f99f8e751bp-7",
+"p": [
+"0x1.fa31b7edcbfafp-1",
+"0x1.3a6095a0f9acep-16",
+"0x1.60388822d4c8bp-10",
+"0x1.edc5289dda95bp-12"
+]
+},
+{
+"choice": "Delivery Problems",
+"p_none": "0x1.1cd40ae8707ffp-8",
+"p": [
+"0x1.fda2a8db4107fp-1",
+"0x1.0fdf0c64e9eb0p-13",
+"0x1.4da7928e8c822p-16",
+"0x1.7210bb068e805p-15",
+"0x1.49b182d22659ep-14"
+]
+},
+{
+"choice": "Solar Export Payments",
+"p_none": "0x1.e54a0ae530991p-9",
+"p": [
+"0x1.da822f725813cp-15",
+"0x1.ba4e0d0d56943p-15",
+"0x1.e41c84993d791p-17",
+"0x1.6437ea6457610p-8",
+"0x1.fa1779804efcap-1",
+"0x1.23db63df59c16p-9",
+"0x1.ae77ab4c97b41p-15"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.95ba46bb9b789p-1",
+"p": [
+"0x1.b62cee1b871b1p-8",
+"0x1.8f69d133e6030p-7",
+"0x1.eec2c566d261bp-6",
+"0x1.24b0de5c3b02ap-3",
+"0x1.e3e934aca2b1ep-8",
+"0x1.805d87be09ab7p-8",
+"0x1.30dce843349e8p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.17824544c8b5dp-1",
+"p": [
+"0x1.baa2c60252120p-6",
+"0x1.d83cb713bee19p-7",
+"0x1.0cf6429417b30p-5",
+"0x1.421867aee38a3p-8",
+"0x1.fc8903b0f2e85p-7",
+"0x1.14fb30656afbdp-5",
+"0x1.433cb750a1c1ep-8",
+"0x1.425c7e239111fp-2",
+"0x1.7ec6905919fb5p-8"
+]
+},
+{
+"choice": "Contract Cancellation",
+"p_none": "0x1.9233624b568fap-6",
+"p": [
+"0x1.a26680cf33a7ap-12",
+"0x1.d600bd28d0f0ap-10",
+"0x1.c0f720f4da817p-15",
+"0x1.098a20cfddcdcp-14",
+"0x1.29f4fe71652f8p-3",
+"0x1.a5ca5ec38b806p-1",
+"0x1.f8293187de00ep-9"
+]
+},
+{
+"choice": "Warranty Claims",
+"p_none": "0x1.ff1f929eaa919p-7",
+"p": [
+"0x1.1f1c51f83c69fp-10",
+"0x1.eddaa74f20628p-1",
+"0x1.257b41fd5251fp-13",
+"0x1.3e63cee306942p-14",
+"0x1.2ba3b4e61e448p-13",
+"0x1.5cc5dba8eb195p-9",
+"0x1.2d06ec926f170p-11",
+"0x1.f08fe62d7fbd2p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.7ec6bb61042efp-1",
+"p": [
+"0x1.41677e924cdecp-5",
+"0x1.d5a6bd3f6ea30p-10",
+"0x1.53265969b7191p-4",
+"0x1.074cb8a801a27p-3"
+]
+},
+{
+"choice": "Work and Career",
+"p_none": "0x1.9911a236968d0p-3",
+"p": [
+"0x1.24a0f94ad7103p-1",
+"0x1.b655b8918b10ep-14",
+"0x1.c8bc95df05a58p-4",
+"0x1.dfaac5eef05c2p-4"
+]
+},
+{
+"choice": "Learning",
+"p_none": "0x1.d289a40562effp-11",
+"p": [
+"0x1.ff8931d61ae52p-1",
+"0x1.14efa20f3f4acp-22",
+"0x1.b5142b4d16492p-17",
+"0x1.b814ed92b461cp-19"
+]
+},
+{
+"choice": "Dinero",
+"p_none": "0x1.77917ba5cfc76p-10",
+"p": [
+"0x1.920a03a4ea755p-16",
+"0x1.1021b93cda3e2p-18",
+"0x1.85ed9c6bf7d77p-16",
+"0x1.2ef6cab6679d2p-21",
+"0x1.4617b39135a07p-15",
+"0x1.c8041b03fa4c8p-21",
+"0x1.ff38377393b79p-1"
+]
+},
+{
+"choice": "Warranty Claims",
+"p_none": "0x1.b4ec9758a2b30p-4",
+"p": [
+"0x1.ceafb28fdd854p-8",
+"0x1.6f3c70c5c5d0cp-6",
+"0x1.1319968101e2bp-7",
+"0x1.6959e1912039dp-10",
+"0x1.b54a16ded1286p-1"
+]
+},
+{
+"choice": "International Students Office",
+"p_none": "0x1.888749d800f19p-7",
+"p": [
+"0x1.ecc36feab29f3p-1",
+"0x1.02d8ff2226c9ep-14",
+"0x1.fdc1a5df25251p-7",
+"0x1.33e632c7f24c1p-7",
+"0x1.2ef30d5fb83aep-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.cd6068157fc71p-1",
+"p": [
+"0x1.58b1b0cc5871fp-9",
+"0x1.ad63bbb0b2694p-7",
+"0x1.fca5610e5886dp-10",
+"0x1.2ed557bd4420bp-4",
+"0x1.0540a7f92822cp-9",
+"0x1.598c7d641f323p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9316dde9cb531p-1",
+"p": [
+"0x1.981a049679f97p-10",
+"0x1.3085a883dfd6ep-9",
+"0x1.de1826ecbdceep-11",
+"0x1.a636cc1e52d87p-12",
+"0x1.8b538b08186a2p-3",
+"0x1.0b97c51b07b4ep-10",
+"0x1.b964f8e4bdfbep-7"
+]
+},
+{
+"choice": "set up a direct debit",
+"p_none": "0x1.7c0ceae9bf6e3p-3",
+"p": [
+"0x1.09462338c85e5p-11",
+"0x1.47a51ffdb72c9p-10",
+"0x1.88dec9d1c8b4ap-8",
+"0x1.654ef5842ffc1p-11",
+"0x1.1d4c57641352cp-1",
+"0x1.2b076f45fc354p-13",
+"0x1.cc148354ab040p-12",
+"0x1.b0818341972dfp-10",
+"0x1.83d9c2631fc25p-9",
+"0x1.65037a1e22ad9p-12",
+"0x1.f22929f412072p-3"
+]
+},
+{
+"choice": "Family and Friends",
+"p_none": "0x1.9b6fb595456dcp-3",
+"p": [
+"0x1.973789064ad00p-1",
+"0x1.00c4df4c6be14p-13",
+"0x1.d01c7ba4ba8c2p-10",
+"0x1.b3a54098cbf9cp-10",
+"0x1.a9c68504a8a3fp-13"
+]
+},
+{
+"choice": "Learning",
+"p_none": "0x1.1bc6085d7a527p-12",
+"p": [
+"0x1.5debe25b7d95dp-24",
+"0x1.ffc047b80d641p-1",
+"0x1.09d49ae655d3ap-16",
+"0x1.a2921d95b3f48p-13"
+]
+},
+{
+"choice": "Ayudas y subvenciones",
+"p_none": "0x1.acc99f2ed892dp-8",
+"p": [
+"0x1.301747632d3d9p-15",
+"0x1.df9667d79791bp-1",
+"0x1.039ccc34dc1a6p-14",
+"0x1.c402567199b3dp-14",
+"0x1.e59c6be38a36ap-11",
+"0x1.c7a187bcd0244p-5",
+"0x1.87fd1217f18f9p-17"
+]
+},
+{
+"choice": "cambiar las fechas del hotel",
+"p_none": "0x1.0018bdc59103bp-5",
+"p": [
+"0x1.9f8bcbb30bd1ap-11",
+"0x1.5f43798aaff56p-11",
+"0x1.5d62358b0c3afp-14",
+"0x1.8df88a81b91a9p-12",
+"0x1.1fa105e96f4e2p-11",
+"0x1.608934719dc08p-11",
+"0x1.63e7f594e1577p-10",
+"0x1.17f555a915267p-6",
+"0x1.e4f06cf8b1144p-1"
+]
+},
+{
+"choice": "Garden",
+"p_none": "0x1.3c37d95d5acb0p-6",
+"p": [
+"0x1.fe61ac32fa3bap-14",
+"0x1.0694d35ad26b3p-14",
+"0x1.bf972e72deb29p-1",
+"0x1.78c408b014cd2p-14",
+"0x1.b319276fa43fap-4"
+]
+},
+{
+"choice": "Portabilidad",
+"p_none": "0x1.2759334603b9ep-4",
+"p": [
+"0x1.007ba578100e4p-3",
+"0x1.9325b67dd6100p-8",
+"0x1.16e8c86176a06p-1",
+"0x1.00afc1deed5d3p-2",
+"0x1.1df6f6a5143a5p-10"
+]
+},
+{
+"choice": "IT Helpdesk",
+"p_none": "0x1.ccb214c5bc569p-8",
+"p": [
+"0x1.5ea61f3784dbfp-19",
+"0x1.2921ff3df5818p-13",
+"0x1.43487401f7f5ap-15",
+"0x1.21382f1bfcf3ep-8",
+"0x1.f943f406f44d6p-1",
+"0x1.90810bf916052p-10"
+]
+},
+{
+"choice": "order food delivery",
+"p_none": "0x1.2dc306154166cp-2",
+"p": [
+"0x1.6cd3de7d21c28p-8",
+"0x1.ba166d0498453p-10",
+"0x1.b0e57c2935b07p-6",
+"0x1.32c548f509ed7p-12",
+"0x1.2fc58f45e9eb1p-2",
+"0x1.16396d98b75a3p-11",
+"0x1.667007536b7e7p-6",
+"0x1.68bcde7d07ddcp-2"
+]
+},
+{
+"choice": "Tariffs and Contracts",
+"p_none": "0x1.3232ae0f93f66p-3",
+"p": [
+"0x1.11d295d10cc6ep-9",
+"0x1.d8721de2e46a8p-12",
+"0x1.74633532f0003p-11",
+"0x1.54d05e77e0934p-2",
+"0x1.05c793e20651ap-1",
+"0x1.337d8a8cef3bap-10",
+"0x1.ffb1e4079466cp-10"
+]
+},
+{
+"choice": "Pets",
+"p_none": "0x1.eb5929ede0bd3p-5",
+"p": [
+"0x1.e05e0d801b0b6p-1",
+"0x1.0c3220e469bfbp-10",
+"0x1.36bb8e7141c3ep-12",
+"0x1.f70f256b2b083p-13",
+"0x1.ffe6c6fd9087ep-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.ecba1c6ee3d95p-1",
+"p": [
+"0x1.5c77385b73e7cp-7",
+"0x1.5c7be540e00cap-11",
+"0x1.658a9a0c13000p-8",
+"0x1.f4f2958b9cdadp-11",
+"0x1.504c8067eb1ecp-9",
+"0x1.1c892b8f64d4fp-6"
+]
+},
+{
+"choice": "rent a car",
+"p_none": "0x1.db05ebd34e757p-9",
+"p": [
+"0x1.acaf693a3829cp-12",
+"0x1.fadd3c75380b2p-1",
+"0x1.0b86094cd5c54p-15",
+"0x1.3f7efdbee0b1cp-13",
+"0x1.7d00d4e61f0c4p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.74eed5cbd59d5p-1",
+"p": [
+"0x1.55f9c60de33d0p-7",
+"0x1.81577218132a3p-10",
+"0x1.002e7ac90b2b1p-2",
+"0x1.98db925b78c8ap-8",
+"0x1.afa2d9aa45003p-9"
+]
+},
+{
+"choice": "cancel a meeting",
+"p_none": "0x1.cacd36eb8180bp-5",
+"p": [
+"0x1.9b2e64dcdde51p-8",
+"0x1.a2e3857035792p-6",
+"0x1.d69a7e5004cccp-12",
+"0x1.d2cae04c427fep-1"
+]
+},
+{
+"choice": "Moving Home",
+"p_none": "0x1.951897c398a8fp-10",
+"p": [
+"0x1.e4a4d8b606bc5p-5",
+"0x1.4b079da37368fp-13",
+"0x1.b1eb2ce094c76p-12",
+"0x1.7c2624deb1550p-13",
+"0x1.e085d14a56b2bp-1",
+"0x1.524e517043406p-16"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d410402e11095p-1",
+"p": [
+"0x1.b6e518447ea8ep-8",
+"0x1.29df5cb4265b5p-12",
+"0x1.30d8379a028f8p-12",
+"0x1.407f6dbbca1edp-6",
+"0x1.5fe2f031ed746p-5",
+"0x1.068e87bbe182fp-6"
+]
+},
+{
+"choice": "Health and Fitness",
+"p_none": "0x1.5a0ac05978c38p-5",
+"p": [
+"0x1.df3c1193d97fap-1",
+"0x1.f9a110f90ebc2p-10",
+"0x1.6e697152e6c28p-10",
+"0x1.2db2cfffad11cp-6",
+"0x1.a6a56b90ef580p-17"
+]
+},
+{
+"choice": "Alojamiento",
+"p_none": "0x1.13d5995cf1a59p-6",
+"p": [
+"0x1.b5bc7465d0412p-13",
+"0x1.66c31be8eadf5p-8",
+"0x1.a8eb144ebcda6p-12",
+"0x1.f44353d376689p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.7eb18aa0eeedfp-1",
+"p": [
+"0x1.1b7b79091d3fcp-6",
+"0x1.503a725b9e8adp-3",
+"0x1.287bd7b8a00a2p-5",
+"0x1.df7bec1a76cd3p-6",
+"0x1.703011c16726dp-8"
+]
+},
+{
+"choice": "Limpieza y residuos",
+"p_none": "0x1.de7f78f34dfe7p-9",
+"p": [
+"0x1.4738db600e422p-13",
+"0x1.fd86aacda2bb6p-1",
+"0x1.1f22ebb95560ep-20",
+"0x1.b07e874f0f131p-11",
+"0x1.a1ea582bad141p-13"
+]
+},
+{
+"choice": "Reclamaciones formales",
+"p_none": "0x1.348409e1c8e01p-10",
+"p": [
+"0x1.05e57e8bcdcd6p-14",
+"0x1.d35df941e754cp-16",
+"0x1.3a678ddb81878p-16",
+"0x1.ff5773440c826p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f2d6b4d6a9051p-1",
+"p": [
+"0x1.08ff33341356bp-8",
+"0x1.ceec04821cf46p-11",
+"0x1.194cd6e3c41f5p-7",
+"0x1.d7e4d39de1e92p-10",
+"0x1.950ce7bdde000p-10",
+"0x1.21f9622457270p-7"
+]
+},
+{
+"choice": "Tr\u00e1mites y papeleo",
+"p_none": "0x1.86db3dafa6a43p-4",
+"p": [
+"0x1.116d34979947bp-11",
+"0x1.ce9ee61893d96p-1",
+"0x1.51b711ac52cd2p-14",
+"0x1.5093f159d35a6p-12",
+"0x1.96d5b319d8ed8p-14"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c262f69e4ee1ep-2",
+"p": [
+"0x1.67ad1f8918f18p-3",
+"0x1.369c9fede0159p-3",
+"0x1.d7e2d08db8d88p-7",
+"0x1.90ad04c03a9aap-3",
+"0x1.8a1efbdc6dcd0p-10",
+"0x1.5d871c5cd18acp-6"
+]
+},
+{
+"choice": "Asistencia en carretera",
+"p_none": "0x1.8cea206527b19p-9",
+"p": [
+"0x1.b26da2fc6f5a3p-16",
+"0x1.f6df045c713c9p-1",
+"0x1.eaf939f21f5bfp-15",
+"0x1.04fc9cc13b998p-11",
+"0x1.cfd3af175ce26p-7",
+"0x1.0e5bedc301fa2p-14"
+]
+},
+{
+"choice": "Salud y deporte",
+"p_none": "0x1.8bbb3356aee74p-3",
+"p": [
+"0x1.ea6f4442169b0p-11",
+"0x1.99daa9d204750p-9",
+"0x1.c0458be6293d7p-8",
+"0x1.34ceba84f0b47p-8",
+"0x1.ffbf4b50176cep-2",
+"0x1.6de7357df2ae8p-7",
+"0x1.1ef6a349300e3p-2"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.fdfb9c53a3b11p-2",
+"p": [
+"0x1.4323326995570p-9",
+"0x1.d3c50075ef26ap-2",
+"0x1.279b07d32f76dp-8",
+"0x1.d75afbad77fbbp-7",
+"0x1.68cd451c6aef3p-7",
+"0x1.e078df129586cp-8",
+"0x1.65e2cbecf48f4p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c5f28f513cf7fp-1",
+"p": [
+"0x1.ac16cdf873e71p-8",
+"0x1.0775f9d58e713p-9",
+"0x1.0d71f67e5c5edp-8",
+"0x1.0b5f013f75787p-12",
+"0x1.07f1da5a1bee8p-4",
+"0x1.070bd30fa20bap-7",
+"0x1.e3e9513d10fadp-7",
+"0x1.b1db5bd8681e3p-7"
+]
+},
+{
+"choice": "set up a direct debit",
+"p_none": "0x1.fc1ab28e57914p-4",
+"p": [
+"0x1.b268488661f23p-1",
+"0x1.caffff2326dc7p-11",
+"0x1.1fa6a74c1e964p-7",
+"0x1.c60337be1ed94p-8",
+"0x1.ecde96707b6d4p-11",
+"0x1.47c7ed85a548ap-9",
+"0x1.b1cc09afa2659p-8",
+"0x1.c1a1d3724412cp-11"
+]
+},
+{
+"choice": "Local Services",
+"p_none": "0x1.23b644a7f4354p-4",
+"p": [
+"0x1.d29e62c07e1a9p-1",
+"0x1.89079b90a47b6p-8",
+"0x1.15dc533f8e8ecp-7",
+"0x1.cca0d27909682p-13",
+"0x1.648a193c4b02dp-9"
+]
+},
+{
+"choice": "Multas de tr\u00e1fico",
+"p_none": "0x1.99d28c87d24f4p-10",
+"p": [
+"0x1.8a2f7b0477840p-16",
+"0x1.b586e9aea9bfap-21",
+"0x1.a487572294b5ap-17",
+"0x1.46aa647ffb6acp-13",
+"0x1.fef9bfaa47826p-1",
+"0x1.cf98cc92f0644p-13",
+"0x1.8f4ed3cf99cf3p-16"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.6454d6e90703bp-1",
+"p": [
+"0x1.757e691986faap-5",
+"0x1.2646ff4d7adf7p-8",
+"0x1.01e9db3c048d0p-9",
+"0x1.8754b0f66cce4p-9",
+"0x1.d77cac0f64ed6p-7",
+"0x1.ce3a432922f3ep-3",
+"0x1.243ca003353b0p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.2059667efe498p-1",
+"p": [
+"0x1.3e5e4b8efc18cp-10",
+"0x1.87b313a883363p-11",
+"0x1.5c3119370a723p-10",
+"0x1.589520e365823p-10",
+"0x1.786b289a58b6dp-8",
+"0x1.392ef6b8196e9p-10",
+"0x1.7726e969d1b5fp-2",
+"0x1.c6b998d54f4e0p-6",
+"0x1.eb56d943a0d37p-10",
+"0x1.d3a903866b6fep-6",
+"0x1.85dea12680c01p-11"
+]
+},
+{
+"choice": "Garden",
+"p_none": "0x1.68bd9cb31d584p-8",
+"p": [
+"0x1.fcd82d4276fbcp-1",
+"0x1.27ecee3aee330p-11",
+"0x1.8824670ba695ap-16",
+"0x1.f572aea693e09p-15",
+"0x1.76350b5c844b0p-17"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d1b836ab72e2ep-2",
+"p": [
+"0x1.7a04db8ba30e8p-8",
+"0x1.492fa40cfa261p-10",
+"0x1.1bb1f06a7f62ep-2",
+"0x1.57587cb4c2495p-9",
+"0x1.45a82885a5979p-9",
+"0x1.1f565df0a719fp-8",
+"0x1.e403aae51146bp-3",
+"0x1.27c317c570de5p-9",
+"0x1.8cbb51ddcbbdfp-7",
+"0x1.ec09c931c95bcp-11"
+]
+},
+{
+"choice": "check the security camera",
+"p_none": "0x1.5f59bff4146bap-6",
+"p": [
+"0x1.58405412685ebp-9",
+"0x1.58229c979c135p-12",
+"0x1.f07e77a1c5c2cp-15",
+"0x1.f3270aba5226bp-1",
+"0x1.4c8292254cac6p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d6bc40a943c12p-2",
+"p": [
+"0x1.2225e09b96ad9p-10",
+"0x1.9f3054968ad68p-8",
+"0x1.a0b8fb413aa4dp-8",
+"0x1.6876278fa32dbp-4",
+"0x1.b6b69920c8662p-8",
+"0x1.1bbd7d637b195p-13",
+"0x1.b9853220bf6bbp-2",
+"0x1.01cc3bd39440dp-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.ea277a0603f50p-1",
+"p": [
+"0x1.2fb9e5dc2b08bp-7",
+"0x1.f1310f521c881p-10",
+"0x1.a642578f8c97ap-8",
+"0x1.8e9100e12a9eep-10",
+"0x1.86cdcc9de6cedp-8",
+"0x1.5ae2d1911c566p-8",
+"0x1.4fe6bb278d53ap-9",
+"0x1.3e7c2cf343a10p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e8dfdeb2a09aap-1",
+"p": [
+"0x1.2a75c97a531f4p-12",
+"0x1.e1baf9f08cbe7p-9",
+"0x1.fb0371721640cp-6",
+"0x1.1c0b7c1c74b2dp-8",
+"0x1.84728b3af96cbp-8"
+]
+},
+{
+"choice": "N\u00f3minas",
+"p_none": "0x1.6b2feeafbd498p-10",
+"p": [
+"0x1.15531ed54aec0p-18",
+"0x1.ff40ab29bbbf3p-1",
+"0x1.a6a347f9ff44fp-15",
+"0x1.4bd41e87c3793p-16"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d5777c9613596p-1",
+"p": [
+"0x1.a42af27ca6a79p-6",
+"0x1.9d55c6c7887a2p-9",
+"0x1.92494d4c10af6p-5",
+"0x1.52a09d3f6efe0p-8"
+]
+},
+{
+"choice": "leave a restaurant review",
+"p_none": "0x1.cca9b2a704f7dp-9",
+"p": [
+"0x1.fef13a50ebb09p-15",
+"0x1.069b81d3bd33fp-9",
+"0x1.fd0c97c49ee5dp-1",
+"0x1.9c8385d8c8697p-17",
+"0x1.62c338c70f398p-14",
+"0x1.403c14df89362p-14",
+"0x1.72c40a06b99c7p-17"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f92dcf295e844p-1",
+"p": [
+"0x1.cd06e9953a7d7p-8",
+"0x1.de6212db527d0p-10",
+"0x1.45baac797be32p-9",
+"0x1.03374d8fe1aeep-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e16e3d1ac4d28p-1",
+"p": [
+"0x1.1630147fedce6p-5",
+"0x1.1c01981c22129p-9",
+"0x1.2cd33f6391719p-8",
+"0x1.372330cb21759p-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.a4fa8335c570bp-1",
+"p": [
+"0x1.cf8fbca45930cp-5",
+"0x1.757cd661954fdp-4",
+"0x1.5ef4633bce703p-8",
+"0x1.29c1b8b49632bp-6",
+"0x1.37eca250351aep-9",
+"0x1.0c8182aae75c8p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.bb369b2d1e897p-1",
+"p": [
+"0x1.8e90570c15c2ep-10",
+"0x1.6c47d4115b7c7p-9",
+"0x1.d466404a5e4dfp-9",
+"0x1.76da47964c963p-9",
+"0x1.18dd9cd5ca567p-9",
+"0x1.4dd86a055ab4fp-6",
+"0x1.35cb1dbecc8f5p-7",
+"0x1.b3760ea5cc1fep-8",
+"0x1.28fcfcad209e2p-5",
+"0x1.9c0fe4d4d990ap-7",
+"0x1.284cb6bfc8aa0p-5"
+]
+},
+{
+"choice": "block a card",
+"p_none": "0x1.8e10665117631p-4",
+"p": [
+"0x1.9b97da4e0b056p-12",
+"0x1.6710e404ef512p-12",
+"0x1.6c2e34b1f5820p-11",
+"0x1.6934c5b0504a3p-8",
+"0x1.9fd4a09f01427p-13",
+"0x1.c1b0f954a05e3p-1",
+"0x1.16793a926ac2ap-14",
+"0x1.c7a66adf3b720p-11",
+"0x1.e09ba1813c7cap-13",
+"0x1.8a19897709935p-12",
+"0x1.036902e0fe1adp-6"
+]
+},
+{
+"choice": "International Students Office",
+"p_none": "0x1.0283ff5b5ddfep-4",
+"p": [
+"0x1.edc128477227ep-9",
+"0x1.5307ed32573cep-8",
+"0x1.c998508d820aap-1",
+"0x1.11601829621dap-11",
+"0x1.65ab16f0ae74ap-8",
+"0x1.5a3213558c726p-6",
+"0x1.d10fdae6ffe32p-8"
+]
+},
+{
+"choice": "submit an expense",
+"p_none": "0x1.322763b65d7d1p-7",
+"p": [
+"0x1.c1c5c718ada4dp-14",
+"0x1.0c846f978410ep-15",
+"0x1.fb0843a23ddbep-1",
+"0x1.9248d9605a45cp-16",
+"0x1.27c59b36b59f9p-13",
+"0x1.e4b6239d2a723p-16",
+"0x1.ba1ba212268d8p-16"
+]
+},
+{
+"choice": "Producto defectuoso",
+"p_none": "0x1.1531ebeb7f9fep-4",
+"p": [
+"0x1.75fff858f933bp-7",
+"0x1.bf97422ebb4e2p-12",
+"0x1.d6a10622e73bcp-1",
+"0x1.ba9eb9a0f6239p-13",
+"0x1.660a559333fbcp-13",
+"0x1.dafc142f459e5p-11"
+]
+},
+{
+"choice": "send an email",
+"p_none": "0x1.a3a32f47a99dbp-8",
+"p": [
+"0x1.97ff0f4e56e11p-13",
+"0x1.d1fed7c46ab3bp-17",
+"0x1.9883a9b364faep-16",
+"0x1.b5aedf46b24c6p-14",
+"0x1.3b1c22ecb98c9p-14",
+"0x1.a291849a99e05p-16",
+"0x1.ef7f30b56523cp-14",
+"0x1.fc6fef35b0204p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c076ea5645aebp-1",
+"p": [
+"0x1.4e91366d4c2c2p-7",
+"0x1.1f069f82adc9dp-5",
+"0x1.10338f5f0294dp-4",
+"0x1.d649d89d9adeap-10",
+"0x1.5032ce395f36fp-9",
+"0x1.502cf00ea80a1p-9",
+"0x1.663820b18e695p-8"
+]
+},
+{
+"choice": "schedule a meeting",
+"p_none": "0x1.74311d658fdc1p-2",
+"p": [
+"0x1.0be0174062acap-10",
+"0x1.34c1dbe530aa7p-1",
+"0x1.5cb311c114b3bp-7",
+"0x1.88c6b9b8e59bep-9",
+"0x1.edb2e3d2f5ca9p-7",
+"0x1.ed46cc5e26960p-9"
+]
+},
+{
+"choice": "check account balance",
+"p_none": "0x1.723acdbb9684fp-6",
+"p": [
+"0x1.3b9a3fb997812p-6",
+"0x1.1a99cf56d34a7p-14",
+"0x1.2a57a4e361207p-14",
+"0x1.38b12db2ce796p-13",
+"0x1.e68dd1d4a1b09p-1",
+"0x1.eab00ad76e4dep-16",
+"0x1.16094cdb1f82bp-14",
+"0x1.e8a6bb5dac780p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.ba92f4b24f88cp-1",
+"p": [
+"0x1.932640bc2983bp-6",
+"0x1.87dcb82c99291p-5",
+"0x1.4cf62d189dd1ep-5",
+"0x1.70d55e6f776e4p-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c663728bbc5afp-1",
+"p": [
+"0x1.2f164144ba1e9p-7",
+"0x1.acedbd2b3f80cp-7",
+"0x1.8c0d8629e6a52p-7",
+"0x1.b7415239286f4p-6",
+"0x1.d2a1e2fe14a55p-10",
+"0x1.8377798c100abp-8",
+"0x1.2d7bf6072470fp-10",
+"0x1.74d07b53f75cfp-7",
+"0x1.e7663ef97b31cp-9",
+"0x1.aeda221587eb7p-6",
+"0x1.138b670517dfap-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.1ff95cf7767e3p-1",
+"p": [
+"0x1.53ecef4872275p-9",
+"0x1.4617313926131p-2",
+"0x1.f5f1ffbe3c72bp-5",
+"0x1.2b473d3a36be5p-10",
+"0x1.0270d718bd533p-12",
+"0x1.fb3473a47b1f2p-9",
+"0x1.66c8174d0247bp-10",
+"0x1.6811c6ac1a1bap-10",
+"0x1.160ed1f50851dp-5",
+"0x1.48a5d42e210bfp-7",
+"0x1.abe5f49ff9543p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c6ee5bf94a1a0p-1",
+"p": [
+"0x1.8d0a3aa8467f9p-6",
+"0x1.6c284fd4ac2b4p-9",
+"0x1.2587625c03aefp-10",
+"0x1.145b04a9f729ap-5",
+"0x1.8b8948954392fp-8",
+"0x1.02791fbc547ddp-6",
+"0x1.8fe7bcec3c17fp-9",
+"0x1.e49e8272e4e56p-10",
+"0x1.76f46b13d6fadp-6"
+]
+},
+{
+"choice": "Bug Reports",
+"p_none": "0x1.1e537fdc3f948p-6",
+"p": [
+"0x1.68ec2a87548b0p-12",
+"0x1.1149a4c48a332p-12",
+"0x1.44208f72bd04ep-7",
+"0x1.f1ad9b0969937p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d8b1cf59c7cf0p-1",
+"p": [
+"0x1.37c0f54c881fep-5",
+"0x1.7e937c644ce68p-7",
+"0x1.aeec3cd5d44c6p-11",
+"0x1.8a8aa94819ba4p-8",
+"0x1.5709490374865p-7",
+"0x1.3eb77682c0353p-7"
+]
+},
+{
+"choice": "Cooking",
+"p_none": "0x1.3a382ec19ae9bp-3",
+"p": [
+"0x1.35f5d79f6679fp-11",
+"0x1.ac979a37e73b6p-1",
+"0x1.966973fdf6287p-11",
+"0x1.eb3b907582a9bp-8",
+"0x1.432c8f7eb6fe6p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.095239ea4fb30p-1",
+"p": [
+"0x1.0898d0679c8b9p-4",
+"0x1.8e21d73c92a13p-2",
+"0x1.fed8d8ee02d8dp-8",
+"0x1.5181d712eca71p-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.884266154c702p-1",
+"p": [
+"0x1.7677ab126390ep-3",
+"0x1.90e4604c53ac3p-9",
+"0x1.b62b92480aecdp-6",
+"0x1.287e85c7dc670p-6",
+"0x1.997a054f1d524p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e320d4da17422p-1",
+"p": [
+"0x1.d06895691ae2dp-8",
+"0x1.43f05f8bbd6efp-7",
+"0x1.c328c53b1f241p-6",
+"0x1.0fd7c41d7dce4p-8",
+"0x1.1c1b41a653dd0p-9",
+"0x1.2c78126b9945bp-8",
+"0x1.012ec8ac2e82dp-10"
+]
+},
+{
+"choice": "Devoluciones y reembolsos",
+"p_none": "0x1.3ac9288eeb7a0p-6",
+"p": [
+"0x1.98b667df9d7d2p-1",
+"0x1.60231de8f6a4bp-3",
+"0x1.1b8a775865f54p-12",
+"0x1.11cf8b1aea834p-7",
+"0x1.ffafccad8e6ecp-10"
+]
+},
+{
+"choice": "Tariffs and Contracts",
+"p_none": "0x1.a19e924c74d0ap-2",
+"p": [
+"0x1.d5a24a487a7bbp-10",
+"0x1.7d1f7f7970323p-10",
+"0x1.19694d2e79f2dp-1",
+"0x1.41e08c66aaf7fp-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.fadbfcd671659p-1",
+"p": [
+"0x1.45734541d7b65p-9",
+"0x1.f720f7981a80ep-11",
+"0x1.e5e94e7aa5b1ep-11",
+"0x1.ca464c3ffb8efp-9",
+"0x1.4474e69f0940fp-10",
+"0x1.eb324ce249df9p-11"
+]
+},
+{
+"choice": "Mantenimiento de oficinas",
+"p_none": "0x1.0151f4032b7c1p-6",
+"p": [
+"0x1.1cc5b97d34a98p-15",
+"0x1.345b6e0b6a8e2p-15",
+"0x1.314b8e4af336ep-13",
+"0x1.e2fda9a01da95p-15",
+"0x1.200cd302acfbep-12",
+"0x1.900e3584d14cfp-14",
+"0x1.f793805355ff3p-1",
+"0x1.b1198b5ad40dbp-14"
+]
+},
+{
+"choice": "Cleaning",
+"p_none": "0x1.01013435bd945p-6",
+"p": [
+"0x1.80a366e699fe1p-8",
+"0x1.4d88d7c05eff3p-13",
+"0x1.219830078dffep-10",
+"0x1.bebdb7f24ed95p-13",
+"0x1.f4351f0f85ed9p-1"
+]
+},
+{
+"choice": "Loans and Mortgages",
+"p_none": "0x1.42f5e7e7740b3p-6",
+"p": [
+"0x1.678d65ae8637ep-10",
+"0x1.3024f0866e39bp-10",
+"0x1.fbdb9ff3ce446p-10",
+"0x1.d9568390e4343p-8",
+"0x1.ef75d706a3be4p-1",
+"0x1.8031e84b4c795p-11",
+"0x1.5f93dd7a49277p-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.82b0660b922b2p-1",
+"p": [
+"0x1.a74ac7d3d55d5p-10",
+"0x1.8da3a4d087d83p-3",
+"0x1.a4e5f793b90f8p-7",
+"0x1.25bacbc227d9dp-5",
+"0x1.1e360f849266fp-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.3c68398c049bdp-1",
+"p": [
+"0x1.ff8d3e7643295p-4",
+"0x1.cfa64806e667ep-7",
+"0x1.a973caf274d80p-8",
+"0x1.e49ca3ff5d1bcp-7",
+"0x1.bbefe8e573971p-3",
+"0x1.431892ec10c18p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.3d9fe8f918e62p-1",
+"p": [
+"0x1.8e033b27c8012p-8",
+"0x1.dc11f0bb33271p-8",
+"0x1.c4c9e299bb662p-9",
+"0x1.da59039748553p-8",
+"0x1.5dd5fd28c5d3ep-6",
+"0x1.6c15d0bba58c3p-9",
+"0x1.fbfd3a6bd89f7p-10",
+"0x1.3d3392c740dc4p-2",
+"0x1.3652dbbfe9bf6p-6",
+"0x1.b530b2056badcp-11"
+]
+},
+{
+"choice": "Bill Disputes",
+"p_none": "0x1.cdc2f6c9d7494p-10",
+"p": [
+"0x1.54065dbc086c7p-16",
+"0x1.bb09b00c97e12p-16",
+"0x1.6ace75664fc6ep-16",
+"0x1.33de8408e6017p-18",
+"0x1.fe6ae727a5f0cp-1",
+"0x1.c947e174d8f1ap-20",
+"0x1.48e10f6125375p-10"
+]
+},
+{
+"choice": "ampliar el l\u00edmite de cr\u00e9dito",
+"p_none": "0x1.4ba94fd28e64ap-3",
+"p": [
+"0x1.acdf0f71a5036p-8",
+"0x1.558b9fed4da91p-8",
+"0x1.fe315ae9e4741p-10",
+"0x1.e9ef6d30fbe50p-9",
+"0x1.81b7b6a585475p-1",
+"0x1.11f5567266519p-8",
+"0x1.b60106d5a2cbcp-7",
+"0x1.20e34b1a4f4aep-9",
+"0x1.1ec89de4e75b9p-6",
+"0x1.be00ddaa0f92ap-6",
+"0x1.6cf9fca5ed8b9p-9"
+]
+},
+{
+"choice": "change the thermostat",
+"p_none": "0x1.e3eb61493a564p-7",
+"p": [
+"0x1.1b3a932bb5dedp-11",
+"0x1.1079aa6ef0863p-13",
+"0x1.f6729844162c9p-1",
+"0x1.8523237634ce8p-9",
+"0x1.06069ee6c607ep-12"
+]
+},
+{
+"choice": "submit an expense",
+"p_none": "0x1.bc9edf04b7b5dp-5",
+"p": [
+"0x1.e2f8c18fd9f37p-13",
+"0x1.3ab6ba845f15bp-13",
+"0x1.23dcdb05937d9p-7",
+"0x1.f4a556a067f3cp-14",
+"0x1.39f48d7a52e73p-13",
+"0x1.f50ba938436acp-14",
+"0x1.df41d6db06889p-1"
+]
+},
+{
+"choice": "Libros",
+"p_none": "0x1.0f39a55e03676p-3",
+"p": [
+"0x1.020fa5e39ac78p-12",
+"0x1.f7d8f33d0c6acp-12",
+"0x1.a12be41a625bep-10",
+"0x1.b9e3c7fb39370p-1",
+"0x1.da76e188674e1p-11",
+"0x1.4ebbdf651e734p-10"
+]
+},
+{
+"choice": "Video Games",
+"p_none": "0x1.769ae3f9f7b8cp-11",
+"p": [
+"0x1.756bd525f9037p-19",
+"0x1.c156c1d1aade1p-18",
+"0x1.fac00294aab8fp-18",
+"0x1.709c2099bff1ap-17",
+"0x1.ff9ead44896bap-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d6b6d96d828fap-1",
+"p": [
+"0x1.8d68d96b78aefp-9",
+"0x1.af21fbe9e704cp-5",
+"0x1.e7315b38c2d5cp-10",
+"0x1.fab36d6ec4855p-10",
+"0x1.6478796154ba2p-8",
+"0x1.f01def4ce6346p-7",
+"0x1.3d0b98a605d9ep-11"
+]
+},
+{
+"choice": "Cleaning",
+"p_none": "0x1.40b23e0f0e312p-5",
+"p": [
+"0x1.cdf78b66d4436p-13",
+"0x1.35cabc78397cep-12",
+"0x1.e4abc34c691e2p-8",
+"0x1.16cfb9711aa04p-8",
+"0x1.e5ba4c554ea10p-1"
+]
+},
+{
+"choice": "pedir una tarjeta nueva",
+"p_none": "0x1.27f05937613a3p-3",
+"p": [
+"0x1.f788486a89071p-8",
+"0x1.aa87f0de009bep-1",
+"0x1.0f5b346cce25dp-11",
+"0x1.487fb787f746ap-7",
+"0x1.13894c0b79753p-8"
+]
+},
+{
+"choice": "Marketplace Sellers",
+"p_none": "0x1.ff4f9d4083938p-3",
+"p": [
+"0x1.663d5e44ce1f5p-7",
+"0x1.3413c444b04b9p-8",
+"0x1.6271d3e7f407bp-1",
+"0x1.c6288917bf824p-11",
+"0x1.d8962b1bbc4bbp-6",
+"0x1.a0bb12caaa040p-7"
+]
+},
+{
+"choice": "ask for a refund",
+"p_none": "0x1.fa3fca303b263p-6",
+"p": [
+"0x1.dfdbd08b9e29fp-1",
+"0x1.5fb1b479098acp-13",
+"0x1.d7a7a452ea723p-7",
+"0x1.cbd68b9715029p-10",
+"0x1.4ac57c742680cp-7",
+"0x1.3e5546592a0b3p-10",
+"0x1.bc11c94f559cbp-10",
+"0x1.4f62b6dc5e1f4p-9"
+]
+},
+{
+"choice": "Refund Requests",
+"p_none": "0x1.5d3b926ca4f14p-8",
+"p": [
+"0x1.e374e4ef9b6f5p-11",
+"0x1.0952144cb3ef3p-16",
+"0x1.638a9837dc953p-12",
+"0x1.7c22aa8864c66p-16",
+"0x1.fc3cbc722487fp-1",
+"0x1.148501df9f8f6p-12",
+"0x1.df12982d6d5b4p-12"
+]
+},
+{
+"choice": "Savings and Investments",
+"p_none": "0x1.646d1af0a724bp-2",
+"p": [
+"0x1.062fe7f1833f4p-6",
+"0x1.aebebbf34421cp-7",
+"0x1.3c91cf3f870d4p-1",
+"0x1.7563d1a960174p-10",
+"0x1.90772ff785e4cp-9"
+]
+},
+{
+"choice": "Maths and Conversions",
+"p_none": "0x1.dee0492c14637p-9",
+"p": [
+"0x1.50092602fb97cp-20",
+"0x1.0beead8e4ce09p-16",
+"0x1.8851d3d648091p-16",
+"0x1.89f35080df915p-12",
+"0x1.fdea8eca9c461p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.4e5514221ff2dp-1",
+"p": [
+"0x1.45fae481f8ecap-6",
+"0x1.172ebe30b8d2fp-7",
+"0x1.679fe91ed5713p-9",
+"0x1.273a5c9842383p-2",
+"0x1.1197155ef6e62p-8",
+"0x1.cb8fa152edd0dp-9",
+"0x1.0f8220919d7d5p-6",
+"0x1.aebcbb2fa97ddp-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.3991355bfe8e5p-1",
+"p": [
+"0x1.8ac28831e6512p-2",
+"0x1.9b6ec577c263cp-13",
+"0x1.83267359b8e6ap-11",
+"0x1.f9bd509690530p-13",
+"0x1.cda8b35bd703dp-11"
+]
+},
+{
+"choice": "rent a car",
+"p_none": "0x1.712a01f165e32p-9",
+"p": [
+"0x1.fdba3c6240c3ap-1",
+"0x1.3a8a2d266c7fep-13",
+"0x1.8dd5898ec7fdfp-12",
+"0x1.6d122309cfb7bp-17",
+"0x1.552b4812f3fe2p-15",
+"0x1.4e63426aa8a50p-16",
+"0x1.eabf5ff2dbc68p-11",
+"0x1.64fd40969b503p-14"
+]
+},
+{
+"choice": "change a flight",
+"p_none": "0x1.462557086aa67p-5",
+"p": [
+"0x1.39ac8fe22f919p-11",
+"0x1.31cd1646c83dcp-10",
+"0x1.3aeacd2389e6dp-14",
+"0x1.199691e384c8ap-12",
+"0x1.9d95a5970989cp-8",
+"0x1.e6d3d0d6a4cc9p-1",
+"0x1.502ef6e7e4fafp-13",
+"0x1.1ed7249dbf906p-12",
+"0x1.e1f35f378ad1cp-13",
+"0x1.1aac5f7a5168ep-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.bf7b6517a6083p-1",
+"p": [
+"0x1.79048984e5ccbp-7",
+"0x1.6fbd17b49b601p-6",
+"0x1.2b4216376787dp-10",
+"0x1.c15d8ae0e463bp-8",
+"0x1.122505bf31f80p-6",
+"0x1.9638f4ad687a6p-9",
+"0x1.fd824eebf1ac3p-10",
+"0x1.899adeae85994p-7",
+"0x1.76c0c7cb1f077p-5",
+"0x1.28d4d11d8896bp-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.23d68430d2b4bp-1",
+"p": [
+"0x1.40e50520d4773p-6",
+"0x1.17ff6126799d3p-2",
+"0x1.f82e55f24a100p-8",
+"0x1.36d980e48882ep-6",
+"0x1.7b1007c71209ep-10",
+"0x1.2ce2d298f6885p-9",
+"0x1.b4887c4b24095p-4"
+]
+},
+{
+"choice": "cancel an alarm",
+"p_none": "0x1.01b866138abd9p-5",
+"p": [
+"0x1.01a9e76a81634p-13",
+"0x1.707ddb7106ba1p-13",
+"0x1.07d62d41c98d9p-10",
+"0x1.2461f35544114p-14",
+"0x1.279ba024f3ac2p-9",
+"0x1.66b04c1fc5cc7p-15",
+"0x1.ed828eab0302cp-1",
+"0x1.6a815c5e04f1bp-11",
+"0x1.70204de94502fp-15",
+"0x1.0118bdb387302p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.041b1e5990033p-1",
+"p": [
+"0x1.2089b5ef0a314p-8",
+"0x1.61ee209d9e1c2p-9",
+"0x1.167ecb272298cp-6",
+"0x1.c4958e3489c17p-10",
+"0x1.f1fdcc3f9a398p-11",
+"0x1.fbf1dc13b8369p-3",
+"0x1.a0b51b4cc1494p-3",
+"0x1.0f6dde9b7bf3fp-7",
+"0x1.efb10151956d8p-10",
+"0x1.cfd1b35befbd6p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.66063e68bca6cp-1",
+"p": [
+"0x1.4282ed6f32423p-6",
+"0x1.784e33e164429p-3",
+"0x1.79e4527c38128p-11",
+"0x1.8b9d20f68d446p-4"
+]
+},
+{
+"choice": "Films and Series",
+"p_none": "0x1.17d08f0ee44ddp-2",
+"p": [
+"0x1.d738531a5d989p-14",
+"0x1.2d9069a3e5bc8p-2",
+"0x1.3645416a1094bp-7",
+"0x1.1dbce150ec46cp-8",
+"0x1.73b6ffb50611bp-4",
+"0x1.4f6ab64a2e95cp-2"
+]
+},
+{
+"choice": "People and Celebrities",
+"p_none": "0x1.b23bc790e6444p-7",
+"p": [
+"0x1.75198d79861fap-18",
+"0x1.98fa1e0e35381p-12",
+"0x1.0972453a8d4bcp-12",
+"0x1.79c0aaf6afe06p-11",
+"0x1.1c01a0e0f99b7p-12",
+"0x1.f8601869b2c6bp-1"
+]
+},
+{
+"choice": "Marketplace Sellers",
+"p_none": "0x1.3aa64ebb616fcp-10",
+"p": [
+"0x1.fef3e9e18ddcap-1",
+"0x1.b0896305c35e8p-12",
+"0x1.11bd9bba5d850p-18",
+"0x1.2f167d74a6a0ap-15",
+"0x1.f65c75b8709c8p-16",
+"0x1.7bfec824cdcfep-12"
+]
+},
+{
+"choice": "Exams and Grades",
+"p_none": "0x1.398c709258082p-3",
+"p": [
+"0x1.13b3c533bc08cp-7",
+"0x1.eacd2510d491cp-6",
+"0x1.d001c9588d4f9p-11",
+"0x1.7cdfa6d2939b7p-1",
+"0x1.0652beec86146p-6",
+"0x1.8716e61c679cfp-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c07613bcc5dc0p-1",
+"p": [
+"0x1.a71a67e76e22bp-6",
+"0x1.79d9a6e5548dap-6",
+"0x1.08c704d0c137ap-10",
+"0x1.f7e2ff9a3bbfbp-8",
+"0x1.47d7298873373p-7",
+"0x1.465c7b54221d9p-9",
+"0x1.22804587bb238p-8",
+"0x1.963689eb1d125p-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.05b2dc3ea1151p-1",
+"p": [
+"0x1.1ed79d03bf45ep-3",
+"0x1.f0207ed1b12c7p-3",
+"0x1.3bcba7884eb03p-9",
+"0x1.278185fe5dca6p-4",
+"0x1.33f4b8f4f226bp-7",
+"0x1.7269b01b5fb9ep-6"
+]
+},
+{
+"choice": "increase the credit limit",
+"p_none": "0x1.2272b411a2e7bp-2",
+"p": [
+"0x1.2b323acd4a77cp-8",
+"0x1.1121a96de50fap-7",
+"0x1.307692a4cce17p-9",
+"0x1.c6a2f6992e615p-8",
+"0x1.e212437702daep-10",
+"0x1.854960b5e10eap-6",
+"0x1.5652aa349aaf8p-1"
+]
+},
+{
+"choice": "Number Transfer",
+"p_none": "0x1.d20f064cce69ep-7",
+"p": [
+"0x1.121f78ba4943ap-12",
+"0x1.6b71ed992517fp-14",
+"0x1.38b85d6d8e1d6p-6",
+"0x1.3ea3526c45edbp-9",
+"0x1.e7aab1fb7a0c6p-1",
+"0x1.71ad343952dabp-7",
+"0x1.4575e10a583afp-13"
+]
+},
+{
+"choice": "change the card PIN",
+"p_none": "0x1.29a786efb0ad6p-8",
+"p": [
+"0x1.a5c0a9c1fd681p-17",
+"0x1.70a366725bc10p-17",
+"0x1.41379a783cf05p-16",
+"0x1.56b70511d1a12p-14",
+"0x1.d1adadb563178p-18",
+"0x1.73998f632ea26p-17",
+"0x1.1e50476fdcae4p-10",
+"0x1.340cc1bcd3b04p-15",
+"0x1.02341a6f1edb2p-12",
+"0x1.fce423e2e1c27p-1",
+"0x1.a3395e2586a27p-17"
+]
+},
+{
+"choice": "Phones and SIM Cards",
+"p_none": "0x1.0efc5f961b211p-4",
+"p": [
+"0x1.d85d8d6e8b86bp-1",
+"0x1.b1c4cf70eb3b3p-15",
+"0x1.365aafc177c1dp-12",
+"0x1.aa5d2c0de5f6dp-11",
+"0x1.4aaf3a9dea39ep-7"
+]
+},
+{
+"choice": "reset a password",
+"p_none": "0x1.47bad5533575dp-4",
+"p": [
+"0x1.a6f718b10f287p-11",
+"0x1.041c0c1145e7dp-12",
+"0x1.670c2f0438b95p-9",
+"0x1.3b5ba4c4aaa1ep-11",
+"0x1.bc2652f05d5cep-13",
+"0x1.d2a3278faa646p-1",
+"0x1.b1224e104c9edp-9",
+"0x1.f7d484003363ep-12",
+"0x1.97a224bc4266bp-13"
+]
+},
+{
+"choice": "Portabilidad",
+"p_none": "0x1.7b348f58cfb6fp-6",
+"p": [
+"0x1.e70d3257bc697p-13",
+"0x1.3322f71fe9875p-8",
+"0x1.fcaf00a1878f3p-8",
+"0x1.ecd4714e39d02p-1",
+"0x1.0b663bdb943d4p-11",
+"0x1.73112d3aa5b31p-11",
+"0x1.a1bcd08e2d342p-12"
+]
+},
+{
+"choice": "Nuevas contrataciones",
+"p_none": "0x1.bc44ad80cc1f4p-3",
+"p": [
+"0x1.53647323aacc1p-4",
+"0x1.c09c380334ac4p-8",
+"0x1.4ef43401f924fp-1",
+"0x1.40cd9c9581065p-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.eccc621d069e6p-1",
+"p": [
+"0x1.f55daff64c39cp-9",
+"0x1.904a6f187df73p-6",
+"0x1.478cd8db1ec20p-8",
+"0x1.1669844474194p-8"
+]
+},
+{
+"choice": "Procurement",
+"p_none": "0x1.d42a69b1f3fd9p-3",
+"p": [
+"0x1.4a95277d005b1p-14",
+"0x1.77fa99d397228p-13",
+"0x1.2af2b0a2b9502p-10",
+"0x1.a4f59c2b7ef91p-9",
+"0x1.4e3e9b91ba40dp-8",
+"0x1.7f12f89434046p-1",
+"0x1.ba6b203562afdp-7"
+]
+},
+{
+"choice": "open a savings account",
+"p_none": "0x1.1b7d76fe037d7p-7",
+"p": [
+"0x1.e9c575b9ff90fp-12",
+"0x1.8e20d0cdf99c0p-15",
+"0x1.9fcce71d7a78fp-14",
+"0x1.fa969abb2ca61p-1",
+"0x1.7167c80100bcfp-15",
+"0x1.20b7e85753563p-16",
+"0x1.428099f21b3cep-15",
+"0x1.3bdd7c9eda820p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.0f35d2bf0a29ap-1",
+"p": [
+"0x1.161fccba95fa9p-6",
+"0x1.28df7564dd1e7p-5",
+"0x1.2fb87aa19eaa3p-2",
+"0x1.c27525e11bf74p-6",
+"0x1.07ac258392616p-5",
+"0x1.0c18b001ace96p-7",
+"0x1.3adf15539aac3p-6",
+"0x1.1088158c85470p-8",
+"0x1.3f31a75e5fd35p-8",
+"0x1.144f9b61fdbf5p-6",
+"0x1.eba1769c5c44bp-8"
+]
+},
+{
+"choice": "reserve a hotel room",
+"p_none": "0x1.b31823db8326bp-7",
+"p": [
+"0x1.f4a0dc16bf2acp-1",
+"0x1.20fd590fa6c02p-7",
+"0x1.550e82ba8f500p-15",
+"0x1.2f3771286ff5ep-14"
+]
+},
+{
+"choice": "Pets",
+"p_none": "0x1.be20b32a3e70bp-6",
+"p": [
+"0x1.4ac748463fdbap-13",
+"0x1.d8eaa0258fc15p-8",
+"0x1.eb2c1cd0c2862p-1",
+"0x1.6b3adc19d12d3p-8",
+"0x1.1798a3a182416p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.952f64e7bb9a8p-1",
+"p": [
+"0x1.4437eedb3b935p-3",
+"0x1.24679e909e540p-10",
+"0x1.bf5c8408928f4p-11",
+"0x1.2ffb3b2e5d789p-8",
+"0x1.fc0752803a13fp-10",
+"0x1.32fb28a12a979p-7",
+"0x1.096adaf098a7cp-5"
+]
+},
+{
+"choice": "Product Questions",
+"p_none": "0x1.8d46df0ccf130p-8",
+"p": [
+"0x1.586ab4bd0398ap-16",
+"0x1.fde1d5cea7b47p-14",
+"0x1.fd085c98bc991p-12",
+"0x1.4d052114ca8e9p-15",
+"0x1.fc76ab98b4cd1p-1",
+"0x1.ba130c852bd57p-16",
+"0x1.a01686ca89a7bp-14",
+"0x1.b732acb70750ep-15"
+]
+},
+{
+"choice": "cancel a food order",
+"p_none": "0x1.1adc031430bdfp-5",
+"p": [
+"0x1.cafa862ce7961p-15",
+"0x1.1ab4cb4972600p-12",
+"0x1.e94602a0f9fbdp-1",
+"0x1.ad1ff0cc61e39p-8",
+"0x1.5b912d233dc73p-14",
+"0x1.859e21f04a575p-12",
+"0x1.4bea7b012f6bcp-9"
+]
+},
+{
+"choice": "Savings and Investments",
+"p_none": "0x1.d6c9693237464p-3",
+"p": [
+"0x1.190540b31d28dp-7",
+"0x1.3855bbe03c14ep-5",
+"0x1.bf80789b55e58p-9",
+"0x1.c0414d5484b95p-9",
+"0x1.5bca808c12038p-1",
+"0x1.0116bb1f1f06cp-5",
+"0x1.8443775714f1bp-8"
+]
+},
+{
+"choice": "Bug Reports",
+"p_none": "0x1.2816e5b362856p-5",
+"p": [
+"0x1.340d536de2d7cp-13",
+"0x1.e520fadfe3422p-11",
+"0x1.ec23bf9b9088dp-1",
+"0x1.1dd247a5495fep-12",
+"0x1.551d58ab9d8b0p-10"
+]
+},
+{
+"choice": "Video Games",
+"p_none": "0x1.0dd4652ba6fddp-9",
+"p": [
+"0x1.10add142be75cp-16",
+"0x1.64b7063fc5342p-14",
+"0x1.fee258ea6724dp-1",
+"0x1.45ce4c5845b69p-16"
+]
+},
+{
+"choice": "IT Helpdesk",
+"p_none": "0x1.5cc2f3da07619p-5",
+"p": [
+"0x1.e3253b34bc590p-13",
+"0x1.6553d3819639fp-9",
+"0x1.3ff402bca6303p-5",
+"0x1.179a01d2d752cp-12",
+"0x1.f7cbc43b4a33dp-11",
+"0x1.61469a4bb1f81p-16",
+"0x1.d40d61b0e2801p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.89efabe8707d1p-1",
+"p": [
+"0x1.3ad17480fdac9p-4",
+"0x1.be6f306ec46bfp-4",
+"0x1.c38ba024edbe5p-6",
+"0x1.ee03d54647ca3p-7",
+"0x1.13d32356b2c22p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.4dbe2207b0411p-1",
+"p": [
+"0x1.4bd9038f2bb93p-8",
+"0x1.040eec1520333p-2",
+"0x1.844aa4e4b72eap-7",
+"0x1.0268c0d2ff53bp-7",
+"0x1.03a771f7d7f02p-7",
+"0x1.8934189fa7668p-6",
+"0x1.e679a4143c44fp-6",
+"0x1.fdee5121fb5e5p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c960b9ee00f45p-1",
+"p": [
+"0x1.e55c4b5383bb1p-8",
+"0x1.3517c8de8f073p-6",
+"0x1.cdd1071104340p-7",
+"0x1.4c7b5a00008bfp-9",
+"0x1.1cdff220e06e4p-6",
+"0x1.ca922323721d3p-11",
+"0x1.74e6ba44f9aadp-5"
+]
+},
+{
+"choice": "Cuenta de cliente",
+"p_none": "0x1.c56bc910c29a2p-2",
+"p": [
+"0x1.87f39d50affd2p-9",
+"0x1.f46424b4b5125p-6",
+"0x1.d15be7b635695p-9",
+"0x1.0b4cff6a9ce43p-8",
+"0x1.71ec08410724fp-5",
+"0x1.e230a09418f1cp-2"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.5f173beab97f0p-1",
+"p": [
+"0x1.5e63ed1a2c02ep-4",
+"0x1.8ac6b1f82c094p-10",
+"0x1.6d50eb1e944ebp-5",
+"0x1.07d8697c5ee12p-5",
+"0x1.54b194e1f41f8p-10",
+"0x1.1bfb5e95c22dap-3",
+"0x1.b86ff7a04ea28p-9",
+"0x1.d156b3e9f1c14p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c231ff75648e2p-1",
+"p": [
+"0x1.3be2cc59a6c02p-6",
+"0x1.6a3fd35231d3cp-7",
+"0x1.18899de31644fp-4",
+"0x1.8a2e344b76a77p-8",
+"0x1.33a108cbb485bp-7",
+"0x1.a8eb492e764a6p-8"
+]
+},
+{
+"choice": "cancel a meeting",
+"p_none": "0x1.145810c584cabp-6",
+"p": [
+"0x1.a77edc77522a0p-11",
+"0x1.5ad68f38f7200p-13",
+"0x1.f6329793b28a5p-1",
+"0x1.a9b21fe4a7fc6p-15",
+"0x1.3c27e1725d304p-12",
+"0x1.ba5ab3d12c945p-11",
+"0x1.e597437586b0cp-16",
+"0x1.51a4bcdadb2b4p-14"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.fae73f7245410p-1",
+"p": [
+"0x1.2a2031d0a4f57p-9",
+"0x1.cfa2a8d38d628p-11",
+"0x1.12a8f1857bc8ap-9",
+"0x1.254569972a749p-9",
+"0x1.dba0c711a5ac0p-11",
+"0x1.97c249a84dfc0p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d0ed78bcb93efp-1",
+"p": [
+"0x1.f1f20b317f2dep-9",
+"0x1.f8bf71b238018p-8",
+"0x1.05d7a86371839p-5",
+"0x1.5d0e23b0a606bp-5",
+"0x1.805cc9b7ac9fdp-8"
+]
+},
+{
+"choice": "find a recipe",
+"p_none": "0x1.82789ddbf7147p-10",
+"p": [
+"0x1.b81a0156471eep-14",
+"0x1.fe988f9dddff2p-1",
+"0x1.dc770d7e62a29p-12",
+"0x1.2f822ae24d382p-11",
+"0x1.574d8153695bdp-17",
+"0x1.d838c05bca7b1p-16",
+"0x1.4e1c3f04f6749p-15",
+"0x1.b0e9b0b52633bp-15"
+]
+},
+{
+"choice": "find a recipe",
+"p_none": "0x1.1d2332a2eb36fp-3",
+"p": [
+"0x1.27b73442ac556p-5",
+"0x1.414e09dde860bp-9",
+"0x1.9bcd5d291f90cp-1",
+"0x1.73765f6093887p-8",
+"0x1.918a0856f32eep-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.5eb1b028b4b3bp-1",
+"p": [
+"0x1.577dd9c057154p-10",
+"0x1.42662c083f174p-10",
+"0x1.1de7acc34bdd1p-8",
+"0x1.77cd85d96ea28p-6",
+"0x1.fa817c5187165p-9",
+"0x1.2019419f86daap-2"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c42f157024b89p-1",
+"p": [
+"0x1.9227fa75f6787p-5",
+"0x1.132bad6b2d831p-5",
+"0x1.4fae0f1ccb4acp-6",
+"0x1.bf8fe638ab561p-7"
+]
+},
+{
+"choice": "Patient Relations",
+"p_none": "0x1.de8e12eae7810p-8",
+"p": [
+"0x1.f9968fd20c4c0p-1",
+"0x1.767b84ae5b066p-11",
+"0x1.ee1fa69dc68c8p-9",
+"0x1.6c9de1953a4f1p-15",
+"0x1.e2d98fc695b93p-12",
+"0x1.e87d6d5602596p-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.57b1dc67b655fp-1",
+"p": [
+"0x1.ddf54d17d64cep-7",
+"0x1.65a249d444701p-6",
+"0x1.230cce2cec66fp-6",
+"0x1.d1ad5386ad709p-8",
+"0x1.1606b9bd04960p-7",
+"0x1.051f74d125926p-7",
+"0x1.cea293b2660c4p-3",
+"0x1.4a16da40a52d4p-6",
+"0x1.43c341fe0d156p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.8a332ba6df3fbp-1",
+"p": [
+"0x1.5925471482437p-9",
+"0x1.1d5d91b6baf65p-4",
+"0x1.655596af02f08p-7",
+"0x1.96ec8aef08a77p-4",
+"0x1.3bb0179e375bap-6",
+"0x1.cef28cb4c0758p-6"
+]
+},
+{
+"choice": "Medical Records Requests",
+"p_none": "0x1.5982a2076913ap-7",
+"p": [
+"0x1.bec2b4801de49p-12",
+"0x1.39ea0d87fa3f1p-14",
+"0x1.60d5313980328p-11",
+"0x1.ced191b4c1209p-14",
+"0x1.f7b91cfd3837bp-1",
+"0x1.1c427d68ed2d9p-8"
+]
+},
+{
+"choice": "Podcasts and Radio",
+"p_none": "0x1.648c32e7a95eep-2",
+"p": [
+"0x1.85b3ba10f000ep-8",
+"0x1.eccd7dcc58f5ep-10",
+"0x1.14679ca5c78ccp-8",
+"0x1.2a4f84dfde32ep-1",
+"0x1.d3fc43ff9821cp-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9040fef7500a6p-1",
+"p": [
+"0x1.53e41cd3e460bp-4",
+"0x1.03199727055dep-9",
+"0x1.9d762912152d5p-5",
+"0x1.5e463d17e7596p-5",
+"0x1.4a24d8db71d3fp-9",
+"0x1.da0d0d2a7c6f0p-6",
+"0x1.1a440c8f5199bp-7"
+]
+},
+{
+"choice": "Family and Friends",
+"p_none": "0x1.fe7928526516ap-12",
+"p": [
+"0x1.ffbd196245d45p-1",
+"0x1.0b31894f43176p-18",
+"0x1.24e4708a95e3bp-17",
+"0x1.348609b1ba62fp-23",
+"0x1.6829628605401p-17"
+]
+},
+{
+"choice": "cambiar las fechas del hotel",
+"p_none": "0x1.6800e1f87d101p-6",
+"p": [
+"0x1.6a79060df411ep-14",
+"0x1.f45722575d5c7p-1",
+"0x1.e7f641ce4046ep-15",
+"0x1.aff338d6faf32p-14",
+"0x1.16d51b0c8201dp-12",
+"0x1.2c45d3f653177p-12"
+]
+},
+{
+"choice": "check account balance",
+"p_none": "0x1.c994341123ab5p-8",
+"p": [
+"0x1.47a7281edb31ap-11",
+"0x1.c96c4178f1d73p-17",
+"0x1.e28dbb3aa79dbp-15",
+"0x1.fc119a2aa79e4p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f2b16b2f1c26ep-1",
+"p": [
+"0x1.2551a30ef6778p-6",
+"0x1.23a391fbf7b87p-12",
+"0x1.0b122e880e2dcp-9",
+"0x1.6413d73366741p-8",
+"0x1.62cb49ee5b25ep-12"
+]
+},
+{
+"choice": "Network Faults",
+"p_none": "0x1.bf0765a051f0ep-6",
+"p": [
+"0x1.a93c0c6ee14ecp-14",
+"0x1.b3a5124275054p-14",
+"0x1.3c0eba3fb7828p-9",
+"0x1.f0afc424ceb79p-1",
+"0x1.0aeaf976bafecp-17"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.2c9328b0d5331p-1",
+"p": [
+"0x1.98ebd7adbaa8ap-7",
+"0x1.4430e8742756dp-7",
+"0x1.99ae0472c0659p-6",
+"0x1.d2fbfdfa6cb2fp-7",
+"0x1.5fe60b039a669p-2",
+"0x1.49ae82cf4c5ddp-8",
+"0x1.58a1abb7c2f41p-9"
+]
+},
+{
+"choice": "cambiar un vuelo",
+"p_none": "0x1.b75c85d58508ap-6",
+"p": [
+"0x1.296ee172f7c74p-10",
+"0x1.065b006986648p-12",
+"0x1.541d3437012cfp-8",
+"0x1.73564bf36b80ap-9",
+"0x1.b7284bfcc6b86p-2",
+"0x1.377df617b37adp-9",
+"0x1.0f2a418bcbf50p-1",
+"0x1.900385aa00313p-10",
+"0x1.d7f8d30987212p-11",
+"0x1.008b51355aa20p-11"
+]
+},
+{
+"choice": "Data Export and Privacy",
+"p_none": "0x1.1a68b73dc0f8ap-7",
+"p": [
+"0x1.5143ca606feb2p-13",
+"0x1.7fc7931856bdep-15",
+"0x1.dc1467717c726p-11",
+"0x1.fa3f5da9823c8p-1",
+"0x1.6939bf02dd143p-10",
+"0x1.04a253689b883p-13"
+]
+},
+{
+"choice": "dispute a charge",
+"p_none": "0x1.0c6509bdc109bp-7",
+"p": [
+"0x1.230f019051a5dp-14",
+"0x1.18f66d11dbf38p-12",
+"0x1.fb9f8dacccd87p-1",
+"0x1.537346b2bdee2p-16"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.73f9fe7e63a4cp-1",
+"p": [
+"0x1.c0e3385644a5dp-9",
+"0x1.7ac2a55ef456fp-6",
+"0x1.bfe097101fe2dp-3",
+"0x1.9b8503e13ebbdp-7",
+"0x1.0119e95830095p-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e5009f6659c7fp-1",
+"p": [
+"0x1.12587c9b356fdp-6",
+"0x1.b29b39d93da29p-9",
+"0x1.baf6cf6ff4e11p-8",
+"0x1.d90c1a2d9c1afp-9",
+"0x1.35488c733d410p-7",
+"0x1.5687a5a352417p-8",
+"0x1.f46b226917c0bp-8"
+]
+},
+{
+"choice": "cancel an alarm",
+"p_none": "0x1.ec217526f0e87p-6",
+"p": [
+"0x1.f31c4dbe6a71ap-13",
+"0x1.436338ec8605dp-14",
+"0x1.5efbe1491810bp-9",
+"0x1.40540ff3ec8a6p-15",
+"0x1.ec2755b251ee1p-1",
+"0x1.752a4a252c092p-8"
+]
+},
+{
+"choice": "apply a discount code",
+"p_none": "0x1.04c2dcd5bb4fbp-5",
+"p": [
+"0x1.218f8cc245509p-9",
+"0x1.ed2ec87f2117ap-12",
+"0x1.c51dd4d18371bp-12",
+"0x1.f512dc632acc4p-12",
+"0x1.6e0fe4559bfd8p-7",
+"0x1.faf674d37cb1ap-12",
+"0x1.e72ba23579121p-1",
+"0x1.5916f6bf20dd4p-11",
+"0x1.8f418e474775ep-11"
+]
+},
+{
+"choice": "poner en marcha el robot aspirador",
+"p_none": "0x1.8553f27471457p-3",
+"p": [
+"0x1.da22f69844841p-7",
+"0x1.f0afbcb0a52f2p-3",
+"0x1.fcddc9fe2b282p-9",
+"0x1.31e2a84ac4060p-6",
+"0x1.f47e019d1e2e4p-2",
+"0x1.a3a6fe95d7657p-6",
+"0x1.01161403d4acfp-8",
+"0x1.8b0c192fe2725p-7"
+]
+},
+{
+"choice": "cancel a restaurant booking",
+"p_none": "0x1.22ae927214869p-7",
+"p": [
+"0x1.85feb33f9ac10p-17",
+"0x1.d793407100b72p-11",
+"0x1.f92e48c4c4d14p-1",
+"0x1.a25a804296099p-15",
+"0x1.6ac01b344edc6p-13",
+"0x1.a4dd5b3089008p-19",
+"0x1.b1f37f9841889p-9"
+]
+},
+{
+"choice": "Escuchar m\u00fasica",
+"p_none": "0x1.20b05a8f4b4e0p-3",
+"p": [
+"0x1.3059f10ccb2d1p-9",
+"0x1.ad249f8530806p-1",
+"0x1.c52fe8526104dp-8",
+"0x1.7d240552c7bfep-7"
+]
+},
+{
+"choice": "Facturaci\u00f3n",
+"p_none": "0x1.8af4c575ba385p-8",
+"p": [
+"0x1.aac5154cfe487p-11",
+"0x1.27f416bc9ebbdp-14",
+"0x1.fae4f224b92eap-1",
+"0x1.91336a52387a4p-9"
+]
+},
+{
+"choice": "play music in a room",
+"p_none": "0x1.57ba162903fcdp-8",
+"p": [
+"0x1.a8e9110f17758p-17",
+"0x1.33c9856ab96a2p-15",
+"0x1.7fced720dc83ep-12",
+"0x1.4d50d9c06b18fp-9",
+"0x1.7903628653d8fp-12",
+"0x1.fb8a9106a6a46p-1",
+"0x1.0f3668b679523p-16",
+"0x1.ecd9800a4c896p-18",
+"0x1.24fe06c34583ap-15",
+"0x1.3ccfdba5e7f14p-14",
+"0x1.884c619a2519ep-17"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.ee390929609b4p-2",
+"p": [
+"0x1.73db7e117131ep-7",
+"0x1.a284cc9bec73ap-10",
+"0x1.6fb0a7babb874p-9",
+"0x1.0bd3e9708f3aep-8",
+"0x1.56af55915ccadp-10",
+"0x1.b2dd5fb712036p-11",
+"0x1.c9ddbc5877a48p-2",
+"0x1.f4ff932c4772ap-6",
+"0x1.2191193973929p-6"
+]
+},
+{
+"choice": "Facturaci\u00f3n",
+"p_none": "0x1.39470d1e7765ap-7",
+"p": [
+"0x1.850c08b9a6aaap-12",
+"0x1.f9b2a3a30875ap-1",
+"0x1.bfa33d918669ap-14",
+"0x1.03d3edc5a42dbp-11",
+"0x1.96034c82599fdp-14",
+"0x1.b7f8ef48e00b6p-10"
+]
+},
+{
+"choice": "dispute a charge",
+"p_none": "0x1.0d7534f22b28bp-6",
+"p": [
+"0x1.cab261ec12415p-10",
+"0x1.1bdf850f7c2cdp-16",
+"0x1.77a98d2c74d69p-8",
+"0x1.f3bd724e1594fp-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.80db0ccd43c7dp-1",
+"p": [
+"0x1.70bd175ce973fp-7",
+"0x1.55dbd92206afdp-6",
+"0x1.8cb04d19ea964p-8",
+"0x1.2677c6e24089dp-7",
+"0x1.e6c167c1eae78p-6",
+"0x1.332c01edc3be7p-3",
+"0x1.a7d262454316dp-7",
+"0x1.23c052e53ad0ep-9",
+"0x1.9de560807bc10p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e565380b885e1p-1",
+"p": [
+"0x1.b780b1d960a34p-9",
+"0x1.c439399b1b880p-9",
+"0x1.e44984efaca1ep-10",
+"0x1.dc6a32c7a52efp-7",
+"0x1.2a26e47ab209dp-9",
+"0x1.ed070519bf778p-10",
+"0x1.cda1a3d811d2fp-10",
+"0x1.5fbfcce547ffcp-6",
+"0x1.6b8db69dc0122p-10"
+]
+},
+{
+"choice": "reserve a hotel room",
+"p_none": "0x1.85743ad9c104dp-3",
+"p": [
+"0x1.546ee02ad2914p-9",
+"0x1.315c98ea9c9a0p-5",
+"0x1.1679ed686d40ap-3",
+"0x1.8ac86e886a43ap-9",
+"0x1.22649bbd01d0ap-11",
+"0x1.dda400b38f1aep-15",
+"0x1.c60d30f6f0fcep-9",
+"0x1.d126cfe7b9a11p-6",
+"0x1.eac25efec67b5p-12",
+"0x1.27e362b0719adp-1",
+"0x1.49ecd5d3e4fbdp-6"
+]
+},
+{
+"choice": "Sports Results",
+"p_none": "0x1.8a15d42cee89fp-11",
+"p": [
+"0x1.4b65061faf6b9p-19",
+"0x1.cab6a747d2998p-17",
+"0x1.ff9a68c44a744p-1",
+"0x1.e86d8300aa872p-18"
+]
+},
+{
+"choice": "Loans and Mortgages",
+"p_none": "0x1.22a8b442c718ep-2",
+"p": [
+"0x1.60eba7052bc94p-1",
+"0x1.24170aaa3c9cep-10",
+"0x1.0bfa4d2794ae4p-7",
+"0x1.dbaa0904efc4ap-9",
+"0x1.82ce24ef7abadp-8",
+"0x1.8e6d4310e8d89p-9",
+"0x1.472b44c435a20p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.66a7a8b324367p-1",
+"p": [
+"0x1.5d086cbc6a274p-5",
+"0x1.4438966aeca02p-3",
+"0x1.ffa9b905d6b8ep-5",
+"0x1.155e1153adef2p-7",
+"0x1.c532e215bb788p-6"
+]
+},
+{
+"choice": "Financial Aid",
+"p_none": "0x1.26c6719018d96p-8",
+"p": [
+"0x1.b4d434231ceaep-15",
+"0x1.54d69598558e9p-15",
+"0x1.1947cbd1ad3a9p-17",
+"0x1.509771c74d115p-16",
+"0x1.661c87b4169aep-18",
+"0x1.fda1b228eb2c1p-1",
+"0x1.661ed3d1ce116p-20"
+]
+},
+{
+"choice": "ver la c\u00e1mara de seguridad",
+"p_none": "0x1.ed6d2d09f66adp-4",
+"p": [
+"0x1.316e51d2feeb2p-11",
+"0x1.d80de0f93eb5ep-10",
+"0x1.40970e52e5976p-8",
+"0x1.7a9e581ce95e7p-9",
+"0x1.015c13c7560c3p-9",
+"0x1.f245ecd5d6d79p-5",
+"0x1.f3798351b342cp-6",
+"0x1.0b2928b33bba2p-10",
+"0x1.478ce6bc55384p-1",
+"0x1.05877d9c8481dp-3",
+"0x1.f424d8c5656bep-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9ced8f04a6ef9p-1",
+"p": [
+"0x1.7e7d8c6955639p-6",
+"0x1.da165c42e03a8p-9",
+"0x1.3c386bd69bdc2p-8",
+"0x1.3f527a5bdbba3p-3",
+"0x1.7baf6693af6b4p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.90ed39053c32bp-1",
+"p": [
+"0x1.f450de9f573e7p-4",
+"0x1.5d60f3d62a53bp-6",
+"0x1.6b110decb0f02p-8",
+"0x1.163c0b6271883p-4"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f83e6e151036ep-1",
+"p": [
+"0x1.3793763327968p-10",
+"0x1.1f39f1d4fd980p-10",
+"0x1.b77f84b0e7d60p-10",
+"0x1.b9c855ae67706p-10",
+"0x1.0cab74b863c4cp-7",
+"0x1.55b2edb4ffa79p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.eb0db36098459p-1",
+"p": [
+"0x1.9440b6d28a04fp-9",
+"0x1.d26914514467cp-9",
+"0x1.361f1618629bbp-6",
+"0x1.3fa12fd5316c8p-7",
+"0x1.38325104d44d2p-9",
+"0x1.a3f313273d1f9p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f96601a284ed4p-1",
+"p": [
+"0x1.21c9a5b01bd8ep-12",
+"0x1.2116c0e10c08ap-12",
+"0x1.22ee7363aa3a4p-7",
+"0x1.c5e8831a44dc6p-9"
+]
+},
+{
+"choice": "Invoices and Refunds",
+"p_none": "0x1.0f7f9819c090dp-8",
+"p": [
+"0x1.de87e88e9eca5p-13",
+"0x1.fd59fbb853878p-1",
+"0x1.0f30f031ac905p-13",
+"0x1.cca24da5b8647p-12",
+"0x1.8ac1b4066835dp-15",
+"0x1.86a39682213bfp-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.0fb3843368bd9p-1",
+"p": [
+"0x1.21d11aebb64a1p-6",
+"0x1.85890a7a080e6p-4",
+"0x1.b210a52090564p-8",
+"0x1.8b000f2c18ecdp-7",
+"0x1.59f9603e0e13fp-2"
+]
+},
+{
+"choice": "ver los \u00faltimos movimientos",
+"p_none": "0x1.8472709d55ed8p-9",
+"p": [
+"0x1.ddaf193fbdee5p-17",
+"0x1.fe1d78793336dp-1",
+"0x1.6404e9a50aaf5p-12",
+"0x1.c87054f3ca8d2p-18",
+"0x1.c7479a11dc39ap-13",
+"0x1.a78625762df09p-17",
+"0x1.9158a74c8a594p-15",
+"0x1.4e25ea6a4679dp-14"
+]
+},
+{
+"choice": "cambiar el PIN",
+"p_none": "0x1.be131587ad4ddp-6",
+"p": [
+"0x1.67a8e9c0af652p-12",
+"0x1.686cac82b432bp-10",
+"0x1.f0c60ec4cc9dbp-1",
+"0x1.12dbda8f29689p-13",
+"0x1.5bfd774e55bfbp-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.bf79a8e1bf9e5p-1",
+"p": [
+"0x1.9c9cabd2e621ep-6",
+"0x1.00bed1448f01ap-8",
+"0x1.8d576bd8f5117p-5",
+"0x1.722dc5d785ec8p-7",
+"0x1.e9efd6635c282p-8",
+"0x1.8364750492d79p-7",
+"0x1.0b94839ac0067p-7",
+"0x1.3c80ae3ba9808p-7"
+]
+},
+{
+"choice": "Tiempo y planes al aire libre",
+"p_none": "0x1.f824d10bb13d5p-6",
+"p": [
+"0x1.23b6c7562b517p-7",
+"0x1.047651438ce34p-11",
+"0x1.eb091e38a301fp-1",
+"0x1.970a35578ed18p-11"
+]
+},
+{
+"choice": "Bill Disputes",
+"p_none": "0x1.dfd9c5112c55ep-10",
+"p": [
+"0x1.151ebb822822ep-12",
+"0x1.f5238fc1553cep-1",
+"0x1.e9f64f39f0a80p-16",
+"0x1.870b2f9b004e9p-16",
+"0x1.3837c4dc32bd0p-6",
+"0x1.3f5ad2a837493p-17"
+]
+},
+{
+"choice": "apply a discount code",
+"p_none": "0x1.505cb29efc800p-2",
+"p": [
+"0x1.42b6640b1e6fdp-7",
+"0x1.526459acad671p-5",
+"0x1.ae31b52300286p-10",
+"0x1.0424725c3c0eep-7",
+"0x1.49c3b1ef80ec7p-7",
+"0x1.2f63441072910p-1",
+"0x1.0ba28255dab86p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.ecab48aa69f1bp-1",
+"p": [
+"0x1.cee7b0d045862p-8",
+"0x1.a418bcc43becap-9",
+"0x1.f0af6a9166dd7p-7",
+"0x1.9404633aeaf4ap-7"
+]
+},
+{
+"choice": "Moving Home",
+"p_none": "0x1.1331047c57145p-9",
+"p": [
+"0x1.617484932c19ep-12",
+"0x1.b4a15d48f45c8p-13",
+"0x1.27cb98c82b502p-17",
+"0x1.52c941f4d1b87p-15",
+"0x1.fe953d9831dd5p-1",
+"0x1.b4382a5295e1fp-17",
+"0x1.fc6507fa33a2dp-15"
+]
+},
+{
+"choice": "Coupons and Promotions",
+"p_none": "0x1.dfddd804d6d08p-2",
+"p": [
+"0x1.2447b3bbeb602p-8",
+"0x1.3d0a76e2e8e3fp-7",
+"0x1.ebf22a0dbaae4p-2",
+"0x1.6d4f5d8f7a632p-9",
+"0x1.ec74595dd2304p-10",
+"0x1.afb902b214633p-6",
+"0x1.c7953f190528cp-9",
+"0x1.325ed4cbba84ap-9"
+]
+},
+{
+"choice": "Groceries",
+"p_none": "0x1.128fb1e43418ep-9",
+"p": [
+"0x1.7893ac4e14715p-16",
+"0x1.6c444e0f35d91p-16",
+"0x1.1471409721009p-15",
+"0x1.aa38ce4ff5cddp-21",
+"0x1.fee33a3597cfdp-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e6dcd683844dep-1",
+"p": [
+"0x1.8d6bb44bb7c29p-7",
+"0x1.ffedfcba23548p-9",
+"0x1.9f44cb044dd99p-7",
+"0x1.dae0574023b0fp-9",
+"0x1.59b113090cf0ap-8",
+"0x1.16db52c00a8c3p-8",
+"0x1.da402fd792e4fp-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.12e7d0db0a1adp-1",
+"p": [
+"0x1.ef2f3a88795a0p-3",
+"0x1.17689ba3a1da9p-6",
+"0x1.a2a3c6eaa5112p-5",
+"0x1.399b7cdc40bb0p-3"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c135d132d121cp-1",
+"p": [
+"0x1.f340a54f59b91p-7",
+"0x1.98cf4d9a20b6cp-7",
+"0x1.4da87e2b4b98ep-7",
+"0x1.706f57755900ap-6",
+"0x1.9998a3b5fd087p-9",
+"0x1.0bbae491352c7p-8",
+"0x1.c2ec3e05896c1p-5"
+]
+},
+{
+"choice": "Login and Access",
+"p_none": "0x1.68bd1276861bep-9",
+"p": [
+"0x1.ae18125612b4ep-16",
+"0x1.e8a950c830b2bp-11",
+"0x1.384a2f21e1d15p-9",
+"0x1.877184cc47bd4p-12",
+"0x1.625aad5db8347p-13",
+"0x1.307afb552a6eep-9",
+"0x1.e3e83be9e9909p-15",
+"0x1.fb6253c25ca92p-1"
+]
+},
+{
+"choice": "Library",
+"p_none": "0x1.e06021060f026p-10",
+"p": [
+"0x1.d62454222b46ap-14",
+"0x1.703fc4b403e33p-18",
+"0x1.fea2170286ba0p-1",
+"0x1.924191849b4c3p-14",
+"0x1.2dc0142896b68p-16",
+"0x1.3d8876f97405fp-11"
+]
+},
+{
+"choice": "Sports Results",
+"p_none": "0x1.b31be60bfd0e7p-10",
+"p": [
+"0x1.607d0af1a322bp-17",
+"0x1.ff0715feffabbp-1",
+"0x1.0d26969727e7cp-16",
+"0x1.98145184ad5a0p-13",
+"0x1.2fff54f575e32p-16"
+]
+},
+{
+"choice": "Solar Export Payments",
+"p_none": "0x1.139b0b21b37d2p-10",
+"p": [
+"0x1.9b75078a0108ep-7",
+"0x1.d49ce455b81b2p-19",
+"0x1.24fcb1c0483f0p-16",
+"0x1.f88094e5f21e8p-1",
+"0x1.0a14ab70db45bp-10"
+]
+},
+{
+"choice": "Prescription Renewals",
+"p_none": "0x1.32d898444df36p-9",
+"p": [
+"0x1.fe1df4f1fab0dp-1",
+"0x1.6c1ca25ba1bfep-14",
+"0x1.390562fb46356p-15",
+"0x1.3ddaf6446e3d3p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.3cee372a84ff5p-1",
+"p": [
+"0x1.0fc2e372cfd15p-9",
+"0x1.ea597d8e22975p-8",
+"0x1.3a961b44ccd66p-2",
+"0x1.8bee17b0f0239p-9",
+"0x1.1b94a82b20e78p-9",
+"0x1.5da68e1bd84a0p-7",
+"0x1.421e3244bef5bp-8",
+"0x1.0d89c6303eba3p-5",
+"0x1.59d3e52b292fap-7"
+]
+},
+{
+"choice": "Language and Words",
+"p_none": "0x1.fa7c9219a74f2p-11",
+"p": [
+"0x1.52c8cfe7f5ad7p-20",
+"0x1.f262d5b57e1e1p-19",
+"0x1.24ab4d84f516fp-14",
+"0x1.1fce1d53f72d6p-22",
+"0x1.674dbd90ed7c5p-17",
+"0x1.ff7624430f888p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.533c8a0399bcdp-1",
+"p": [
+"0x1.ba7c0d09db2adp-8",
+"0x1.65e917fce4ec8p-8",
+"0x1.2a73cd51e1bf7p-5",
+"0x1.1fda3e18ee59ap-6",
+"0x1.c33c0a08c1c21p-6",
+"0x1.56ea95d2b0b2bp-8",
+"0x1.7e61ce5356471p-5",
+"0x1.2b53b4520fb2cp-3",
+"0x1.f887a145296d3p-8",
+"0x1.745e99cbc4b9ep-6",
+"0x1.c19506f212834p-7",
+"0x1.7f0a943b61f05p-10"
+]
+},
+{
+"choice": "Onboarding and Training",
+"p_none": "0x1.9c4d5e481e5ecp-4",
+"p": [
+"0x1.399ce193e6be9p-10",
+"0x1.2ad3b99bc9ecdp-6",
+"0x1.4d59c2b3534a7p-7",
+"0x1.65203b4be16acp-2",
+"0x1.10904e9ece586p-2",
+"0x1.ae95748c409c3p-6",
+"0x1.d04a33208197ap-3",
+"0x1.dc071958afcf5p-10"
+]
+},
+{
+"choice": "Escuchar m\u00fasica",
+"p_none": "0x1.717b111d2fec9p-6",
+"p": [
+"0x1.7596d64ae0a84p-13",
+"0x1.b6a343acfe4f6p-4",
+"0x1.ed8af8ecbcc68p-11",
+"0x1.bd0d02d5d6d97p-1"
+]
+},
+{
+"choice": "set up a direct debit",
+"p_none": "0x1.5be88c35f2fd2p-2",
+"p": [
+"0x1.5085673694df0p-11",
+"0x1.5f88a44fda9c0p-9",
+"0x1.dad8b461d3461p-8",
+"0x1.d066f2b06bfa4p-9",
+"0x1.48e1d08445ecap-1",
+"0x1.f027072f026dfp-9"
+]
+},
+{
+"choice": "Ayudas y subvenciones",
+"p_none": "0x1.db6c3b6beaf50p-8",
+"p": [
+"0x1.f674469a01257p-1",
+"0x1.8e9752614840ap-14",
+"0x1.71f887cb2e436p-7",
+"0x1.142ace82b031bp-18"
+]
+},
+{
+"choice": "request time off",
+"p_none": "0x1.547ae735f8bddp-4",
+"p": [
+"0x1.4f1b2c680a781p-4",
+"0x1.3c24a75e4842bp-9",
+"0x1.868935ada53bep-11",
+"0x1.afc9a9c095f33p-3",
+"0x1.a7d928073aaccp-9",
+"0x1.27eda4658cc20p-1",
+"0x1.4678e99bc6e3cp-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.bfbdf07b764ffp-1",
+"p": [
+"0x1.4138009be7c82p-10",
+"0x1.4ed3208964ad1p-8",
+"0x1.5fab79f1c287bp-5",
+"0x1.2ddfacc78424ap-4",
+"0x1.4d200b1c45b30p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.fbf7258ff005bp-1",
+"p": [
+"0x1.b9f468422011bp-10",
+"0x1.3cf6b04c4351cp-9",
+"0x1.2637683bbc9c7p-12",
+"0x1.26e2749d3435ep-12",
+"0x1.a546500788d5cp-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.dac0a56953fb6p-1",
+"p": [
+"0x1.1b95d58c3ca2ap-9",
+"0x1.dfd7c346a57dap-7",
+"0x1.50e921bb93f8dp-7",
+"0x1.cf55bf5ae001bp-9",
+"0x1.0a4198e689c06p-6",
+"0x1.f7307094e95d5p-8",
+"0x1.b1260247272fep-7",
+"0x1.4632de20a255ep-8"
+]
+},
+{
+"choice": "Salud y deporte",
+"p_none": "0x1.92e76410a9642p-6",
+"p": [
+"0x1.f2332f5418ae7p-1",
+"0x1.d8b4ae9b5e46dp-12",
+"0x1.69b811ddc6120p-14",
+"0x1.63e2c7e0f119ep-12",
+"0x1.72740578829dbp-10",
+"0x1.2f5b28e99f6cfp-14"
+]
+},
+{
+"choice": "cambiar un art\u00edculo por otra talla",
+"p_none": "0x1.62faa46ec428bp-6",
+"p": [
+"0x1.b2de077b868ddp-10",
+"0x1.7f34d21ccfb50p-12",
+"0x1.8d08f6c46c442p-8",
+"0x1.7f2db2a34ddafp-12",
+"0x1.c155f12f89226p-10",
+"0x1.efb432a2137aap-1"
+]
+},
+{
+"choice": "Login and Access",
+"p_none": "0x1.7ec535c36b6efp-7",
+"p": [
+"0x1.a9cb6cbe7b5c9p-13",
+"0x1.e8d2a825c7ab7p-1",
+"0x1.fd540be014bbdp-6",
+"0x1.79385b2a3fb87p-10",
+"0x1.cf3b1d1262c09p-13",
+"0x1.143d50470d75ap-13",
+"0x1.08c8e3cd89f1bp-11"
+]
+},
+{
+"choice": "Pets",
+"p_none": "0x1.d1db8bc8b9750p-4",
+"p": [
+"0x1.c4b092ca6bd85p-1",
+"0x1.7807f8c9bbfeap-10",
+"0x1.92f4c27f5e9b6p-12",
+"0x1.2cc93e417a475p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e3b19f8801f8cp-1",
+"p": [
+"0x1.2634591ac9ed7p-5",
+"0x1.3e948a27c563ap-7",
+"0x1.06abb23a5d736p-8",
+"0x1.71b8ac9ecbf2ep-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.60c3f4c56dafbp-1",
+"p": [
+"0x1.0c8ceb9087964p-5",
+"0x1.e266abb3c8f25p-6",
+"0x1.a262e895dde14p-3",
+"0x1.0443f97f2baeap-7",
+"0x1.353af5dce5314p-6",
+"0x1.1cd36aeb9a6a8p-6",
+"0x1.2e50919b5ba7fp-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.de2c8fd65abb3p-1",
+"p": [
+"0x1.0f2dab68af2e5p-7",
+"0x1.c49e6733de06fp-9",
+"0x1.9da1de6752801p-7",
+"0x1.4dac3b29254cbp-5",
+"0x1.019fd13e169d6p-10"
+]
+},
+{
+"choice": "cancel a meeting",
+"p_none": "0x1.37a68af6b480fp-3",
+"p": [
+"0x1.6a0ce84d76e9fp-12",
+"0x1.ba1ace91234a4p-11",
+"0x1.84f19084de7b4p-11",
+"0x1.ab3e22618b188p-1",
+"0x1.bd9a2b0e38278p-11",
+"0x1.fd6e1c2671928p-9",
+"0x1.a7d0b8e4f6ea1p-11",
+"0x1.998b3468e2523p-9",
+"0x1.6ae2226c78628p-9"
+]
+},
+{
+"choice": "turn the lights on",
+"p_none": "0x1.541e525b04da0p-2",
+"p": [
+"0x1.12903186c53c6p-6",
+"0x1.2e4d5913ba591p-7",
+"0x1.97096ce2d233ep-11",
+"0x1.6bbf54f87f8b8p-10",
+"0x1.47877ddc438b7p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.1a541fe10a74fp-1",
+"p": [
+"0x1.16cd544bc1936p-11",
+"0x1.34782ba24ff8bp-9",
+"0x1.498583ae9abb7p-8",
+"0x1.d7ba65187fa91p-10",
+"0x1.2f2265422e3efp-3",
+"0x1.23f6b74ef1362p-2",
+"0x1.776bb629554cep-8"
+]
+},
+{
+"choice": "Campus IT",
+"p_none": "0x1.882dae217204ap-6",
+"p": [
+"0x1.157e9656fbe6ep-10",
+"0x1.ece680b57fc65p-1",
+"0x1.bdc9a7a252ea8p-9",
+"0x1.6c925795fdf95p-10",
+"0x1.dced7113fa1a0p-13",
+"0x1.bad57433c9578p-8",
+"0x1.1717ed8c1d62fp-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e8da365e680cdp-1",
+"p": [
+"0x1.73c35ea70a761p-10",
+"0x1.dc0a9a8242896p-11",
+"0x1.083b5fc1e64aap-5",
+"0x1.3296d64cf3a9fp-7",
+"0x1.4da7eca35414cp-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.b8ade15423b85p-1",
+"p": [
+"0x1.2884007b87286p-9",
+"0x1.1bd7cb8cd5103p-9",
+"0x1.8f53030bb18cep-8",
+"0x1.5c86347420267p-10",
+"0x1.d1d790b6fbe91p-9",
+"0x1.4943cccac41fbp-7",
+"0x1.a2952440d9e5ap-4",
+"0x1.863993caff83ap-8",
+"0x1.2c2681933393dp-8",
+"0x1.251c919191e90p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f4c3f443eee59p-1",
+"p": [
+"0x1.f6444c263370bp-9",
+"0x1.0bc435a326637p-8",
+"0x1.0ec1f4cd7333ap-8",
+"0x1.442ec6c26cf20p-7"
+]
+},
+{
+"choice": "lock the front door",
+"p_none": "0x1.b503b970a0643p-10",
+"p": [
+"0x1.56f13405b40dap-17",
+"0x1.2e9b3e96e3766p-15",
+"0x1.ff1e0e642306dp-1",
+"0x1.5e60f647c450ep-17"
+]
+},
+{
+"choice": "Home Devices",
+"p_none": "0x1.3cbc4bb1ffaabp-5",
+"p": [
+"0x1.7a6b1d94a85f4p-13",
+"0x1.a5564fc052c8cp-13",
+"0x1.3255801a2d2a4p-12",
+"0x1.ebdbf47e076ffp-1"
+]
+},
+{
+"choice": "schedule a meeting",
+"p_none": "0x1.f4a3c86fb64f6p-5",
+"p": [
+"0x1.37d0f203c5e6cp-10",
+"0x1.d7dc8023cc78bp-1",
+"0x1.2629c1d4c2e31p-8",
+"0x1.676517402806cp-7",
+"0x1.4dcbee3065c5cp-11"
+]
+},
+{
+"choice": "Loans and Mortgages",
+"p_none": "0x1.16050f4bb27fep-2",
+"p": [
+"0x1.7017b541a7b00p-6",
+"0x1.be98081989767p-10",
+"0x1.fabf6351e1640p-5",
+"0x1.48f17876eea79p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.bd2f3ddb6c844p-1",
+"p": [
+"0x1.213c5eb60b38dp-6",
+"0x1.56ab26be2b488p-6",
+"0x1.dac949ee11fb8p-10",
+"0x1.053ed06332bc7p-7",
+"0x1.85e36d7f30229p-5",
+"0x1.bab79f38c2bc0p-6",
+"0x1.1ce54b4b70c65p-9",
+"0x1.5f267ab4b5765p-8"
+]
+},
+{
+"choice": "alquilar un coche",
+"p_none": "0x1.35ef7116601e0p-5",
+"p": [
+"0x1.115cdc7e6762ep-9",
+"0x1.af74d51f9d5dep-11",
+"0x1.2090235bf34d2p-10",
+"0x1.8bccd3c568f54p-10",
+"0x1.e9cda06143013p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d6ece606c88cfp-1",
+"p": [
+"0x1.2b03fe9de6fe3p-7",
+"0x1.44a9210e9dec7p-7",
+"0x1.056a907ad0a52p-6",
+"0x1.228d29339c731p-8",
+"0x1.50a383bd336fcp-6",
+"0x1.28743cc0a5543p-6",
+"0x1.1b38a058db4b5p-9"
+]
+},
+{
+"choice": "Viajes de empresa",
+"p_none": "0x1.c4190043fd59cp-2",
+"p": [
+"0x1.231f00b5d7066p-8",
+"0x1.fead0bb76c9d7p-9",
+"0x1.1979648b2037bp-1",
+"0x1.a9822df00628fp-12"
+]
+},
+{
+"choice": "reserve a hotel room",
+"p_none": "0x1.3ebc1e028476ap-7",
+"p": [
+"0x1.53a63b77819f5p-8",
+"0x1.a54f185bf4564p-12",
+"0x1.f7623170bd1e8p-1",
+"0x1.639f3ab61bdf5p-16",
+"0x1.a58fedc096a00p-11",
+"0x1.a92765c65fc19p-15",
+"0x1.77a5c683ade7ep-15",
+"0x1.6372a50679fc3p-16",
+"0x1.358ee7360e96ep-13",
+"0x1.816b66e67aa80p-19",
+"0x1.bdc9008361ff0p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f513f0f3a7126p-1",
+"p": [
+"0x1.ccf998814a1a0p-10",
+"0x1.0bc3b6a2750aap-7",
+"0x1.42898f7bc6130p-9",
+"0x1.6ca836d659f61p-9",
+"0x1.63f74995cdca2p-10",
+"0x1.3aaafd38b6b6bp-8"
+]
+},
+{
+"choice": "Registrar",
+"p_none": "0x1.0ce7d04b77fb8p-2",
+"p": [
+"0x1.ade05cd20305dp-7",
+"0x1.4856559f049a1p-1",
+"0x1.07f641b9f0302p-4",
+"0x1.9d8b9dbcf2d83p-13",
+"0x1.145b20c1b57f5p-6",
+"0x1.858da19fb5e5cp-10"
+]
+},
+{
+"choice": "Expense Claims",
+"p_none": "0x1.18cf6caa097a2p-8",
+"p": [
+"0x1.367ca20323439p-5",
+"0x1.914354923515ep-15",
+"0x1.3ecf869018038p-16",
+"0x1.4ed4eb4cc1381p-20",
+"0x1.ea585535888efp-1",
+"0x1.55527d15caf36p-15"
+]
+},
+{
+"choice": "Live Shows and Cinemas",
+"p_none": "0x1.efe6376637347p-7",
+"p": [
+"0x1.29175f5e48376p-11",
+"0x1.a3e21899fc778p-8",
+"0x1.e9616a7bec3b2p-15",
+"0x1.8848c81bbb946p-11",
+"0x1.f444134843826p-1",
+"0x1.2432ce6e7807cp-18"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d1a1cfb68604dp-1",
+"p": [
+"0x1.caf819ebf0afcp-10",
+"0x1.0d4083e03f511p-12",
+"0x1.317dae64cc15fp-10",
+"0x1.55c86bb173943p-11",
+"0x1.2a52be637de92p-8",
+"0x1.49b91553df48bp-4",
+"0x1.ba26254ca615fp-10"
+]
+},
+{
+"choice": "Health and Fitness",
+"p_none": "0x1.100bee4abfd19p-4",
+"p": [
+"0x1.d16749d80b830p-9",
+"0x1.e8ad2e39f2c88p-9",
+"0x1.d7d1ccfa28404p-1",
+"0x1.372c0b4a01481p-8",
+"0x1.122b76712a1d1p-15"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.855e0a4c69f16p-1",
+"p": [
+"0x1.e5237dbe911b9p-7",
+"0x1.a87b3ca0816a5p-5",
+"0x1.b0174f4848963p-9",
+"0x1.1704cf4ea0bacp-3",
+"0x1.bac675919799dp-7",
+"0x1.0b12317f97832p-11",
+"0x1.3cd14d9f9eff1p-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.5a646565e8dddp-1",
+"p": [
+"0x1.35147838b836fp-8",
+"0x1.0a9c9b919b520p-9",
+"0x1.22f436ed1d147p-6",
+"0x1.fb921cc94d5adp-9",
+"0x1.5a0e0ec700e45p-6",
+"0x1.1886618753b28p-2"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.215e736b7b2bbp-1",
+"p": [
+"0x1.3e45ae4092b94p-7",
+"0x1.a45353c6aa901p-4",
+"0x1.142bdd3c476d4p-4",
+"0x1.7a7dc0807e299p-5",
+"0x1.0d08bc6101ad2p-6",
+"0x1.871df5ef5d2a6p-3",
+"0x1.81e0a87a1e463p-10"
+]
+},
+{
+"choice": "cancel a food order",
+"p_none": "0x1.e3f4fd3b482d2p-8",
+"p": [
+"0x1.943b9b623d156p-11",
+"0x1.648d52b2329abp-12",
+"0x1.fb9f89f0422ecp-1",
+"0x1.8191b6e540615p-17",
+"0x1.5a7c98618190cp-15"
+]
+},
+{
+"choice": "Loans and Mortgages",
+"p_none": "0x1.49702dacac466p-6",
+"p": [
+"0x1.f050ff608e31fp-1",
+"0x1.085a92f1643eap-9",
+"0x1.cbd04c00e593bp-8",
+"0x1.4a37dfcb24b3cp-10",
+"0x1.e681733aa38bbp-13"
+]
+},
+{
+"choice": "Visitor Information",
+"p_none": "0x1.02b37b1c18b4cp-7",
+"p": [
+"0x1.03f71a1dd6d34p-13",
+"0x1.7a6c8af034816p-13",
+"0x1.80a545e6ec4b3p-13",
+"0x1.78fac4f96c631p-13",
+"0x1.83581aa66a00dp-15",
+"0x1.fb97a478261d3p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.b0a910f8f5f80p-1",
+"p": [
+"0x1.f1398e7e9b0b1p-9",
+"0x1.161ff327d3a0ep-9",
+"0x1.dfcb0274363a5p-4",
+"0x1.b6a3a33ae718cp-6",
+"0x1.508c0e82cca07p-8"
+]
+},
+{
+"choice": "Casa y dispositivos",
+"p_none": "0x1.162f603dce31cp-10",
+"p": [
+"0x1.2b6f33aeb5c5fp-14",
+"0x1.fdb1942770c12p-8",
+"0x1.e1c5ca579b205p-13",
+"0x1.4ba2e12b1bfa7p-15",
+"0x1.777133cbe3a1bp-16",
+"0x1.fb49efe36303dp-1"
+]
+},
+{
+"choice": "change the thermostat",
+"p_none": "0x1.3888807485b65p-4",
+"p": [
+"0x1.2dc0df3fe0f05p-9",
+"0x1.0989fdb96c759p-8",
+"0x1.116b3364c7415p-11",
+"0x1.34cf10b681585p-13",
+"0x1.4444d5c27d35ap-9",
+"0x1.85876ef0588cdp-10",
+"0x1.0f814508ee86fp-10",
+"0x1.3d192d2289acap-11",
+"0x1.3c03534a9c722p-13",
+"0x1.dba9a8dd54c8fp-12",
+"0x1.d2292e737fde0p-1"
+]
+},
+{
+"choice": "reclamar un cargo",
+"p_none": "0x1.59a823301ebc5p-8",
+"p": [
+"0x1.7c7153af97cbap-9",
+"0x1.f9f018ecabc5cp-1",
+"0x1.a50449aa080e0p-11",
+"0x1.dc82424404b24p-14",
+"0x1.070ef56335d12p-9",
+"0x1.83c57d923418fp-11"
+]
+},
+{
+"choice": "Online Banking Access",
+"p_none": "0x1.4d299f43fc0bep-2",
+"p": [
+"0x1.1a359b8331bf4p-4",
+"0x1.7b7ae80994a8fp-7",
+"0x1.85f88bbd44e37p-6",
+"0x1.14ee0362e0376p-3",
+"0x1.725f68f600141p-2",
+"0x1.22884463e822fp-4",
+"0x1.4a8f0f562c3b8p-9"
+]
+},
+{
+"choice": "Language and Words",
+"p_none": "0x1.612f6239a4517p-9",
+"p": [
+"0x1.914c631b53dd3p-19",
+"0x1.b9f60ceb77cc4p-18",
+"0x1.459638af5ce14p-14",
+"0x1.fe89481e2ad65p-1",
+"0x1.402c252efab94p-14",
+"0x1.91e8d5602392cp-21"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.a670fb363ebb6p-1",
+"p": [
+"0x1.3c353977d21c1p-3",
+"0x1.b6e8f261a8cf7p-9",
+"0x1.bd03f7ce1ad2fp-8",
+"0x1.54316273b7ca4p-7"
+]
+},
+{
+"choice": "Family and Friends",
+"p_none": "0x1.e37738cf3ec9bp-11",
+"p": [
+"0x1.4fd66a670c192p-22",
+"0x1.866f03b532d4dp-16",
+"0x1.2608fff091962p-22",
+"0x1.ff8362bcf9429p-1",
+"0x1.3dcfa0611a7f6p-18"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.7986ee343fb1cp-1",
+"p": [
+"0x1.d311eeb57e414p-8",
+"0x1.5b08188da09bcp-7",
+"0x1.7afcc88da7b56p-7",
+"0x1.88c2b8f389bc6p-3",
+"0x1.54a2c2d05c16bp-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.ee9bdcb88f914p-2",
+"p": [
+"0x1.020d37d624287p-8",
+"0x1.921d302c6fcebp-8",
+"0x1.4e64ba592e239p-10",
+"0x1.1f32a45a160aap-8",
+"0x1.4f67a36b96c4fp-6",
+"0x1.20fc09cd04c5ep-7",
+"0x1.dddb595e8e4eep-2",
+"0x1.5ba59dfd2dceep-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.033d12748c0e9p-1",
+"p": [
+"0x1.71ed68010a051p-3",
+"0x1.f0031cdb4fab6p-7",
+"0x1.20e2f7e316389p-3",
+"0x1.f2ef5bfb18996p-9",
+"0x1.5800e55690142p-8",
+"0x1.e76a6b91b1352p-9",
+"0x1.68207755448dap-6",
+"0x1.7e12011f452ebp-8",
+"0x1.48cf6231bc3fbp-4",
+"0x1.14cee9f45e8a5p-5",
+"0x1.206aea5e9a0a1p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f0b872b5a9817p-1",
+"p": [
+"0x1.82be58ec4c270p-11",
+"0x1.ccb65bb26cde3p-8",
+"0x1.ada9959a7977ap-7",
+"0x1.25b2a9932afb7p-7"
+]
+},
+{
+"choice": "send an email",
+"p_none": "0x1.0648a3c20d74fp-9",
+"p": [
+"0x1.09aee53568466p-13",
+"0x1.e2b38e9a28877p-16",
+"0x1.d2c60477e73f1p-20",
+"0x1.07f62dbee3150p-11",
+"0x1.fea06eb23b850p-1",
+"0x1.f60d0ea236553p-18",
+"0x1.6ed1b4c64d9a5p-18",
+"0x1.fc01ffcd6cdd7p-18"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.dba2de34b2715p-1",
+"p": [
+"0x1.5744ce3df4a2ap-5",
+"0x1.827b47d75f5a1p-6",
+"0x1.2517a10949b88p-9",
+"0x1.afe307a9ffeaap-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.0ef50f46601c9p-1",
+"p": [
+"0x1.933bcdc51db69p-8",
+"0x1.0a53767089c4fp-8",
+"0x1.9bc17ffcf218ap-10",
+"0x1.1465f6dbab554p-5",
+"0x1.b0684d46163d6p-2",
+"0x1.876b60704771ap-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.fc6d84597c88dp-1",
+"p": [
+"0x1.0e3e90044b2dbp-9",
+"0x1.0eb78c260c4f1p-10",
+"0x1.d5c7a82db85e7p-10",
+"0x1.11fd7c5549a61p-9"
+]
+},
+{
+"choice": "Online Banking Access",
+"p_none": "0x1.1930725646ed7p-7",
+"p": [
+"0x1.51c3e1a5c8115p-12",
+"0x1.b6642ec6ab26bp-16",
+"0x1.f9e738006122ap-1",
+"0x1.0e1edff803c94p-11",
+"0x1.3cf233aebd090p-13",
+"0x1.06641f696d319p-12",
+"0x1.0e3d928d60f09p-9"
+]
+},
+{
+"choice": "Weather and Outdoors",
+"p_none": "0x1.f524017f0b697p-10",
+"p": [
+"0x1.62b009ce778a9p-16",
+"0x1.a5584c3ca3ae7p-12",
+"0x1.1b85d41b77e3bp-16",
+"0x1.fecb3ef4a00bbp-1",
+"0x1.0f2aba0c80200p-18"
+]
+},
+{
+"choice": "order a new card",
+"p_none": "0x1.ee0cf3e6c01fep-3",
+"p": [
+"0x1.1be7ccba577b1p-10",
+"0x1.653918b727756p-1",
+"0x1.3385ae58724e1p-8",
+"0x1.77d880cc6d287p-12",
+"0x1.c1faffc00e4b6p-5"
+]
+},
+{
+"choice": "Login and Access",
+"p_none": "0x1.54fae06d27d19p-9",
+"p": [
+"0x1.1c75a4c976e7bp-16",
+"0x1.8cc58a40197e0p-11",
+"0x1.e44f79c794cd2p-16",
+"0x1.4443716ae339cp-13",
+"0x1.5ee9b998250c7p-12",
+"0x1.971910a8a2b6ap-8",
+"0x1.faaa02c38de12p-1",
+"0x1.4bdefce6b2c1bp-12"
+]
+},
+{
+"choice": "Baja de contrato",
+"p_none": "0x1.445dec3e393bap-9",
+"p": [
+"0x1.c152847e394bdp-12",
+"0x1.701472baf9070p-10",
+"0x1.adda44212851ep-14",
+"0x1.fdbb22967a01ep-1",
+"0x1.6e109cbc020bap-16"
+]
+},
+{
+"choice": "Payroll",
+"p_none": "0x1.5bb527de9e369p-11",
+"p": [
+"0x1.cc9938a14010dp-17",
+"0x1.a86ab533cd107p-23",
+"0x1.ff58be931f2a2p-1",
+"0x1.b3a25cafc07e3p-20",
+"0x1.90d452ccc2777p-17",
+"0x1.31f1640c62143p-11",
+"0x1.ea3321e746654p-20"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.38b247787eb7bp-1",
+"p": [
+"0x1.4bef4ab79005cp-2",
+"0x1.216f3ab258b4dp-6",
+"0x1.84b69b388a51ep-7",
+"0x1.30a2a6fb9014dp-9",
+"0x1.a55b9c112a897p-7",
+"0x1.4e35ba408386dp-6"
+]
+},
+{
+"choice": "rent a car",
+"p_none": "0x1.234afa776af88p-2",
+"p": [
+"0x1.b5223826b4b7ep-5",
+"0x1.37d593705bbe1p-1",
+"0x1.47f1f54207a94p-11",
+"0x1.105285aab6a21p-8",
+"0x1.d61e49609d3dbp-8",
+"0x1.15bd779b7cff8p-5",
+"0x1.dc0b1e324046ep-8"
+]
+},
+{
+"choice": "Formal Complaints",
+"p_none": "0x1.ba9fc610b87e8p-10",
+"p": [
+"0x1.1c988f0afe639p-15",
+"0x1.3e293b49fc461p-15",
+"0x1.f42d3f27ee495p-19",
+"0x1.ff18c80a7e85cp-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e750dc8069a2ep-1",
+"p": [
+"0x1.90cc17aac0121p-9",
+"0x1.c58b71b6eb043p-9",
+"0x1.2cb241d4e087ap-7",
+"0x1.145eeec8f4f92p-9",
+"0x1.6eee0c5148ffep-6",
+"0x1.cd25c4006221dp-10",
+"0x1.99d05dc6e0f52p-8"
+]
+},
+{
+"choice": "Ayudas y subvenciones",
+"p_none": "0x1.8a6879381b274p-9",
+"p": [
+"0x1.fe67ddc3fb90ap-1",
+"0x1.20c19635d275bp-15",
+"0x1.5498d268383fdp-16",
+"0x1.9bd49f78b86efp-15",
+"0x1.e3850c997c5c5p-21"
+]
+},
+{
+"choice": "Maths and Conversions",
+"p_none": "0x1.d7dba248a7f20p-10",
+"p": [
+"0x1.9b29b9f3961e5p-17",
+"0x1.70b59bcbc233ap-21",
+"0x1.c946718c41470p-15",
+"0x1.fedf27540f663p-1",
+"0x1.628bfb97b0054p-20",
+"0x1.5f39d3978c7a4p-12"
+]
+},
+{
+"choice": "Appointments",
+"p_none": "0x1.73104d3187e4ap-4",
+"p": [
+"0x1.beba5ed17e785p-1",
+"0x1.569c1dd0a9de4p-8",
+"0x1.d1b05dc69af8bp-9",
+"0x1.d781931d2f19fp-11",
+"0x1.b78e6f42d0a81p-8",
+"0x1.4ff6357375ea6p-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.608fc67b00c8bp-1",
+"p": [
+"0x1.c1b356060fe6fp-6",
+"0x1.552d3c77958bap-6",
+"0x1.18fbfc396dad2p-6",
+"0x1.b3a6c0e707672p-3",
+"0x1.f71b18615a4adp-9",
+"0x1.e21137a46d48cp-6"
+]
+},
+{
+"choice": "History Questions",
+"p_none": "0x1.446ac3003396bp-6",
+"p": [
+"0x1.aaaf06b426068p-13",
+"0x1.6e9cc277906a1p-11",
+"0x1.3523a18acc606p-13",
+"0x1.87a8d4216a742p-16",
+"0x1.405ab749302e9p-13",
+"0x1.f53bf08fbfba3p-1"
+]
+},
+{
+"choice": "Loans and Mortgages",
+"p_none": "0x1.de95d01f0d0f5p-9",
+"p": [
+"0x1.a28a218bb5bafp-12",
+"0x1.fd29b128f495dp-1",
+"0x1.9684d720dfa14p-15",
+"0x1.7a1b5ebcc5e51p-10"
+]
+},
+{
+"choice": "set an alarm",
+"p_none": "0x1.3f9983fcf5ab9p-7",
+"p": [
+"0x1.96b1d1c53c0c5p-14",
+"0x1.b90771072ec08p-12",
+"0x1.fa8ae4152d5a4p-1",
+"0x1.96faf17dfb667p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.7df499e1e7403p-1",
+"p": [
+"0x1.96519de32ffebp-9",
+"0x1.8f3bf6144e55bp-6",
+"0x1.c82f78ca2a1dep-3",
+"0x1.ef569d0895a3fp-9"
+]
+},
+{
+"choice": "Expense Claims",
+"p_none": "0x1.0ce77f365a8bdp-10",
+"p": [
+"0x1.3698592765678p-16",
+"0x1.4221c8d027d1fp-18",
+"0x1.ff7649ed5d2c3p-1",
+"0x1.a08b877cb34fcp-20"
+]
+},
+{
+"choice": "Libros",
+"p_none": "0x1.12d10a42d4a9bp-2",
+"p": [
+"0x1.08cf431b8a65ep-8",
+"0x1.5681a14d93cdcp-4",
+"0x1.e49aef26a2b11p-7",
+"0x1.2a9b6f28ed6bap-2",
+"0x1.59ab09bb35b85p-2"
+]
+},
+{
+"choice": "Power Cuts",
+"p_none": "0x1.d2fda8b0a9852p-9",
+"p": [
+"0x1.f9a66e9dd6173p-1",
+"0x1.8888c06a6eab7p-14",
+"0x1.1de074606608dp-7",
+"0x1.4deb9a1bc898dp-17",
+"0x1.7fb65a37ed5a3p-17"
+]
+},
+{
+"choice": "see recent transactions",
+"p_none": "0x1.ad4987ef2dc1fp-5",
+"p": [
+"0x1.2b19f87b191c4p-9",
+"0x1.72a4916a109ddp-11",
+"0x1.37a108383f731p-12",
+"0x1.e19a231277782p-1",
+"0x1.fe46a7c0ab111p-13",
+"0x1.cc66d6bb10b62p-16",
+"0x1.e8d56815db0b5p-13",
+"0x1.187b4be95c88bp-13",
+"0x1.bbf612b312301p-13",
+"0x1.29fede6f53407p-9",
+"0x1.24f2b6d4375a8p-11"
+]
+},
+{
+"choice": "Campus IT",
+"p_none": "0x1.5f9b9346c1d05p-3",
+"p": [
+"0x1.9f55a171aa12fp-1",
+"0x1.aab1843247e86p-7",
+"0x1.ee5a4f71dd532p-15",
+"0x1.fa49c90eb8250p-11",
+"0x1.9267d05ae3e26p-9"
+]
+},
+{
+"choice": "close an account",
+"p_none": "0x1.3c177d0f91434p-5",
+"p": [
+"0x1.0bad99f57d0d0p-11",
+"0x1.e9b9d8eb86540p-14",
+"0x1.10d1306d946dcp-12",
+"0x1.0e3f5a763a6edp-13",
+"0x1.2f38db919f712p-12",
+"0x1.6cc64c1332614p-14",
+"0x1.e91362f11a079p-1",
+"0x1.84dbcdf574638p-12",
+"0x1.c32849ab8ddfap-13",
+"0x1.0c41b0cd3a246p-8",
+"0x1.e9e7e58d2b232p-14"
+]
+},
+{
+"choice": "poner una alarma",
+"p_none": "0x1.348386a1b6f5dp-5",
+"p": [
+"0x1.0ecab7a3327dcp-11",
+"0x1.3ea2328d35ce6p-12",
+"0x1.479e53a40668fp-3",
+"0x1.c2c102963407ap-11",
+"0x1.2befd13245832p-11",
+"0x1.996255a100563p-1",
+"0x1.1aa78ad839b6ap-11"
+]
+},
+{
+"choice": "Personas y Cultura",
+"p_none": "0x1.7926b8b08ab87p-5",
+"p": [
+"0x1.c5cabd254be03p-11",
+"0x1.e5482ab7aa53ep-1",
+"0x1.2eaf735675a8dp-11",
+"0x1.a392379fc424fp-10",
+"0x1.4ea821934d28dp-12",
+"0x1.acd512ebaa072p-14",
+"0x1.5f46689467428p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9232370f1605dp-1",
+"p": [
+"0x1.a63cff87ce693p-4",
+"0x1.bb11ce980c194p-9",
+"0x1.3e27381a8bb60p-6",
+"0x1.60f86c3cddccfp-7",
+"0x1.3eafddfc8260cp-4"
+]
+},
+{
+"choice": "Account Closure",
+"p_none": "0x1.a07b00c199d9ep-9",
+"p": [
+"0x1.fe16a6dbbd95fp-1",
+"0x1.fd385811adde6p-15",
+"0x1.caf145d343e0cp-13",
+"0x1.21d16e1aaa0f3p-12"
+]
+},
+{
+"choice": "Power Cuts",
+"p_none": "0x1.6164c94ae3d4ep-7",
+"p": [
+"0x1.88725e27de5f4p-11",
+"0x1.2aafbc4d16a26p-10",
+"0x1.f96c98585e390p-1",
+"0x1.6600cc5b4b2dbp-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.eed51989d8847p-1",
+"p": [
+"0x1.def21985a49e9p-9",
+"0x1.ccdeef0a021dfp-8",
+"0x1.25d2eb43de5fcp-12",
+"0x1.48b1a4e3d3eb1p-6",
+"0x1.47eefa06b7970p-9"
+]
+},
+{
+"choice": "Reviews and Ratings",
+"p_none": "0x1.ba3c0100c9ae4p-3",
+"p": [
+"0x1.0ae72cae2adc7p-6",
+"0x1.6b6a3f829f2b3p-7",
+"0x1.38a88bd162e99p-7",
+"0x1.b5584b6470f47p-10",
+"0x1.8ffb80192b7c5p-8",
+"0x1.7a8ed80727a5cp-1"
+]
+},
+{
+"choice": "Student Housing",
+"p_none": "0x1.41939b2ce169ep-6",
+"p": [
+"0x1.cd708cee75320p-18",
+"0x1.2ba748e6ff3d1p-11",
+"0x1.1e78d28efacf2p-9",
+"0x1.022b9f2760c43p-10",
+"0x1.846b1877dd39dp-14",
+"0x1.ef2203dd4790ep-1",
+"0x1.367730fab0b3fp-7"
+]
+},
+{
+"choice": "Impuestos y tasas municipales",
+"p_none": "0x1.777b275d3b968p-4",
+"p": [
+"0x1.9388d5d039575p-12",
+"0x1.0cc2cda10037ep-11",
+"0x1.40acafb4fc5edp-8",
+"0x1.4f4a03ae12529p-11",
+"0x1.339a29c755e73p-8",
+"0x1.cb5e9912521cfp-1"
+]
+},
+{
+"choice": "N\u00f3minas",
+"p_none": "0x1.0af297cc626cfp-8",
+"p": [
+"0x1.8283beb9c842cp-16",
+"0x1.abf94b5ca0430p-16",
+"0x1.720d2cc868632p-1",
+"0x1.7f482e333c0b6p-12",
+"0x1.d3bac119ddb6fp-16",
+"0x1.172bf6134eeccp-2",
+"0x1.8af342c1e3d88p-14",
+"0x1.5bddc914d53aap-18"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e6e1df984a50bp-1",
+"p": [
+"0x1.1857c70e9741ep-6",
+"0x1.af7c281c0f56bp-8",
+"0x1.2ea4f4965a0d4p-6",
+"0x1.c3a11d2b0312ep-8"
+]
+},
+{
+"choice": "Registro general",
+"p_none": "0x1.66fbee700ba56p-5",
+"p": [
+"0x1.3287ae50a1d44p-10",
+"0x1.6f520fecf5234p-13",
+"0x1.51465be06acb0p-9",
+"0x1.0a8c5039ca615p-9",
+"0x1.611d044b1b467p-10",
+"0x1.6c9689ad96e73p-11",
+"0x1.e57881502cfcep-1"
+]
+},
+{
+"choice": "Legal Counsel",
+"p_none": "0x1.be8372454b43fp-4",
+"p": [
+"0x1.9ca8f85f46ce0p-9",
+"0x1.bf3ddc45b0f6ep-1",
+"0x1.5d16b2ed0575dp-11",
+"0x1.bf71b322c61bcp-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.90e5c58a10943p-1",
+"p": [
+"0x1.97112064ddd6ep-7",
+"0x1.7abfbc7833978p-9",
+"0x1.e618aacd1a815p-4",
+"0x1.3cad60b13dac1p-9",
+"0x1.c8dd76935201ep-8",
+"0x1.9c9c5647378b7p-5",
+"0x1.7cfe657ea2ca8p-6"
+]
+},
+{
+"choice": "Savings and Investments",
+"p_none": "0x1.54cbf6459112ap-10",
+"p": [
+"0x1.f179ad335ece7p-1",
+"0x1.27be3a2826aa1p-11",
+"0x1.476afbeeb6872p-17",
+"0x1.2badd72133cf3p-11",
+"0x1.a8b94c4604772p-6"
+]
+},
+{
+"choice": "Reviews and Ratings",
+"p_none": "0x1.2fb9d54418624p-6",
+"p": [
+"0x1.ff5058f92a2bfp-9",
+"0x1.eae95a89b27e0p-8",
+"0x1.f06ac1a3fa51bp-1",
+"0x1.09328f61705e5p-11"
+]
+},
+{
+"choice": "Cooking",
+"p_none": "0x1.5a9db4288e647p-5",
+"p": [
+"0x1.f6ec20870cdcbp-13",
+"0x1.b603a807482fep-8",
+"0x1.df44f66618fbap-11",
+"0x1.e62e80fe12931p-1",
+"0x1.22e37d9ffa44ep-12"
+]
+},
+{
+"choice": "News Headlines",
+"p_none": "0x1.9ca2477a28254p-9",
+"p": [
+"0x1.f8238dccff672p-1",
+"0x1.07cf7915a4473p-15",
+"0x1.e1a3838b337ddp-16",
+"0x1.8a3b2c9179835p-7",
+"0x1.81c33c5e41a07p-14",
+"0x1.794d3915c548bp-16"
+]
+},
+{
+"choice": "Garden",
+"p_none": "0x1.ba3c4bf5332d3p-8",
+"p": [
+"0x1.1259b08aecea0p-15",
+"0x1.fc65941481fc6p-1",
+"0x1.20eae375f78b8p-14",
+"0x1.8a295b5c1eeffp-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.28c563ed207fbp-1",
+"p": [
+"0x1.28edec3f16130p-11",
+"0x1.8d65b8b00f898p-10",
+"0x1.8eb493efc8c50p-3",
+"0x1.67535188d1dccp-3",
+"0x1.40ea288e2b1afp-8",
+"0x1.4d7a7d627c509p-6",
+"0x1.4d3387d16ec28p-6",
+"0x1.488148bc9f7dcp-10",
+"0x1.585e7c6e181aep-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.738fd261f8a1ap-1",
+"p": [
+"0x1.f2fc80aab15e1p-8",
+"0x1.438b519025f6ap-8",
+"0x1.29d7325f58402p-9",
+"0x1.a1cf962135db2p-8",
+"0x1.f3a57a77463f9p-3",
+"0x1.0d92116c09700p-8",
+"0x1.48926d23247c0p-8"
+]
+},
+{
+"choice": "Account Closure",
+"p_none": "0x1.b6b55a0e84fa6p-11",
+"p": [
+"0x1.7b34d3097c7e9p-15",
+"0x1.296940bb7fcc1p-13",
+"0x1.7ce952fd6bed3p-1",
+"0x1.0520f8897126fp-2"
+]
+},
+{
+"choice": "ver los \u00faltimos movimientos",
+"p_none": "0x1.389672da4dbaap-8",
+"p": [
+"0x1.cb35f60726f9ep-5",
+"0x1.d69893ce9f586p-15",
+"0x1.33ee42391226ep-15",
+"0x1.17f44627d5f08p-14",
+"0x1.e0b97375e3710p-1",
+"0x1.7333fe3da630cp-15",
+"0x1.611a179c87b23p-15",
+"0x1.c54e14bdad9fcp-17"
+]
+},
+{
+"choice": "Cupones y promociones",
+"p_none": "0x1.70c93b1f28bebp-8",
+"p": [
+"0x1.a62b9fad6c223p-14",
+"0x1.732c62c859358p-13",
+"0x1.eb47a1a3a2773p-15",
+"0x1.405a53f736755p-12",
+"0x1.fc2e763149233p-1",
+"0x1.a28cfb125964dp-15",
+"0x1.2aa130b9b72acp-10"
+]
+},
+{
+"choice": "Cooking",
+"p_none": "0x1.18427eaea6883p-3",
+"p": [
+"0x1.11f0223046f5fp-11",
+"0x1.ecf377863b097p-12",
+"0x1.c7f7033258d6fp-11",
+"0x1.b87c05a2d7fa3p-1",
+"0x1.fd09e4d3d1ab8p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d184865fd77dbp-1",
+"p": [
+"0x1.0138cf8df2eafp-5",
+"0x1.751c51a43558ap-6",
+"0x1.ab0dd01ad37c2p-9",
+"0x1.80c8278608a1ep-7",
+"0x1.621b757e965bbp-6"
+]
+},
+{
+"choice": "Insurance and Billing Office",
+"p_none": "0x1.50308c0e555ddp-6",
+"p": [
+"0x1.a9d884eeb566dp-12",
+"0x1.9c8520c9c0134p-14",
+"0x1.f52ee7ff800f3p-1",
+"0x1.ae8ccd2424cfcp-14"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.60e487ad2c423p-1",
+"p": [
+"0x1.96296920b20fdp-7",
+"0x1.5d4dd513f84a4p-8",
+"0x1.ff655a8e43d0cp-3",
+"0x1.12852f96f6b38p-8",
+"0x1.16faa5a70c499p-5",
+"0x1.4d15d37caf655p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e0be16b88ddc2p-1",
+"p": [
+"0x1.5199906e0b14ep-5",
+"0x1.b917543c9c545p-7",
+"0x1.f0915e076f8cap-9",
+"0x1.313b8a0c1ede2p-9",
+"0x1.11303c5b96698p-12"
+]
+},
+{
+"choice": "Tiempo y planes al aire libre",
+"p_none": "0x1.ea8f2a8147613p-7",
+"p": [
+"0x1.b55d34f8c4fdfp-10",
+"0x1.f6a7b21478a4ep-1",
+"0x1.b7925ce5aa70fp-11",
+"0x1.1bdbd8bcbf26dp-11",
+"0x1.8dd46facf0e12p-14",
+"0x1.218761fd910f1p-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.8bf398d203bd9p-1",
+"p": [
+"0x1.7d020fdc04ad1p-8",
+"0x1.bb224c0ef6f97p-8",
+"0x1.a4464feed9456p-3",
+"0x1.22a29e9bfe733p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.66185e5b94047p-1",
+"p": [
+"0x1.96b940b493ac6p-10",
+"0x1.d6ece188aff54p-11",
+"0x1.2941a497a6166p-2",
+"0x1.91b185630c70fp-10",
+"0x1.f8fed9692f774p-11",
+"0x1.7d1d478b8f7ebp-10",
+"0x1.3376a1224e3b4p-9",
+"0x1.993383d124e6fp-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.717130218e975p-1",
+"p": [
+"0x1.4dd8644efbe7ap-7",
+"0x1.e522271941273p-9",
+"0x1.29fae07ea1212p-9",
+"0x1.33944a10c2877p-3",
+"0x1.7944de26b76c6p-10",
+"0x1.e8c409ba95b2cp-10",
+"0x1.49fa79a1aba29p-4",
+"0x1.26bb8c2b97c09p-6",
+"0x1.426f48c52c52dp-9",
+"0x1.fd4fb79277da5p-8"
+]
+},
+{
+"choice": "Invoices and Refunds",
+"p_none": "0x1.5ad4779549bf1p-9",
+"p": [
+"0x1.5f898efd01086p-12",
+"0x1.fe2f5399e5c35p-1",
+"0x1.442c564ede841p-14",
+"0x1.541d2b95ad0b9p-12",
+"0x1.96f67754d02b9p-14",
+"0x1.114018aff6b36p-14"
+]
+},
+{
+"choice": "Paperwork and Government",
+"p_none": "0x1.5c6e8d1da74c0p-3",
+"p": [
+"0x1.cdb1355ff1db7p-14",
+"0x1.3c81729282c86p-10",
+"0x1.967429501f00dp-15",
+"0x1.a7b82b373680ep-1",
+"0x1.e4a5b718ab093p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.2746aa2dbcfcap-1",
+"p": [
+"0x1.c80d54666a7d1p-9",
+"0x1.6c69eff443f1dp-5",
+"0x1.2d626b1372aa3p-2",
+"0x1.4bcb9fa6f8257p-4"
+]
+},
+{
+"choice": "Sightseeing",
+"p_none": "0x1.26b592d158a5fp-6",
+"p": [
+"0x1.f5b0b794beb34p-1",
+"0x1.a226a11b03b83p-15",
+"0x1.38a7adad18484p-10",
+"0x1.dafd8d6e3d376p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.227c1dae89f8ap-1",
+"p": [
+"0x1.10b6a96cea4b8p-7",
+"0x1.d82e2a1f2ad7ep-7",
+"0x1.48799343f93b6p-8",
+"0x1.2e25929208341p-6",
+"0x1.b75dbc194677ep-5",
+"0x1.1c067d837dea1p-2",
+"0x1.a3fe129f03809p-5",
+"0x1.1299cd74f51b6p-8"
+]
+},
+{
+"choice": "Estado del pedido",
+"p_none": "0x1.0fbff867e8b8dp-4",
+"p": [
+"0x1.4a86ad69df818p-12",
+"0x1.e98b0a3040005p-10",
+"0x1.db540f1685437p-1",
+"0x1.7970ad9357715p-13",
+"0x1.d1958a2916345p-12",
+"0x1.354633a95925ap-12",
+"0x1.1d68ff24c62f4p-9"
+]
+},
+{
+"choice": "Network Faults",
+"p_none": "0x1.e71f3ce645d0bp-5",
+"p": [
+"0x1.d73b9ec11a464p-1",
+"0x1.196a8fbabc8e3p-10",
+"0x1.27299c1edbdcbp-6",
+"0x1.18d68f5a3f0c9p-10"
+]
+},
+{
+"choice": "Impuestos y tasas municipales",
+"p_none": "0x1.a43b577eaac1ap-3",
+"p": [
+"0x1.8606439b95b3fp-1",
+"0x1.f5d8056e1a81ep-6",
+"0x1.c1db4c65b35c1p-12",
+"0x1.016ed51b91a7dp-14",
+"0x1.f7bef2326904cp-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9be2c99bdd5b1p-1",
+"p": [
+"0x1.16273b97ff660p-8",
+"0x1.7ba5c1eedbffap-4",
+"0x1.468b88fc7de00p-5",
+"0x1.faa2ee5a11f8ap-9",
+"0x1.c18d430f53630p-5"
+]
+},
+{
+"choice": "poner en marcha el robot aspirador",
+"p_none": "0x1.60fc35c9df5bcp-2",
+"p": [
+"0x1.6d2618a20268ap-8",
+"0x1.68b3e1eb9a5b8p-7",
+"0x1.5149432150215p-7",
+"0x1.d931248f7b806p-8",
+"0x1.20a0420f90a75p-1",
+"0x1.ca087edced88fp-7",
+"0x1.644de01754eddp-5"
+]
+},
+{
+"choice": "Films and Series",
+"p_none": "0x1.1d37d6d3f5467p-7",
+"p": [
+"0x1.c13ac14f5b03ep-12",
+"0x1.fafbd31125533p-1",
+"0x1.47a306870624ap-12",
+"0x1.a63ad9fa94616p-17",
+"0x1.4e6c6dd59c850p-12",
+"0x1.5f08fdaea134fp-16"
+]
+},
+{
+"choice": "start the robot vacuum",
+"p_none": "0x1.0f8ef7a3bf585p-5",
+"p": [
+"0x1.064b0f628b8e9p-14",
+"0x1.bf35e30eb1831p-10",
+"0x1.edf6d99fe57d1p-1",
+"0x1.434cdee102addp-12"
+]
+},
+{
+"choice": "Asistencia en carretera",
+"p_none": "0x1.8118d57ffc11ep-8",
+"p": [
+"0x1.5959bf75989f7p-6",
+"0x1.032bc06b743ffp-14",
+"0x1.c782464f793eap-16",
+"0x1.5e960d237dc05p-11",
+"0x1.9927253847933p-14",
+"0x1.f1c2e93a50a6bp-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d6d808043e3e8p-1",
+"p": [
+"0x1.92bac0d5eafd5p-10",
+"0x1.32c058dfdf5bep-8",
+"0x1.24eef70223991p-4",
+"0x1.959bea5a81d78p-10",
+"0x1.0eb5036e47e54p-11",
+"0x1.32ff4d271d12fp-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.b10d49f82f87ep-1",
+"p": [
+"0x1.e73fca66a7bd9p-7",
+"0x1.6eef97aaddc91p-6",
+"0x1.6ee0dd2930d9ep-6",
+"0x1.49e02ceb8fe72p-7",
+"0x1.1c02bcf363f79p-5",
+"0x1.10aeecdebfec3p-6",
+"0x1.20cb5ed33fd5cp-7",
+"0x1.8edc3a4dbcc7dp-6"
+]
+},
+{
+"choice": "Padr\u00f3n municipal",
+"p_none": "0x1.3e9b8e6c1b916p-5",
+"p": [
+"0x1.75123f3144040p-11",
+"0x1.282895ed1c23ep-12",
+"0x1.eb2cdbe30ee77p-1",
+"0x1.9c864e95ac48ep-11"
+]
+},
+{
+"choice": "Account Closure",
+"p_none": "0x1.db36b4f699f6fp-5",
+"p": [
+"0x1.5ab2c15a490d2p-4",
+"0x1.6b45ffb1eff17p-7",
+"0x1.59819428ba8f4p-8",
+"0x1.2bad76682df53p-10",
+"0x1.ae004aa2fff30p-1"
+]
+},
+{
+"choice": "Delivery Problems",
+"p_none": "0x1.10c3fa1214ad1p-2",
+"p": [
+"0x1.244fa18525eddp-1",
+"0x1.d4ea79998b41cp-4",
+"0x1.2c76f67384327p-8",
+"0x1.d3f2f199e94e4p-9",
+"0x1.7f302e7a553dbp-11",
+"0x1.ac0141b9151bfp-7",
+"0x1.9d68bda9dab1ep-6",
+"0x1.1234c09744ea3p-10"
+]
+},
+{
+"choice": "pedir un reembolso",
+"p_none": "0x1.5111558ca9cb0p-7",
+"p": [
+"0x1.ea7047331eb3ap-1",
+"0x1.819c58477947dp-15",
+"0x1.47b054d8e4b29p-10",
+"0x1.acc624d3054f8p-14",
+"0x1.eefd9731776cbp-6",
+"0x1.c41f02ec17b69p-13"
+]
+},
+{
+"choice": "book a restaurant table",
+"p_none": "0x1.669fd0bf418f1p-9",
+"p": [
+"0x1.fd254ae1941fdp-1",
+"0x1.5bb668492933fp-10",
+"0x1.f7f0ce01b5c2fp-11",
+"0x1.bab887be5edcep-19",
+"0x1.3fb423587edeep-12",
+"0x1.177e0dab00012p-14",
+"0x1.71cc30d451510p-13"
+]
+},
+{
+"choice": "Visitor Information",
+"p_none": "0x1.4ac3b11c7159fp-6",
+"p": [
+"0x1.f3d6a928dab9cp-14",
+"0x1.f52ef7c073991p-1",
+"0x1.8f2f43f89500dp-13",
+"0x1.4ad7048e05edap-13",
+"0x1.ed5ce6b95c8b7p-12"
+]
+},
+{
+"choice": "Paperwork and Government",
+"p_none": "0x1.94a6db9f81f99p-5",
+"p": [
+"0x1.49c728d22b997p-1",
+"0x1.2d715fa496826p-2",
+"0x1.f448a71ba91f1p-17",
+"0x1.7b5fb5e93f1b6p-7",
+"0x1.191a0513b6d0ap-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d249535f82202p-1",
+"p": [
+"0x1.3c0778ca1b693p-6",
+"0x1.b2a9163c0d170p-9",
+"0x1.1f8d94d6286d2p-6",
+"0x1.481fbc181fd80p-5",
+"0x1.2957d6ef6da4ep-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c04a9faf2e845p-1",
+"p": [
+"0x1.a6675ee9497fdp-6",
+"0x1.e80d1a59cdc18p-8",
+"0x1.1fbeb6d5fce5ap-7",
+"0x1.9fe697cef4294p-5",
+"0x1.45d8820df6dc9p-7",
+"0x1.fe932013b7a81p-9",
+"0x1.23d6348819597p-6"
+]
+},
+{
+"choice": "Garden",
+"p_none": "0x1.4e5723b0c9d27p-10",
+"p": [
+"0x1.374af923a9981p-15",
+"0x1.3a9fb4a8e3e2dp-18",
+"0x1.69d8fd17b620ep-18",
+"0x1.25ccc92f2ee6bp-17",
+"0x1.ff517f3920fd1p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d4dad21b3e3b1p-1",
+"p": [
+"0x1.1fc55667b4ddbp-7",
+"0x1.b6b4713657d99p-7",
+"0x1.f2b0dd74ee805p-9",
+"0x1.3fb1eca94685cp-9",
+"0x1.6b43b46ae8108p-5",
+"0x1.06218ed5da75ap-7",
+"0x1.cc227a257251dp-9"
+]
+},
+{
+"choice": "move a meeting",
+"p_none": "0x1.0f0cb95b9344dp-6",
+"p": [
+"0x1.e61b3c8f53fe7p-14",
+"0x1.892c741fa5c9ep-16",
+"0x1.f3d7f2c014d88p-15",
+"0x1.f68b6b5f7945bp-1",
+"0x1.9b05594397da2p-15",
+"0x1.80746d1da0f67p-11",
+"0x1.83c22094871fdp-11",
+"0x1.804ea112ff8f0p-15",
+"0x1.4a14fbc81a4d4p-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.78d8648ba8c55p-1",
+"p": [
+"0x1.f53389bd1c420p-7",
+"0x1.9b1513f05c678p-3",
+"0x1.1a58e51987cccp-9",
+"0x1.186f70e199977p-7",
+"0x1.3aef2ae16341ep-7",
+"0x1.c4b69fa4c6929p-6"
+]
+},
+{
+"choice": "Cooking",
+"p_none": "0x1.a6d349c971278p-4",
+"p": [
+"0x1.8439124dca6cdp-13",
+"0x1.2255a8ddff10dp-9",
+"0x1.c99d082474986p-1",
+"0x1.37d5a1699c0c5p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.63ed5aa3f031fp-1",
+"p": [
+"0x1.2b60a766ae407p-9",
+"0x1.37ac2e3f8fb1bp-6",
+"0x1.0a8fb3cc80436p-10",
+"0x1.5a6c1c0a2ff09p-8",
+"0x1.0f0ddded9ec0dp-9",
+"0x1.d26d731aa86b9p-10",
+"0x1.7ef668c10ca6ep-11",
+"0x1.0b71d14076fbbp-7",
+"0x1.0d01835ac0153p-2",
+"0x1.d2701949cb1cbp-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e86dd4b915e4fp-1",
+"p": [
+"0x1.0bb6e0ee81fe4p-6",
+"0x1.a51fea5134988p-7",
+"0x1.6ac7e4555eae1p-11",
+"0x1.d118103d2d6bbp-9",
+"0x1.9eb3204c3fb30p-8",
+"0x1.56dac75da5380p-8",
+"0x1.121d7b15d39abp-10"
+]
+},
+{
+"choice": "Formal Complaints",
+"p_none": "0x1.1278b456a70fep-5",
+"p": [
+"0x1.ebbba102b234bp-1",
+"0x1.ab74b1f1d4cdep-12",
+"0x1.bce9dd52bdf7cp-12",
+"0x1.356c4d1b8dd08p-12",
+"0x1.566503cbca9f4p-9",
+"0x1.0b2154b199e16p-9",
+"0x1.3ca01ecf8eac9p-12"
+]
+},
+{
+"choice": "Facturas",
+"p_none": "0x1.06b612ea40795p-5",
+"p": [
+"0x1.8e773de353658p-10",
+"0x1.e8ef9fa6bda88p-1",
+"0x1.3acbeca04356dp-13",
+"0x1.35480216a0da1p-7",
+"0x1.d0a49199383a5p-11",
+"0x1.039a291538faap-11",
+"0x1.ff38aee411f97p-12"
+]
+},
+{
+"choice": "Paperwork and Government",
+"p_none": "0x1.cdfe599a4bd30p-3",
+"p": [
+"0x1.a9f8a9510bb51p-3",
+"0x1.2a4ad9359862ap-11",
+"0x1.21643ec2d1f2fp-1",
+"0x1.09158eca85453p-14",
+"0x1.2c947e51c35b2p-11"
+]
+},
+{
+"choice": "Soporte inform\u00e1tico",
+"p_none": "0x1.0176dd1b28d64p-2",
+"p": [
+"0x1.2a5a3fb6c55e2p-6",
+"0x1.3512a9107be33p-11",
+"0x1.9cf241b093206p-9",
+"0x1.534f1ee689ff9p-8",
+"0x1.60c39bd063828p-1",
+"0x1.8ffad64d7c374p-7",
+"0x1.3c49b2e56eb98p-10",
+"0x1.37e7c8fcef223p-6"
+]
+},
+{
+"choice": "Opiniones y valoraciones",
+"p_none": "0x1.2b731f761ea96p-6",
+"p": [
+"0x1.1c82729ab7e7ap-9",
+"0x1.17f2497acb99bp-9",
+"0x1.e59f7be1ce454p-1",
+"0x1.aae9486ac9683p-6",
+"0x1.8aa7109bda84dp-11",
+"0x1.16825eee00194p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e9501d8e1be24p-1",
+"p": [
+"0x1.4a11fa62966a3p-8",
+"0x1.134de4f2e9b0ep-7",
+"0x1.844235dbe459dp-7",
+"0x1.37afc23c771a1p-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.0179c249f20a1p-1",
+"p": [
+"0x1.2525745ea3315p-7",
+"0x1.00c00348fa722p-6",
+"0x1.66e87031a005ap-2",
+"0x1.de584fbf66825p-6",
+"0x1.7aa8ae3725ddbp-5",
+"0x1.098b553c02f6fp-5",
+"0x1.f3cb5781d796bp-8",
+"0x1.aceb26a51127ep-8"
+]
+},
+{
+"choice": "Family and Friends",
+"p_none": "0x1.82a243c586ddap-11",
+"p": [
+"0x1.d03a67d255cb0p-23",
+"0x1.8f71aa2f8259bp-20",
+"0x1.3421f902cfd96p-17",
+"0x1.ff9dea1df6b65p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.ea3193ed6c3a3p-2",
+"p": [
+"0x1.e1fa707624dd5p-2",
+"0x1.8514906f649b0p-9",
+"0x1.0dcbbc050ee8fp-10",
+"0x1.c2bdaf6af037cp-8",
+"0x1.6bdc0f30d6fa7p-10",
+"0x1.a9bf04ca41ee1p-6",
+"0x1.b7b8e0f489e2dp-8",
+"0x1.0aff51a144dc8p-8",
+"0x1.6ba0c93a5ac98p-10",
+"0x1.961093c61ef10p-13"
+]
+},
+{
+"choice": "Accommodation",
+"p_none": "0x1.d24e900699da3p-5",
+"p": [
+"0x1.dcca6afa47fa6p-1",
+"0x1.9e45ecdd37765p-12",
+"0x1.5e9a6de605bd0p-11",
+"0x1.277cd2bb93c60p-7",
+"0x1.ce92c295e0d92p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.b7eee2a149ab2p-1",
+"p": [
+"0x1.12cc6e532a7bdp-4",
+"0x1.63e5cad682449p-8",
+"0x1.9f0d92283e0ccp-5",
+"0x1.1fdd5b8404003p-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.a83ac35afbd39p-1",
+"p": [
+"0x1.cac075cef0012p-6",
+"0x1.46c0c140ecf75p-8",
+"0x1.169741af82200p-3",
+"0x1.3be7082a4a842p-9"
+]
+},
+{
+"choice": "change the delivery address",
+"p_none": "0x1.73549cebb9111p-5",
+"p": [
+"0x1.cbc87f4d18580p-11",
+"0x1.9dea2c4cbc99bp-11",
+"0x1.df6c76c909269p-1",
+"0x1.14746c12d1f79p-12",
+"0x1.92274c0ba294bp-12",
+"0x1.134697101f849p-11",
+"0x1.163ee3745114fp-11",
+"0x1.d6d0f861614a9p-7",
+"0x1.256818a98cb1dp-11"
+]
+},
+{
+"choice": "International Payments",
+"p_none": "0x1.5a19b5a59ea82p-9",
+"p": [
+"0x1.4f6e60aa6be2bp-14",
+"0x1.2b0bcc46f85d7p-11",
+"0x1.2ab5595a2fc5ep-14",
+"0x1.d84756434caf8p-13",
+"0x1.5df90bebb0ffdp-8",
+"0x1.fb568f525e12bp-1",
+"0x1.74c59ded4e6fap-13"
+]
+},
+{
+"choice": "Groceries",
+"p_none": "0x1.07919c2c559cep-5",
+"p": [
+"0x1.eea0a21debbb5p-1",
+"0x1.3e9bf5969b33bp-11",
+"0x1.722b73be9c6fcp-13",
+"0x1.5b6c9dbd5eca4p-11",
+"0x1.44fa19f014f1fp-12"
+]
+},
+{
+"choice": "Asesor\u00eda jur\u00eddica",
+"p_none": "0x1.202886a1dbd09p-3",
+"p": [
+"0x1.868f4cdd33f41p-11",
+"0x1.b235dc7b4f40bp-1",
+"0x1.b199970148b7ep-10",
+"0x1.21644f60766fcp-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.fe82fbc19727fp-2",
+"p": [
+"0x1.b5c76a40f5512p-8",
+"0x1.586364da78e65p-9",
+"0x1.89315585b940dp-5",
+"0x1.086885c80d0b8p-6",
+"0x1.07ff7e51695e3p-7",
+"0x1.73cd5dc4fa788p-2",
+"0x1.555113722370bp-6",
+"0x1.27300e7e80ec5p-5"
+]
+},
+{
+"choice": "cancel an order",
+"p_none": "0x1.4f6577cab62b9p-8",
+"p": [
+"0x1.45b3e7206cbf4p-10",
+"0x1.4568d02b72653p-13",
+"0x1.ba7b86e984ee3p-12",
+"0x1.f7cc988211794p-1",
+"0x1.9d4a9241266c3p-12",
+"0x1.120a83421df36p-7",
+"0x1.5249ecc2fd0fbp-12"
+]
+},
+{
+"choice": "Podcasts and Radio",
+"p_none": "0x1.1cc4983f8490fp-2",
+"p": [
+"0x1.505ce23b4e042p-5",
+"0x1.4929d4495058ap-7",
+"0x1.41621de336e93p-1",
+"0x1.5b1152886869dp-12",
+"0x1.5e5be5ddb9fa0p-5"
+]
+},
+{
+"choice": "Product Questions",
+"p_none": "0x1.2ee5bd32803fep-2",
+"p": [
+"0x1.4e02d45165242p-10",
+"0x1.3bc33e3c34bc2p-9",
+"0x1.65d6f335ae7bep-1",
+"0x1.ab041e7054c1fp-12",
+"0x1.3c1209bce47c4p-10"
+]
+},
+{
+"choice": "Plan Upgrades and Downgrades",
+"p_none": "0x1.c3911b570523ep-11",
+"p": [
+"0x1.ff67c0a4700bdp-1",
+"0x1.2b08c010d8871p-19",
+"0x1.18fdc5ab10c85p-16",
+"0x1.e7bf001a81e9fp-17",
+"0x1.9f5af1f0f1489p-13",
+"0x1.edc3eb601b94bp-15",
+"0x1.49d9322e82d57p-17"
+]
+},
+{
+"choice": "cambiar un art\u00edculo por otra talla",
+"p_none": "0x1.c7b7024b1fda1p-5",
+"p": [
+"0x1.f1f9fae1616ecp-10",
+"0x1.b0a4b8a2827dep-9",
+"0x1.56789e3715f66p-9",
+"0x1.513bb220b3077p-9",
+"0x1.ddc7dbf17d6ddp-1",
+"0x1.ad778d966173fp-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.4ff68e6e4c8a8p-2",
+"p": [
+"0x1.2c4d4b3283432p-9",
+"0x1.958045f34ee80p-5",
+"0x1.b276457f25e83p-7",
+"0x1.51a0864ba565bp-7",
+"0x1.e0f8060ccfc2ap-4",
+"0x1.f43d5885ebdb4p-3",
+"0x1.b2b17c84e8ccfp-8",
+"0x1.09f4419946d55p-8",
+"0x1.ec10731d61328p-4",
+"0x1.4018a736e946fp-4",
+"0x1.a868c8ad8fc52p-6"
+]
+},
+{
+"choice": "block a card",
+"p_none": "0x1.861bdb46e49b5p-6",
+"p": [
+"0x1.13f8fb115fc5ap-9",
+"0x1.7a1ae6613cc0ap-12",
+"0x1.0d1504377235bp-17",
+"0x1.4ddee30e25feap-9",
+"0x1.562cf7a0aa136p-15",
+"0x1.0620f59539e27p-14",
+"0x1.f10ef578ca45ap-1",
+"0x1.22e2faed4823bp-13",
+"0x1.f158ab1584372p-15",
+"0x1.a183ca1661c6dp-15"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.dc91e9aa63d5ep-1",
+"p": [
+"0x1.6437560d7de0fp-11",
+"0x1.1a6eb106fc0abp-9",
+"0x1.8c5d7680ca169p-6",
+"0x1.3ca03bb225f51p-6",
+"0x1.b73ad5732d99dp-12",
+"0x1.54ea77348a825p-6",
+"0x1.a8e2524f28da0p-10"
+]
+},
+{
+"choice": "Phones and SIM Cards",
+"p_none": "0x1.0a4926df4d034p-9",
+"p": [
+"0x1.fec6a8dbac313p-1",
+"0x1.c5458026f3bd4p-15",
+"0x1.8511f60025097p-18",
+"0x1.06dad3f78b8e3p-13",
+"0x1.6c8b1396d31fcp-13"
+]
+},
+{
+"choice": "Plan Upgrades and Downgrades",
+"p_none": "0x1.44e3e51016894p-8",
+"p": [
+"0x1.3da8980d04e28p-13",
+"0x1.faef58c0d8426p-1",
+"0x1.4fa996d8a1145p-9",
+"0x1.235b54ae1f42cp-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9bbb6b22e7ceap-2",
+"p": [
+"0x1.fbf971e98241cp-5",
+"0x1.8df066e2139b9p-6",
+"0x1.6c2022ea63aecp-2",
+"0x1.f43dd7ca34dfcp-5",
+"0x1.2872820428aa8p-7",
+"0x1.d55b5b4225879p-7",
+"0x1.fe1334247e193p-5",
+"0x1.6ca5ed1fd1701p-9",
+"0x1.ad184146a34bdp-8"
+]
+},
+{
+"choice": "Exams and Grades",
+"p_none": "0x1.d9b1d47ccd2c8p-7",
+"p": [
+"0x1.8fd9f9becf45ep-1",
+"0x1.45510706cd24fp-18",
+"0x1.d34fedd8ad21fp-11",
+"0x1.a998f13d4136dp-11",
+"0x1.1dec7cfb3d62ep-3",
+"0x1.fccceddad4d58p-14",
+"0x1.02a2e345b2b7ap-4"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.aaac4f3bfbfa0p-1",
+"p": [
+"0x1.74e2aa480ca97p-5",
+"0x1.5e55a8502e817p-4",
+"0x1.4d609df6204a3p-6",
+"0x1.f3f309731a3afp-7"
+]
+},
+{
+"choice": "exchange an item for another size",
+"p_none": "0x1.7acc804819591p-2",
+"p": [
+"0x1.d0bde9541cc00p-9",
+"0x1.4d77188f71acdp-9",
+"0x1.0f0104b2437a9p-7",
+"0x1.11ffe6babd044p-11",
+"0x1.7083ffcdfc451p-8",
+"0x1.155745050e958p-8",
+"0x1.a5bbd2c2744b4p-9",
+"0x1.a10b760c2f6d0p-2",
+"0x1.595fd1a5db815p-9",
+"0x1.4fa6020847c03p-11",
+"0x1.f5e614f36e3bfp-11",
+"0x1.6f2541f7dbdc5p-3",
+"0x1.1e8dd2927b817p-11",
+"0x1.7aa9b4da6119ep-12",
+"0x1.c724ea8dbb600p-11",
+"0x1.abadd3668302fp-14",
+"0x1.584b70ed51644p-8",
+"0x1.38cecc5685861p-11",
+"0x1.6f3ce5b6befb7p-11",
+"0x1.46fa9912306e9p-11",
+"0x1.e342574fea24ep-12",
+"0x1.e8a134ae63cedp-12",
+"0x1.67a3b6365f235p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.539d6006bd186p-1",
+"p": [
+"0x1.4adbbb5eb8c3ep-7",
+"0x1.050947bb6889cp-6",
+"0x1.ea8a04cdfe733p-10",
+"0x1.2efed56d6454ep-9",
+"0x1.5f02c0e1d6615p-10",
+"0x1.96de2d5b7c8a0p-8",
+"0x1.2d513595c277ep-11",
+"0x1.9ecedab957806p-9",
+"0x1.d6b40fa4131e2p-9",
+"0x1.381658e520f23p-11",
+"0x1.90aaec1a1b648p-8",
+"0x1.5066c252ebcb7p-9",
+"0x1.85dbd296b1bc0p-9",
+"0x1.081c843d85361p-9",
+"0x1.8b0d76aeeadf9p-8",
+"0x1.d165e5741c930p-8",
+"0x1.2df6fc58d6685p-9",
+"0x1.8a9f87390a00dp-10",
+"0x1.2d084d5561dbcp-10",
+"0x1.df4902b243977p-7",
+"0x1.c9a7862ee4830p-9",
+"0x1.0b70746624b41p-8",
+"0x1.fb48353759740p-10",
+"0x1.4d7718c7a7b14p-3",
+"0x1.1299f4f91d9cfp-9",
+"0x1.1b4ed82efcfaap-9",
+"0x1.39c5d3f54ccefp-10",
+"0x1.6c1d1e4a22672p-9",
+"0x1.08b6058cb73d8p-9",
+"0x1.82401a742eac8p-9",
+"0x1.11d2c661ee5a3p-7",
+"0x1.7046218e0e2c5p-8",
+"0x1.4bb3fa0e186e4p-11",
+"0x1.8596fb55fc2d9p-6",
+"0x1.31eb0c33d943ep-11",
+"0x1.10be54c06001dp-10",
+"0x1.3b97759d4f5aap-9",
+"0x1.ae54a75d934a2p-9",
+"0x1.5a242f0a89496p-12",
+"0x1.2b417fe6d5b97p-7",
+"0x1.014fad9fa99c9p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.90da9b20aa2f4p-1",
+"p": [
+"0x1.c3cd0c7ce8f91p-13",
+"0x1.03facd7065cebp-9",
+"0x1.57c493807d522p-10",
+"0x1.e1a7111adf057p-9",
+"0x1.51f16da879d5fp-10",
+"0x1.24bd6858afca5p-12",
+"0x1.61475b9833fd9p-12",
+"0x1.e7d086a9d9eafp-13",
+"0x1.591d755ee2812p-8",
+"0x1.046f4f9b65842p-10",
+"0x1.f795d8c970b55p-12",
+"0x1.db386e0ac5abdp-11",
+"0x1.df5a9e76d2522p-7",
+"0x1.fdd79771f3a03p-7",
+"0x1.3eb3b34af280cp-9",
+"0x1.7c861926e1597p-9",
+"0x1.0b47e0410602ep-11",
+"0x1.2b24300a916f8p-12",
+"0x1.d65f800941b15p-10",
+"0x1.5ff413afcd6e5p-8",
+"0x1.7ab5336863136p-10",
+"0x1.c47bba80cf20ap-13",
+"0x1.d0d2a89620966p-11",
+"0x1.014d63f9adf8fp-7",
+"0x1.0b57f52e28516p-7",
+"0x1.25b1376b736c0p-11",
+"0x1.76b61d228349ep-12",
+"0x1.20a28d2ba953ap-9",
+"0x1.d3cbcee3552b9p-6",
+"0x1.e8986d207b9c7p-12",
+"0x1.757e5b34db691p-10",
+"0x1.c65e83893fef8p-13",
+"0x1.0f8a7326a184cp-10",
+"0x1.ab3c1ac81801ep-10",
+"0x1.c2d6bcf3b474dp-13",
+"0x1.04124356064f9p-10",
+"0x1.d4ba49cf8baffp-13",
+"0x1.597f47c10e28ap-12",
+"0x1.72ace15d2bc3dp-10",
+"0x1.e67ea5705fbc9p-11",
+"0x1.f1e2f72a98154p-10",
+"0x1.2efbdd14d9050p-11",
+"0x1.1b7243287cf60p-10",
+"0x1.ff831a9498703p-11",
+"0x1.2a68d73dcfb8ap-12",
+"0x1.5229fdb3a8a13p-9",
+"0x1.4d55cfafff3c0p-12",
+"0x1.75df74dc976b4p-10",
+"0x1.31e7698d54cecp-7",
+"0x1.fea6a6f3a7ba7p-12",
+"0x1.02a3ec8c7baeap-4",
+"0x1.a2a02d2504d65p-7",
+"0x1.5a2859197a8d4p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.3afc791d895d8p-1",
+"p": [
+"0x1.7a88dab25ce5ep-9",
+"0x1.a1773b38a6d4ap-10",
+"0x1.75b1e7c283da5p-12",
+"0x1.c04eabe0342e4p-9",
+"0x1.be3793f920503p-11",
+"0x1.67bcc93897409p-11",
+"0x1.573a9a4ca449cp-4",
+"0x1.d57d6166bc907p-12",
+"0x1.0710bbf8acf7bp-11",
+"0x1.4bd127b515e7cp-7",
+"0x1.ee8b790c51fdfp-11",
+"0x1.63a6f30344c12p-13",
+"0x1.5296dc9495229p-9",
+"0x1.5afddd3deaf5dp-8",
+"0x1.6b1c09b17243bp-9",
+"0x1.5b0f033dc2d97p-11",
+"0x1.64505f2ef518dp-10",
+"0x1.6db0063136340p-12",
+"0x1.8f5fb515d27f7p-11",
+"0x1.109cd4ae81db5p-5",
+"0x1.c434b27bd5cedp-9",
+"0x1.9d45aa6589182p-6",
+"0x1.33c469ad6ed06p-3",
+"0x1.4ee9057af9fe5p-10",
+"0x1.d7ca37a2e7b68p-10",
+"0x1.f0df7634eae5fp-9",
+"0x1.4fe9c1988f020p-10",
+"0x1.64aca187c5fb5p-13",
+"0x1.131341ab5cd06p-8",
+"0x1.d6c5844b580b8p-12",
+"0x1.4cf963bc9ed65p-11",
+"0x1.034a906625f5dp-8",
+"0x1.63f2f5288e7e1p-10",
+"0x1.e65151fc4c896p-12",
+"0x1.149c7dacdc62fp-9",
+"0x1.6850ec2c1c297p-12",
+"0x1.907b58ed64f3ep-13",
+"0x1.88dff95d5a052p-9",
+"0x1.abd7998db1d52p-10",
+"0x1.913ee90ad869ep-8",
+"0x1.e65c0ca81025bp-10",
+"0x1.1bb2a0d0c232ap-10",
+"0x1.f37f2442d4dfdp-11",
+"0x1.4c0e938b949e5p-11",
+"0x1.322e81c34f515p-8",
+"0x1.698596a46e806p-7"
+]
+},
+{
+"choice": "Financial Aid",
+"p_none": "0x1.2cf12223cdd84p-4",
+"p": [
+"0x1.9cb422f6765c2p-14",
+"0x1.b78a164a2d9ccp-13",
+"0x1.398181c504b7fp-11",
+"0x1.865091a37e702p-14",
+"0x1.ef081431c3463p-11",
+"0x1.9ac8d802bad6ep-8",
+"0x1.34fadc0e35b96p-8",
+"0x1.0372c2f60a37fp-13",
+"0x1.6c9a9dc2aa692p-7",
+"0x1.0930a21e92fd8p-12",
+"0x1.c347a53c0ef8cp-12",
+"0x1.d47699a0a1e34p-2",
+"0x1.4f3b1c83319bep-12",
+"0x1.769352615406ep-11",
+"0x1.905e9dc2642f4p-2",
+"0x1.54d7f3fb4f076p-16",
+"0x1.4a3bb3f3205efp-12",
+"0x1.f5b97cc3876abp-10",
+"0x1.eca40babe093dp-11",
+"0x1.aaa97db78b76ap-13",
+"0x1.2fd6d69f73223p-11",
+"0x1.337acec169574p-12",
+"0x1.b95e994672d18p-8",
+"0x1.1e12b5e874787p-14",
+"0x1.efcb41261a1a7p-11",
+"0x1.557818dc78fb2p-12",
+"0x1.6b6600529acd8p-14",
+"0x1.a4fd158048aacp-6",
+"0x1.ce8e81d40004bp-14",
+"0x1.5b1e198a79120p-12",
+"0x1.953c38daa3cf8p-14",
+"0x1.35565c113052fp-13",
+"0x1.7c187de63c467p-16",
+"0x1.b4b0f888a04e9p-11",
+"0x1.95c63a69c679dp-14",
+"0x1.18cce1a97694ap-13",
+"0x1.acc11bf7649fbp-12",
+"0x1.dac9abb86a39fp-9",
+"0x1.550d848e44de1p-16",
+"0x1.d225bddc27861p-13",
+"0x1.1c92175d291b0p-14",
+"0x1.5499cdce3260bp-16",
+"0x1.28edab5b2f1ddp-14",
+"0x1.ac3ff8a5068cap-14",
+"0x1.060945a7434f1p-11",
+"0x1.631a00aed3167p-11",
+"0x1.39bf1ed1b4540p-12",
+"0x1.f4c82c77c0688p-12",
+"0x1.f1bf86b8c6742p-15",
+"0x1.1f8b288f5bb10p-12",
+"0x1.60261ed3857b9p-12",
+"0x1.b0b0751a0ea87p-12",
+"0x1.9ba1a3fc27112p-11",
+"0x1.c69f5ea7da6bfp-13",
+"0x1.720491811f207p-10",
+"0x1.de0a17718bb22p-12",
+"0x1.cc00b2b7f92c8p-12",
+"0x1.2f6f8483b9554p-10",
+"0x1.ed77114a208aap-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.8fc9362256ed7p-1",
+"p": [
+"0x1.eeea7be4bb2b3p-11",
+"0x1.d4ae89b210650p-8",
+"0x1.7a49a617292bep-10",
+"0x1.f2c8627da3196p-11",
+"0x1.12f3a53bed0dcp-12",
+"0x1.59083576c210ep-10",
+"0x1.d485cbf05b2d7p-8",
+"0x1.ed9df3a87b19ep-12",
+"0x1.3312d682cf9e2p-8",
+"0x1.62d98f5e12d25p-11",
+"0x1.97ced54710772p-6",
+"0x1.e460e1d5ed2cdp-6",
+"0x1.62663f5b94d64p-11",
+"0x1.2163b5f1f70c1p-9",
+"0x1.ee1317e549826p-8",
+"0x1.ce45480b7e349p-13",
+"0x1.bf049085c9306p-9",
+"0x1.5d12068b52e2fp-9",
+"0x1.7b9c30a4f4021p-12",
+"0x1.c7e8ca87ddc44p-13",
+"0x1.2d8b6fee33d74p-12",
+"0x1.f783fc1a4a24fp-9",
+"0x1.10f12901e930bp-9",
+"0x1.281cd5ed8b052p-10",
+"0x1.a0009018374a4p-8",
+"0x1.c105b592438fdp-13",
+"0x1.96c1ca48d74b3p-6",
+"0x1.c2c2339a0903ep-13",
+"0x1.30fde0c4adf38p-8",
+"0x1.e323651bd841cp-12",
+"0x1.99a1a61743ec4p-10",
+"0x1.3cbcfde8687e4p-12",
+"0x1.45cd6001c0df1p-10",
+"0x1.ecd23660a994cp-12",
+"0x1.ff6f8dc43adc1p-13",
+"0x1.999a096688f51p-12",
+"0x1.5d6a73f29f547p-9",
+"0x1.3eea3e1afc0cbp-11",
+"0x1.4a77dbc983dd2p-6",
+"0x1.5d36747a4fe44p-7",
+"0x1.069a925292ff2p-7",
+"0x1.09739b19c51f2p-11",
+"0x1.5fac62039961ap-11",
+"0x1.1006a9d6d4ca1p-8",
+"0x1.5043886ab6d01p-11",
+"0x1.465a3ed8691cbp-12",
+"0x1.073307c03d658p-12",
+"0x1.81e0c5b2032a3p-11",
+"0x1.436882c5d9b03p-10",
+"0x1.7bbbee876f5a7p-9",
+"0x1.8b63d8010bd7fp-11",
+"0x1.1f7124265aa79p-11",
+"0x1.414b1ca1ad671p-11",
+"0x1.c6ab4dfbfbce3p-8",
+"0x1.5c1975b8fedadp-9",
+"0x1.ccbfda295e51ap-13",
+"0x1.f75953c234b96p-8",
+"0x1.727a0bec01676p-12",
+"0x1.22e73fc51d818p-11",
+"0x1.1592857639e54p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.8579f227a4988p-1",
+"p": [
+"0x1.3ddc459325917p-3",
+"0x1.fefb583e318afp-10",
+"0x1.7b3e3d30829e6p-11",
+"0x1.8a920feb5b29dp-12",
+"0x1.15514ef92ce7ep-6",
+"0x1.aa3272ddced49p-9",
+"0x1.bd673d0a0180ep-13",
+"0x1.bbf3735042a37p-13",
+"0x1.36c7e1abd2e7dp-10",
+"0x1.3ac782eeaded4p-12",
+"0x1.b5d06c949c7aep-13",
+"0x1.fa5ae27be071ap-13",
+"0x1.b5ade750e31bdp-13",
+"0x1.bcba68144c9bdp-13",
+"0x1.c7c64a52a02ddp-13",
+"0x1.873a816711f60p-12",
+"0x1.51123995bc1b7p-11",
+"0x1.6c8da56cb1e6dp-12",
+"0x1.5ab5ab788c1f1p-11",
+"0x1.1731dbbdfafa8p-11",
+"0x1.8c94910dee9cap-12",
+"0x1.899b31a7d0365p-9",
+"0x1.a63aa5f0e6591p-12",
+"0x1.594a47b6cdac1p-12",
+"0x1.b0bddb8939270p-12",
+"0x1.985b58537dea7p-12",
+"0x1.b4cd3e3a35a08p-13",
+"0x1.5552778e89d0bp-10",
+"0x1.242397d903813p-12",
+"0x1.093aa799d643ap-12",
+"0x1.c6785727811cep-13",
+"0x1.bf9931e5d24bbp-13",
+"0x1.026f3f21c179dp-10",
+"0x1.c9074c2d4c7d4p-10",
+"0x1.26ba6961b30a3p-9",
+"0x1.b7ee8e484219dp-9",
+"0x1.effbfc50b3f8dp-10",
+"0x1.a285947672dafp-8",
+"0x1.c55fb0ba6798dp-13",
+"0x1.3a2b9a37f4a48p-8",
+"0x1.7264d1b28cd35p-12",
+"0x1.27ce590de24c5p-10",
+"0x1.ae04001ad35b4p-9",
+"0x1.df5513ff8a7fdp-12",
+"0x1.ba453c7a7f9d8p-13",
+"0x1.c868798a3bc49p-13",
+"0x1.074d66fe16f4ap-12",
+"0x1.0da7f930e8a58p-10",
+"0x1.6c8c20c579e89p-12",
+"0x1.50e42d5da1f76p-10",
+"0x1.c382d4f5a348ep-13",
+"0x1.c2317daf4246dp-13",
+"0x1.5a4623990685cp-7",
+"0x1.5f9587c2b4011p-11",
+"0x1.7fc2046ac959fp-8",
+"0x1.d25985b84475bp-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c4de8ad4b58d1p-1",
+"p": [
+"0x1.1648dc0784b55p-11",
+"0x1.bb236f92affe2p-6",
+"0x1.0456cb16e3ef1p-12",
+"0x1.2226f12e4e008p-12",
+"0x1.a0d126cec6241p-11",
+"0x1.20cef8d577813p-10",
+"0x1.0b15a7ebeac41p-9",
+"0x1.b85e32c0fbb6bp-10",
+"0x1.b126040969f07p-11",
+"0x1.42b883e0c52d8p-10",
+"0x1.eb0ceea561637p-10",
+"0x1.0e3835ddb2353p-12",
+"0x1.1f7558d1fce54p-9",
+"0x1.fbdf8ca3fc125p-11",
+"0x1.e83011a676707p-10",
+"0x1.975f11f9063c2p-11",
+"0x1.22a01d57114e7p-11",
+"0x1.c80a3e282089ap-9",
+"0x1.a711b8cdea287p-11",
+"0x1.6f32a9b3a87c6p-11",
+"0x1.2bf19c7a77f26p-9",
+"0x1.aa6f1d7be47fcp-9",
+"0x1.864bfacf70de2p-5",
+"0x1.468ce8e8d46c7p-11",
+"0x1.43164f12005a2p-11",
+"0x1.118700bc18f43p-9",
+"0x1.13445370be27bp-9",
+"0x1.5c58ef58acc72p-10",
+"0x1.0cb1682f60b08p-8",
+"0x1.37eb9bebb6665p-11",
+"0x1.2848a2b57f908p-11",
+"0x1.915922e74acfap-11",
+"0x1.21e3366c062b4p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d5ee92ab41b69p-1",
+"p": [
+"0x1.55bb4f8f92c1bp-11",
+"0x1.0f5ea4ecb4570p-9",
+"0x1.b88aab37121dfp-12",
+"0x1.667535542a07ep-10",
+"0x1.26594639ec825p-10",
+"0x1.728aa5a035cb0p-10",
+"0x1.39b7faa46d49dp-8",
+"0x1.2d515aa37e279p-6",
+"0x1.9f11c605adeb0p-10",
+"0x1.7a670fc89adadp-10",
+"0x1.722b6874bde06p-8",
+"0x1.95c75a471b11bp-10",
+"0x1.bf20921cec487p-8",
+"0x1.99017eccf5790p-8",
+"0x1.a635abd2910e3p-10",
+"0x1.1daecc4474128p-10",
+"0x1.8fb13d2a2a709p-7",
+"0x1.0f738696d0584p-10",
+"0x1.490bd22723b6ep-7",
+"0x1.021d1b9a45945p-10",
+"0x1.bbfaacb349a98p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.760d0ae0a8790p-1",
+"p": [
+"0x1.2cbaad4f33414p-11",
+"0x1.06f86be034e3ap-10",
+"0x1.51c5f5d03b440p-10",
+"0x1.2231f602095c1p-9",
+"0x1.aabfd5167d658p-3",
+"0x1.d45ec92a8add9p-11",
+"0x1.bc922f47bf564p-10",
+"0x1.9c20f7abf076dp-10",
+"0x1.1a9b401676429p-8",
+"0x1.53f4ce75e2845p-11",
+"0x1.de95c78fd29dep-13",
+"0x1.e16475d3e2db9p-10",
+"0x1.10c17bc1ab914p-9",
+"0x1.68fe0a7645c74p-10",
+"0x1.778b65b2170f6p-12",
+"0x1.6dbd697b2e647p-9",
+"0x1.a6237fdbf3fcdp-9",
+"0x1.5dbb111cf5f75p-9",
+"0x1.21840865a813ep-10",
+"0x1.b6db860148794p-10",
+"0x1.6c17fc966ceedp-7",
+"0x1.f82be6ccd898bp-11",
+"0x1.fc950ec5242d9p-11",
+"0x1.1bb0ad5952e89p-8",
+"0x1.7d7b1eb637816p-10",
+"0x1.409aae8a977b6p-10",
+"0x1.7db0c66a55652p-10",
+"0x1.c010943804d8ap-8",
+"0x1.5692ecd6e9e9dp-11",
+"0x1.119c3d45fff9cp-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e26476cd29aa2p-1",
+"p": [
+"0x1.016df2b780d7fp-11",
+"0x1.329258861dbdbp-12",
+"0x1.10865a78f424bp-12",
+"0x1.8d8f9be0befb2p-11",
+"0x1.188a921ccf40dp-12",
+"0x1.0f7e5d5699a99p-8",
+"0x1.907ad492df646p-7",
+"0x1.fe9cee61cee4fp-10",
+"0x1.f2f1e1e4228abp-9",
+"0x1.00ad5f17f8138p-8",
+"0x1.062ac8bde2cb6p-11",
+"0x1.97b6a99c791c2p-12",
+"0x1.0ea4d340654e3p-12",
+"0x1.977bbb4127ca7p-12",
+"0x1.2b579d058c5bcp-12",
+"0x1.e5f999062f2bap-12",
+"0x1.cd96b2391c89bp-11",
+"0x1.3bd70e44e7b84p-9",
+"0x1.24c02895914a1p-7",
+"0x1.b83f4edb6cac8p-11",
+"0x1.49b5ac25c9d5cp-9",
+"0x1.2a0febb89038cp-12",
+"0x1.c44c8c323e32bp-9",
+"0x1.252c95b8fb159p-11",
+"0x1.8809a32ea7663p-11",
+"0x1.54192c1d23b29p-10",
+"0x1.ff192dfc9c4d6p-9",
+"0x1.63db47f5aa5d2p-10",
+"0x1.13812b58c5480p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d66095f707e48p-1",
+"p": [
+"0x1.212a00743a0eap-9",
+"0x1.ad2d9d5114e57p-10",
+"0x1.eb30341205183p-11",
+"0x1.be5a37cb3b824p-10",
+"0x1.1e17d00924c99p-12",
+"0x1.f52c0fc7abe2dp-10",
+"0x1.3c95c59435b8ep-7",
+"0x1.ef6bcf09f5e4dp-12",
+"0x1.7f0d16c9f41d1p-11",
+"0x1.0695891b36ea7p-10",
+"0x1.7856325317bccp-11",
+"0x1.1562c51615711p-12",
+"0x1.10f858780c844p-10",
+"0x1.bafd2e33643e5p-9",
+"0x1.ff8230b19bae3p-10",
+"0x1.81b2b991870c8p-10",
+"0x1.b1051b94a9142p-11",
+"0x1.18e3011ed6c02p-12",
+"0x1.21090ef03e69bp-12",
+"0x1.3ccde5ca80addp-11",
+"0x1.0834bf4426b30p-12",
+"0x1.65279b83e11cdp-11",
+"0x1.a4cba6c1206a2p-10",
+"0x1.2c537edda369fp-10",
+"0x1.9e31809551062p-12",
+"0x1.1c753c86e47b2p-12",
+"0x1.cd9c558d45acfp-9",
+"0x1.e2a5b4fc2cafcp-11",
+"0x1.9c888c803c38bp-12",
+"0x1.3c1ac48e58ba4p-10",
+"0x1.f863ed0501678p-11",
+"0x1.73909a0f941a7p-10",
+"0x1.08e8e558ac535p-12",
+"0x1.1d7d93c7af471p-12",
+"0x1.3d7c8c5ba38e3p-10",
+"0x1.9cca5c2b434a0p-9",
+"0x1.8352b37805fa5p-9",
+"0x1.11555759e6aa8p-12",
+"0x1.05a1210d45c64p-11",
+"0x1.560b4496ef723p-7",
+"0x1.bcb62ff5d6c4bp-11",
+"0x1.728f846220658p-10",
+"0x1.9ba65192e5dccp-10",
+"0x1.17b53b5175510p-10",
+"0x1.9e577b43f47bep-10",
+"0x1.08be974506341p-11",
+"0x1.6e6585f03bedfp-10",
+"0x1.5a8e720c9d79dp-9",
+"0x1.70140ec2cdabfp-10",
+"0x1.28ce6f617f7bbp-10",
+"0x1.0830d71c983cap-12",
+"0x1.6cb20738b3554p-11",
+"0x1.0983a190fd296p-12",
+"0x1.75ae6babf7eb6p-10",
+"0x1.b05c68a8a0c60p-11",
+"0x1.cb60106587edbp-11",
+"0x1.11fccd39faab1p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9e9cd19628a24p-1",
+"p": [
+"0x1.b00c1988da5b3p-12",
+"0x1.b017bba7aec9fp-12",
+"0x1.016429a3db2b9p-9",
+"0x1.746dd9caeb326p-12",
+"0x1.2f040a00a7561p-12",
+"0x1.b7dd24f6d4266p-10",
+"0x1.cccfb11ef0a17p-10",
+"0x1.5f3620b5275cep-11",
+"0x1.dca0f67b8ef1dp-11",
+"0x1.2f53790db98c5p-12",
+"0x1.3828fd6d04d0ap-10",
+"0x1.100250b01431fp-11",
+"0x1.53f1230773ca1p-11",
+"0x1.166653a9cb181p-10",
+"0x1.d109ff4bccac6p-13",
+"0x1.8f2f080529b5fp-11",
+"0x1.421404a2817f4p-12",
+"0x1.0b583f4b77a12p-11",
+"0x1.d267c5ece536bp-13",
+"0x1.c5e3d5645db31p-12",
+"0x1.2ce67934a674cp-8",
+"0x1.27a7e5a581c45p-3",
+"0x1.31574a208e705p-9",
+"0x1.b4d1feda800eep-11",
+"0x1.b8945b50ce087p-11",
+"0x1.6e2bed0718860p-12",
+"0x1.1fe1c953e218ep-10",
+"0x1.081d298f5f0c4p-12",
+"0x1.1de1a4152b789p-12",
+"0x1.0adf117714907p-11",
+"0x1.431d7fd1c1263p-9",
+"0x1.3774e46851cf3p-12",
+"0x1.c0ab28f17d3c9p-12",
+"0x1.50e5cc18701e3p-8",
+"0x1.9ee95977a070fp-10",
+"0x1.0eafdd5200b3dp-12",
+"0x1.50df24905e2e9p-11",
+"0x1.223d92cccc434p-10",
+"0x1.e5cfafa01b9cfp-12",
+"0x1.31fe9e48f1fa4p-10",
+"0x1.195d224ae9b9ap-12",
+"0x1.d453f9e2ead7ep-11",
+"0x1.16e90104a606ap-12",
+"0x1.1d43890aa709dp-11",
+"0x1.f73229dc29f0dp-10",
+"0x1.d6b24a24db9ecp-13",
+"0x1.20b30b70b6e07p-9",
+"0x1.2f8dcc4df3a11p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.3d06473396acdp-1",
+"p": [
+"0x1.81f375fa272c0p-8",
+"0x1.c59b8291abe49p-8",
+"0x1.deee2e13ee3bdp-7",
+"0x1.354cb09e9f9c1p-10",
+"0x1.59de27233ceddp-10",
+"0x1.2a5abf97126ccp-10",
+"0x1.21e382007381bp-7",
+"0x1.6532723ae46bap-13",
+"0x1.dc7a4da9a521fp-11",
+"0x1.05d7b39563bffp-10",
+"0x1.9ef925edd38cdp-13",
+"0x1.569cd69b26ae7p-10",
+"0x1.210dc151e9170p-10",
+"0x1.9c1f2bff7f390p-7",
+"0x1.83f8582928085p-11",
+"0x1.e702b2223e53fp-8",
+"0x1.4df028df4c53ep-8",
+"0x1.5ebdb42cdd5dbp-10",
+"0x1.366525bc59eadp-5",
+"0x1.7686c9c6c31b3p-5",
+"0x1.10c2022822223p-6",
+"0x1.4eafd98256973p-10",
+"0x1.64067b46f1015p-10",
+"0x1.0b7be3f3367bbp-8",
+"0x1.8b9563f8a60fap-8",
+"0x1.67e7b559617b5p-9",
+"0x1.3b2e4c2e98908p-8",
+"0x1.01e8839a4d411p-7",
+"0x1.2a817768b2ab5p-5",
+"0x1.4ef6e2c386e1fp-8",
+"0x1.af0594c529e15p-9",
+"0x1.781637feda9f2p-13",
+"0x1.6e70fd0acaca7p-5",
+"0x1.06609be484689p-9",
+"0x1.41c5e2c1324fcp-10",
+"0x1.a5a8ac1c1e026p-11",
+"0x1.39e9983e85cf8p-7",
+"0x1.04b76d51dee58p-8",
+"0x1.0c699bfcda8e6p-6",
+"0x1.768b2d2e4d5bdp-10",
+"0x1.62f1a1583a3eep-11",
+"0x1.e152e42c8d42fp-11",
+"0x1.33203c5176c05p-9",
+"0x1.f4d67b81ecfe1p-9",
+"0x1.9dbef282dc28bp-11",
+"0x1.c7b4bab612ac3p-9",
+"0x1.98858fd121293p-11",
+"0x1.a240f6cb890cdp-8",
+"0x1.1a116fbbede53p-9",
+"0x1.67b8d461a558dp-9",
+"0x1.287e36bbb96a4p-10",
+"0x1.7b011817f4821p-9",
+"0x1.2da0c5ee31f71p-9",
+"0x1.164d39c8cafc8p-6",
+"0x1.43d0efef18247p-11",
+"0x1.605659d80b729p-8",
+"0x1.8c455ac703b57p-12",
+"0x1.b8f95ccaafe9ep-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.52636459ca283p-1",
+"p": [
+"0x1.d7cb8aa830b27p-10",
+"0x1.104e0dd7b381fp-9",
+"0x1.6fc234ebd6251p-6",
+"0x1.a524a85ce0e3ap-9",
+"0x1.b399871e71bc6p-10",
+"0x1.1ef43315abcb2p-8",
+"0x1.f45eddfc4b5a0p-11",
+"0x1.a03f23601c55cp-8",
+"0x1.588845b0aca64p-9",
+"0x1.a9e21365bf054p-11",
+"0x1.8c3b488d7e521p-10",
+"0x1.7bc5e2b48c7d7p-10",
+"0x1.8cd2ffdc5bdb5p-9",
+"0x1.7286cb1d512e8p-9",
+"0x1.2edc5b14e2145p-3",
+"0x1.686c8ad01a2bcp-8",
+"0x1.f58c6e563660cp-9",
+"0x1.65ec52e2e57bap-8",
+"0x1.31132ec034c3fp-8",
+"0x1.ad05be532c5e7p-7",
+"0x1.8202204f1b58ap-10",
+"0x1.752f6f89aaa1bp-9",
+"0x1.2073408ed4f13p-10",
+"0x1.152d7072cd380p-10",
+"0x1.03ce837971de7p-7",
+"0x1.d3405dea890ebp-9",
+"0x1.86f11e3b16a66p-10",
+"0x1.7706e55f4b8ddp-9",
+"0x1.271b1d104c4a6p-8",
+"0x1.e970993999dbbp-9",
+"0x1.90f95f236a661p-8",
+"0x1.64bbbaa2be420p-6",
+"0x1.2c20111d69d44p-9",
+"0x1.7056600bda83ap-8",
+"0x1.c32902c7a50c3p-6",
+"0x1.801d34bc1f9f5p-13",
+"0x1.3c58992351a5ep-11",
+"0x1.5de1df264aef6p-8",
+"0x1.a4a168e757bd8p-10",
+"0x1.f28aeee15fa51p-10"
+]
+},
+{
+"choice": "Test Results Enquiries",
+"p_none": "0x1.5bfa33f020b0ep-2",
+"p": [
+"0x1.d25ac5d514b09p-8",
+"0x1.a53d79d6819b0p-12",
+"0x1.e33046b3bb224p-10",
+"0x1.09362b1266450p-10",
+"0x1.241739724e803p-12",
+"0x1.ec5b171033c55p-13",
+"0x1.ec79e7ff23423p-8",
+"0x1.a09f7d9c95f7fp-10",
+"0x1.3a762e96ee377p-7",
+"0x1.3d71580b4d090p-7",
+"0x1.486f43513bb49p-9",
+"0x1.4e74cd16fb0efp-6",
+"0x1.8a471bc2c2e2bp-14",
+"0x1.1de3dc884b0a9p-12",
+"0x1.0e6a416e2209ep-8",
+"0x1.ee7e7db1fa4cfp-13",
+"0x1.449a91cff4bf4p-11",
+"0x1.6b1359f7d9cbfp-9",
+"0x1.43298a82cbe88p-11",
+"0x1.ffe0af6d7e1b9p-2",
+"0x1.05f59b022fb83p-11",
+"0x1.6a435931410e4p-10",
+"0x1.0f01910362f84p-10",
+"0x1.51174a4033cd6p-12",
+"0x1.3d2be8379b40ep-5",
+"0x1.a330b332f394ap-12",
+"0x1.075327ccfd7d0p-11",
+"0x1.dc7529757f7a5p-12",
+"0x1.524f9e16cb387p-7",
+"0x1.55f45338e793fp-11",
+"0x1.409f81c128ab7p-12",
+"0x1.6e01d787374d5p-12",
+"0x1.ec27a2d858404p-13",
+"0x1.8733f01df3e31p-9",
+"0x1.9dee5dc974ae0p-9",
+"0x1.6f4d03d20eb89p-13",
+"0x1.98944eae80dd9p-11",
+"0x1.50b3d3aad04d1p-12",
+"0x1.b6a1b15804d06p-12",
+"0x1.b3258ac1e36d8p-12",
+"0x1.224aad606e939p-10",
+"0x1.e5b1ebac7c17dp-7",
+"0x1.91e21ee9c143fp-9",
+"0x1.05a7eea3a3964p-10",
+"0x1.fbc15845d782ep-10",
+"0x1.35691c6d87cd8p-10",
+"0x1.08fb732f72babp-12",
+"0x1.34a5a22db39b5p-11",
+"0x1.3ea57fac4fb34p-11",
+"0x1.d254e64483f0fp-11",
+"0x1.89d27a03f7622p-14",
+"0x1.3eb07be50dde7p-12",
+"0x1.8c2e2308eaaccp-14"
+]
+},
+{
+"choice": "Exams and Grades",
+"p_none": "0x1.9fd1e946d8044p-4",
+"p": [
+"0x1.1cfae1181473dp-14",
+"0x1.35d366fbf2757p-12",
+"0x1.a771d1f5be2ecp-12",
+"0x1.16e330ead9f9cp-12",
+"0x1.c9205688fba53p-13",
+"0x1.54b48e4ed207ep-14",
+"0x1.11f46743fa1a1p-12",
+"0x1.911bb421f63eep-14",
+"0x1.4c74b035d6c09p-12",
+"0x1.15c2bcb387027p-9",
+"0x1.d04115effca40p-9",
+"0x1.2682a25df32a4p-11",
+"0x1.58f45d2b825e1p-15",
+"0x1.da0a73c320917p-13",
+"0x1.c899a660e126cp-12",
+"0x1.ca2f5c2bce341p-13",
+"0x1.a1606c02de2c4p-14",
+"0x1.5e0ef3c5e685cp-13",
+"0x1.31d069d122afbp-12",
+"0x1.d51f95e8082cbp-12",
+"0x1.f2b49ef49a534p-14",
+"0x1.0e88526472397p-13",
+"0x1.6b3bd73cd0bfbp-12",
+"0x1.5ef7f6cd4deb0p-13",
+"0x1.0df786ee2dc0cp-14",
+"0x1.dc7f1d5e4564ep-13",
+"0x1.c0f99f6eb2365p-1",
+"0x1.3110c379ddbefp-12",
+"0x1.341382e27e829p-13",
+"0x1.8d8c9d9f850c3p-15",
+"0x1.ba7ebe685fdffp-11",
+"0x1.362bd26e13d9ep-10",
+"0x1.26993a700d5b8p-12",
+"0x1.aa284f8c7f774p-15",
+"0x1.3d35d2b276535p-11",
+"0x1.02dc5784e5ff1p-13",
+"0x1.325d4fa7fceadp-13",
+"0x1.64e2288ee2521p-10",
+"0x1.7a6a301e425fap-12",
+"0x1.0c2d411100109p-9",
+"0x1.3bed9c6f5909bp-10",
+"0x1.79686e7afb241p-11",
+"0x1.bbd60e2d55618p-11",
+"0x1.e9211b5e0f833p-16",
+"0x1.5056f5f91da4ep-14"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.70e3627fff24cp-1",
+"p": [
+"0x1.0ff49ee774961p-6",
+"0x1.e662608532394p-9",
+"0x1.21b01c775c307p-8",
+"0x1.8729a9a4505afp-9",
+"0x1.65eea8f63a6ddp-10",
+"0x1.c29f724f91cc5p-13",
+"0x1.113af17d152ddp-9",
+"0x1.a2978779615a3p-10",
+"0x1.c9458d45054f2p-7",
+"0x1.a61b9f19977c2p-11",
+"0x1.852d2282c1db5p-8",
+"0x1.5c6154ad2bf9ep-10",
+"0x1.ae690043ac227p-10",
+"0x1.b7e4192eec546p-9",
+"0x1.3e3ec7958bcc8p-10",
+"0x1.4e4f94975f247p-8",
+"0x1.6928c2b2baaf1p-7",
+"0x1.65370150678afp-5",
+"0x1.64a8c85187662p-10",
+"0x1.cd9980021b0b1p-8",
+"0x1.20334969b6ca2p-10",
+"0x1.80874729efdbfp-6",
+"0x1.5c1103e8d4532p-8",
+"0x1.683ab4dfa599dp-5",
+"0x1.de8d8bd97825cp-7",
+"0x1.ff66cfb154328p-10",
+"0x1.5efa05a625ddfp-8",
+"0x1.bfb85dff9480cp-8",
+"0x1.10bfae468936cp-9",
+"0x1.441d6fca4586fp-9",
+"0x1.095ebfc95ddf6p-12",
+"0x1.0fc1a6f83e262p-9",
+"0x1.95dd93cb36641p-10",
+"0x1.dbfd8334bbd8ap-11",
+"0x1.37ebb773052f6p-10",
+"0x1.19989cdd83747p-6",
+"0x1.c15ebe332054ep-11",
+"0x1.3871b4d861d8ap-10",
+"0x1.c94c76385a8e0p-12",
+"0x1.18c605a07575dp-9",
+"0x1.44f1d9e7e2685p-8",
+"0x1.50a0e7dbaacd3p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d035f296d21bdp-1",
+"p": [
+"0x1.8af2c563c6fd5p-10",
+"0x1.1528617c593f8p-12",
+"0x1.2ce2a0136f2f7p-12",
+"0x1.15027280078d7p-12",
+"0x1.bbb77c3e71131p-11",
+"0x1.7456c295c67c2p-12",
+"0x1.9942db1f1aa30p-11",
+"0x1.5e4935031461ep-10",
+"0x1.19096ecf5d462p-12",
+"0x1.8111640617e56p-10",
+"0x1.e1c4c3cf749cep-12",
+"0x1.0598e42ca49e1p-12",
+"0x1.bdffb0832e312p-12",
+"0x1.20e35eb6de0e2p-11",
+"0x1.063bb39fd7baap-12",
+"0x1.69cc6efaa2e74p-12",
+"0x1.1a2e0fec8434bp-9",
+"0x1.c3d366a5b40aap-6",
+"0x1.041a44db753d2p-9",
+"0x1.faa8ff3be8537p-12",
+"0x1.247b13635b807p-12",
+"0x1.c8d1fb29ce44cp-12",
+"0x1.04fe322c40290p-12",
+"0x1.4e5106ef1ca16p-12",
+"0x1.06f06ec02728bp-12",
+"0x1.90c0608592f12p-12",
+"0x1.04df3a73b7725p-12",
+"0x1.7492d60368361p-8",
+"0x1.0c11fb0b5a9d8p-10",
+"0x1.533da71811d31p-8",
+"0x1.95b856cbabd8ep-10",
+"0x1.69d73b1c13955p-8",
+"0x1.be4e25d0ddba6p-12",
+"0x1.35b6c915a7658p-9",
+"0x1.e7fea8d5aae65p-8",
+"0x1.27850d26664edp-11",
+"0x1.44fbf0b08146cp-12",
+"0x1.c9a3c8e99a081p-11",
+"0x1.3bf5bb42e6598p-9",
+"0x1.28c425ff3dcb9p-12",
+"0x1.f31fec33007abp-12",
+"0x1.7514b330ecaeap-12",
+"0x1.0e96ad235834ep-10",
+"0x1.6e916abda7d57p-10",
+"0x1.02b3fe5a11b5ap-11",
+"0x1.390a22e3d6ed0p-12",
+"0x1.9843d3b7b4f0ep-11",
+"0x1.06f075f66060ap-12",
+"0x1.170161f5f161bp-9",
+"0x1.14c1a8f464e83p-9",
+"0x1.16d0365c67434p-12",
+"0x1.61cb2c48b5051p-9",
+"0x1.85b98b711b0a2p-12",
+"0x1.26b1de0bbc2dbp-11",
+"0x1.251da23ed93cap-10",
+"0x1.1f49e01b96fb0p-10",
+"0x1.0aa5c257a7575p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d3aba6d78726cp-1",
+"p": [
+"0x1.5892129b70403p-11",
+"0x1.066dd6e731b12p-10",
+"0x1.27fbc8797ced8p-10",
+"0x1.10bf50765c7c1p-9",
+"0x1.1e80d5da340bfp-9",
+"0x1.31074dd1c0b89p-11",
+"0x1.5e057351196dcp-11",
+"0x1.4599d09574d18p-10",
+"0x1.5885db2dcd446p-9",
+"0x1.4e5a6c5211bbdp-6",
+"0x1.38340aa665578p-9",
+"0x1.ff011c6d6b0ebp-11",
+"0x1.2eb731ec663f8p-10",
+"0x1.7b92336e9151bp-8",
+"0x1.325ebc181062bp-9",
+"0x1.45bd3a537eaafp-10",
+"0x1.435c0ade8b95ap-8",
+"0x1.182bf61e0b36dp-10",
+"0x1.15712615ae983p-9",
+"0x1.b1773160bbcf8p-11",
+"0x1.1908d51d87e8cp-10",
+"0x1.d60b2e419f5afp-6",
+"0x1.06a4d237d7a60p-12",
+"0x1.9001031b29c02p-12",
+"0x1.975448a1295ebp-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c2eab70625fcbp-2",
+"p": [
+"0x1.3a8a0ef18885ep-7",
+"0x1.c1344ed547d6dp-6",
+"0x1.7ce4be30c1776p-10",
+"0x1.38c11536b4907p-10",
+"0x1.ee6e952374348p-8",
+"0x1.41851c2931667p-8",
+"0x1.5c347fd5befbfp-9",
+"0x1.faf335e2b3ff4p-14",
+"0x1.902029577d848p-12",
+"0x1.c2d2562e9611ep-10",
+"0x1.0d665591499f3p-7",
+"0x1.986c252642eccp-10",
+"0x1.921fedb199559p-12",
+"0x1.40db38eade26ap-9",
+"0x1.9f532737f3b79p-9",
+"0x1.97fea59fe1d7cp-9",
+"0x1.361337cbb6af1p-10",
+"0x1.63d19fba4031ep-8",
+"0x1.57932dd19f5e7p-10",
+"0x1.2e17a47885d1ep-11",
+"0x1.93684e96f6e77p-12",
+"0x1.2834b1184a71ap-11",
+"0x1.952d6d6897e38p-11",
+"0x1.21be6df53ca69p-7",
+"0x1.ae33d7a2be07bp-11",
+"0x1.10835af8438c9p-9",
+"0x1.0a22e9aa9f4f9p-10",
+"0x1.fc7a74dbbcf60p-9",
+"0x1.31855b8952972p-3",
+"0x1.62eb5457b2720p-11",
+"0x1.c3409e81b7de5p-8",
+"0x1.dfd5899337c28p-10",
+"0x1.75986f0e6771cp-6",
+"0x1.0d4acb44195bfp-11",
+"0x1.add39cd5d5b88p-10",
+"0x1.e069a98e10681p-10",
+"0x1.c767762572e9dp-12",
+"0x1.2e24b7d906fd9p-11",
+"0x1.ad516110bd192p-10",
+"0x1.b85ce52325239p-9",
+"0x1.36d3eb25634e3p-9",
+"0x1.001b5194d083cp-5",
+"0x1.2034a70dfa17cp-12",
+"0x1.025839e6c6c80p-11",
+"0x1.6eeb72e1449e8p-10",
+"0x1.1bcaa9cdbc81dp-9",
+"0x1.857cf4e475152p-9",
+"0x1.4ea48c58ce9dep-3",
+"0x1.e8a7451aeccf4p-9",
+"0x1.d925771ab5f50p-9",
+"0x1.ec031b76cbd01p-7",
+"0x1.5102c0e2cc55ep-11",
+"0x1.1f83b735ee997p-8",
+"0x1.f7afd348f6395p-12",
+"0x1.92a4b308ded8cp-9",
+"0x1.10574a0d6d6f3p-11",
+"0x1.e760f9ff15802p-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.8bdd05ed9ccfap-1",
+"p": [
+"0x1.8c9dfe0af86a0p-5",
+"0x1.8cbede0d03326p-10",
+"0x1.30a95e1e69d16p-6",
+"0x1.94ec49f2b8de0p-10",
+"0x1.e0b5ceb1674eap-11",
+"0x1.ade079381df49p-10",
+"0x1.be8db45de0746p-6",
+"0x1.c3a745c78577bp-13",
+"0x1.5857edc6919c7p-7",
+"0x1.1a95e8d212280p-9",
+"0x1.d2c3cb1c8af8dp-10",
+"0x1.1f6ab6d524cf8p-7",
+"0x1.3355c1e178882p-8",
+"0x1.885b75c7aedbfp-10",
+"0x1.c10e193ce4f35p-10",
+"0x1.c582f682a79c4p-10",
+"0x1.19b194a45eb16p-9",
+"0x1.1ab1118399105p-9",
+"0x1.f0519630896a7p-9",
+"0x1.21652fd163039p-10",
+"0x1.0f669c8dba44ep-10",
+"0x1.2bc5ad72b10dep-10",
+"0x1.b927395fd814fp-5",
+"0x1.977bc9491330fp-10",
+"0x1.5b6220a09e179p-9",
+"0x1.8996f17adc73cp-8",
+"0x1.605997d79f30ap-9",
+"0x1.a47d99473fd47p-10",
+"0x1.c98ba2efae1dbp-12",
+"0x1.e3ff8fe314ae1p-11",
+"0x1.148e90b1af531p-10",
+"0x1.0e56c12780cb2p-9",
+"0x1.4efd4dff276a7p-10",
+"0x1.b8eef7cdb5cdcp-10",
+"0x1.b879ae922672dp-8"
+]
+},
+{
+"choice": "Limpieza y residuos",
+"p_none": "0x1.a4dfbf2cfd15ep-2",
+"p": [
+"0x1.3ce1a0be33fb2p-11",
+"0x1.eebfcbb36d992p-14",
+"0x1.dde3829a40de7p-12",
+"0x1.01e0aab978fdep-1",
+"0x1.236054b585298p-12",
+"0x1.26c687924b3dcp-10",
+"0x1.1dd5599bbc441p-12",
+"0x1.29c297553fea5p-11",
+"0x1.66a4988f774aep-10",
+"0x1.02118444ef50ep-12",
+"0x1.65703fd505f2ep-11",
+"0x1.743429794d9bep-10",
+"0x1.18752ea0df8bbp-11",
+"0x1.562179f01bdd8p-9",
+"0x1.197eaf7cfae4dp-10",
+"0x1.a4cca4f3b575fp-13",
+"0x1.1334a73131b0bp-7",
+"0x1.001112541fb89p-9",
+"0x1.012ae0ab6c7a1p-11",
+"0x1.e5625048eae45p-14",
+"0x1.6b80140793eeep-6",
+"0x1.349b77dbd91c4p-13",
+"0x1.9fddc23327eacp-9",
+"0x1.77b13e0a42774p-10",
+"0x1.22125f7a3ceb0p-8",
+"0x1.a08770399005cp-10",
+"0x1.13a28420fd4ffp-10",
+"0x1.e06a6ad49a151p-12",
+"0x1.22f80fbd6d39fp-11",
+"0x1.1a06affdeb3d5p-11",
+"0x1.3a63b08a52f84p-11",
+"0x1.6bb461c36193ap-12",
+"0x1.00830d05295b6p-7",
+"0x1.32ce728fa6286p-11",
+"0x1.7b309c2805c3ep-9",
+"0x1.f7d1515203bfbp-9",
+"0x1.dd1b4b39596a9p-13",
+"0x1.a0b1b242dbb52p-12",
+"0x1.1296efaaadb9ap-8",
+"0x1.0442649526875p-9",
+"0x1.b07c1d51797c5p-11",
+"0x1.5808b2a0133a4p-9",
+"0x1.bb1e3a6d4bfa5p-13",
+"0x1.6b5b118fba9c3p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9e5e36ec99f01p-1",
+"p": [
+"0x1.db3f13e05e04ap-9",
+"0x1.f65e0f3cbe934p-12",
+"0x1.37c47b01284fap-5",
+"0x1.eb71cb283e396p-9",
+"0x1.1287c9dbd1cc3p-4",
+"0x1.d6dfa516c405ep-13",
+"0x1.5d59fd30f6a6ep-11",
+"0x1.a5e12c32037dap-5",
+"0x1.0fa587c493fb8p-10",
+"0x1.006f7c482bbc8p-11",
+"0x1.60da5e3dbf4e9p-10",
+"0x1.9e5b6f53e90a0p-11",
+"0x1.3822e284f75f0p-10",
+"0x1.2d31e5c42966bp-8",
+"0x1.14f05a8467880p-11",
+"0x1.1e1e42ace86f9p-8",
+"0x1.1cf39c19794b5p-9",
+"0x1.5258c5c0e57c9p-12",
+"0x1.65f14e41cedb6p-12",
+"0x1.c448e9d88bcd7p-12",
+"0x1.b0b76b3a9469cp-10",
+"0x1.bf83223503e97p-11",
+"0x1.e7eb0d5404d4bp-12",
+"0x1.d1508b280a483p-13",
+"0x1.fa820c550fac7p-10",
+"0x1.1ec8268e4fc76p-10",
+"0x1.dc4fea2f16bf7p-13",
+"0x1.e9bab547b572dp-12",
+"0x1.b775c18d37e66p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e09fd2df5083ep-1",
+"p": [
+"0x1.773219f16b998p-11",
+"0x1.debfb4ece35d1p-10",
+"0x1.33a6f2cfa1cbdp-10",
+"0x1.1b354ee0ae0e3p-9",
+"0x1.c1c4cdf123f87p-10",
+"0x1.c356ae682c96ep-11",
+"0x1.44d8a31569418p-12",
+"0x1.dabc35653b634p-11",
+"0x1.fe88d5034c3e3p-11",
+"0x1.f5fb434fb095ep-10",
+"0x1.73c2b22523341p-9",
+"0x1.5b3b6d9f3e438p-9",
+"0x1.009df63718c63p-9",
+"0x1.fdea865f69af5p-12",
+"0x1.f762167bc2753p-11",
+"0x1.5cc169cf00f16p-11",
+"0x1.447140e0fe22ap-11",
+"0x1.1af47057aea42p-11",
+"0x1.964280c133626p-11",
+"0x1.15b5c6806cc9ap-11",
+"0x1.9cd64c2df0c13p-9",
+"0x1.b7cf689dcd09ap-12",
+"0x1.50bdc95200cefp-11",
+"0x1.c4f93915155c7p-12",
+"0x1.cd4914a4ebbbep-10",
+"0x1.bfdf81fde8e61p-11",
+"0x1.0ce9dbc47add3p-10",
+"0x1.2694a54952ddap-9",
+"0x1.23943bfbbe6ddp-11",
+"0x1.5f1430e8e6014p-6",
+"0x1.7491fccbe550ap-11",
+"0x1.469b864987b35p-10",
+"0x1.8d10c36a13d01p-11",
+"0x1.52b6a3b1cbc22p-11",
+"0x1.b3b290a478cf4p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.7d326cd7d5378p-1",
+"p": [
+"0x1.d16ea4543ac2ap-5",
+"0x1.9f99e51695dc2p-4",
+"0x1.7bab445bf45abp-7",
+"0x1.05c6510daaf06p-7",
+"0x1.d7f5a838174b7p-12",
+"0x1.4e24cc71fdb77p-11",
+"0x1.5ba30a7dc3646p-8",
+"0x1.ef680b4b0b0e8p-7",
+"0x1.376ca389984d7p-6",
+"0x1.06618a2b0b0e8p-10",
+"0x1.020083b1ee2d2p-11",
+"0x1.3204b3261b102p-11",
+"0x1.e87bb7eb022c8p-9",
+"0x1.27519ad71bd6ep-9",
+"0x1.7fe65cbbba40dp-8",
+"0x1.e5b3b5f150ebcp-9",
+"0x1.4a8c9829d1e99p-9",
+"0x1.d88d084209495p-12",
+"0x1.b02ad753c3b29p-13",
+"0x1.a3e619810c3eap-7",
+"0x1.fc7796006eb56p-11",
+"0x1.49fb9cb3e498ep-9"
+]
+},
+{
+"choice": "add a shopping list item",
+"p_none": "0x1.42a33fd642c9ep-3",
+"p": [
+"0x1.1475db3049c39p-14",
+"0x1.c2db180d04c9fp-12",
+"0x1.6c88746923cc8p-12",
+"0x1.332986cad4c6ep-12",
+"0x1.2a935a7f4bcc5p-14",
+"0x1.db56f49de6a64p-8",
+"0x1.6a4d98b2c5c1ep-15",
+"0x1.544195c1fc33bp-11",
+"0x1.6a84f15e37185p-15",
+"0x1.76ce5a9da9d6ep-15",
+"0x1.74b8fc35b4b59p-15",
+"0x1.73db49ac8c0c3p-9",
+"0x1.aba39f7d651dap-13",
+"0x1.61c4ed78b6074p-10",
+"0x1.755692a90f74cp-15",
+"0x1.6e34ca7ab89f4p-15",
+"0x1.baaefe0915f66p-15",
+"0x1.7df101964c84cp-14",
+"0x1.692ba661d7650p-15",
+"0x1.4bb522cff8bd3p-11",
+"0x1.41491772c3d7dp-11",
+"0x1.10c2383070c6ep-12",
+"0x1.6a4a056c99ca5p-11",
+"0x1.613b9641f53dep-12",
+"0x1.4d2869086f961p-13",
+"0x1.bc407789ddb03p-12",
+"0x1.865cf82d4c246p-14",
+"0x1.80dc827d7b93bp-15",
+"0x1.204b4e8095857p-6",
+"0x1.6bdd0717079e0p-15",
+"0x1.6e3fc40eccf7bp-12",
+"0x1.69da0916516bcp-15",
+"0x1.dbffcb1843b90p-11",
+"0x1.977293328ccebp-1",
+"0x1.6b18a9cd645edp-15",
+"0x1.2dc184e3bbe26p-13",
+"0x1.032266275df4dp-12",
+"0x1.d99fcf6183f90p-9",
+"0x1.1714536a1d000p-12",
+"0x1.dc33d74e3f8c4p-13",
+"0x1.6e33c04d6b5c1p-15",
+"0x1.6be03245a5a4fp-12",
+"0x1.ba5a3b735f753p-13",
+"0x1.11140d90eaf2cp-11",
+"0x1.b60f5a7e47e02p-15",
+"0x1.d746021d6f658p-15",
+"0x1.8d769334bd974p-12",
+"0x1.e89874e575c61p-12",
+"0x1.774345033cad6p-15",
+"0x1.a8d4faab3b7adp-15",
+"0x1.6662fc5f89dd7p-13",
+"0x1.aa54e631ded26p-13",
+"0x1.4e251460d7fe5p-13",
+"0x1.f27b765c6e1c3p-10",
+"0x1.4fc2342e07018p-13",
+"0x1.082a7c3112bf5p-11",
+"0x1.73d99b41d60d9p-11"
+]
+},
+{
+"choice": "Terminales y tarjetas SIM",
+"p_none": "0x1.062fcf6843f28p-2",
+"p": [
+"0x1.27fde06bc0986p-14",
+"0x1.cf743ba1787c2p-9",
+"0x1.0a6fa0c4f112ep-9",
+"0x1.55813d36a4d5ep-2",
+"0x1.c86656ae4a093p-11",
+"0x1.5f2151ecfb30ap-13",
+"0x1.dd8d0ffee27c8p-14",
+"0x1.e687b2abcd4c6p-10",
+"0x1.18b20a40ff046p-12",
+"0x1.dc1e0837fc8dep-12",
+"0x1.cb2448b13d62dp-12",
+"0x1.6cfb51d258935p-2",
+"0x1.d5f5058ca1a95p-11",
+"0x1.d9f92c084ddfdp-11",
+"0x1.6b846987e043cp-12",
+"0x1.794658027a482p-8",
+"0x1.c876ea5801c31p-9",
+"0x1.286af6e53901fp-7",
+"0x1.b7a0b5735c945p-11",
+"0x1.78cf17bf8ce3ep-13",
+"0x1.30d0525b03516p-6",
+"0x1.112fa15b83764p-8"
+]
+},
+{
+"choice": "cambiar un vuelo",
+"p_none": "0x1.964b1d3e15f84p-6",
+"p": [
+"0x1.284191e3a7c45p-14",
+"0x1.11cbea478d3e3p-16",
+"0x1.098853f94ef7dp-15",
+"0x1.ebde12dffe2ffp-12",
+"0x1.f218faecf4954p-1",
+"0x1.586213171ddaap-13",
+"0x1.b70c712752372p-12",
+"0x1.09a844148369ep-14",
+"0x1.d1751d4750ab0p-18",
+"0x1.a12a02dfef98bp-16",
+"0x1.1e2622ab98e7ap-15",
+"0x1.cf0344a1ca938p-18",
+"0x1.2073504ff22b7p-15",
+"0x1.55a0f8942ac81p-17",
+"0x1.0d7d7f9b2f628p-16",
+"0x1.0a90a93d4c943p-15",
+"0x1.dcd71069d0720p-15",
+"0x1.20192413de6fcp-14",
+"0x1.b58b883c73476p-12",
+"0x1.07d12801c9401p-17",
+"0x1.366b95fcb9412p-15",
+"0x1.0b60d2e767f98p-13",
+"0x1.d2122a9941bfdp-18",
+"0x1.d10514df01171p-18",
+"0x1.d9e711f99ed12p-18",
+"0x1.dc99772ff8915p-15",
+"0x1.54313dfb2ad05p-17",
+"0x1.ca012638f0d73p-18",
+"0x1.1334f8187090dp-15",
+"0x1.d064366e0f37dp-18",
+"0x1.9e968131721d3p-17",
+"0x1.0616b589db6aep-14",
+"0x1.cf6d74d6676f9p-18",
+"0x1.9a4c11393a1c0p-16"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c7b639647377ep-1",
+"p": [
+"0x1.d247e9b555880p-12",
+"0x1.2759c0f286f4bp-12",
+"0x1.074b6489270f7p-12",
+"0x1.683d54b651444p-11",
+"0x1.1dd56978ed0cfp-12",
+"0x1.ac1a37ff1e374p-10",
+"0x1.e220e836b8720p-12",
+"0x1.165883cc50bc1p-11",
+"0x1.6ee07c619da54p-11",
+"0x1.127c5baa23492p-12",
+"0x1.24ec60bd1cbf6p-12",
+"0x1.10c8a6dfa68f6p-12",
+"0x1.014ef1d038ec9p-12",
+"0x1.00e65d1616852p-12",
+"0x1.c6664fc9e14ffp-11",
+"0x1.105e4cb22013bp-12",
+"0x1.671913a9fc6cdp-11",
+"0x1.00bc65ea02fb8p-11",
+"0x1.025757b210a36p-12",
+"0x1.0cf86ed31d6abp-12",
+"0x1.a0f844fedaa81p-10",
+"0x1.9e68399890587p-11",
+"0x1.1c2bf4cfd0d9cp-12",
+"0x1.028cef2446559p-12",
+"0x1.2ef03d6ff5f05p-12",
+"0x1.3a3dc32b0b34cp-12",
+"0x1.2e8eb050f67abp-10",
+"0x1.256790c56c3d5p-12",
+"0x1.3ff0c24fdfadbp-12",
+"0x1.0edd284364500p-12",
+"0x1.02c4261c00aa7p-12",
+"0x1.7253477d06782p-12",
+"0x1.7c8d5e5fd74e2p-12",
+"0x1.012632c76c0f8p-12",
+"0x1.a0d8e12c78abcp-9",
+"0x1.1ae0c0d5f2803p-11",
+"0x1.353782f48504bp-11",
+"0x1.21554dc06c5fdp-9",
+"0x1.7b99d8a6642c0p-10",
+"0x1.01d1e3ec971b9p-12",
+"0x1.ff23dbcf66f63p-12",
+"0x1.42f0cd87cf9f4p-10",
+"0x1.027f3d45d7e7ep-12",
+"0x1.a2938ad10e96ep-10",
+"0x1.6b15c351ef8f5p-12",
+"0x1.d748fd69ad0c3p-11",
+"0x1.52bbd6da97caap-9",
+"0x1.938671025afc1p-9",
+"0x1.221f9b96a4248p-11",
+"0x1.2f83f315a1b51p-4",
+"0x1.220ff45786cd4p-11"
+]
+},
+{
+"choice": "Money",
+"p_none": "0x1.630816f7bc1d3p-11",
+"p": [
+"0x1.68a43f7750339p-18",
+"0x1.ccfb3c23252e0p-15",
+"0x1.e31fa4f1f9ddcp-18",
+"0x1.f153660d7e5afp-19",
+"0x1.16c3669530f11p-15",
+"0x1.6bc65eb114ce1p-21",
+"0x1.359d031060221p-21",
+"0x1.e089f2bba9becp-17",
+"0x1.837c91f6d754cp-20",
+"0x1.524c394ffb967p-19",
+"0x1.40c884bab0a69p-21",
+"0x1.6144d4d4671c6p-18",
+"0x1.02f41d70c51f6p-21",
+"0x1.8345739315b5ep-16",
+"0x1.0dcec9127028bp-16",
+"0x1.ecb63aaa3555ap-21",
+"0x1.69eb05a04e2f9p-18",
+"0x1.21bcffed48ee9p-17",
+"0x1.7302dd9b4ad34p-5",
+"0x1.ee22c5b5048e4p-21",
+"0x1.c00ecfe773472p-17",
+"0x1.08af68b6c8f50p-16",
+"0x1.de06044af9b5dp-1",
+"0x1.7fb8181bb63ebp-16",
+"0x1.8e0c7ad37d1ecp-21",
+"0x1.1d60e36dd6260p-6",
+"0x1.7ce1799e3e77ep-16",
+"0x1.4488d5c079c76p-18",
+"0x1.5e61b2111c837p-21",
+"0x1.09345e0ffbdd1p-17",
+"0x1.be8e30ce10c1cp-18",
+"0x1.af7af666deffep-20",
+"0x1.e68a2215f7bfcp-10",
+"0x1.68df4122c4e04p-16",
+"0x1.3a66b6de47f69p-17",
+"0x1.f929d173437bfp-15",
+"0x1.ffa76ab824834p-22",
+"0x1.a2f73da50f219p-19",
+"0x1.7822475bb097ap-15",
+"0x1.2e3e0a185329bp-21",
+"0x1.b5c5481e551d1p-17",
+"0x1.33c6781e34091p-16",
+"0x1.908ae7695c010p-19",
+"0x1.cdeb9b02bc18cp-19",
+"0x1.acb6ce68cd5e8p-16",
+"0x1.246d6e671bc0ep-14",
+"0x1.c01612f0871dcp-23",
+"0x1.a53d0ebe7ff5ep-15",
+"0x1.bd29764507cc1p-16",
+"0x1.d99800b0afe4ep-16",
+"0x1.b1de000e2b793p-18",
+"0x1.078b14e034065p-17",
+"0x1.ab3f88fbd3394p-20",
+"0x1.d58f3bc8c5661p-19",
+"0x1.77d51d13bf4f1p-19",
+"0x1.c9bf3a1bb6941p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c0266dc652443p-1",
+"p": [
+"0x1.dcda43b2c679cp-9",
+"0x1.255950d7b77b3p-8",
+"0x1.f090cce9fe2f0p-10",
+"0x1.0ed5bd704666bp-9",
+"0x1.e97c8400da410p-8",
+"0x1.0fc56d85f2decp-10",
+"0x1.6bbffead31a98p-9",
+"0x1.53bf269ab8acep-11",
+"0x1.a436588c1b98ep-11",
+"0x1.15201d108bff5p-9",
+"0x1.436bd457e32f1p-5",
+"0x1.93fd852c5c076p-7",
+"0x1.b5e617c8dbfdbp-9",
+"0x1.d68062b32d9dcp-9",
+"0x1.e015bce4b7d08p-11",
+"0x1.a184bfbe4701ap-12",
+"0x1.6c4d6309ab70ap-11",
+"0x1.b5ca2ebb6939dp-8",
+"0x1.c15dfe162eeb3p-10",
+"0x1.ba284f4129261p-12",
+"0x1.9dff17856ceeap-11",
+"0x1.ecc29e3245173p-11",
+"0x1.454ead6da71a3p-7",
+"0x1.4b3e7e3420b12p-10",
+"0x1.9f26fd4ccc184p-10",
+"0x1.616e0fb11316bp-10",
+"0x1.7338e91aadaebp-8",
+"0x1.2acdbb937fd6ep-8",
+"0x1.196028f71eda0p-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e685c56ebce3ap-1",
+"p": [
+"0x1.e569eace99e75p-12",
+"0x1.62b2d5e69af02p-11",
+"0x1.39d19da859917p-12",
+"0x1.2a1dacd9a88f2p-10",
+"0x1.8ab62e7ae69c7p-11",
+"0x1.cf59dce6b263ep-11",
+"0x1.2a38586e9462fp-12",
+"0x1.40c0f5624b7fbp-8",
+"0x1.979d257594411p-9",
+"0x1.2c524a61e52c2p-12",
+"0x1.cfaae967df08fp-9",
+"0x1.bbcb9819b3391p-9",
+"0x1.47f485cb457a3p-11",
+"0x1.4c12c19917696p-8",
+"0x1.c0678a102ab86p-9",
+"0x1.56fd532fb296cp-12",
+"0x1.fb8cb70ef9690p-10",
+"0x1.95ae886f5a821p-9",
+"0x1.268fe74a289aep-8",
+"0x1.ee7cb67bf47f1p-11",
+"0x1.f466a451c0c35p-10",
+"0x1.fd21a1bfd697dp-12",
+"0x1.f15e6f35321b8p-9",
+"0x1.2c7b51721309ap-9",
+"0x1.f8be9225517a3p-11",
+"0x1.77ea6f14e6fd0p-12",
+"0x1.6185c531bd091p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.5661209f77bf0p-1",
+"p": [
+"0x1.13d96808cfc5bp-10",
+"0x1.a7eab6b890d55p-13",
+"0x1.eeddd58d45f15p-7",
+"0x1.7266d904eb9f5p-8",
+"0x1.85cf0ccbf9499p-11",
+"0x1.0939f973b00e0p-10",
+"0x1.ee47e11fd1048p-11",
+"0x1.d5cb6a4ffffa4p-12",
+"0x1.51d2c7eaa6699p-10",
+"0x1.9fd7f0133ef24p-12",
+"0x1.c5227dcf8b7a5p-10",
+"0x1.832c8bf48069ap-10",
+"0x1.7dbc9e7c46e92p-11",
+"0x1.94c22cb9d264ap-10",
+"0x1.5c867371eccb5p-11",
+"0x1.28eaf398740f8p-11",
+"0x1.47ad706a4f968p-11",
+"0x1.93181d97310b9p-10",
+"0x1.4f7e74b3ecec2p-10",
+"0x1.b3ca61f4b09dap-9",
+"0x1.33510d0a57e06p-10",
+"0x1.8b226fc80e2bap-9",
+"0x1.9cafca180756ep-10",
+"0x1.097bb33da3c32p-7",
+"0x1.ddfb6da7f4fdap-11",
+"0x1.c50d455afabc3p-12",
+"0x1.52302000c57b4p-11",
+"0x1.f5e71f8ece552p-3",
+"0x1.1fbaa9defb218p-9",
+"0x1.34c69200f6053p-11",
+"0x1.35ed51d01c6dep-11",
+"0x1.3cb4405b32233p-10",
+"0x1.b2d43a27d8999p-11",
+"0x1.95de5ea713cefp-11",
+"0x1.2c4e3610a804dp-6",
+"0x1.cd647cb25718ep-12",
+"0x1.1fd0316dba11dp-12",
+"0x1.c4bd30b01d65ep-10",
+"0x1.18be9829b5e76p-9",
+"0x1.d028432557aaep-12",
+"0x1.0ba93440e3fcfp-11"
+]
+},
+{
+"choice": "Facturaci\u00f3n",
+"p_none": "0x1.66f10060a6a35p-2",
+"p": [
+"0x1.ce0514d848303p-12",
+"0x1.95bfee8943c19p-9",
+"0x1.dd04746f00713p-12",
+"0x1.d1eb0f75ff852p-13",
+"0x1.4e18e9f3c1afdp-9",
+"0x1.0838d95d087f7p-9",
+"0x1.fa6afc0954342p-8",
+"0x1.6866a3e8d5e16p-8",
+"0x1.7009375787c44p-9",
+"0x1.3bd100ff7db79p-10",
+"0x1.8fc7d143523fbp-6",
+"0x1.7d07ef28843efp-10",
+"0x1.bdd6bdde72f00p-10",
+"0x1.fafc532b8265ap-12",
+"0x1.1fd5aca608e0bp-7",
+"0x1.150acb21fd1ccp-10",
+"0x1.c9f2c7f3994ffp-9",
+"0x1.0d06051219837p-5",
+"0x1.b1e5e8c686848p-6",
+"0x1.c71d9002d0d36p-10",
+"0x1.bd16e1049401ap-7",
+"0x1.35e5b2ea786aep-7",
+"0x1.660f011e4d8d8p-11",
+"0x1.d245ec9246710p-8",
+"0x1.a448802898030p-10",
+"0x1.53afce4b444a1p-10",
+"0x1.3691b78e8acfcp-11",
+"0x1.00a8f50e2252fp-3",
+"0x1.41530d43e2751p-8",
+"0x1.69ea43c31ef21p-2",
+"0x1.0a51ba2c4418bp-10",
+"0x1.b5fee01126702p-10",
+"0x1.6c7473d71e14cp-12"
+]
+},
+{
+"choice": "Exams and Grades",
+"p_none": "0x1.c39f5c060c4e3p-4",
+"p": [
+"0x1.c2cb2ac313267p-9",
+"0x1.6932023d5588ap-14",
+"0x1.3f71bbd6a3d3bp-10",
+"0x1.ca1647f201658p-12",
+"0x1.61440a937abb3p-11",
+"0x1.cd5da3b79b21cp-12",
+"0x1.ec9ef4274a4bap-10",
+"0x1.137b0b10d3209p-13",
+"0x1.75c02cd71dd54p-11",
+"0x1.b0bfe6efb84acp-14",
+"0x1.8e08af80de9f8p-13",
+"0x1.64797e71916efp-2",
+"0x1.90151376f1674p-9",
+"0x1.efafbe26d5d00p-8",
+"0x1.a3a0032f9c8ccp-11",
+"0x1.3bfb17aa9ae06p-11",
+"0x1.531d0ebd28dfdp-14",
+"0x1.9e73439a769dcp-13",
+"0x1.7762b2b60d5d7p-13",
+"0x1.5afbca1cbffe3p-11",
+"0x1.58c843160a17bp-13",
+"0x1.79cb6ab329874p-11",
+"0x1.bd0525dd5da12p-11",
+"0x1.96c19db263e2cp-13",
+"0x1.9d9ef7a2e19c4p-14",
+"0x1.23aa10cb3e88bp-12",
+"0x1.cabfe3dffb630p-13",
+"0x1.0012601d5ed22p-12",
+"0x1.a452feb866ceap-12",
+"0x1.1d4cd3a9b94f4p-11",
+"0x1.9287d0c393841p-11",
+"0x1.a3ebc2dc81804p-11",
+"0x1.dcb1e0fb585a7p-13",
+"0x1.c09c8b74aeaa3p-11",
+"0x1.13b442d799007p-2",
+"0x1.1517fd40e3569p-13",
+"0x1.11a028160869fp-7",
+"0x1.698301b232553p-11",
+"0x1.db1b88593cce6p-12",
+"0x1.7cd09b2e8f977p-11",
+"0x1.3fe4017a198ffp-3",
+"0x1.780b16603da39p-13",
+"0x1.10ca2466c411fp-12",
+"0x1.48a96ef9407c5p-9",
+"0x1.3c2f86a751f68p-10",
+"0x1.88befd50050e5p-13",
+"0x1.e671edadc2e90p-5",
+"0x1.5afbdd7e1c2cep-7",
+"0x1.520b4c4219a22p-14",
+"0x1.020025af70ff9p-10",
+"0x1.1afdf9a7cc23cp-13",
+"0x1.f5c2e7bed1940p-12",
+"0x1.c15b4d9eb47d4p-11",
+"0x1.3a30750c52a1ep-15",
+"0x1.b094d6cc68857p-14",
+"0x1.045292a8acde7p-15"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.cf89157ba36e9p-1",
+"p": [
+"0x1.279a5e95dc4d6p-10",
+"0x1.d3f2e12502165p-11",
+"0x1.eae17df37de69p-11",
+"0x1.f84b29ece0794p-10",
+"0x1.fdecd4d11dad5p-12",
+"0x1.75d1c542347e3p-11",
+"0x1.17c5370c7f39ap-12",
+"0x1.63b5f469f999ep-8",
+"0x1.ef007537c1b37p-8",
+"0x1.43bf53716b6ebp-11",
+"0x1.08a3fc22cf9f0p-12",
+"0x1.0532336f22066p-11",
+"0x1.1c6062ca3b2a7p-11",
+"0x1.9fceed9751bc2p-12",
+"0x1.fb4007ed16365p-12",
+"0x1.092738a12a90cp-10",
+"0x1.fd784fbebcfd5p-11",
+"0x1.cd363223fe9dbp-11",
+"0x1.2ed74b8007ff5p-10",
+"0x1.1a98716a35ee2p-11",
+"0x1.26b2e8de749f1p-10",
+"0x1.18ff1f9a55ca9p-11",
+"0x1.b513b899939cap-10",
+"0x1.91422b9fceb77p-12",
+"0x1.3bdc0dd687094p-10",
+"0x1.5987decb5d7c7p-11",
+"0x1.62bd44d535b84p-11",
+"0x1.54afb10d8d4c4p-11",
+"0x1.701d2f9cafa95p-9",
+"0x1.9b67642bc8377p-9",
+"0x1.66c2dba1023f9p-10",
+"0x1.c7114a091322fp-11",
+"0x1.df12c03e9245ep-12",
+"0x1.4b3929d6fb2f1p-10",
+"0x1.f3088409b5202p-10",
+"0x1.a2a24b54c948dp-11",
+"0x1.2a58b85bdcf2fp-11",
+"0x1.90e6214b7f3c3p-12",
+"0x1.365eed494c855p-9",
+"0x1.0e3f59e945fbcp-8",
+"0x1.3c5500ecb58f0p-7",
+"0x1.0e28cda466a76p-10",
+"0x1.5b75126120ae3p-6",
+"0x1.15b0a07a90e50p-9",
+"0x1.a3027a833ed5fp-11",
+"0x1.b7830f4e8bd7ep-10",
+"0x1.863a99a5bd995p-10",
+"0x1.b328d43a45125p-11",
+"0x1.73a76e4213c02p-11",
+"0x1.0c3dfb3f0713ep-11",
+"0x1.081acd7a8eb7bp-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.cdb7d52e910d0p-1",
+"p": [
+"0x1.9afdc9721c879p-10",
+"0x1.5374178f7a513p-10",
+"0x1.bb46cf34a6a4dp-6",
+"0x1.e35429d47fa5dp-9",
+"0x1.32c03ed9675d5p-8",
+"0x1.a2e99ca0b321fp-8",
+"0x1.36575b7c742b2p-9",
+"0x1.0e510c8a7e313p-9",
+"0x1.4453b56364a40p-10",
+"0x1.fab01235dc271p-10",
+"0x1.20c99a8e575efp-9",
+"0x1.08842d7c2bc17p-12",
+"0x1.fd6caa7d49a5bp-10",
+"0x1.c75185e3760ecp-11",
+"0x1.4eb6e960750bcp-11",
+"0x1.4c592d93d5072p-9",
+"0x1.aacc8b56ea254p-10",
+"0x1.1d806483d9cf4p-8",
+"0x1.ad0d3b19618a1p-10",
+"0x1.93090513f3e24p-9",
+"0x1.3ed01401777f7p-11",
+"0x1.0b050786cafd1p-12",
+"0x1.7658e6f9b9498p-7",
+"0x1.4bf3dc269aed0p-9",
+"0x1.50e5e811f1091p-8",
+"0x1.9c94f62c7a7ebp-10",
+"0x1.2a1282654628fp-10",
+"0x1.046f46393bbdep-12",
+"0x1.f88a9c9af10f1p-10",
+"0x1.cb963318114b9p-11",
+"0x1.1884b862dc3c3p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f2e85e12d9b8cp-1",
+"p": [
+"0x1.4bfde34777fbap-11",
+"0x1.8399cf06a50e7p-9",
+"0x1.a39728d90850cp-11",
+"0x1.2213936d586b4p-12",
+"0x1.328b052183e9dp-12",
+"0x1.06151638e0b06p-8",
+"0x1.8171feab308a9p-12",
+"0x1.3bc1d9f75af9ep-9",
+"0x1.9bae30d22ac4fp-11",
+"0x1.97eb832c8b88cp-11",
+"0x1.1d2ddd4e4cf23p-11",
+"0x1.1feca0a79e65dp-12",
+"0x1.41221f047c250p-8",
+"0x1.f1f0ebe85ec0dp-12",
+"0x1.313286ec4bcf8p-10",
+"0x1.8c5fcefc31c3bp-11",
+"0x1.11bec87c10873p-9",
+"0x1.19b1d7401d897p-11",
+"0x1.03aba3b4bf21fp-11",
+"0x1.b8e7e75fbba14p-12",
+"0x1.437a49f9e7b19p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.db5bff9045747p-1",
+"p": [
+"0x1.83a1edd27b3f4p-12",
+"0x1.2f727805af318p-9",
+"0x1.c810a03fb819fp-10",
+"0x1.a8ea2d4c847d3p-10",
+"0x1.02aa8de5ebde4p-9",
+"0x1.26f29c99a3b0cp-9",
+"0x1.10b4c4b24a672p-9",
+"0x1.2e2680295f264p-12",
+"0x1.10de25fb2b61bp-10",
+"0x1.0e1f553d3918ap-10",
+"0x1.2b02fef97759ep-9",
+"0x1.3875774c57904p-10",
+"0x1.5abe5108e8676p-7",
+"0x1.bdc52e0ac921dp-12",
+"0x1.12e39ffc0a639p-8",
+"0x1.49a974a81b8a0p-10",
+"0x1.8c2bb3151865bp-8",
+"0x1.f09712ed9bfe6p-10",
+"0x1.43295ae7c8242p-11",
+"0x1.7ef124f068420p-10",
+"0x1.ee8605f88c0b8p-11",
+"0x1.cff65dfe3fdf1p-10",
+"0x1.0e52fe988ac12p-12",
+"0x1.82d7927289932p-10",
+"0x1.811f39fa3276ap-12",
+"0x1.a3f30bb2012ffp-10",
+"0x1.fba89638ee33ap-10",
+"0x1.5ec4a28672ba7p-9",
+"0x1.127c43a4921dap-9",
+"0x1.bfa03ab7dcd67p-11",
+"0x1.5618c56a30ecdp-11",
+"0x1.ddfa1424fff46p-10",
+"0x1.159f9f2c6f44ep-12",
+"0x1.1c1d9cef8cc63p-9",
+"0x1.a8208d54de33dp-10",
+"0x1.14b2373039a5cp-9",
+"0x1.5de40ce6bd2f3p-10",
+"0x1.839e8795cfcb2p-9"
+]
+},
+{
+"choice": "Facilities",
+"p_none": "0x1.70b58caab901ep-4",
+"p": [
+"0x1.4699bb4a9aa57p-12",
+"0x1.c29da1c805165p-13",
+"0x1.2c7ce89d67d10p-12",
+"0x1.0c7784db67692p-13",
+"0x1.028bed1792282p-15",
+"0x1.9d81caef2f21ep-11",
+"0x1.e3c069ff9af3fp-13",
+"0x1.b908f1ae3a2a6p-12",
+"0x1.0f7001c258ea4p-13",
+"0x1.a0b69ad179b0dp-16",
+"0x1.75951ec1ee6b7p-13",
+"0x1.fb51c33bfeca5p-8",
+"0x1.a0915632459d1p-16",
+"0x1.d215401549641p-13",
+"0x1.aff7efdb4377ep-12",
+"0x1.1d0aee0f04b11p-13",
+"0x1.af6c06834434ap-12",
+"0x1.5db0af4555b01p-9",
+"0x1.7ebaf80aa3ad7p-10",
+"0x1.60bf70e7aa98cp-12",
+"0x1.32f5511962ef2p-11",
+"0x1.3d643c38c15cdp-13",
+"0x1.efe8185cfa7ccp-13",
+"0x1.d348a52fe3c4ep-10",
+"0x1.92b1140bffcefp-11",
+"0x1.6a6840a247fffp-11",
+"0x1.8fc39a9ba55f4p-12",
+"0x1.9d6af4509dd63p-13",
+"0x1.e64210314d7c5p-13",
+"0x1.37d6ebe88555ap-12",
+"0x1.04afd7a5aa43ep-12",
+"0x1.5151aa3643346p-8",
+"0x1.9fe7d4402bc90p-11",
+"0x1.44bb9d9577cf2p-9",
+"0x1.b8dc7ca6dad42p-1",
+"0x1.660d08cda60dap-12",
+"0x1.7f4c5720664d7p-14",
+"0x1.08525a567fe68p-8",
+"0x1.8cfe074297703p-14",
+"0x1.b06443ffa0574p-11",
+"0x1.2cdf09d0cbc18p-13",
+"0x1.5e5a9ee6b4cf5p-13",
+"0x1.0f13d1ee5edd3p-11",
+"0x1.6601b43f493d2p-13",
+"0x1.89f9663cb360cp-14",
+"0x1.dc8fe25ab4343p-12",
+"0x1.de226b00a883bp-12",
+"0x1.79b2b5911924fp-14",
+"0x1.93bcbbdeaa43dp-10",
+"0x1.1eb6a6ab411f7p-13",
+"0x1.6c7efbc8e2918p-13",
+"0x1.55fef7a24f26cp-13",
+"0x1.fdf695514c159p-13",
+"0x1.4ce72ff9ff839p-14",
+"0x1.a681b1ffc8edcp-9",
+"0x1.f72835f0ece69p-13",
+"0x1.68a33fb1a3752p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d2994611022eap-2",
+"p": [
+"0x1.8c4b4631d4d77p-8",
+"0x1.9add1ba74aa50p-10",
+"0x1.b44130ab4b33cp-9",
+"0x1.05b07729203d3p-11",
+"0x1.01078e39ddb59p-6",
+"0x1.20278c8afaca2p-6",
+"0x1.8bfd870dddce5p-7",
+"0x1.4f367e96e2597p-10",
+"0x1.81f6247d7aa43p-13",
+"0x1.b2361b8c6efa6p-9",
+"0x1.14e8a7489abe5p-7",
+"0x1.d1871f703113fp-7",
+"0x1.017a0815dd358p-10",
+"0x1.7a272cecf8996p-5",
+"0x1.af18f42d08bb0p-11",
+"0x1.eb2dc3f9725bbp-12",
+"0x1.4a8922f3ef6c9p-9",
+"0x1.df8dc6ccf3710p-12",
+"0x1.64aff4a2bb47fp-2",
+"0x1.c2b686b583b96p-5",
+"0x1.9bf97740c949fp-11",
+"0x1.50f3a486b95bcp-11",
+"0x1.05b358993c85dp-10",
+"0x1.7e3d704a0f26bp-9"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.5343d9ffd671bp-1",
+"p": [
+"0x1.55f6e74fec1c2p-9",
+"0x1.610c5a9ff5d49p-5",
+"0x1.563980da9416cp-9",
+"0x1.4b457b9fb5b95p-9",
+"0x1.fab3fe47a3050p-8",
+"0x1.3be116c340cb4p-7",
+"0x1.0d49b7b52498fp-7",
+"0x1.b09aafa2d5b17p-9",
+"0x1.8d1baadb1f9c2p-7",
+"0x1.b4d130a67a0c5p-7",
+"0x1.4e475d29a9a3cp-11",
+"0x1.13a696a2d0227p-10",
+"0x1.cf1a866bc24f7p-6",
+"0x1.b0591d11b04c7p-7",
+"0x1.4fde1f1576f4ep-8",
+"0x1.24cac03b64b65p-7",
+"0x1.82566e7c95effp-9",
+"0x1.878f8e0f80164p-10",
+"0x1.e71de1c24c776p-10",
+"0x1.75e325bba1c1fp-9",
+"0x1.831ab85ba6befp-10",
+"0x1.068d3ec911eb0p-6",
+"0x1.51c14d36d608ap-11",
+"0x1.57a4a1d12deccp-11",
+"0x1.968d6091bdbc8p-10",
+"0x1.96c1cf24e5bb5p-12",
+"0x1.4b1268a21d14ap-9",
+"0x1.0c9897e9640e1p-7",
+"0x1.b5d7e461f0953p-11",
+"0x1.3af5cb97f6048p-4",
+"0x1.acb026b86db14p-10",
+"0x1.5b2b75d5d42a6p-8",
+"0x1.232ea42b1e5aap-6",
+"0x1.14f2a1166d38ap-8",
+"0x1.7680fd80dc971p-8",
+"0x1.2320b7e06d113p-9",
+"0x1.9676fcef29562p-12",
+"0x1.1056d76bf333ep-9",
+"0x1.96d283c1bd833p-7",
+"0x1.c4040a4da4d2fp-10",
+"0x1.9ec1fb5f61776p-9"
+]
+},
+{
+"choice": "cancel a flight",
+"p_none": "0x1.1ef4f19613ffep-5",
+"p": [
+"0x1.d1ee428773c56p-1",
+"0x1.49485a93eb414p-17",
+"0x1.9a9a3a6dd5be9p-17",
+"0x1.41e08138c62c8p-17",
+"0x1.b92256c044f7cp-13",
+"0x1.757c689e7e5e6p-17",
+"0x1.866d82c6c6d48p-9",
+"0x1.435723b67ba6ep-17",
+"0x1.502930e7d2510p-17",
+"0x1.42e48a78e3ca0p-15",
+"0x1.6bec7e9ad780ep-17",
+"0x1.de2ed866da55bp-8",
+"0x1.c1ea53d6b622fp-15",
+"0x1.4e5fd70e0d97ep-14",
+"0x1.452a310f8298ep-17",
+"0x1.64ce425ebeb1ep-12",
+"0x1.4436069626386p-17",
+"0x1.afa129481d1bcp-6",
+"0x1.bb9a02a49d237p-11",
+"0x1.a6cdac89b3301p-15",
+"0x1.4e09ec90dbf2fp-17",
+"0x1.a020d55aeacd6p-12",
+"0x1.14e4ff05c197ep-7",
+"0x1.4e1c36001af06p-17",
+"0x1.3046f866ab3f9p-11",
+"0x1.47beeaa84e219p-17",
+"0x1.8af008b63b3d6p-14",
+"0x1.508ce878cf8e1p-17",
+"0x1.5680c2cc2582fp-8",
+"0x1.16ea7e8ec98ddp-10",
+"0x1.4babb0376aed1p-17",
+"0x1.133e950f125b4p-11",
+"0x1.467eba8c6187ap-17",
+"0x1.3d59666f70a30p-15",
+"0x1.5bb2aa4acd305p-16",
+"0x1.4325c7b0d3b58p-17",
+"0x1.e9687d39a42d7p-15",
+"0x1.93c0e6ce00e0cp-14"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.a5184cb9f43b8p-2",
+"p": [
+"0x1.ad01ccb43afd0p-12",
+"0x1.53d4db803da76p-12",
+"0x1.4e3e659ae9952p-11",
+"0x1.e978b77ee3d61p-11",
+"0x1.323f3df34e51ap-9",
+"0x1.eaf1a592429b2p-11",
+"0x1.678915abc12f5p-11",
+"0x1.a04643a7fca32p-9",
+"0x1.b2631ca34ad50p-13",
+"0x1.0b9681b6c0b67p-11",
+"0x1.c06d311f0d964p-12",
+"0x1.9e4c1481a956fp-8",
+"0x1.1b55125ccd4dcp-10",
+"0x1.dcb944a80ddc8p-14",
+"0x1.2480353b74633p-7",
+"0x1.c3fff15f86d3ap-13",
+"0x1.29e1493544b65p-3",
+"0x1.851468f5e4675p-13",
+"0x1.7267b0c87fa33p-8",
+"0x1.892eb8562149dp-11",
+"0x1.b353eb0387518p-12",
+"0x1.c64e691fb6f26p-11",
+"0x1.9fe7533644730p-2",
+"0x1.b191004870fd4p-13",
+"0x1.15d66f8b9ae49p-10",
+"0x1.3feee8020ebd7p-11",
+"0x1.7c3b57b05e2c4p-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.841641566595bp-1",
+"p": [
+"0x1.db52b42b2098ep-9",
+"0x1.d658904b53c2cp-10",
+"0x1.8af6557de95f3p-11",
+"0x1.27486a1a80eefp-9",
+"0x1.d47778e0794bap-10",
+"0x1.d6fccb62852fcp-10",
+"0x1.4cfecdf4a5c6bp-11",
+"0x1.ab4ad2c003bc1p-11",
+"0x1.1460fb27a2695p-11",
+"0x1.2ef10f6d2c431p-6",
+"0x1.b017c3ff0fa85p-12",
+"0x1.ec6325ecc9709p-11",
+"0x1.e6739ea647641p-11",
+"0x1.eb6af4346ba44p-8",
+"0x1.4075b7e84de52p-7",
+"0x1.a289c7a1e5a11p-9",
+"0x1.fdf09351dbab8p-11",
+"0x1.b41e09407b1a5p-7",
+"0x1.b964db671bf58p-9",
+"0x1.85581dd152aedp-10",
+"0x1.483a4c59ca0a2p-10",
+"0x1.522fd9487fa40p-9",
+"0x1.6ff63835e30f4p-11",
+"0x1.0d43beec3835ap-10",
+"0x1.bd3f47fc737c0p-10",
+"0x1.2403a6d2fda80p-12",
+"0x1.e54337b02c1dcp-11",
+"0x1.adfbb6c951735p-11",
+"0x1.441b231ff8c79p-6",
+"0x1.877d836ba168dp-11",
+"0x1.d144109aa9fe4p-11",
+"0x1.a50916988d1cep-11",
+"0x1.dd99156145b81p-13",
+"0x1.83d2f3e67ad7ap-7",
+"0x1.73b6856ea9d5fp-9",
+"0x1.b21fd7882b74ep-5",
+"0x1.4a27191d508d5p-9",
+"0x1.c44fbbbb0788dp-8",
+"0x1.76046cea69032p-10",
+"0x1.7bdd17e1c028ep-10",
+"0x1.2db00a1877685p-12",
+"0x1.785fe61a58500p-9",
+"0x1.dc27fd1958084p-10",
+"0x1.70520161163b8p-11",
+"0x1.b136be103de0cp-6",
+"0x1.d16ac3db3bccap-11",
+"0x1.8dca419050f8fp-11",
+"0x1.b60e5294038d0p-13",
+"0x1.2ee50dae28fa6p-9",
+"0x1.b7816af2c579ap-13",
+"0x1.ad730326f1f2bp-8",
+"0x1.55ad05fee62b4p-10",
+"0x1.46e3611817109p-12",
+"0x1.ea2d4aca44706p-11",
+"0x1.3aa886d620ad9p-9",
+"0x1.14085f2bba64ap-9",
+"0x1.df99b003ddb16p-13",
+"0x1.57be08a80a58dp-10",
+"0x1.b3385b7ea4194p-9",
+"0x1.0572f48e76bb6p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d10c4ac59df38p-1",
+"p": [
+"0x1.291e8b7f86912p-9",
+"0x1.8fefbfa560259p-12",
+"0x1.5fb7bf9d96305p-8",
+"0x1.d8593792163acp-11",
+"0x1.3de896f1116c5p-9",
+"0x1.cb9a93ba311ccp-10",
+"0x1.1c84a4e390fdep-12",
+"0x1.7746d700b272ep-12",
+"0x1.19cac02eb6f76p-7",
+"0x1.dc1d72a100946p-11",
+"0x1.b932b8112da5ep-12",
+"0x1.fe5d6469954a6p-8",
+"0x1.34bc2fb7f794cp-10",
+"0x1.9b1164107e709p-9",
+"0x1.6ba9ae1b852e6p-10",
+"0x1.06b49b3c45933p-12",
+"0x1.2897afaa679ecp-12",
+"0x1.ce45333d5d1cep-11",
+"0x1.0a6e858198c90p-8",
+"0x1.1f194d513cc1ep-5",
+"0x1.035852bce7379p-9",
+"0x1.ecd09a452e336p-10",
+"0x1.118986aaeffe1p-10",
+"0x1.99bc2037c36bdp-11",
+"0x1.a7f42fe1397c8p-9",
+"0x1.4f5b3bf4c09c8p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.911489872f125p-1",
+"p": [
+"0x1.e28bdad1a938ap-13",
+"0x1.56c618ec82517p-12",
+"0x1.25c80ddc0c986p-12",
+"0x1.01f75d3360b39p-11",
+"0x1.3e238940c35e3p-5",
+"0x1.eef84334cdac9p-10",
+"0x1.de063ab85621fp-10",
+"0x1.c1fad14dd5f6ap-13",
+"0x1.ea6168171db9ep-11",
+"0x1.2e75389fcf12ep-11",
+"0x1.1245a7746eff3p-10",
+"0x1.5c5b4cfc67aa5p-10",
+"0x1.0d510c137f527p-6",
+"0x1.f294e857dbc63p-6",
+"0x1.ceac7d86c4095p-13",
+"0x1.c2dd64391372ap-13",
+"0x1.297e665755fd3p-12",
+"0x1.7374741122a69p-10",
+"0x1.01099e869b851p-12",
+"0x1.992a71eb4c91ap-12",
+"0x1.f0da1794f14d0p-11",
+"0x1.c711b71f9e882p-13",
+"0x1.3262a30b1f99ap-7",
+"0x1.261a493470f2bp-6",
+"0x1.15cb56907cfecp-12",
+"0x1.588ac57087577p-12",
+"0x1.8a2f4c4d95ad3p-7",
+"0x1.146f0bc36f2f3p-12",
+"0x1.47b77497b128ap-7",
+"0x1.572b64f7435a1p-12",
+"0x1.7ab12ae7f741cp-12",
+"0x1.84bd4526b353ep-11",
+"0x1.3939f1ac57fbcp-11",
+"0x1.012e9830b4acep-8",
+"0x1.0e3d92155df6bp-7",
+"0x1.1476f2cc0e6a8p-12",
+"0x1.70fc81155b258p-11",
+"0x1.e7a4d2a4307f3p-13",
+"0x1.a8fdc15af1baap-11",
+"0x1.d5b25d1ad5e0ap-13",
+"0x1.abe8ac5944045p-8",
+"0x1.0b764066cc282p-12",
+"0x1.3476d30871005p-12",
+"0x1.baa0e75762791p-7",
+"0x1.b11f8b76a874ep-9",
+"0x1.57531506c0b06p-12",
+"0x1.d39af26aa5f0bp-13",
+"0x1.5a1fcdc88d68ap-8",
+"0x1.32a329bedd2e6p-12",
+"0x1.fac3ad4e91689p-12",
+"0x1.57f6a6ceefe75p-10",
+"0x1.a7dd256eba25cp-10",
+"0x1.37b4cd1437b3cp-11",
+"0x1.7f54542452062p-11",
+"0x1.3a692b040c945p-10",
+"0x1.7975e95b89290p-10",
+"0x1.d399996631be0p-13",
+"0x1.892a8fd9bc45bp-7",
+"0x1.70572ceb7fee8p-10",
+"0x1.c5203dad3a09ep-13"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.932b4fbee38bbp-1",
+"p": [
+"0x1.062f4eac34be3p-10",
+"0x1.4036151a0c220p-3",
+"0x1.1918c5d301556p-10",
+"0x1.0eb73c5299cbbp-11",
+"0x1.1d8379ebd625dp-10",
+"0x1.d36f5a8f6ee90p-11",
+"0x1.458eb2eb87c9cp-12",
+"0x1.afc1ea6784ac3p-12",
+"0x1.74e20846f902ep-10",
+"0x1.ce138a84355a3p-13",
+"0x1.110fd78be9015p-9",
+"0x1.d3fb3038f7afbp-13",
+"0x1.9ff57569275f2p-10",
+"0x1.bdf1f9aab603fp-11",
+"0x1.79c233e43a392p-10",
+"0x1.d356ab1a325e9p-12",
+"0x1.35beb9378ca80p-11",
+"0x1.f2321d179a3a0p-11",
+"0x1.b25ab875bbf1fp-12",
+"0x1.2465e1d2202e3p-6",
+"0x1.4ae5b2c12df68p-11",
+"0x1.cc080215d85d5p-10",
+"0x1.29a621b8e837ap-10",
+"0x1.14dae5dde16e1p-9",
+"0x1.2647df1eb0970p-11",
+"0x1.cba5760fb3399p-11",
+"0x1.782b8e8f97fa0p-10",
+"0x1.82e28cde8b5cdp-11",
+"0x1.7e89a4f7f8339p-11",
+"0x1.c55c2183b11bdp-11",
+"0x1.55e00d1142f16p-11",
+"0x1.9dd14fa490707p-12",
+"0x1.c24ddd45a144bp-11",
+"0x1.4dae3fb84d554p-11",
+"0x1.46d569603fd14p-12",
+"0x1.8633027f6d2a6p-12",
+"0x1.97cfac634ac51p-9",
+"0x1.cc159c01124e7p-13",
+"0x1.f0922a06d7a6dp-10",
+"0x1.c6afd96880d2ep-13",
+"0x1.737984e96892ep-9",
+"0x1.05d9e60c5a7d2p-11"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.49d265149d046p-1",
+"p": [
+"0x1.5e4b6f50be175p-9",
+"0x1.a29bc20edf3e3p-12",
+"0x1.15cb0fd379b4cp-9",
+"0x1.76d64c41dc700p-13",
+"0x1.6ee67c2da33a7p-9",
+"0x1.74a3b258c0784p-11",
+"0x1.08dada12da165p-11",
+"0x1.78dbad10769d4p-13",
+"0x1.ace5c0b4c41ddp-9",
+"0x1.42488d229bce2p-10",
+"0x1.c461866d8d1a8p-12",
+"0x1.d70e1d681f6eep-11",
+"0x1.92edad711090dp-5",
+"0x1.e463b0a75b381p-9",
+"0x1.655d78448d43fp-10",
+"0x1.be7b9a9492ac6p-7",
+"0x1.862b10af129c3p-7",
+"0x1.74a062ef9d7a1p-13",
+"0x1.b62209db0936bp-10",
+"0x1.d29d93eda41d2p-11",
+"0x1.06ac31303681dp-8",
+"0x1.dfb55d3f157c4p-6",
+"0x1.7422a10fc0fe8p-13",
+"0x1.5eaf641fb9141p-6",
+"0x1.40ec1d81d50d5p-9",
+"0x1.9d9bb51de3173p-11",
+"0x1.f9418251cc2f6p-5",
+"0x1.47543c4cf7165p-10",
+"0x1.95d75c3dd48c7p-11",
+"0x1.fc3698352eadbp-9",
+"0x1.68989d1f60122p-10",
+"0x1.70d25386ec20ap-10",
+"0x1.4cd18c65273d0p-7",
+"0x1.76d18a6f744a8p-6",
+"0x1.1661ce47637cep-12",
+"0x1.1788b14d71167p-9",
+"0x1.64308722adbedp-11",
+"0x1.dd4e219abffe5p-7",
+"0x1.da79c49daf88ap-11",
+"0x1.160d3f5d3f905p-7",
+"0x1.03bd983e75578p-12",
+"0x1.29aa90836b6dcp-12",
+"0x1.aeb603c331712p-10",
+"0x1.b574f4f1d2014p-7",
+"0x1.3b9dc27211a1ep-11",
+"0x1.227726cc5eeacp-9",
+"0x1.4dfb31cc31b4bp-7",
+"0x1.07843b8fb43e1p-5",
+"0x1.20e520dae5ce9p-10",
+"0x1.32626406de5aep-8",
+"0x1.b9bcb286c112fp-10",
+"0x1.3c273931891d2p-10"
+]
+},
+{
+"choice": "Video Games",
+"p_none": "0x1.9b6fabe2a860bp-2",
+"p": [
+"0x1.93b61cb0bbc9bp-8",
+"0x1.436de331c02bap-8",
+"0x1.a55624269ad28p-10",
+"0x1.71cbd4a0f5acdp-8",
+"0x1.28e39f53919efp-1"
+]
+},
+{
+"choice": "cancel a flight",
+"p_none": "0x1.cda29e191bfecp-3",
+"p": [
+"0x1.40ddde9f76d92p-11",
+"0x1.03fe1fda0d1eap-7",
+"0x1.092a8fa3de09bp-11",
+"0x1.c2b5e252009fcp-10",
+"0x1.5fa8cc358c692p-7",
+"0x1.8194dfbcc0c49p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.fde51843de57fp-1",
+"p": [
+"0x1.0d73de10d4013p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.594b2880deb91p-2",
+"p": [
+"0x1.b9257c618e2adp-3",
+"0x1.4b650155c59b4p-4",
+"0x1.4241e33fb265dp-2",
+"0x1.a837adc9b3270p-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.bcdbd705eda4fp-1",
+"p": [
+"0x1.2204789ed7745p-5",
+"0x1.b24fbaf318f6fp-5",
+"0x1.5dee5c0f35453p-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9256545b4423bp-1",
+"p": [
+"0x1.ae2f9545ce2d9p-12",
+"0x1.8ea3636316eb4p-3",
+"0x1.2792662647764p-7",
+"0x1.2e977b13a4d88p-8",
+"0x1.67ca254680174p-8"
+]
+},
+{
+"choice": "Patient Relations",
+"p_none": "0x1.a34747e120747p-7",
+"p": [
+"0x1.0aa133a0ea95ep-11",
+"0x1.6ac655e987a9fp-13",
+"0x1.363f11511ce87p-13",
+"0x1.b2ad35ad0045ap-15",
+"0x1.f8f79a0cd7db4p-1",
+"0x1.f15edc4281c1cp-15"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.feb53e76bbcd0p-1",
+"p": [
+"0x1.4ac1894433054p-9"
+]
+},
+{
+"choice": "News Headlines",
+"p_none": "0x1.ccc3effac7505p-5",
+"p": [
+"0x1.006f34ca6313ap-9",
+"0x1.b21d978248c20p-1",
+"0x1.6155b2afa2bedp-5",
+"0x1.a005f1e463a08p-5"
+]
+},
+{
+"choice": "Loans and Mortgages and everything related to it, including the special cases nobody thinks about",
+"p_none": "0x1.e2d24d445396bp-2",
+"p": [
+"0x1.74d671427ed06p-6",
+"0x1.f5ed099765ffep-2",
+"0x1.fe684203cf8b3p-7"
+]
+},
+{
+"choice": "return an item",
+"p_none": "0x1.bd0b4b31d687bp-2",
+"p": [
+"0x1.f3f5c080d8935p-9",
+"0x1.02fc17da8645ap-8",
+"0x1.543bcc45b988ep-9",
+"0x1.1618a68071d8ap-1",
+"0x1.84e28a89d13c7p-7"
+]
+},
+{
+"choice": "Phones and SIM Cards",
+"p_none": "0x1.9d875d750ce23p-6",
+"p": [
+"0x1.fb5d6c4e4a10ep-11",
+"0x1.248d149334370p-14",
+"0x1.ee5a09e568f75p-1",
+"0x1.0a9db1586b420p-8",
+"0x1.0d725388572bfp-8",
+"0x1.9f6174f0a7352p-17"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f68bf2b2c58e0p-1",
+"p": [
+"0x1.2e81a9a74e410p-6"
+]
+},
+{
+"choice": "News Headlines",
+"p_none": "0x1.232986e8eab2fp-5",
+"p": [
+"0x1.5ef6393bcb3a7p-7",
+"0x1.d2620f6ea4d7fp-1",
+"0x1.1af449605a53ap-5",
+"0x1.100ea9f5eaa9bp-7"
+]
+},
+{
+"choice": "Work and Career and everything related to it, including the special cases nobody thinks about",
+"p_none": "0x1.87181041bff12p-2",
+"p": [
+"0x1.7700da0528818p-4",
+"0x1.3ed230e6db868p-4",
+"0x1.cb732d033f0cfp-2"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e7c22ba25247fp-1",
+"p": [
+"0x1.258dc7107c465p-6",
+"0x1.f8331c30a99d2p-8",
+"0x1.43ff32fdd1500p-6",
+"0x1.873ca2018bf68p-11",
+"0x1.3e6e58b32a4dap-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.aafd969d82382p-1",
+"p": [
+"0x1.34009479c9766p-5",
+"0x1.13722e910ba4ap-8",
+"0x1.7c30dcd18ddc6p-11",
+"0x1.1574e2d9c29d0p-9",
+"0x1.4053a694972d3p-4",
+"0x1.61c85d11e0d7ap-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.903ed4334cfeep-1",
+"p": [
+"0x1.bf04af32cc043p-3"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.7da657df47c37p-1",
+"p": [
+"0x1.dabd8851678e8p-6",
+"0x1.206920cb12129p-6",
+"0x1.4794a09a79a34p-3",
+"0x1.89b4ab13606c4p-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.eb8278f457fd8p-1",
+"p": [
+"0x1.363b03715b577p-6",
+"0x1.a043c53356c67p-7",
+"0x1.12a7f6d3f32d1p-7"
+]
+},
+{
+"choice": "Estado del pedido",
+"p_none": "0x1.add24c1fa3d53p-2",
+"p": [
+"0x1.1f89e04fdc468p-1",
+"0x1.658f3f5d66cedp-7",
+"0x1.3a2c3d61d9a6ap-8",
+"0x1.40df587281145p-10",
+"0x1.c3e8f7be7fc15p-10"
+]
+},
+{
+"choice": "transfer money",
+"p_none": "0x1.6fc8ba9ce575ap-7",
+"p": [
+"0x1.fe548660c0578p-17",
+"0x1.6fdcc8f09554ap-14",
+"0x1.f6f7a00a0465dp-1",
+"0x1.92144e55b1abep-8",
+"0x1.f50e91d6ebdcap-14",
+"0x1.fbafe00112ae7p-15"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.d5ec8f5e43f9fp-1",
+"p": [
+"0x1.509b850de0302p-4"
+]
+},
+{
+"choice": "Accommodation",
+"p_none": "0x1.61175a4f576cfp-2",
+"p": [
+"0x1.e273436ad066cp-5",
+"0x1.078b40e0e66aap-1",
+"0x1.1f1104f017f2ap-6",
+"0x1.064aacca00c74p-4"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.e31fd6c2a0665p-1",
+"p": [
+"0x1.6c40c05ec58acp-7",
+"0x1.fb74106c51120p-6",
+"0x1.d4e16e207ebf7p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.77bdd6111115fp-1",
+"p": [
+"0x1.d6751725cb151p-7",
+"0x1.e2a810ae3c8bep-10",
+"0x1.614fbae712f73p-8",
+"0x1.e5004bcc3f837p-7",
+"0x1.d681839405eddp-3"
+]
+},
+{
+"choice": "Reclamaciones formales",
+"p_none": "0x1.daf5d30fb17c5p-8",
+"p": [
+"0x1.15402fa7e3abcp-12",
+"0x1.933f8653c20ddp-3",
+"0x1.955d13e80edadp-14",
+"0x1.14d0231248eacp-14",
+"0x1.9716620e8ea45p-1",
+"0x1.5eba35a531266p-12"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.baca95c00c798p-1",
+"p": [
+"0x1.14d5a8ffce19dp-3"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.ae098ec27c6fbp-1",
+"p": [
+"0x1.40a8c8224a215p-6",
+"0x1.1c5d41e1331b0p-7",
+"0x1.45cc8e8e1b859p-6",
+"0x1.ca8a8c03dcb58p-4"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.fd616daa8b7dcp-1",
+"p": [
+"0x1.5083586251cb5p-10",
+"0x1.17575de92031ep-9",
+"0x1.bdf296b4724c4p-10"
+]
+},
+{
+"choice": "Health and Fitness",
+"p_none": "0x1.e375f5b5e3e18p-2",
+"p": [
+"0x1.3fc5edc1675b3p-13",
+"0x1.06f279b5b5630p-1",
+"0x1.1dc2c81e162bcp-7",
+"0x1.d94256431c469p-9",
+"0x1.dc83338241944p-10"
+]
+},
+{
+"choice": "comprar un billete de avio\u0301n",
+"p_none": "0x1.7d5d635a4f3b4p-6",
+"p": [
+"0x1.8098255930686p-11",
+"0x1.6bf4ca875f29dp-11",
+"0x1.1189905611ab7p-10",
+"0x1.8dbbd6ab7d553p-6",
+"0x1.e40b4face012fp-1",
+"0x1.2bff3f672dec7p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9db5c9030e706p-1",
+"p": [
+"0x1.8928dbf3c63ecp-3"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.6fc76bf3ada1ep-1",
+"p": [
+"0x1.093f565422d8ap-4",
+"0x1.1f6e8d69ee056p-6",
+"0x1.41438581915b5p-3",
+"0x1.5c453761a3c0ap-5"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.9a68809f8407ap-1",
+"p": [
+"0x1.178e09d1e797ap-5",
+"0x1.9b2891ae28c5fp-5",
+"0x1.d360ad43d7944p-4"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.db5673641f736p-1",
+"p": [
+"0x1.a726e594e3b19p-7",
+"0x1.2b5e72190b396p-6",
+"0x1.b845df43c6240p-8",
+"0x1.9a91031ccac56p-6",
+"0x1.1b3a6755b06b6p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c214f1091aa2bp-1",
+"p": [
+"0x1.19621ed0c9c07p-5",
+"0x1.2f0b9a12eb2b6p-7",
+"0x1.f1cce1e525beep-7",
+"0x1.eafcd8ac1ffb8p-6",
+"0x1.56f10bc96cf42p-6",
+"0x1.7086fd9305837p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.ec1094b313d27p-1",
+"p": [
+"0x1.3ef6b4cec2d88p-5"
+]
+},
+{
+"choice": "Fraud and Disputes",
+"p_none": "0x1.1d69ae8aa8c9ap-2",
+"p": [
+"0x1.27593426b2310p-6",
+"0x1.c05ad33ebf199p-5",
+"0x1.282c8bfd82d7dp-1",
+"0x1.1ef12f403a021p-4"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f876ab707e3ebp-1",
+"p": [
+"0x1.513912711dd4bp-8",
+"0x1.bf417ef4d1664p-9",
+"0x1.93d075d55a20ap-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.fad2ce9fb0c81p-1",
+"p": [
+"0x1.032ca9dc173f2p-8",
+"0x1.f17677f80f14ep-10",
+"0x1.afc09ae149dffp-10",
+"0x1.72d16190edc08p-10",
+"0x1.39a7a4c3cc0c4p-10"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.b3ec4ebaf907ep-1",
+"p": [
+"0x1.6b2acdfc4e129p-5",
+"0x1.d96f9434a9eccp-8",
+"0x1.c2cd628c145d2p-5",
+"0x1.0a09e34ef85cep-6",
+"0x1.e32e3b3b825bcp-7",
+"0x1.6911c32c6c401p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.fd51124bcc9dcp-1",
+"p": [
+"0x1.5776da19b11a5p-8"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.4f32541d5daeep-1",
+"p": [
+"0x1.0e9d8cfddb6a6p-6",
+"0x1.ae12f387e0662p-3",
+"0x1.944eec81028f4p-4",
+"0x1.4944a113614dap-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.c5701ff70adc3p-1",
+"p": [
+"0x1.797a6b5a7ee1bp-5",
+"0x1.91cd7140a7030p-5",
+"0x1.3b6c47e858b03p-6"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.07a6f6d130693p-1",
+"p": [
+"0x1.26f58d10a80a7p-7",
+"0x1.48babedb44b6ep-8",
+"0x1.ee639102469e7p-10",
+"0x1.290a621e03809p-2",
+"0x1.6ebd6a954e26dp-3"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.b942696784fa5p-1",
+"p": [
+"0x1.31c2a22b5d588p-7",
+"0x1.6523fab39bf6bp-8",
+"0x1.dee10b19bbbbep-5",
+"0x1.9f0202e6de4a1p-7",
+"0x1.962a9cb1cbadap-8",
+"0x1.795d623cb8c25p-5"
+]
+},
+{
+"choice": "Login and Access",
+"p_none": "0x1.a7550555f66aap-11",
+"p": [
+"0x1.ff962abeaa827p-1"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.f6f05c2af7e28p-2",
+"p": [
+"0x1.c0fc05eb0c26ap-6",
+"0x1.5dcbe61473fbdp-4",
+"0x1.88a3ae9b1440bp-2",
+"0x1.9d276ac4c3706p-7"
+]
+},
+{
+"choice": null,
+"p_none": "0x1.52481f2dc215ep-1",
+"p": [
+"0x1.8c951d721e640p-3",
+"0x1.6f88ca6eee9e1p-4",
+"0x1.ca18027d87d58p-5"
+]
+}
+]
+}
