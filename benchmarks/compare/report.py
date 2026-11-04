@@ -42,7 +42,7 @@ TEST_ABOUT = {
 TEST_NAMES = {"bench2000": "2,000-case benchmark", "snips": "SNIPS", "atis": "ATIS", "mtop_es": "MTOP (Spanish)",
               "hwu64": "HWU64", "clinc_real_indomain": "CLINC150 (20 options)", "tickets_made": "Tickets, queue removed",
               "tickets_far": "Tickets, unrelated texts"}
-SYSTEMS = ["zeropoint", "laya_none", "laya", "semantic_router", "nli", "strands_none"]
+SYSTEMS = ["zeropoint", "laya_none", "laya", "semantic_router", "nli", "strands_none", "clef_flash_none"]
 NAMES = {"zeropoint": "ZeroPoint 1.0", "laya_none": "Laya + \"None of these\"", "laya": "Laya",
          "semantic_router": "Semantic Router", "nli": "Zero-shot NLI (DeBERTa-v3-base)",
          "strands_none": "Strands Decider 2B + \"None of these\"",

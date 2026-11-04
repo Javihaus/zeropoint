@@ -1,0 +1,17 @@
+{
+ "python": "3.13.16",
+ "machine": "x86_64",
+ "system": "Linux",
+ "threads": 2,
+ "cpus": 12,
+ "device": "cuda",
+ "gpu": "NVIDIA L4",
+ "cpu": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+ "zeropoint": "1.0.0",
+ "onnxruntime": "1.31.1",
+ "numpy": "2.4.6",
+ "strands-decider": "0.2.0",
+ "transformers": "5.22.0",
+ "peft": "0.21.2",
+ "torch": "2.11.0+cu130"
+}
