@@ -86,4 +86,5 @@ except UnsupportedLanguage:
 
 Other languages in the Latin script, such as Turkish or Vietnamese, are not detected: ZeroPoint answers, but it
 was not trained or tested on them. Its training texts are in English and Spanish; the other languages are read
-through the multilingual encoder it is built on.
+through the multilingual encoder it is built on. Details in
+[LANGUAGES.md](https://github.com/Javihaus/zeropoint/blob/main/LANGUAGES.md).

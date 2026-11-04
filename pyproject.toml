@@ -1,10 +1,11 @@
 [build-system]
-requires = ["hatchling>=1.24", "hatch-fancy-pypi-readme>=24.1"]
+requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [project]
 name = "zeropoint"
-dynamic = ["version", "readme"]
+dynamic = ["version"]
+readme = "README.md"
 description = "Chooses the option that fits a text, or answers that none of them does. Runs on a CPU, model included."
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
@@ -43,29 +44,6 @@ Benchmark = "https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md"
 Changelog = "https://github.com/Javihaus/zeropoint/blob/main/CHANGELOG.md"
 Issues = "https://github.com/Javihaus/zeropoint/issues"
 
-# PyPI does not render LaTeX. Its description is the README without the steps of "How it works",
-# which stay on GitHub; everything else is the README as it is.
-[tool.hatch.metadata.hooks.fancy-pypi-readme]
-content-type = "text/markdown"
-
-[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
-path = "README.md"
-end-before = "#### 1. Reading the text and the options together"
-
-[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
-text = """
-The step-by-step explanation, with the equations, is in the
-[README on GitHub](https://github.com/Javihaus/zeropoint#how-it-works): reading the text and the options together,
-the depth of each well, Boltzmann's rule with the ground at zero, and why the numbers are the same every time.
-
-<br>
-
-"""
-
-[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
-path = "README.md"
-start-at = "## What it was trained on"
-
 [tool.hatch.version]
 path = "src/zeropoint/_version.py"
 
@@ -73,7 +51,7 @@ path = "src/zeropoint/_version.py"
 packages = ["src/zeropoint"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/zeropoint", "tests", "README.md", "BENCHMARK.md", "CHANGELOG.md", "LICENSE", "NOTICE"]
+include = ["src/zeropoint", "tests", "README.md", "BENCHMARK.md", "CHANGELOG.md", "LANGUAGES.md", "LICENSE", "NOTICE"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

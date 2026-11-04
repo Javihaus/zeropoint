@@ -32,8 +32,9 @@ version is published.
   seed and threads.
 - `ZeroPoint.recalibrate(texts, labels)`: refits only the temperature and the *none* level, without PyTorch.
 - `Decision.depths`, `Decision.text_truncated`, `Decision.options_truncated`, `Decision.blocks`.
-- `benchmarks/compare`: ZeroPoint, Laya, Semantic Router and zero-shot NLI on eight tests, on one machine, with
-  the scripts to run it all again.
+- `benchmarks/compare`: ZeroPoint, Laya with and without "None of these", Semantic Router and zero-shot NLI on
+  eight tests, on one machine, with the scripts to run it all again and every per-case output.
+- `LANGUAGES.md`: the supported languages, why these, and what happens with the others.
 - `docs/training-data.md`: the training data, all under licences that allow commercial use.
 
 ### Changed
