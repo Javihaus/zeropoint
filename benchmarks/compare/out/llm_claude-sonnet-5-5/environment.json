@@ -1,0 +1,14 @@
+{
+ "provider": "anthropic",
+ "model": "claude-sonnet-5-5",
+ "python": "3.13.18",
+ "prompt": "You route texts. You are given a text and a list of options. Choose the one option that fits the text, or \"none of these\" if no option fits. Then give your confidence, from 0 to 1, that your choice is right. Answer only by calling the decide tool.",
+ "prices_usd_per_mtok": [
+  null,
+  null
+ ],
+ "mode": {
+  "tool_choice": "auto",
+  "temperature_0": false
+ }
+}

@@ -23,6 +23,10 @@
 
 </div>
 
+ZeroPoint is a small energy-based model. It measures how well each option fits the text and compares it with a fixed
+level, zero, that stands for *none of these*. An option that fits no better than zero gets no probability, so
+ZeroPoint can answer *none* with confidence.
+
 <table>
 <thead>
 <tr><th></th><th><img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/zeropoint-logo-256.png" width="44" alt=""><br>ZeroPoint<br><sub>decision engine</sub></th><th>Laya ¹<br><sub>decision engine</sub></th><th>Semantic Router<br><sub>zero-shot classification</sub></th><th>Zero-shot NLI ²<br><sub>zero-shot classification</sub></th></tr>
@@ -43,6 +47,10 @@ with DeBERTa-v3-base. ¹ Laya 0.4.21 with "None of these" added to every list as
 answer <i>none</i>; its authors report 33 ms on a T4 GPU. ² A fixed sample of 300 cases per test, because it runs its
 model once per option. ³ Semantic Router gives similarities, not probabilities. Per-test
 results and the scripts to run it all again: [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).</sub>
+
+Large LLMs pick the right answer a few points more often: 57–60% against 54% for ZeroPoint, on the three tests they
+are unlikely to have seen in training. They take 18 to 55 times longer, through an API.
+[Details](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md#compared-with-hosted-llms).
 
 <br>
 
