@@ -1,0 +1,6 @@
+{
+ "name": "Claude Haiku 5.5",
+ "probabilities": true,
+ "reads_options_together": "yes",
+ "paired": true
+}

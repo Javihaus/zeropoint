@@ -14,4 +14,6 @@ benchmarks/compare/tests/*.json
 # raw outputs are kept gzipped; a run writes plain JSON
 benchmarks/compare/out/*/*.json
 !benchmarks/compare/out/*/environment.json
+!benchmarks/compare/out/*/system.json
+benchmarks/compare/out/*/*.partial.jsonl
 benchmarks/compare/out/llm_*/*.jsonl
