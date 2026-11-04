@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/zeropoint-circle-large.png" width="200" alt="ZeroPoint logo">
+<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/zeropoint-header.png" width="100%" alt="ZeroPoint: four spheres above a floor; three float at different heights, the fourth almost touches the ground">
 
 <br>
 
@@ -25,24 +25,23 @@
 
 <table>
 <thead>
-<tr><th></th><th>ZeroPoint<br><sub>decision engine</sub></th><th>Laya + "None of these"<br><sub>decision engine</sub></th><th>Jev ¹<br><sub>decision engine</sub></th><th>Semantic Router<br><sub>zero-shot classification</sub></th><th>Zero-shot NLI ²<br><sub>zero-shot classification</sub></th></tr>
+<tr><th></th><th><img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/zeropoint-logo-256.png" width="44" alt=""><br>ZeroPoint<br><sub>decision engine</sub></th><th>Laya ¹<br><sub>decision engine</sub></th><th>Semantic Router<br><sub>zero-shot classification</sub></th><th>Zero-shot NLI ²<br><sub>zero-shot classification</sub></th></tr>
 </thead>
 <tbody>
-<tr><td><b>Accuracy</b>: right answer, <i>none</i> included</td><td><b>63.6%</b></td><td>59.9%</td><td>not published</td><td>34.6%</td><td>28.6%</td></tr>
-<tr><td><b>Accuracy</b> when one option is right</td><td>68.5%</td><td><b>72.2%</b></td><td>not published ³</td><td>56.8%</td><td>50.6%</td></tr>
-<tr><td><b>Silent mistakes</b>: no option fits, yet it answers with ≥ 90% confidence</td><td><b>6.9%</b></td><td>21.4%</td><td>not published</td><td>– ⁴</td><td>30.2%</td></tr>
-<tr><td><b>Latency</b>, median</td><td>21 ms</td><td>383 ms</td><td>70–500 ms</td><td><b>9 ms</b></td><td>1,316 ms</td></tr>
-<tr><td><b>Runs on</b></td><td>CPU, 89 MB model inside the package</td><td>CPU or GPU, 1.5 GB of models</td><td>hosted API</td><td>CPU, 91 MB</td><td>CPU or GPU, 369 MB</td></tr>
+<tr><td><b>Accuracy</b>: right answer, <i>none</i> included</td><td><b>63.6%</b></td><td>59.9%</td><td>34.6%</td><td>28.6%</td></tr>
+<tr><td><b>Accuracy</b> when one option is right</td><td>68.5%</td><td><b>72.2%</b></td><td>56.8%</td><td>50.6%</td></tr>
+<tr><td><b>Silent mistakes</b>: no option fits, yet it answers with ≥ 90% confidence</td><td><b>6.9%</b></td><td>21.4%</td><td>– ³</td><td>30.2%</td></tr>
+<tr><td><b>Latency</b>, median</td><td>21 ms</td><td>383 ms</td><td><b>9 ms</b></td><td>1,316 ms</td></tr>
+<tr><td><b>Runs on</b></td><td>CPU, 89 MB model inside the package</td><td>CPU or GPU, 1.5 GB of models</td><td>CPU, 91 MB</td><td>CPU or GPU, 369 MB</td></tr>
 </tbody>
 </table>
 
 <sub>Measured on the same machine (2-core CPU, 2 threads, one case at a time) on eight tests and 7,537 cases,
 about half of them with no right option: SNIPS, ATIS, HWU64, MTOP (Spanish), CLINC150, two support-ticket tests
-and a 2,000-case test. Mean over the eight tests. Laya 0.4.21 with "None of these" added as one more option (its
-authors report 33 ms on a T4 GPU); Semantic Router 1.1.1 with its default encoder; zero-shot NLI with
-DeBERTa-v3-base. ¹ Jev is a hosted model whose licence does not allow benchmarking it here; latency as published by
-its maker. ² A fixed sample of 300 cases per test, because it runs its model once per option. ³ Its maker reports
-67.8% on its own tasks, which are not public. ⁴ Semantic Router gives similarities, not probabilities. Per-test
+and a 2,000-case test. Mean over the eight tests. Semantic Router 1.1.1 with its default encoder; zero-shot NLI
+with DeBERTa-v3-base. ¹ Laya 0.4.21 with "None of these" added to every list as one more option, so that it can
+answer <i>none</i>; its authors report 33 ms on a T4 GPU. ² A fixed sample of 300 cases per test, because it runs its
+model once per option. ³ Semantic Router gives similarities, not probabilities. Per-test
 results and the scripts to run it all again: [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).</sub>
 
 <br>
