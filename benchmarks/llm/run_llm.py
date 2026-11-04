@@ -28,6 +28,7 @@ import argparse
 import json
 import os
 import platform
+import re
 import sys
 import time
 
@@ -64,23 +65,54 @@ def schema(options: list[str]) -> dict:
 
 
 class Anthropic:
+    """Forced tool call when the model accepts it. Some models reject a forced tool_choice (and some reject a
+    temperature): the first such refusal switches that model, once and for all, to the same tool offered with
+    tool_choice "auto" and the instruction to call it. The mode used is saved in environment.json."""
+
     def __init__(self, model: str):
         import anthropic
         self.client, self.model = anthropic.Anthropic(), model
+        self.forced, self.temperature = True, True
+
+    @property
+    def mode(self):
+        return {"tool_choice": "forced" if self.forced else "auto", "temperature_0": self.temperature}
 
     def __call__(self, text, options, test):
         tool = {"name": "decide", "description": "Give the decision.", "input_schema": schema(options)}
-        kw = dict(model=self.model, max_tokens=200, system=SYSTEM, tools=[tool],
-                  tool_choice={"type": "tool", "name": "decide"},
-                  messages=[{"role": "user", "content": prompt(text, options, test)}])
-        try:
-            r = self.client.messages.create(temperature=0, **kw)
-        except Exception as e:                       # some models do not accept a temperature
-            if "temperature" not in str(e):
-                raise
-            r = self.client.messages.create(**kw)
-        call = next(b for b in r.content if b.type == "tool_use")
-        return call.input, r.usage.input_tokens, r.usage.output_tokens
+        while True:
+            kw = dict(model=self.model, system=SYSTEM, tools=[tool],
+                      messages=[{"role": "user", "content": prompt(text, options, test)}])
+            if self.forced:
+                kw.update(max_tokens=200, tool_choice={"type": "tool", "name": "decide"})
+            else:                                # room for the model's own reasoning before the call
+                kw.update(max_tokens=4000, tool_choice={"type": "auto"})
+            if self.temperature:
+                kw["temperature"] = 0
+            try:
+                r = self.client.messages.create(**kw)
+                break
+            except Exception as e:
+                msg = str(e)
+                if self.forced and "tool_choice" in msg:
+                    self.forced = False
+                elif self.temperature and "temperature" in msg:
+                    self.temperature = False
+                else:
+                    raise
+                print(f"  {self.model}: switching to {self.mode}", flush=True)
+        call = next((b for b in r.content if b.type == "tool_use"), None)
+        if call is not None:
+            answer = call.input
+        else:                                    # no tool call: take a JSON object from the text, if any
+            text_out = "".join(getattr(b, "text", "") for b in r.content)
+            m = re.search(r"\{[^{}]*\}", text_out)
+            try:
+                answer = json.loads(m.group(0)) if m else {}
+            except ValueError:
+                answer = {}
+            answer["no_tool_call"] = True
+        return answer, r.usage.input_tokens, r.usage.output_tokens
 
 
 class OpenAI:
@@ -106,9 +138,13 @@ class OpenAI:
 def row(answer: dict, options: list[str]) -> dict:
     """The answer in the format report.py reads: the chosen option gets the stated confidence."""
     choice = answer.get("choice")
-    conf = min(1.0, max(0.0, float(answer.get("confidence", 0.0))))
-    if choice not in options:                  # "none of these", or anything else
-        return {"p": {o: 0.0 for o in options}, "p_none": conf if choice == NONE else 1.0, "choice": None}
+    try:
+        conf = min(1.0, max(0.0, float(answer.get("confidence", 0.0))))
+    except (TypeError, ValueError):
+        conf = 0.0
+    if choice not in options:                  # "none of these"; anything else is counted as no option
+        return {"p": {o: 0.0 for o in options}, "p_none": conf if choice == NONE else 1.0, "choice": None,
+                "invalid": choice != NONE}
     return {"p": {o: (conf if o == choice else 0.0) for o in options}, "p_none": 1.0 - conf, "choice": choice}
 
 
@@ -128,9 +164,12 @@ def main():
     with open(os.path.join(out, "system.json"), "w") as f:
         json.dump({"name": f"{args.model} (LLM)", "probabilities": True, "reads_options_together": "yes",
                    "paired": True}, f, indent=1)
-    with open(os.path.join(out, "environment.json"), "w") as f:
-        json.dump({"provider": args.provider, "model": args.model, "python": platform.python_version(),
-                   "prompt": SYSTEM, "prices_usd_per_mtok": PRICES.get(args.model)}, f, indent=1)
+    def write_environment():
+        with open(os.path.join(out, "environment.json"), "w") as f:
+            json.dump({"provider": args.provider, "model": args.model, "python": platform.python_version(),
+                       "prompt": SYSTEM, "prices_usd_per_mtok": PRICES.get(args.model),
+                       "mode": getattr(decide, "mode", None)}, f, indent=1)
+    write_environment()
     price_in, price_out = PRICES.get(args.model, (None, None))
 
     for test in args.tests:
@@ -176,6 +215,7 @@ def main():
             with open(os.path.join(out, f"{test}{suffix}.json"), "w", encoding="utf-8") as f:
                 json.dump(sorted(rows, key=lambda x: x["i"]), f, ensure_ascii=False)
             print(f"{args.model} {test}{suffix}: {len(rows)} cases", flush=True)
+            write_environment()
 
 
 if __name__ == "__main__":
