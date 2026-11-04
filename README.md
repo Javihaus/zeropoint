@@ -27,6 +27,8 @@ ZeroPoint is a small energy-based model. It measures how well each option fits t
 level, zero, that stands for *none of these*. An option that fits no better than zero gets no probability, so
 ZeroPoint can answer *none* with confidence.
 
+<br>
+
 <table>
 <thead>
 <tr><th></th><th><img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/zeropoint-logo-256.png" width="44" alt=""><br>ZeroPoint<br><sub>decision engine</sub></th><th>Laya ¹<br><sub>decision engine</sub></th><th>Semantic Router<br><sub>zero-shot classification</sub></th><th>Zero-shot NLI ²<br><sub>zero-shot classification</sub></th></tr>
@@ -48,9 +50,12 @@ answer <i>none</i>; its authors report 33 ms on a T4 GPU. ² A fixed sample of 3
 model once per option. ³ Semantic Router gives similarities, not probabilities. Per-test
 results and the scripts to run it all again: [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).</sub>
 
-Large LLMs pick the right answer a few points more often: 57–60% against 54% for ZeroPoint, on the three tests they
+<br>
+
+> [!IMPORTANT]
+> Large LLMs pick the right answer a few points more often: 57–60% against 54% for ZeroPoint, on the three tests they
 are unlikely to have seen in training. They take 18 to 55 times longer, through an API.
-[Details](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md#compared-with-hosted-llms).
+See the details [here](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md#compared-with-hosted-llms).
 
 <br>
 
@@ -70,9 +75,11 @@ are unlikely to have seen in training. They take 18 to 55 times longer, through 
 <td valign="top"><h3>25 languages</h3><sub>EU languages in the Latin script, plus Catalan, Basque and Galician. <a href="https://github.com/Javihaus/zeropoint/blob/main/LANGUAGES.md">Which ones, and why</a>.</sub></td>
 </tr>
 </table>
+
 <br>
 
-Routing a support ticket, finding the intent behind a request, sending a document to the right process: each means picking one option from a list. A classifier always picks something, even when the right option is not on the list or the text has nothing to do with the task. ZeroPoint can answer *none*, and the probability of *none* comes out of the same calculation as the probability of each option.
+> [!NOTE]
+> Routing a support ticket, finding the intent behind a request, sending a document to the right process: each means picking one option from a list. A classifier always picks something, even when the right option is not on the list or the text has nothing to do with the task. ZeroPoint can answer *none*, and the probability of *none* comes out of the same calculation as the probability of each option.
 
 <br>
 
@@ -163,13 +170,16 @@ The right threshold depends on what a wrong action costs you; pick it on a few h
 | `options_truncated` | options longer than 16 word pieces, whose end was ignored |
 | `latency_ms` | time the decision took |
 
-For many texts, `zp.decide_many(texts, options)` takes one list of options for all texts, or one list per text.
+> [!NOTE]
+> For many texts, `zp.decide_many(texts, options)` takes one list of options for all texts, or one list per text.
 Each text is computed on its own, so every result is exactly what `decide` gives for that text alone.
 
-Lists can be of any length. ZeroPoint reads the options in blocks of 20 together with the text, and every option's
+> [!IMPORTANT]
+> Lists can be of any length. ZeroPoint reads the options in blocks of 20 together with the text, and every option's
 probability comes from one distribution over the whole list.
 
-`ZeroPoint(threads=2)` sets how many CPU threads the encoder uses. The decisions do not depend on it.
+> [!TIP]
+> The option `ZeroPoint(threads=2)` sets how many CPU threads the encoder uses. The decisions do not depend on it.
 
 <br>
 
@@ -189,14 +199,12 @@ mine.save("my-model")
 zp = ZeroPoint("my-model")
 ```
 
-`fit` keeps 20% of your examples apart and reports how the model does on them before and after. Same data, same
-seed and same number of threads give the same model, bit for bit.
+> [!NOTE]
+> `fit` keeps 20% of your examples apart and reports how the model does on them before and after. Same data, same
+seed and same number of threads give the same model, bit for bit. On the support-ticket tests above, 300 labelled tickets and 6 minutes on 2 CPU threads raised the share of right queues from 24% to 36% when the queue is on the list, and from 29% to 46% against unrelated texts. Confident answers when the ticket's own queue is missing went from 20% to 0%.
 
-On the support-ticket tests above, 300 labelled tickets and 6 minutes on 2 CPU threads raised the share of right
-queues from 24% to 36% when the queue is on the list, and from 29% to 46% against unrelated texts. Confident
-answers when the ticket's own queue is missing went from 20% to 0%.
-
-If your labels are already the ones ZeroPoint knows and you only want to move the balance between acting and
+> [!TIP]
+> If your labels are already the ones ZeroPoint knows and you only want to move the balance between acting and
 answering *none*, `zp.recalibrate(texts, labels)` refits just two numbers, in seconds, without PyTorch.
 
 <br>
