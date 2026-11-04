@@ -46,14 +46,14 @@ SYSTEMS = ["zeropoint", "laya_none", "laya", "semantic_router", "nli", "strands_
 NAMES = {"zeropoint": "ZeroPoint 1.0", "laya_none": "Laya + \"None of these\"", "laya": "Laya",
          "semantic_router": "Semantic Router", "nli": "Zero-shot NLI (DeBERTa-v3-base)",
          "strands_none": "Strands Decider 2B + \"None of these\"",
-         "clef_flash_none": "Clef-flash + \"None of these\"", "clef_none": "Clef + \"None of these\""}
+         "clef_flash_none": "Clef-flash + \"None of these\""}
 # Systems run only on LLM_TESTS: they are left out of the eight-test tables and shown in the LLM comparison.
-LLM_TESTS_ONLY = ["strands_none", "clef_flash_none", "clef_none"]
+LLM_TESTS_ONLY = ["strands_none", "clef_flash_none"]
 PAIRED_WITH = ("laya_none", "laya")          # systems compared with ZeroPoint case by case
 PROBABILITIES = {"zeropoint": True, "laya_none": True, "laya": True, "semantic_router": False, "nli": True,
-                 "strands_none": True, "clef_flash_none": True, "clef_none": True}
+                 "strands_none": True, "clef_flash_none": True}
 TOGETHER = {"zeropoint": "yes", "laya_none": "yes", "laya": "yes", "semantic_router": "no", "nli": "no",
-            "strands_none": "yes", "clef_flash_none": "yes", "clef_none": "yes"}
+            "strands_none": "yes", "clef_flash_none": "yes"}
 B = 2000
 EXTRA_PAIRED = set()
 from run import LLM_TESTS  # noqa: E402  (hosted LLMs are compared on these tests only, see run.py)
@@ -104,9 +104,9 @@ def model_size(system, rows_by_test):
             repo = "StrandsAgents/strands-decider-2B-qwen3.5-v1-2610"
             return base + sum(os.path.getsize(hf_hub_download(repo, f, revision=REVISIONS[repo], local_files_only=True))
                               for f in ["lora/adapter_model.safetensors", "head.safetensors"])
-        if system.startswith("clef"):
+        if system == "clef_flash_none":
             from huggingface_hub import snapshot_download
-            repo = "Cloudflare/clef-flash" if system == "clef_flash_none" else "Cloudflare/clef"
+            repo = "Cloudflare/clef-flash"
             d = snapshot_download(repo, revision=REVISIONS[repo], local_files_only=True)
             return sum(os.path.getsize(os.path.join(d, f)) for f in os.listdir(d) if f.endswith(".safetensors"))
         if system == "nli":
@@ -322,8 +322,6 @@ def runs_on(env, s):
     """Where the latency was measured."""
     if s.startswith("llm_"):
         return "API, from Google Colab"
-    if env.get("clef_backend") == "workers-ai":
-        return "Cloudflare Workers AI API, from Google Colab"
     if env.get("device", "cpu") != "cpu" and env.get("gpu"):
         return env["gpu"]
     return f"{env.get('cpus', 2)}-core CPU, {env.get('threads', 2)} threads"

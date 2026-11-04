@@ -10,11 +10,8 @@ Systems
   nli              Hugging Face zero-shot classification, DeBERTa-v3-base MNLI, multi_label=True
   strands_none     AWS Strands Decider 2B (Qwen3.5-2B base), with one more option "None of these", like laya_none
   clef_flash_none  Cloudflare Clef-flash (9B, Qwen3.5-9B base), the same way
-  clef_none        Cloudflare Clef (27B), the same way
 
-Strands Decider and Clef run on the device in DECIDER_DEVICE ("cpu" by default; "cuda" on a GPU). Clef needs a GPU;
-with CLEF_BACKEND=workers-ai, Clef is called through Cloudflare's Workers AI API instead (CLOUDFLARE_ACCOUNT_ID and
-CLOUDFLARE_API_TOKEN), and its latency then includes the network.
+Strands Decider and Clef-flash run on the device in DECIDER_DEVICE ("cpu" by default; "cuda" on a GPU).
 
 Every system runs on CPU with 2 threads, one case at a time, in its own process, on the same machine. Each case
 is timed from the call with the text and options to the answer, with nothing cached between cases. Three calls
@@ -22,8 +19,8 @@ run before the timed cases so that one-off loading is not counted.
 
 Zero-shot NLI runs one pass of a 184M-parameter model per option, so it reads a fixed sample of 300 cases per
 test (150 with a right option, 150 without; see `sample()`); the other systems read every case. Strands Decider
-and Clef also read the 300-case sample, and only on LLM_TESTS: Strands Decider's training data includes CLINC150
-and 20 Newsgroups, Clef reports results on CLINC150 and BANKING77, and the other public tests are as likely to be
+and Clef-flash also read the 300-case sample, and only on LLM_TESTS: Strands Decider's training data includes CLINC150
+and 20 Newsgroups, Clef-flash reports results on CLINC150 and BANKING77, and the other public tests are as likely to be
 in their training data as in an LLM's.
 
 Each system also reads the same 300-case sample a second time with the options in another order (`shuffled()`),
@@ -59,7 +56,6 @@ REVISIONS = {
     "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli": "6f5cf0a2b59cabb106aca4c287eed12e357e90eb",
     "StrandsAgents/strands-decider-2B-qwen3.5-v1-2610": "216d1ccb46a9e9b036eb9187b248db98480f77d4",
     "Cloudflare/clef-flash": "fb4417d31c1d0f9e7e77f1141b40aaede7491e00",
-    "Cloudflare/clef": "cfddda043dd190ef3b01cff449d5ee8cff1e8ec6",
 }
 DEVICE = os.environ.get("DECIDER_DEVICE", "cpu")
 
@@ -215,39 +211,26 @@ def build_strands(test, items):
     return systemone_decide(ask, test)
 
 
-_clef = {}
+_clef = None
 
 
-def build_clef(repo):
-    """Clef with the code its Hugging Face release ships (joint_schema_model.py, `systemone`), in bfloat16 on a GPU;
-    or, with CLEF_BACKEND=workers-ai, the same request sent to Cloudflare's Workers AI."""
-    def build(test, items):
-        if os.environ.get("CLEF_BACKEND") == "workers-ai":
-            import requests
-            url = (f"https://api.cloudflare.com/client/v4/accounts/{os.environ['CLOUDFLARE_ACCOUNT_ID']}/ai/run/"
-                   f"@cf/cloudflare/{repo.split('/')[1]}")
-            headers = {"Authorization": f"Bearer {os.environ['CLOUDFLARE_API_TOKEN']}"}
+def build_clef_flash(test, items):
+    """Clef-flash with the code its Hugging Face release ships (joint_schema_model.py, `systemone`), in bfloat16."""
+    global _clef
+    repo = "Cloudflare/clef-flash"
+    if _clef is None:
+        from huggingface_hub import snapshot_download
+        path = snapshot_download(repo, revision=REVISIONS[repo])
+        sys.path.insert(0, path)
+        from joint_schema_model import load_release_model, systemone
+        model, processor = load_release_model(path, device=DEVICE)
+        _clef = (model, processor, systemone)
+    model, processor, systemone = _clef
 
-            def ask(state, questions):
-                r = requests.post(url, headers=headers, timeout=120,
-                                  json={"model": repo.split("/")[1], "state": state, "questions": questions})
-                r.raise_for_status()
-                return {o: float(v) for o, v in r.json()["result"]["answers"]["q"]["probabilities"].items()}
-            return systemone_decide(ask, test)
-        if repo not in _clef:
-            from huggingface_hub import snapshot_download
-            path = snapshot_download(repo, revision=REVISIONS[repo])
-            sys.path.insert(0, path)
-            from joint_schema_model import load_release_model, systemone
-            model, processor = load_release_model(path, device=DEVICE)
-            _clef[repo] = (model, processor, systemone)
-        model, processor, systemone = _clef[repo]
-
-        def ask(state, questions):
-            a = systemone(model, processor, {"model": repo.split("/")[1], "state": state, "questions": questions})
-            return {o: float(v) for o, v in a["answers"]["q"]["probabilities"].items()}
-        return systemone_decide(ask, test)
-    return build
+    def ask(state, questions):
+        a = systemone(model, processor, {"model": "clef-flash", "state": state, "questions": questions})
+        return {o: float(v) for o, v in a["answers"]["q"]["probabilities"].items()}
+    return systemone_decide(ask, test)
 
 
 SYSTEMS = {
@@ -257,8 +240,7 @@ SYSTEMS = {
     "semantic_router": (build_semantic_router, False),
     "nli": (build_nli, True),           # True: the 300-case sample only
     "strands_none": (build_strands, True),
-    "clef_flash_none": (build_clef("Cloudflare/clef-flash"), True),
-    "clef_none": (build_clef("Cloudflare/clef"), True),
+    "clef_flash_none": (build_clef_flash, True),
 }
 
 
@@ -266,8 +248,6 @@ def environment():
     import importlib.metadata as md
     info = {"python": platform.python_version(), "machine": platform.machine(), "system": platform.system(),
             "threads": THREADS, "cpus": os.cpu_count(), "device": DEVICE}
-    if os.environ.get("CLEF_BACKEND"):
-        info["clef_backend"] = os.environ["CLEF_BACKEND"]
     try:
         import torch
         if torch.cuda.is_available():
