@@ -229,6 +229,7 @@ def run(system, tests):
                 rows.append(row)
                 if n % 200 == 0:
                     print(f"{system} {test}{name} {n}/{len(idx)} {time.time() - t0:.0f}s", flush=True)
+            os.makedirs(out, exist_ok=True)                   # in case the folder was removed during the run
             with open(os.path.join(out, f"{test}{name}.json"), "w", encoding="utf-8") as f:
                 json.dump(rows, f, ensure_ascii=False)
             print(f"{system} {test}{name}: {len(rows)} cases, {time.time() - t0:.0f}s", flush=True)
