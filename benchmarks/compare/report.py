@@ -49,6 +49,26 @@ PAIRED_WITH = ("laya_none", "laya")          # systems compared with ZeroPoint c
 PROBABILITIES = {"zeropoint": True, "laya_none": True, "laya": True, "semantic_router": False, "nli": True}
 TOGETHER = {"zeropoint": "yes", "laya_none": "yes", "laya": "yes", "semantic_router": "no", "nli": "no"}
 B = 2000
+EXTRA_PAIRED = set()
+
+
+def extra_systems():
+    """Other systems found in out/, each described by its own system.json (written by benchmarks/llm/run_llm.py):
+    {"name": ..., "probabilities": true|false, "reads_options_together": "yes"|"no", "paired": true|false}."""
+    out = []
+    root = os.path.join(HERE, "out")
+    for s in sorted(os.listdir(root)) if os.path.isdir(root) else []:
+        f = os.path.join(root, s, "system.json")
+        if s in SYSTEMS or not os.path.exists(f):
+            continue
+        meta = read_json(f)
+        NAMES[s] = meta["name"]
+        PROBABILITIES[s] = bool(meta.get("probabilities", True))
+        TOGETHER[s] = meta.get("reads_options_together", "yes")
+        if meta.get("paired"):
+            EXTRA_PAIRED.add(s)
+        out.append(s)
+    return out
 
 
 def model_size(system, rows_by_test):
@@ -176,7 +196,7 @@ def main():
                              "options": options_range(tests[t]),
                              "sha256": sha256(os.path.join(HERE, "tests", f"{t}.json"))} for t in TESTS},
                "systems": {}}
-    for s in SYSTEMS:
+    for s in SYSTEMS + extra_systems():
         d = os.path.join(HERE, "out", s)
         if not os.path.isdir(d):
             continue
@@ -196,7 +216,7 @@ def main():
             if shuffled_rows is not None:
                 r["order_changed"], r["order_cases"] = order_changed(rows, shuffled_rows)
             res["tests"][t] = r
-            if s in PAIRED_WITH:
+            if s in PAIRED_WITH or s in EXTRA_PAIRED:
                 zp_rows = read_rows(os.path.join(HERE, "out", "zeropoint", f"{t}.json"))
                 if zp_rows is not None:
                     r["zeropoint_minus"] = paired(tests[t], zp_rows, rows, np.random.default_rng(13))
@@ -205,6 +225,9 @@ def main():
         all_ms = np.concatenate([[x["ms"] for x in rows] for rows in rows_by_test.values()])
         res["ms_median_all"] = float(np.median(all_ms))
         res["model_bytes"] = model_size(s, rows_by_test)
+        costs = [x["cost_usd"] for rows in rows_by_test.values() for x in rows if x.get("cost_usd") is not None]
+        if costs:
+            res["cost_usd_per_decision"] = float(np.mean(costs))
         env = os.path.join(d, "environment.json")
         res["environment"] = read_json(env) if os.path.exists(env) else None
         summary["systems"][s] = res
@@ -331,7 +354,7 @@ def tables(summary):
             if key in ("choice", "sure_wrong") else ""
         nli_note = " " + NLI_NOTE if key not in ("order_changed",) else ""
         lines += ["", "*" + CAPTIONS[key] + ci_note + nli_note + " " + DASH + "*"]
-    for s in PAIRED_WITH:
+    for s in list(PAIRED_WITH) + sorted(EXTRA_PAIRED):
         if s not in S:
             continue
         lines += ["", f"## ZeroPoint − {S[s]['name']}, case by case", "",
