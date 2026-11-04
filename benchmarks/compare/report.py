@@ -45,14 +45,15 @@ TEST_NAMES = {"bench2000": "2,000-case benchmark", "snips": "SNIPS", "atis": "AT
 SYSTEMS = ["zeropoint", "laya_none", "laya", "semantic_router", "nli", "strands_none"]
 NAMES = {"zeropoint": "ZeroPoint 1.0", "laya_none": "Laya + \"None of these\"", "laya": "Laya",
          "semantic_router": "Semantic Router", "nli": "Zero-shot NLI (DeBERTa-v3-base)",
-         "strands_none": "Strands Decider 2B + \"None of these\""}
+         "strands_none": "Strands Decider 2B + \"None of these\"",
+         "clef_flash_none": "Clef-flash + \"None of these\"", "clef_none": "Clef + \"None of these\""}
 # Systems run only on LLM_TESTS: they are left out of the eight-test tables and shown in the LLM comparison.
-LLM_TESTS_ONLY = ["strands_none"]
+LLM_TESTS_ONLY = ["strands_none", "clef_flash_none", "clef_none"]
 PAIRED_WITH = ("laya_none", "laya")          # systems compared with ZeroPoint case by case
 PROBABILITIES = {"zeropoint": True, "laya_none": True, "laya": True, "semantic_router": False, "nli": True,
-                 "strands_none": True}
+                 "strands_none": True, "clef_flash_none": True, "clef_none": True}
 TOGETHER = {"zeropoint": "yes", "laya_none": "yes", "laya": "yes", "semantic_router": "no", "nli": "no",
-            "strands_none": "yes"}
+            "strands_none": "yes", "clef_flash_none": "yes", "clef_none": "yes"}
 B = 2000
 EXTRA_PAIRED = set()
 from run import LLM_TESTS  # noqa: E402  (hosted LLMs are compared on these tests only, see run.py)
@@ -103,6 +104,11 @@ def model_size(system, rows_by_test):
             repo = "StrandsAgents/strands-decider-2B-qwen3.5-v1-2610"
             return base + sum(os.path.getsize(hf_hub_download(repo, f, revision=REVISIONS[repo], local_files_only=True))
                               for f in ["lora/adapter_model.safetensors", "head.safetensors"])
+        if system.startswith("clef"):
+            from huggingface_hub import snapshot_download
+            repo = "Cloudflare/clef-flash" if system == "clef_flash_none" else "Cloudflare/clef"
+            d = snapshot_download(repo, revision=REVISIONS[repo], local_files_only=True)
+            return sum(os.path.getsize(os.path.join(d, f)) for f in os.listdir(d) if f.endswith(".safetensors"))
         if system == "nli":
             return hub("MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli", "model.safetensors")
     except Exception:                                          # weights not on this machine: leave it out
@@ -312,23 +318,42 @@ def main():
     print(tables(summary))
 
 
+def runs_on(env, s):
+    """Where the latency was measured."""
+    if s.startswith("llm_"):
+        return "API, from Google Colab"
+    if env.get("clef_backend") == "workers-ai":
+        return "Cloudflare Workers AI API, from Google Colab"
+    if env.get("device", "cpu") != "cpu" and env.get("gpu"):
+        return env["gpu"]
+    return f"{env.get('cpus', 2)}-core CPU, {env.get('threads', 2)} threads"
+
+
 def llm_tables(summary):
     C = summary["llm_comparison"]
     name = lambda s: summary["systems"][s]["name"]
     diff = lambda x: f"{100 * x['diff']:+.1f} ({100 * x['ci'][0]:+.1f} to {100 * x['ci'][1]:+.1f})"
-    lines = ["", "## Compared with hosted LLMs, on " + ", ".join(C["tests"]), "",
+    lines = ["", "## Compared with LLMs and decision models, on " + ", ".join(C["tests"]), "",
              "| System | Right decision | ZeroPoint − system | Silent mistakes | ZeroPoint − system | "
-             + "Latency, median | Latency, 95th percentile |", "|---|---|---|---|---|---|---|"]
+             + "Latency, median | Latency, 95th percentile | Runs on |", "|---|---|---|---|---|---|---|---|"]
     for s, r in C["systems"].items():
         zm = r.get("zeropoint_minus")
         lines.append(f"| {name(s)} | {pct(r['right'])} | {diff(zm['right']) if zm else ''} | {pct(r['silent'])} | "
-                     f"{diff(zm['silent']) if zm else ''} | {r['ms_median']:,.0f} ms | {r['ms_p95']:,.0f} ms |")
+                     f"{diff(zm['silent']) if zm else ''} | {r['ms_median']:,.0f} ms | {r['ms_p95']:,.0f} ms | "
+                     f"{runs_on(summary['systems'][s].get('environment') or {}, s)} |")
     lines += ["", "*" + LLM_NOTE + "*", "", "| System | " + " | ".join(
         f"Right decision, {TEST_NAMES[t]}" for t in C["tests"]) + " | " + " | ".join(
         f"Silent mistakes, {TEST_NAMES[t]}" for t in C["tests"]) + " |", "|---|" + "---|" * (2 * len(C["tests"]))]
     for s, r in C["systems"].items():
         lines.append(f"| {name(s)} | " + " | ".join(pct(r["per_test"][t]["right"]) for t in C["tests"]) + " | "
                      + " | ".join(pct(r["per_test"][t]["silent"]) for t in C["tests"]) + " |")
+    order = [s for s in C["systems"] if all(summary["systems"][s]["tests"].get(t, {}).get("order_changed") is not None
+                                             for t in C["tests"])]
+    if order:
+        lines += ["", "| System | Decision changes when the options come in another order |", "|---|---|"]
+        for s in order:
+            v = np.mean([summary["systems"][s]["tests"][t]["order_changed"] for t in C["tests"]])
+            lines.append(f"| {name(s)} | {pct(v)} |")
     lines += ["", "| LLM | How it was asked | Answers outside the list | Tokens per decision (in / out) |",
               "|---|---|---|---|"]
     for s, r in C["systems"].items():
@@ -409,8 +434,8 @@ LLM_NOTE = (
     "five are public since 1990-2020 and very likely in the LLMs' training data. Right decision: none counted as an "
     "answer. Silent mistakes: on cases with no right option, an option picked with probability (stated confidence for "
     "the LLMs) of 0.9 or more. ZeroPoint − system: percentage points on the same cases, with the 95% interval of a "
-    "paired bootstrap; for silent mistakes, negative means ZeroPoint makes fewer. Latency for LLMs is the API call "
-    "from a Google Colab machine, network included; ZeroPoint, Laya and Strands Decider run on the 2-core CPU of the other tables.")
+    "paired bootstrap; for silent mistakes, negative means ZeroPoint makes fewer. Latency is measured where "
+    "*Runs on* says: for an API, the call from a Google Colab machine, network included.")
 TESTS_NOTE = (
     "In a case with a right option, the right option is on the list among others. In a case without "
     "one, the list is made of other options only. The test files are rebuilt by `build_tests.py`; their "
