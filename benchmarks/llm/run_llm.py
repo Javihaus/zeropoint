@@ -18,8 +18,10 @@ What is measured per case: the decision, the stated confidence, the time from se
 answer (it includes the network, from wherever this runs), and the cost from the tokens the API reports and the
 prices in PRICES (USD per million tokens; check them against the provider's price page before running).
 
-By default each test reads the same fixed 300-case sample as zero-shot NLI (benchmarks/compare/run.py sample()).
-A second pass on the same cases with the options in another order measures how often the order changes the answer.
+By default the model reads the three tests in LLM_TESTS (benchmarks/compare/run.py), the ones it is unlikely to
+have seen in training, and on each the same fixed 300-case sample as zero-shot NLI (run.py sample()): 900 calls.
+This is exactly what the published results were made with. --shuffle adds a second pass on the same cases with the
+options in another order; --tests and --all-cases change the cases.
 Results are written as they come, so an interrupted run continues where it stopped.
 """
 from __future__ import annotations
@@ -35,7 +37,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 COMPARE = os.path.join(HERE, "..", "compare")
 sys.path.insert(0, COMPARE)
-from run import TESTS, asks, load, sample, shuffled  # noqa: E402  (same tests, sample and shuffles as the others)
+from run import LLM_TESTS, asks, load, sample, shuffled  # noqa: E402  (same tests, sample and shuffles as the others)
 
 NONE = "none of these"
 
@@ -119,6 +121,11 @@ class OpenAI:
     def __init__(self, model: str):
         import openai
         self.client, self.model = openai.OpenAI(), model
+        self.temperature = True
+
+    @property
+    def mode(self):
+        return {"response_format": "strict JSON schema", "temperature_0": self.temperature}
 
     def __call__(self, text, options, test):
         kw = dict(model=self.model,
@@ -126,11 +133,14 @@ class OpenAI:
                             {"role": "user", "content": prompt(text, options, test)}],
                   response_format={"type": "json_schema",
                                    "json_schema": {"name": "decide", "strict": True, "schema": schema(options)}})
-        try:
-            r = self.client.chat.completions.create(temperature=0, **kw)
-        except Exception as e:
-            if "temperature" not in str(e):
-                raise
+        if self.temperature:
+            try:
+                r = self.client.chat.completions.create(temperature=0, **kw)
+            except Exception as e:               # some models do not accept a temperature: never send it again
+                if "temperature" not in str(e):
+                    raise
+                self.temperature = False
+        if not self.temperature:
             r = self.client.chat.completions.create(**kw)
         return json.loads(r.choices[0].message.content), r.usage.prompt_tokens, r.usage.completion_tokens
 
@@ -152,9 +162,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("provider", choices=["anthropic", "openai"])
     ap.add_argument("model")
-    ap.add_argument("--tests", nargs="*", default=TESTS)
+    ap.add_argument("--tests", nargs="*", default=LLM_TESTS)
     ap.add_argument("--all-cases", action="store_true", help="every case instead of the 300-case sample")
-    ap.add_argument("--no-shuffle", action="store_true", help="skip the second pass in another option order")
+    ap.add_argument("--shuffle", action="store_true", help="add a second pass with the options in another order")
     args = ap.parse_args()
 
     decide = (Anthropic if args.provider == "anthropic" else OpenAI)(args.model)
@@ -162,7 +172,7 @@ def main():
     out = os.path.join(COMPARE, "out", name)
     os.makedirs(out, exist_ok=True)
     with open(os.path.join(out, "system.json"), "w") as f:
-        json.dump({"name": f"{args.model} (LLM)", "probabilities": True, "reads_options_together": "yes",
+        json.dump({"name": args.model, "probabilities": True, "reads_options_together": "yes",
                    "paired": True}, f, indent=1)
     def write_environment():
         with open(os.path.join(out, "environment.json"), "w") as f:
@@ -175,7 +185,7 @@ def main():
     for test in args.tests:
         items = load(test)
         idx = list(range(len(items))) if args.all_cases else sample(items)
-        passes = [("", False)] + ([] if args.no_shuffle else [(".shuffled", True)])
+        passes = [("", False)] + ([(".shuffled", True)] if args.shuffle else [])
         for suffix, order in passes:
             path = os.path.join(out, f"{test}{suffix}.jsonl")
             done = set()
@@ -210,8 +220,9 @@ def main():
                     f.flush()
                     if n % 50 == 0:
                         print(f"{args.model} {test}{suffix} {n}/{len(idx)}", flush=True)
-            with open(path) as f:                     # the .json that report.py reads
-                rows = [json.loads(line) for line in f if line.strip()]
+            with open(path) as f:                     # the .json that report.py reads: one row per case, the first
+                rows = list({r["i"]: r for r in reversed([json.loads(line) for line in f if line.strip()])}.values())
+                rows = [r for r in rows if r["i"] in set(idx)]
             with open(os.path.join(out, f"{test}{suffix}.json"), "w", encoding="utf-8") as f:
                 json.dump(sorted(rows, key=lambda x: x["i"]), f, ensure_ascii=False)
             print(f"{args.model} {test}{suffix}: {len(rows)} cases", flush=True)

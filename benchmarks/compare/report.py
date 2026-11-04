@@ -50,6 +50,8 @@ PROBABILITIES = {"zeropoint": True, "laya_none": True, "laya": True, "semantic_r
 TOGETHER = {"zeropoint": "yes", "laya_none": "yes", "laya": "yes", "semantic_router": "no", "nli": "no"}
 B = 2000
 EXTRA_PAIRED = set()
+from run import LLM_TESTS  # noqa: E402  (hosted LLMs are compared on these tests only, see run.py)
+LLM_BASELINES = ["zeropoint", "laya_none"]
 
 
 def extra_systems():
@@ -182,6 +184,61 @@ def order_changed(rows, shuffled_rows):
     return float(np.mean([a[i] != b[i] for i in common])), len(common)
 
 
+def llm_comparison(tests, systems):
+    """Every system on the same cases: the 300-case sample of each test in LLM_TESTS. Right decision (none counted as
+    an answer), silent mistakes (an option picked with probability or stated confidence >= 0.9 when none is right),
+    latency, and ZeroPoint minus each system case by case with a 95% paired bootstrap interval (2,000 resamples)."""
+    from run import sample
+    cases = {t: sample(tests[t]) for t in LLM_TESTS}
+
+    def rows_of(s):
+        return {t: {r["i"]: r for r in read_rows(os.path.join(HERE, "out", s, f"{t}.json"))} for t in LLM_TESTS}
+
+    def right(t, r, i):
+        return float(r["choice"] == tests[t][i]["gold"])
+
+    def silent(r):
+        return float(r["choice"] is not None and r["p"][r["choice"]] >= 0.9)
+
+    def interval(d, seed=13):
+        rng = np.random.default_rng(seed)
+        boot = [d[rng.integers(0, len(d), len(d))].mean() for _ in range(B)]
+        return [float(np.percentile(boot, 2.5)), float(np.percentile(boot, 97.5))]
+
+    zp = rows_of("zeropoint")
+    out = {"tests": LLM_TESTS, "cases_per_test": {t: len(cases[t]) for t in LLM_TESTS}, "systems": {}}
+    for s in systems:
+        R = rows_of(s)
+        all_cases = [(t, i) for t in LLM_TESTS for i in cases[t]]
+        missing = [(t, i) for t, i in all_cases if i not in R[t]]
+        if missing:
+            raise SystemExit(f"{s}: {len(missing)} cases of the sample have no answer; run it again to finish them")
+        neg = [(t, i) for t, i in all_cases if tests[t][i]["gold"] is None]
+        ms = np.array([R[t][i]["ms"] for t, i in all_cases])
+        res = {"right": float(np.mean([right(t, R[t][i], i) for t, i in all_cases])),
+               "silent": float(np.mean([silent(R[t][i]) for t, i in neg])),
+               "ms_median": float(np.median(ms)), "ms_p95": float(np.percentile(ms, 95)),
+               "cases": len(all_cases),
+               "invalid": int(sum(bool(R[t][i].get("invalid")) for t, i in all_cases)),
+               "no_tool_call": int(sum(bool((R[t][i].get("stated") or {}).get("no_tool_call")) for t, i in all_cases)),
+               "per_test": {t: {"right": float(np.mean([right(t, R[t][i], i) for i in cases[t]])),
+                                "silent": float(np.mean([silent(R[t][i]) for i in cases[t]
+                                                         if tests[t][i]["gold"] is None]))} for t in LLM_TESTS}}
+        tin = [R[t][i].get("tokens_in") for t, i in all_cases if R[t][i].get("tokens_in") is not None]
+        if tin:
+            res["tokens_in"] = float(np.mean(tin))
+            res["tokens_out"] = float(np.mean([R[t][i]["tokens_out"] for t, i in all_cases]))
+        env = os.path.join(HERE, "out", s, "environment.json")
+        res["mode"] = read_json(env).get("mode") if os.path.exists(env) else None
+        if s != "zeropoint":
+            d1 = np.array([right(t, zp[t][i], i) - right(t, R[t][i], i) for t, i in all_cases])
+            d2 = np.array([silent(zp[t][i]) - silent(R[t][i]) for t, i in neg])
+            res["zeropoint_minus"] = {"right": {"diff": float(d1.mean()), "ci": interval(d1)},
+                                      "silent": {"diff": float(d2.mean()), "ci": interval(d2)}}
+        out["systems"][s] = res
+    return out
+
+
 def options_range(items):
     n = [len(it["options"]) for it in items]
     return str(min(n)) if min(n) == max(n) else f"{min(n)}–{max(n)}"
@@ -231,12 +288,45 @@ def main():
         env = os.path.join(d, "environment.json")
         res["environment"] = read_json(env) if os.path.exists(env) else None
         summary["systems"][s] = res
+    llms = [s for s in summary["systems"] if s.startswith("llm_")]
+    if llms:
+        summary["llm_comparison"] = llm_comparison(tests, LLM_BASELINES + llms)
     os.makedirs(os.path.join(HERE, "results"), exist_ok=True)
     with open(os.path.join(HERE, "results", "summary.json"), "w") as f:
         json.dump(summary, f, indent=1)
     with open(os.path.join(HERE, "results", "tables.md"), "w", encoding="utf-8") as f:
         f.write(tables(summary))
     print(tables(summary))
+
+
+def llm_tables(summary):
+    C = summary["llm_comparison"]
+    name = lambda s: summary["systems"][s]["name"]
+    diff = lambda x: f"{100 * x['diff']:+.1f} ({100 * x['ci'][0]:+.1f} to {100 * x['ci'][1]:+.1f})"
+    lines = ["", "## Compared with hosted LLMs, on " + ", ".join(C["tests"]), "",
+             "| System | Right decision | ZeroPoint − system | Silent mistakes | ZeroPoint − system | "
+             + "Latency, median | Latency, 95th percentile |", "|---|---|---|---|---|---|---|"]
+    for s, r in C["systems"].items():
+        zm = r.get("zeropoint_minus")
+        lines.append(f"| {name(s)} | {pct(r['right'])} | {diff(zm['right']) if zm else ''} | {pct(r['silent'])} | "
+                     f"{diff(zm['silent']) if zm else ''} | {r['ms_median']:,.0f} ms | {r['ms_p95']:,.0f} ms |")
+    lines += ["", "*" + LLM_NOTE + "*", "", "| System | " + " | ".join(
+        f"Right decision, {TEST_NAMES[t]}" for t in C["tests"]) + " | " + " | ".join(
+        f"Silent mistakes, {TEST_NAMES[t]}" for t in C["tests"]) + " |", "|---|" + "---|" * (2 * len(C["tests"]))]
+    for s, r in C["systems"].items():
+        lines.append(f"| {name(s)} | " + " | ".join(pct(r["per_test"][t]["right"]) for t in C["tests"]) + " | "
+                     + " | ".join(pct(r["per_test"][t]["silent"]) for t in C["tests"]) + " |")
+    lines += ["", "| LLM | How it was asked | Answers outside the list | Tokens per decision (in / out) |",
+              "|---|---|---|---|"]
+    for s, r in C["systems"].items():
+        if not s.startswith("llm_"):
+            continue
+        m = r.get("mode") or {}
+        how = (("forced tool call" if m.get("tool_choice") == "forced" else "tool offered, not forced")
+               + (", temperature 0" if m.get("temperature_0") else ", default temperature")) if m else "strict JSON schema (temperature not recorded)"
+        lines.append(f"| {name(s)} | {how} | {r['invalid']} of {r['cases']} | "
+                     f"{r.get('tokens_in', 0):,.0f} / {r.get('tokens_out', 0):,.0f} |")
+    return lines
 
 
 def pct(x, nd=1):
@@ -301,6 +391,13 @@ PAIRED_NOTE = (
     "from a paired bootstrap (2,000 resamples of the cases). Choice: positive means ZeroPoint picks the right option "
     "more often. Sure and wrong: negative means ZeroPoint is confidently wrong less often. When the interval does not "
     "include zero, the difference is not due to chance in the choice of cases.")
+LLM_NOTE = (
+    "The 300-case sample of each test, the same cases for every system, 900 in all. Only these three tests: the other "
+    "five are public since 1990-2020 and very likely in the LLMs' training data. Right decision: none counted as an "
+    "answer. Silent mistakes: on cases with no right option, an option picked with probability (stated confidence for "
+    "the LLMs) of 0.9 or more. ZeroPoint − system: percentage points on the same cases, with the 95% interval of a "
+    "paired bootstrap; for silent mistakes, negative means ZeroPoint makes fewer. Latency for LLMs is the API call "
+    "from a Google Colab machine, network included; ZeroPoint and Laya run on the 2-core CPU of the other tables.")
 TESTS_NOTE = (
     "In a case with a right option, the right option is on the list among others. In a case without "
     "one, the list is made of other options only. The test files are rebuilt by `build_tests.py`; their "
@@ -308,7 +405,7 @@ TESTS_NOTE = (
 
 
 def tables(summary):
-    S = summary["systems"]
+    S = {s: r for s, r in summary["systems"].items() if not s.startswith("llm_")}
     lines = ["# Comparison results", "",
              "Generated by `report.py` from `out/`. " + conditions(S), ""]
     lines += ["## Summary (mean over the eight tests)", "",
@@ -368,6 +465,8 @@ def tables(summary):
                              f"{100 * x['diff']:+.1f} ({100 * x['ci'][0]:+.1f} to {100 * x['ci'][1]:+.1f})")
             lines.append(f"| {TEST_NAMES[t]} | " + " | ".join(cells) + " |")
         lines += ["", "*" + PAIRED_NOTE + "*"]
+    if "llm_comparison" in summary:
+        lines += llm_tables(summary)
     lines += ["", "## The tests", "",
               "| Test | Cases | With a right option | Options per case | What it is |", "|---|---|---|---|---|"]
     for t in TESTS:

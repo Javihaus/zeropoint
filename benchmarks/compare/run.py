@@ -36,6 +36,9 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TESTS = ["bench2000", "snips", "atis", "mtop_es", "hwu64", "clinc_real_indomain", "tickets_made", "tickets_far"]
+# Hosted LLMs (benchmarks/llm) are compared on these three only: the other five tests are public since 1990-2020 and
+# very likely in their training data.
+LLM_TESTS = ["bench2000", "tickets_made", "tickets_far"]
 THREADS = 2
 NONE = "None of these"
 

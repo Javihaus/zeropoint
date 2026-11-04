@@ -1,8 +1,10 @@
 # Benchmark
 
 How ZeroPoint 1.0 compares with three common ways of choosing an option for a text: Laya with a "None of these"
-option, Semantic Router, and zero-shot classification with an NLI model. Everything here can be run again with the
-scripts in [benchmarks/compare](benchmarks/compare), and every per-case output is in the repository.
+option, Semantic Router, and zero-shot classification with an NLI model, and, on three tests, with six hosted LLMs
+from Anthropic and OpenAI ([section below](#compared-with-hosted-llms)). Everything here can be run again with the
+scripts in [benchmarks/compare](benchmarks/compare) and [benchmarks/llm](benchmarks/llm), and every per-case output
+is in the repository.
 
 ## How it is measured
 
@@ -148,6 +150,111 @@ answers when no option fits from 28% to 21%. It does not close the gap with Zero
 confidently wrong less often than Laya without the option on the same six tests, and the case-by-case differences
 are in [the full tables](benchmarks/compare/results/tables.md).
 
+## Compared with hosted LLMs
+
+Six hosted LLMs used as decision engines: Claude Haiku 5.5, Claude Sonnet 5.5 and Claude Opus 5.5 (Anthropic), and
+GPT-6 Luna, GPT-6.1 Sol and GPT-6.1 Terra (OpenAI).
+
+### Which tests, and why only three
+
+Five of the eight tests (SNIPS, ATIS, MTOP, HWU64, CLINC150) have been public since 1990–2020, with their labels.
+They are very likely in the training data of these LLMs, and a model that has seen a test is not measured by it.
+The LLMs are therefore compared only on the three tests they are unlikely to have seen: the 2,000-case test and the
+two support-ticket tests. This choice was fixed before any LLM result on these tests was seen.
+
+On each test, every system reads the same fixed 300-case sample used for zero-shot NLI (150 cases with a right
+option, 150 without): 900 cases per system, one pass, options in their original order.
+
+### How the LLMs are asked
+
+The same prompt for every model, in [run_llm.py](benchmarks/llm/run_llm.py): the text, the list of options plus
+*none of these*, and the instruction to choose one and state a confidence from 0 to 1. The answer must be
+structured, with the choice restricted to the listed strings: a tool call for Claude, a strict JSON schema for GPT.
+No examples and no reasoning step are asked for. One call per case.
+
+LLM APIs give no probabilities over the options, so the confidence used for silent mistakes is the one the model
+states. LLM latency is the time of the API call from a Google Colab machine, network included; ZeroPoint and Laya
+run on the 2-core CPU of the other tables.
+
+### Results
+
+| System | Right decision | ZeroPoint − system | Silent mistakes | ZeroPoint − system | Latency, median | Latency, 95th percentile |
+|---|---|---|---|---|---|---|
+| ZeroPoint 1.0 | 53.6% |  | 7.8% |  | 42 ms | 64 ms |
+| Laya + "None of these" | 49.9% | +3.7 (+0.1 to +7.3) | 4.9% | +2.9 (−0.4 to +6.0) | 593 ms | 988 ms |
+| Claude Haiku 5.5 | 57.0% | −3.4 (−6.8 to −0.1) | 1.1% | +6.7 (+4.2 to +9.3) | 778 ms | 1,285 ms |
+| Claude Sonnet 5.5 | 59.6% | −6.0 (−9.4 to −2.7) | 1.8% | +6.0 (+3.3 to +8.7) | 1,520 ms | 2,265 ms |
+| Claude Opus 5.5 | 60.3% | −6.8 (−10.2 to −3.4) | 0.9% | +6.9 (+4.4 to +9.6) | 2,123 ms | 3,433 ms |
+| GPT-6 Luna | 58.0% | −4.4 (−7.9 to −1.1) | 22.7% | −14.9 (−18.9 to −10.9) | 1,590 ms | 3,801 ms |
+| GPT-6.1 Terra | 58.9% | −5.3 (−8.7 to −2.0) | 24.4% | −16.7 (−20.7 to −12.4) | 2,010 ms | 3,149 ms |
+| GPT-6.1 Sol | 59.9% | −6.3 (−9.7 to −3.0) | 26.0% | −18.2 (−22.4 to −14.2) | 2,329 ms | 3,753 ms |
+
+Mean over the three tests. Right decision: *none* counted as an answer. Silent mistakes: on cases with no right
+option, an option picked with probability (for the LLMs, stated confidence) of 0.9 or more. ZeroPoint − system:
+difference in percentage points on the same cases, with the 95% interval of a paired bootstrap (2,000 resamples);
+for silent mistakes, a negative difference means ZeroPoint makes fewer.
+
+Per test:
+
+| System | Right decision: 2,000-case test | Tickets, queue removed | Tickets, unrelated texts | Silent mistakes: 2,000-case test | Tickets, queue removed | Tickets, unrelated texts |
+|---|---|---|---|---|---|---|
+| ZeroPoint 1.0 | 76.7% | **22.3%** | 61.7% | 4.7% | 18.7% | 0.0% |
+| Laya + "None of these" | 72.3% | 19.3% | 58.0% | 14.0% | 0.7% | 0.0% |
+| Claude Haiku 5.5 | 88.7% | 16.0% | 66.3% | 1.3% | 2.0% | 0.0% |
+| Claude Sonnet 5.5 | **93.7%** | 17.3% | 67.7% | 0.7% | 4.7% | 0.0% |
+| Claude Opus 5.5 | 92.7% | 18.7% | **69.7%** | 2.0% | 0.7% | 0.0% |
+| GPT-6 Luna | 91.3% | 20.3% | 62.3% | 11.3% | 52.7% | 4.0% |
+| GPT-6.1 Terra | 92.7% | 19.0% | 65.0% | 8.7% | 61.3% | 3.3% |
+| GPT-6.1 Sol | 93.0% | 21.0% | 65.7% | 9.3% | 66.0% | 2.7% |
+
+How each LLM answered:
+
+| LLM | How it was asked | Answers outside the list | Tokens per decision (in / out) |
+|---|---|---|---|
+| Claude Haiku 5.5 | forced tool call, default temperature | 0 of 900 | 885 / 62 |
+| Claude Sonnet 5.5 | tool offered, not forced, default temperature | 0 of 900 | 761 / 78 |
+| Claude Opus 5.5 | tool offered, not forced, default temperature | 1 of 900 | 761 / 109 |
+| GPT-6 Luna | strict JSON schema | 0 of 900 | 256 / 59 |
+| GPT-6.1 Terra | strict JSON schema | 0 of 900 | 256 / 75 |
+| GPT-6.1 Sol | strict JSON schema | 0 of 900 | 256 / 38 |
+
+An answer outside the list is counted as *none*.
+
+### What the results show
+
+- **Right decision.** The LLMs are right more often: 57.0 to 60.3% against 53.6% for ZeroPoint, 3 to 7 points, and
+  every interval excludes zero (for Haiku, only just). Most of the gap comes from the 2,000-case test, where
+  the LLMs reach 89 to 94% and ZeroPoint 77%. On support tickets whose own queue was removed, ZeroPoint is right
+  most often, 22.3% against 16.0 to 21.0%; on tickets against unrelated texts it is 0.6 to 8 points behind.
+- **Silent mistakes, Claude.** The three Claude models are rarely confidently wrong when no option fits: 0.9 to 1.8%,
+  6 to 7 points fewer than ZeroPoint. Most of ZeroPoint's come from tickets whose own queue was removed (18.7%).
+- **Silent mistakes, GPT.** The three GPT models are confidently wrong in 22.7 to 26.0% of cases with no right option,
+  15 to 18 points more than ZeroPoint, and in 53 to 66% of tickets whose own queue was removed: they pick a
+  neighbouring queue and state 90% confidence or more.
+- **Laya with "None of these"** is right less often than ZeroPoint on these three tests (+3.7 points for ZeroPoint)
+  and makes slightly fewer silent mistakes; that interval includes zero.
+- **Latency.** ZeroPoint takes 42 ms (median) on a 2-core CPU. The LLMs take 0.8 to 2.3 s through their APIs, 18 to
+  55 times longer, and their 95th percentile reaches 1.3 to 3.8 s.
+
+### Limits of this comparison
+
+- **Three tests, 900 cases per system.** The intervals above are for these cases; another sample or other tests
+  could move the numbers by a few points.
+- **The 2,000-case test was written with an LLM** (Gemini). Its wording may suit LLMs better than real user texts
+  would; it is also the test where they lead ZeroPoint most.
+- **Not every model was asked in the same mode.** Claude Sonnet 5.5 and Opus 5.5 rejected a forced tool call, so
+  they were offered the tool without forcing it, with room to write before calling it. No Claude model accepted
+  temperature 0, so all three ran at their default temperature. For the GPT models, whether temperature 0 was
+  accepted was not recorded.
+- **Stated confidence is not a probability.** The silent-mistake threshold of 0.9 applies to the confidence the LLM
+  writes, which is not calibrated in the way ZeroPoint's probabilities are.
+- **Latency was measured from Colab, network included.** It depends on where the calls are made from and on the
+  load of the API at that time. ZeroPoint and Laya were timed on a different machine.
+- **No cost.** Prices were not recorded with the run, so this section does not give a cost per decision. The token
+  counts of every call are saved with the results.
+- **One pass, original order.** The LLMs were not run a second time with the options in another order, so the order
+  table below does not include them.
+
 ## Order of the options
 
 Share of cases whose decision changes when the same text and the same options come in another order (300 cases
@@ -211,6 +318,7 @@ to within 3 millionths.
   multilingual encoder and were not tested one by one.
 - **CLINC150 is in-domain** for ZeroPoint, as said above.
 - **Laya is used through its recommended Router at default settings.** A different setup could change its numbers.
+- **Hosted LLMs** are compared on three tests only; their own limits are [listed above](#limits-of-this-comparison).
 
 ## Run it again
 
@@ -221,4 +329,13 @@ python benchmarks/compare/run.py zeropoint      # then laya_none, laya, semantic
 python benchmarks/compare/report.py
 ```
 
-Details in [benchmarks/compare/README.md](benchmarks/compare/README.md).
+The hosted LLMs, with your own API keys (or with the notebook [llm_compare.ipynb](benchmarks/llm/llm_compare.ipynb)):
+
+```bash
+pip install anthropic openai
+python benchmarks/llm/run_llm.py anthropic claude-haiku-5-5     # the three tests, the 300-case sample: 900 calls
+python benchmarks/llm/run_llm.py openai gpt-6-luna
+python benchmarks/compare/report.py
+```
+
+Details in [benchmarks/compare/README.md](benchmarks/compare/README.md) and [benchmarks/llm/README.md](benchmarks/llm/README.md).

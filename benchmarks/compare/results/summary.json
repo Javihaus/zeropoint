@@ -1684,6 +1684,1323 @@
     "transformers": "5.22.1",
     "torch": "2.15.0+cpu"
    }
+  },
+  "llm_claude-haiku-5-5": {
+   "name": "Claude Haiku 5.5",
+   "reads_options_together": "yes",
+   "tests": {
+    "bench2000": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.9733333333333334,
+     "decision": 0.8866666666666667,
+     "choice_ci": [
+      0.9459367530796102,
+      0.9936315810690962
+     ],
+     "fpr95": 0.16666666666666666,
+     "auroc": 0.9755111111111111,
+     "sure_wrong": 0.013333333333333334,
+     "sure_wrong_ci": [
+      0.0,
+      0.034013605442176874
+     ],
+     "ms_median": 787.536649499998,
+     "ms_p95": 2483.3861394000223,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.9733333333333334,
+      "decision": 0.8866666666666667,
+      "fpr95": 0.16666666666666666,
+      "auroc": 0.9755111111111111,
+      "sure_wrong": 0.013333333333333334,
+      "ms_median": 787.536649499998,
+      "ms_p95": 2483.3861394000223
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.17333333333333334,
+       "ci": [
+        -0.24,
+        -0.10666666666666667
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": 0.03333333333333333,
+       "ci": [
+        -0.006666666666666667,
+        0.07333333333333333
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_made": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.31333333333333335,
+     "decision": 0.16,
+     "choice_ci": [
+      0.23809523809523808,
+      0.3841186958736627
+     ],
+     "fpr95": 0.9733333333333334,
+     "auroc": 0.42353333333333326,
+     "sure_wrong": 0.02,
+     "sure_wrong_ci": [
+      0.0,
+      0.04636534216335537
+     ],
+     "ms_median": 772.4797359999229,
+     "ms_p95": 997.8473754501466,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.31333333333333335,
+      "decision": 0.16,
+      "fpr95": 0.9733333333333334,
+      "auroc": 0.42353333333333326,
+      "sure_wrong": 0.02,
+      "ms_median": 772.4797359999229,
+      "ms_p95": 997.8473754501466
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.08666666666666667,
+       "ci": [
+        -0.18666666666666668,
+        0.006666666666666667
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": 0.16666666666666666,
+       "ci": [
+        0.10666666666666667,
+        0.23333333333333334
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_far": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.36,
+     "decision": 0.6633333333333333,
+     "choice_ci": [
+      0.2792045454545454,
+      0.4367286392405062
+     ],
+     "fpr95": 0.02666666666666667,
+     "auroc": 0.994,
+     "sure_wrong": 0.0,
+     "sure_wrong_ci": [
+      0.0,
+      0.0
+     ],
+     "ms_median": 773.2432324999081,
+     "ms_p95": 1038.136333150078,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.36,
+      "decision": 0.6633333333333333,
+      "fpr95": 0.02666666666666667,
+      "auroc": 0.994,
+      "sure_wrong": 0.0,
+      "ms_median": 773.2432324999081,
+      "ms_p95": 1038.136333150078
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.07333333333333333,
+       "ci": [
+        -0.17333333333333334,
+        0.02
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": 0.0,
+       "ci": [
+        0.0,
+        0.0
+       ],
+       "cases": 150
+      }
+     }
+    }
+   },
+   "ms_median_all": 777.7455320001536,
+   "model_bytes": null,
+   "environment": {
+    "provider": "anthropic",
+    "model": "claude-haiku-5-5",
+    "python": "3.13.18",
+    "prompt": "You route texts. You are given a text and a list of options. Choose the one option that fits the text, or \"none of these\" if no option fits. Then give your confidence, from 0 to 1, that your choice is right. Answer only by calling the decide tool.",
+    "prices_usd_per_mtok": [
+     null,
+     null
+    ],
+    "mode": {
+     "tool_choice": "forced",
+     "temperature_0": false
+    }
+   }
+  },
+  "llm_claude-opus-5-5": {
+   "name": "Claude Opus 5.5",
+   "reads_options_together": "yes",
+   "tests": {
+    "bench2000": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 1.0,
+     "decision": 0.9266666666666666,
+     "choice_ci": [
+      1.0,
+      1.0
+     ],
+     "fpr95": 0.06,
+     "auroc": 0.9829555555555557,
+     "sure_wrong": 0.02,
+     "sure_wrong_ci": [
+      0.0,
+      0.04667449664429526
+     ],
+     "ms_median": 2023.1467964997591,
+     "ms_p95": 2779.5300165499402,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 1.0,
+      "decision": 0.9266666666666666,
+      "fpr95": 0.06,
+      "auroc": 0.9829555555555557,
+      "sure_wrong": 0.02,
+      "ms_median": 2023.1467964997591,
+      "ms_p95": 2779.5300165499402
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.2,
+       "ci": [
+        -0.26,
+        -0.14
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": 0.02666666666666667,
+       "ci": [
+        -0.006666666666666667,
+        0.06666666666666667
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_made": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.37333333333333335,
+     "decision": 0.18666666666666668,
+     "choice_ci": [
+      0.2965204813700532,
+      0.45751633986928103
+     ],
+     "fpr95": 0.9933333333333333,
+     "auroc": 0.43533333333333335,
+     "sure_wrong": 0.006666666666666667,
+     "sure_wrong_ci": [
+      0.0,
+      0.02127659574468085
+     ],
+     "ms_median": 2205.613097999958,
+     "ms_p95": 3917.517970349923,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.37333333333333335,
+      "decision": 0.18666666666666668,
+      "fpr95": 0.9933333333333333,
+      "auroc": 0.43533333333333335,
+      "sure_wrong": 0.006666666666666667,
+      "ms_median": 2205.613097999958,
+      "ms_p95": 3917.517970349923
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.14666666666666667,
+       "ci": [
+        -0.25333333333333335,
+        -0.04
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": 0.18,
+       "ci": [
+        0.12,
+        0.24666666666666667
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_far": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.41333333333333333,
+     "decision": 0.6966666666666667,
+     "choice_ci": [
+      0.3333333333333333,
+      0.4930646929824561
+     ],
+     "fpr95": 0.04,
+     "auroc": 0.9856444444444444,
+     "sure_wrong": 0.0,
+     "sure_wrong_ci": [
+      0.0,
+      0.0
+     ],
+     "ms_median": 2192.582509499971,
+     "ms_p95": 3433.3590791995903,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.41333333333333333,
+      "decision": 0.6966666666666667,
+      "fpr95": 0.04,
+      "auroc": 0.9856444444444444,
+      "sure_wrong": 0.0,
+      "ms_median": 2192.582509499971,
+      "ms_p95": 3433.3590791995903
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.12666666666666668,
+       "ci": [
+        -0.2268333333333333,
+        -0.02666666666666667
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": 0.0,
+       "ci": [
+        0.0,
+        0.0
+       ],
+       "cases": 150
+      }
+     }
+    }
+   },
+   "ms_median_all": 2123.033406499644,
+   "model_bytes": null,
+   "environment": {
+    "provider": "anthropic",
+    "model": "claude-opus-5-5",
+    "python": "3.13.18",
+    "prompt": "You route texts. You are given a text and a list of options. Choose the one option that fits the text, or \"none of these\" if no option fits. Then give your confidence, from 0 to 1, that your choice is right. Answer only by calling the decide tool.",
+    "prices_usd_per_mtok": [
+     null,
+     null
+    ],
+    "mode": {
+     "tool_choice": "auto",
+     "temperature_0": false
+    }
+   }
+  },
+  "llm_claude-sonnet-5-5": {
+   "name": "Claude Sonnet 5.5",
+   "reads_options_together": "yes",
+   "tests": {
+    "bench2000": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 1.0,
+     "decision": 0.9366666666666666,
+     "choice_ci": [
+      1.0,
+      1.0
+     ],
+     "fpr95": 0.10666666666666667,
+     "auroc": 0.989311111111111,
+     "sure_wrong": 0.006666666666666667,
+     "sure_wrong_ci": [
+      0.0,
+      0.021436335403726667
+     ],
+     "ms_median": 1483.8202134999392,
+     "ms_p95": 2432.22168440002,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 1.0,
+      "decision": 0.9366666666666666,
+      "fpr95": 0.10666666666666667,
+      "auroc": 0.989311111111111,
+      "sure_wrong": 0.006666666666666667,
+      "ms_median": 1483.8202134999392,
+      "ms_p95": 2432.22168440002
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.2,
+       "ci": [
+        -0.26,
+        -0.14
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": 0.04,
+       "ci": [
+        0.006666666666666667,
+        0.08
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_made": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.3466666666666667,
+     "decision": 0.17333333333333334,
+     "choice_ci": [
+      0.2727272727272727,
+      0.42485001463271865
+     ],
+     "fpr95": 0.98,
+     "auroc": 0.4151555555555555,
+     "sure_wrong": 0.04666666666666667,
+     "sure_wrong_ci": [
+      0.013986013986013986,
+      0.08074876689806355
+     ],
+     "ms_median": 1506.9512750001195,
+     "ms_p95": 2197.585147600239,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.3466666666666667,
+      "decision": 0.17333333333333334,
+      "fpr95": 0.98,
+      "auroc": 0.4151555555555555,
+      "sure_wrong": 0.04666666666666667,
+      "ms_median": 1506.9512750001195,
+      "ms_p95": 2197.585147600239
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.12,
+       "ci": [
+        -0.2135,
+        -0.02650000000000091
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": 0.14,
+       "ci": [
+        0.07333333333333333,
+        0.20683333333333243
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_far": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.38,
+     "decision": 0.6766666666666666,
+     "choice_ci": [
+      0.3018738692168519,
+      0.46
+     ],
+     "fpr95": 0.06,
+     "auroc": 0.9912888888888889,
+     "sure_wrong": 0.0,
+     "sure_wrong_ci": [
+      0.0,
+      0.0
+     ],
+     "ms_median": 1568.0496574998415,
+     "ms_p95": 2291.094097549535,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.38,
+      "decision": 0.6766666666666666,
+      "fpr95": 0.06,
+      "auroc": 0.9912888888888889,
+      "sure_wrong": 0.0,
+      "ms_median": 1568.0496574998415,
+      "ms_p95": 2291.094097549535
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.09333333333333334,
+       "ci": [
+        -0.19333333333333333,
+        0.006666666666666667
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": 0.0,
+       "ci": [
+        0.0,
+        0.0
+       ],
+       "cases": 150
+      }
+     }
+    }
+   },
+   "ms_median_all": 1520.216870000013,
+   "model_bytes": null,
+   "environment": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-5-5",
+    "python": "3.13.18",
+    "prompt": "You route texts. You are given a text and a list of options. Choose the one option that fits the text, or \"none of these\" if no option fits. Then give your confidence, from 0 to 1, that your choice is right. Answer only by calling the decide tool.",
+    "prices_usd_per_mtok": [
+     null,
+     null
+    ],
+    "mode": {
+     "tool_choice": "auto",
+     "temperature_0": false
+    }
+   }
+  },
+  "llm_gpt-6-luna": {
+   "name": "GPT-6 Luna",
+   "reads_options_together": "yes",
+   "tests": {
+    "bench2000": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.9866666666666667,
+     "decision": 0.9133333333333333,
+     "choice_ci": [
+      0.9652777777777778,
+      1.0
+     ],
+     "fpr95": 0.11333333333333333,
+     "auroc": 0.9704666666666666,
+     "sure_wrong": 0.11333333333333333,
+     "sure_wrong_ci": [
+      0.06665562913907284,
+      0.16546762589928057
+     ],
+     "ms_median": 1380.6294804999197,
+     "ms_p95": 2429.9606040497792,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.9866666666666667,
+      "decision": 0.9133333333333333,
+      "fpr95": 0.11333333333333333,
+      "auroc": 0.9704666666666666,
+      "sure_wrong": 0.11333333333333333,
+      "ms_median": 1380.6294804999197,
+      "ms_p95": 2429.9606040497792
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.18666666666666668,
+       "ci": [
+        -0.24666666666666667,
+        -0.12666666666666668
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": -0.06666666666666667,
+       "ci": [
+        -0.12666666666666668,
+        -0.006666666666666667
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_made": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.3466666666666667,
+     "decision": 0.20333333333333334,
+     "choice_ci": [
+      0.27446524064171124,
+      0.42
+     ],
+     "fpr95": 0.94,
+     "auroc": 0.48755555555555563,
+     "sure_wrong": 0.5266666666666666,
+     "sure_wrong_ci": [
+      0.4472013153087322,
+      0.6097695480631276
+     ],
+     "ms_median": 1565.6374904999666,
+     "ms_p95": 2684.7156278497323,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.3466666666666667,
+      "decision": 0.20333333333333334,
+      "fpr95": 0.94,
+      "auroc": 0.48755555555555563,
+      "sure_wrong": 0.5266666666666666,
+      "ms_median": 1565.6374904999666,
+      "ms_p95": 2684.7156278497323
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.12,
+       "ci": [
+        -0.21333333333333335,
+        -0.02666666666666667
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": -0.34,
+       "ci": [
+        -0.43333333333333335,
+        -0.24
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_far": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.36,
+     "decision": 0.6233333333333333,
+     "choice_ci": [
+      0.2856906338694418,
+      0.43751021241830057
+     ],
+     "fpr95": 0.10666666666666667,
+     "auroc": 0.965111111111111,
+     "sure_wrong": 0.04,
+     "sure_wrong_ci": [
+      0.013331125827814571,
+      0.07534246575342465
+     ],
+     "ms_median": 2093.3899450001263,
+     "ms_p95": 4736.554741449982,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.36,
+      "decision": 0.6233333333333333,
+      "fpr95": 0.10666666666666667,
+      "auroc": 0.965111111111111,
+      "sure_wrong": 0.04,
+      "ms_median": 2093.3899450001263,
+      "ms_p95": 4736.554741449982
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.07333333333333333,
+       "ci": [
+        -0.16666666666666666,
+        0.013333333333333334
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": -0.04,
+       "ci": [
+        -0.07333333333333333,
+        -0.013333333333333334
+       ],
+       "cases": 150
+      }
+     }
+    }
+   },
+   "ms_median_all": 1589.505392000092,
+   "model_bytes": null,
+   "environment": {
+    "provider": "openai",
+    "model": "gpt-6-luna",
+    "python": "3.13.18",
+    "prompt": "You route texts. You are given a text and a list of options. Choose the one option that fits the text, or \"none of these\" if no option fits. Then give your confidence, from 0 to 1, that your choice is right. Answer only by calling the decide tool.",
+    "prices_usd_per_mtok": null,
+    "mode": null
+   }
+  },
+  "llm_gpt-6_1-sol": {
+   "name": "GPT-6.1 Sol",
+   "reads_options_together": "yes",
+   "tests": {
+    "bench2000": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.9933333333333333,
+     "decision": 0.93,
+     "choice_ci": [
+      0.9781021897810219,
+      1.0
+     ],
+     "fpr95": 0.06,
+     "auroc": 0.9864,
+     "sure_wrong": 0.09333333333333334,
+     "sure_wrong_ci": [
+      0.04893416927899687,
+      0.14379196884233145
+     ],
+     "ms_median": 1964.2139814998245,
+     "ms_p95": 3405.5527483498063,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.9933333333333333,
+      "decision": 0.93,
+      "fpr95": 0.06,
+      "auroc": 0.9864,
+      "sure_wrong": 0.09333333333333334,
+      "ms_median": 1964.2139814998245,
+      "ms_p95": 3405.5527483498063
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.19333333333333333,
+       "ci": [
+        -0.25333333333333335,
+        -0.13333333333333333
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": -0.04666666666666667,
+       "ci": [
+        -0.1,
+        0.006666666666666667
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_made": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.36,
+     "decision": 0.21,
+     "choice_ci": [
+      0.28356490573448545,
+      0.43790849673202614
+     ],
+     "fpr95": 0.9866666666666667,
+     "auroc": 0.4424222222222222,
+     "sure_wrong": 0.66,
+     "sure_wrong_ci": [
+      0.5821892251073401,
+      0.7333333333333333
+     ],
+     "ms_median": 2625.489921000053,
+     "ms_p95": 4242.062434849913,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.36,
+      "decision": 0.21,
+      "fpr95": 0.9866666666666667,
+      "auroc": 0.4424222222222222,
+      "sure_wrong": 0.66,
+      "ms_median": 2625.489921000053,
+      "ms_p95": 4242.062434849913
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.13333333333333333,
+       "ci": [
+        -0.22666666666666666,
+        -0.04
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": -0.47333333333333333,
+       "ci": [
+        -0.5666666666666667,
+        -0.38
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_far": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.37333333333333335,
+     "decision": 0.6566666666666666,
+     "choice_ci": [
+      0.3012674825174825,
+      0.4492776554760594
+     ],
+     "fpr95": 0.05333333333333334,
+     "auroc": 0.9786444444444444,
+     "sure_wrong": 0.02666666666666667,
+     "sure_wrong_ci": [
+      0.006249029503105591,
+      0.05442176870748299
+     ],
+     "ms_median": 2191.9453535001594,
+     "ms_p95": 3630.053386600003,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.37333333333333335,
+      "decision": 0.6566666666666666,
+      "fpr95": 0.05333333333333334,
+      "auroc": 0.9786444444444444,
+      "sure_wrong": 0.02666666666666667,
+      "ms_median": 2191.9453535001594,
+      "ms_p95": 3630.053386600003
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.08666666666666667,
+       "ci": [
+        -0.18,
+        0.006666666666666667
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": -0.02666666666666667,
+       "ci": [
+        -0.05333333333333334,
+        -0.006666666666666667
+       ],
+       "cases": 150
+      }
+     }
+    }
+   },
+   "ms_median_all": 2328.8554510002086,
+   "model_bytes": null,
+   "environment": {
+    "provider": "openai",
+    "model": "gpt-6.1-sol",
+    "python": "3.13.18",
+    "prompt": "You route texts. You are given a text and a list of options. Choose the one option that fits the text, or \"none of these\" if no option fits. Then give your confidence, from 0 to 1, that your choice is right. Answer only by calling the decide tool.",
+    "prices_usd_per_mtok": null,
+    "mode": null
+   }
+  },
+  "llm_gpt-6_1-terra": {
+   "name": "GPT-6.1 Terra",
+   "reads_options_together": "yes",
+   "tests": {
+    "bench2000": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.9933333333333333,
+     "decision": 0.9266666666666666,
+     "choice_ci": [
+      0.9785714285714285,
+      1.0
+     ],
+     "fpr95": 0.05333333333333334,
+     "auroc": 0.9842,
+     "sure_wrong": 0.08666666666666667,
+     "sure_wrong_ci": [
+      0.04254569973029667,
+      0.1337579617834395
+     ],
+     "ms_median": 2023.5241395000685,
+     "ms_p95": 3188.2098688500723,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.9933333333333333,
+      "decision": 0.9266666666666666,
+      "fpr95": 0.05333333333333334,
+      "auroc": 0.9842,
+      "sure_wrong": 0.08666666666666667,
+      "ms_median": 2023.5241395000685,
+      "ms_p95": 3188.2098688500723
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.19333333333333333,
+       "ci": [
+        -0.25333333333333335,
+        -0.13333333333333333
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": -0.04,
+       "ci": [
+        -0.09333333333333334,
+        0.013333333333333334
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_made": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.36,
+     "decision": 0.19,
+     "choice_ci": [
+      0.2822046562844109,
+      0.43592715231788065
+     ],
+     "fpr95": 0.98,
+     "auroc": 0.4635333333333333,
+     "sure_wrong": 0.6133333333333333,
+     "sure_wrong_ci": [
+      0.5337725225225225,
+      0.6866974522292991
+     ],
+     "ms_median": 2158.342662999985,
+     "ms_p95": 3267.683325750114,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.36,
+      "decision": 0.19,
+      "fpr95": 0.98,
+      "auroc": 0.4635333333333333,
+      "sure_wrong": 0.6133333333333333,
+      "ms_median": 2158.342662999985,
+      "ms_p95": 3267.683325750114
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.13333333333333333,
+       "ci": [
+        -0.23333333333333334,
+        -0.03333333333333333
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": -0.4266666666666667,
+       "ci": [
+        -0.52,
+        -0.32666666666666666
+       ],
+       "cases": 150
+      }
+     }
+    },
+    "tickets_far": {
+     "cases": 300,
+     "with_right_option": 150,
+     "choice": 0.36666666666666664,
+     "decision": 0.65,
+     "choice_ci": [
+      0.28984140005468967,
+      0.4429530201342282
+     ],
+     "fpr95": 0.06,
+     "auroc": 0.9733555555555555,
+     "sure_wrong": 0.03333333333333333,
+     "sure_wrong_ci": [
+      0.006802721088435374,
+      0.06537022703818364
+     ],
+     "ms_median": 1866.0483525004565,
+     "ms_p95": 2764.3299962501715,
+     "on_sample": {
+      "cases": 300,
+      "with_right_option": 150,
+      "choice": 0.36666666666666664,
+      "decision": 0.65,
+      "fpr95": 0.06,
+      "auroc": 0.9733555555555555,
+      "sure_wrong": 0.03333333333333333,
+      "ms_median": 1866.0483525004565,
+      "ms_p95": 2764.3299962501715
+     },
+     "zeropoint_minus": {
+      "choice": {
+       "diff": -0.08,
+       "ci": [
+        -0.16666666666666666,
+        0.013333333333333334
+       ],
+       "cases": 150
+      },
+      "sure_wrong": {
+       "diff": -0.03333333333333333,
+       "ci": [
+        -0.06666666666666667,
+        -0.006666666666666667
+       ],
+       "cases": 150
+      }
+     }
+    }
+   },
+   "ms_median_all": 2009.6384529997522,
+   "model_bytes": null,
+   "environment": {
+    "provider": "openai",
+    "model": "gpt-6.1-terra",
+    "python": "3.13.18",
+    "prompt": "You route texts. You are given a text and a list of options. Choose the one option that fits the text, or \"none of these\" if no option fits. Then give your confidence, from 0 to 1, that your choice is right. Answer only by calling the decide tool.",
+    "prices_usd_per_mtok": null,
+    "mode": null
+   }
+  }
+ },
+ "llm_comparison": {
+  "tests": [
+   "bench2000",
+   "tickets_made",
+   "tickets_far"
+  ],
+  "cases_per_test": {
+   "bench2000": 300,
+   "tickets_made": 300,
+   "tickets_far": 300
+  },
+  "systems": {
+   "zeropoint": {
+    "right": 0.5355555555555556,
+    "silent": 0.07777777777777778,
+    "ms_median": 41.86800850004602,
+    "ms_p95": 64.15712665004774,
+    "cases": 900,
+    "invalid": 0,
+    "no_tool_call": 0,
+    "per_test": {
+     "bench2000": {
+      "right": 0.7666666666666667,
+      "silent": 0.04666666666666667
+     },
+     "tickets_made": {
+      "right": 0.22333333333333333,
+      "silent": 0.18666666666666668
+     },
+     "tickets_far": {
+      "right": 0.6166666666666667,
+      "silent": 0.0
+     }
+    },
+    "mode": null
+   },
+   "laya_none": {
+    "right": 0.4988888888888889,
+    "silent": 0.04888888888888889,
+    "ms_median": 592.5156750004135,
+    "ms_p95": 988.364776950402,
+    "cases": 900,
+    "invalid": 0,
+    "no_tool_call": 0,
+    "per_test": {
+     "bench2000": {
+      "right": 0.7233333333333334,
+      "silent": 0.14
+     },
+     "tickets_made": {
+      "right": 0.19333333333333333,
+      "silent": 0.006666666666666667
+     },
+     "tickets_far": {
+      "right": 0.58,
+      "silent": 0.0
+     }
+    },
+    "mode": null,
+    "zeropoint_minus": {
+     "right": {
+      "diff": 0.03666666666666667,
+      "ci": [
+       0.0011111111111111111,
+       0.07333333333333333
+      ]
+     },
+     "silent": {
+      "diff": 0.028888888888888888,
+      "ci": [
+       -0.0044444444444444444,
+       0.06
+      ]
+     }
+    }
+   },
+   "llm_claude-haiku-5-5": {
+    "right": 0.57,
+    "silent": 0.011111111111111112,
+    "ms_median": 777.7455320001536,
+    "ms_p95": 1284.6128710499893,
+    "cases": 900,
+    "invalid": 0,
+    "no_tool_call": 0,
+    "per_test": {
+     "bench2000": {
+      "right": 0.8866666666666667,
+      "silent": 0.013333333333333334
+     },
+     "tickets_made": {
+      "right": 0.16,
+      "silent": 0.02
+     },
+     "tickets_far": {
+      "right": 0.6633333333333333,
+      "silent": 0.0
+     }
+    },
+    "tokens_in": 884.9,
+    "tokens_out": 62.053333333333335,
+    "mode": {
+     "tool_choice": "forced",
+     "temperature_0": false
+    },
+    "zeropoint_minus": {
+     "right": {
+      "diff": -0.034444444444444444,
+      "ci": [
+       -0.06777777777777778,
+       -0.0011111111111111111
+      ]
+     },
+     "silent": {
+      "diff": 0.06666666666666667,
+      "ci": [
+       0.042222222222222223,
+       0.09333333333333334
+      ]
+     }
+    }
+   },
+   "llm_claude-opus-5-5": {
+    "right": 0.6033333333333334,
+    "silent": 0.008888888888888889,
+    "ms_median": 2123.033406499644,
+    "ms_p95": 3433.35907919959,
+    "cases": 900,
+    "invalid": 1,
+    "no_tool_call": 0,
+    "per_test": {
+     "bench2000": {
+      "right": 0.9266666666666666,
+      "silent": 0.02
+     },
+     "tickets_made": {
+      "right": 0.18666666666666668,
+      "silent": 0.006666666666666667
+     },
+     "tickets_far": {
+      "right": 0.6966666666666667,
+      "silent": 0.0
+     }
+    },
+    "tokens_in": 760.9,
+    "tokens_out": 109.06888888888889,
+    "mode": {
+     "tool_choice": "auto",
+     "temperature_0": false
+    },
+    "zeropoint_minus": {
+     "right": {
+      "diff": -0.06777777777777778,
+      "ci": [
+       -0.10222222222222223,
+       -0.034444444444444444
+      ]
+     },
+     "silent": {
+      "diff": 0.06888888888888889,
+      "ci": [
+       0.044444444444444446,
+       0.09555555555555556
+      ]
+     }
+    }
+   },
+   "llm_claude-sonnet-5-5": {
+    "right": 0.5955555555555555,
+    "silent": 0.017777777777777778,
+    "ms_median": 1520.216870000013,
+    "ms_p95": 2264.6090069498314,
+    "cases": 900,
+    "invalid": 0,
+    "no_tool_call": 0,
+    "per_test": {
+     "bench2000": {
+      "right": 0.9366666666666666,
+      "silent": 0.006666666666666667
+     },
+     "tickets_made": {
+      "right": 0.17333333333333334,
+      "silent": 0.04666666666666667
+     },
+     "tickets_far": {
+      "right": 0.6766666666666666,
+      "silent": 0.0
+     }
+    },
+    "tokens_in": 760.9,
+    "tokens_out": 78.04333333333334,
+    "mode": {
+     "tool_choice": "auto",
+     "temperature_0": false
+    },
+    "zeropoint_minus": {
+     "right": {
+      "diff": -0.06,
+      "ci": [
+       -0.09444444444444444,
+       -0.02666666666666667
+      ]
+     },
+     "silent": {
+      "diff": 0.06,
+      "ci": [
+       0.03333333333333333,
+       0.08666666666666667
+      ]
+     }
+    }
+   },
+   "llm_gpt-6-luna": {
+    "right": 0.58,
+    "silent": 0.22666666666666666,
+    "ms_median": 1589.505392000092,
+    "ms_p95": 3800.607349499749,
+    "cases": 900,
+    "invalid": 0,
+    "no_tool_call": 0,
+    "per_test": {
+     "bench2000": {
+      "right": 0.9133333333333333,
+      "silent": 0.11333333333333333
+     },
+     "tickets_made": {
+      "right": 0.20333333333333334,
+      "silent": 0.5266666666666666
+     },
+     "tickets_far": {
+      "right": 0.6233333333333333,
+      "silent": 0.04
+     }
+    },
+    "tokens_in": 255.86555555555555,
+    "tokens_out": 58.995555555555555,
+    "mode": null,
+    "zeropoint_minus": {
+     "right": {
+      "diff": -0.044444444444444446,
+      "ci": [
+       -0.07888888888888888,
+       -0.011111111111111112
+      ]
+     },
+     "silent": {
+      "diff": -0.14888888888888888,
+      "ci": [
+       -0.18888888888888888,
+       -0.10883333333333363
+      ]
+     }
+    }
+   },
+   "llm_gpt-6_1-sol": {
+    "right": 0.5988888888888889,
+    "silent": 0.26,
+    "ms_median": 2328.8554510002086,
+    "ms_p95": 3752.94024510001,
+    "cases": 900,
+    "invalid": 0,
+    "no_tool_call": 0,
+    "per_test": {
+     "bench2000": {
+      "right": 0.93,
+      "silent": 0.09333333333333334
+     },
+     "tickets_made": {
+      "right": 0.21,
+      "silent": 0.66
+     },
+     "tickets_far": {
+      "right": 0.6566666666666666,
+      "silent": 0.02666666666666667
+     }
+    },
+    "tokens_in": 255.86555555555555,
+    "tokens_out": 37.76,
+    "mode": null,
+    "zeropoint_minus": {
+     "right": {
+      "diff": -0.06333333333333334,
+      "ci": [
+       -0.09666666666666666,
+       -0.03
+      ]
+     },
+     "silent": {
+      "diff": -0.18222222222222223,
+      "ci": [
+       -0.22444444444444445,
+       -0.14222222222222222
+      ]
+     }
+    }
+   },
+   "llm_gpt-6_1-terra": {
+    "right": 0.5888888888888889,
+    "silent": 0.24444444444444444,
+    "ms_median": 2009.6384529997522,
+    "ms_p95": 3149.3320042500272,
+    "cases": 900,
+    "invalid": 0,
+    "no_tool_call": 0,
+    "per_test": {
+     "bench2000": {
+      "right": 0.9266666666666666,
+      "silent": 0.08666666666666667
+     },
+     "tickets_made": {
+      "right": 0.19,
+      "silent": 0.6133333333333333
+     },
+     "tickets_far": {
+      "right": 0.65,
+      "silent": 0.03333333333333333
+     }
+    },
+    "tokens_in": 255.86555555555555,
+    "tokens_out": 74.52777777777777,
+    "mode": null,
+    "zeropoint_minus": {
+     "right": {
+      "diff": -0.05333333333333334,
+      "ci": [
+       -0.08666666666666667,
+       -0.02
+      ]
+     },
+     "silent": {
+      "diff": -0.16666666666666666,
+      "ci": [
+       -0.20666666666666667,
+       -0.12444444444444444
+      ]
+     }
+    }
+   }
   }
  }
 }
