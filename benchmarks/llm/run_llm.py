@@ -156,6 +156,9 @@ def main():
                             ms = (time.perf_counter() - t0) * 1000
                             break
                         except Exception as e:  # rate limits and transient errors: wait and retry
+                            status = getattr(e, "status_code", None)
+                            if status in (400, 401, 403, 404):   # bad key, no access, unknown model: retrying cannot help
+                                sys.exit(f"{args.provider} {args.model}: {e}")
                             if attempt == 4:
                                 raise
                             print(f"  retry after error: {e}", flush=True)
