@@ -1,209 +1,190 @@
 # Benchmark
 
-What the two landscapes that ship with ZeroPoint (`everyday` and `support`) do on cases they never saw, against a similarity baseline with the same encoder
-and against [Laya](https://pypi.org/project/laya/), a published decision model. Everything here can be
-rebuilt from public data with the scripts in [benchmarks/](benchmarks) and
-[scripts/build_presets.py](scripts/build_presets.py).
+How ZeroPoint 1.0 compares with three common ways of choosing an option for a text: Laya with a "None of these"
+option, Semantic Router, and zero-shot classification with an NLI model. Everything here can be run again with the
+scripts in [benchmarks/compare](benchmarks/compare), and every per-case output is in the repository.
 
-## The question
+## How it is measured
 
-A decision engine has two jobs. When the right option is on the list, choose it. When it is not, say so.
-Most benchmarks only measure the first job. This one measures both.
+- **Eight tests, 7,537 cases.** In each case a system gets a text and a list of options. In about half the cases one
+  option is right; in the others none is, and the right answer is *none*.
+- **The same machine for every system:** a 2-core cloud CPU (Intel Xeon at 2.1 GHz), 2 threads, one case at a time,
+  default settings.
+- **Zero-shot NLI reads a fixed sample of 300 cases per test** (150 with a right option, 150 without), because it
+  runs its model once per option and takes 1 to 3 seconds per case. Every system is also scored on that same sample,
+  in [the full tables](benchmarks/compare/results/tables.md).
+- **Order.** Every system reads the 300-case sample a second time with the options in another order.
+- **Versions.** Model versions are pinned by their Hugging Face commit, dataset versions in `build_tests.py`.
 
-## The data
-
-| | training | tests |
-|---|---|---|
-| **support** | 20,000 English support tickets with 10 queues ([Tobi-Bueck/customer-support-tickets](https://huggingface.co/datasets/Tobi-Bueck/customer-support-tickets)) | 2,261 other tickets from the same dataset, plus 300 unrelated texts |
-| **everyday** | 15,000 requests with 150 intents ([CLINC150](https://huggingface.co/datasets/clinc_oos)) | 800 requests and 800 out-of-scope requests from the test split |
-
-No test case is ever in a training set, and no out-of-scope text is used anywhere in training. The ticket
-test cases are the same ones used in the [Laya audit](https://github.com/Javihaus/laya-audit).
-
-Each test has an answerable side and a side where none of the listed options is right:
-
-| test | answerable side | no right answer |
-|---|---|---|
-| `tickets_far` | 661 tickets, 9 queues | 300 real texts from far away (IMDB reviews and newsgroup posts), with the same length and a `Subject:` line |
-| `tickets_made` | 800 tickets, 8 queues | 800 tickets whose right queue was removed from the list |
-| `clinc_real` | 800 requests, 20 intents | 800 out-of-scope requests written by people |
-| `clinc_made` | 800 requests, 20 intents | the same 800 requests with the right intent swapped for another |
-
-## Saying "none"
-
-The score is the probability that one of the listed options is right (1 − `p_none`). **AUROC** is the chance
-that a random answerable case scores higher than a random case with no right answer (1 is perfect, 0.5 is a
-coin toss). **FPR95** is the share of no-right-answer cases you would still act on if you keep 95% of the
-answerable ones (lower is better). Brackets: 95% bootstrap interval.
-
-Default setting (small encoder, 8-bit):
-
-| test | ZeroPoint | similarity | Laya |
-|---|---|---|---|
-| `tickets_far` | **1.000** [1.000, 1.000] · FPR95 0.00 | 0.995 [0.991, 0.998] · 0.02 | 0.776 · 0.86 |
-| `tickets_made` | **0.712** [0.685, 0.737] · FPR95 0.82 | 0.586 [0.559, 0.611] · 0.95 | 0.552 · 0.97 |
-| `clinc_real` | **0.979** [0.973, 0.985] · FPR95 0.10 | 0.904 [0.888, 0.917] · 0.52 | 0.918 · 0.32 |
-| `clinc_made` | **0.973** [0.967, 0.980] · FPR95 0.17 | 0.784 [0.761, 0.805] · 0.81 | 0.862 · 0.44 |
-
-Base encoder, 8-bit:
-
-| test | ZeroPoint | similarity |
-|---|---|---|
-| `tickets_far` | **1.000** · FPR95 0.00 | 0.999 · 0.00 |
-| `tickets_made` | **0.713** · FPR95 0.78 | 0.560 · 0.95 |
-| `clinc_real` | **0.986** · FPR95 0.06 | 0.910 · 0.49 |
-| `clinc_made` | **0.986** · FPR95 0.07 | 0.819 · 0.74 |
-
-Similarity is the highest cosine between the text and an option, with the same encoder. Laya's numbers come
-from a separate run on exactly the same cases, with Laya's own encoder; they do not change with ours.
-
-## Choosing
-
-Accuracy when the right option is on the list (the model must pick among the listed options; 8-bit encoders):
-
-| test | ZeroPoint small | ZeroPoint base | similarity small | Laya |
+| Test | Cases | With a right option | Options per case | What it is |
 |---|---|---|---|---|
-| tickets, 9 queues | 0.375 | 0.407 | 0.425 | **0.484** |
-| tickets, 8 queues | 0.426 | 0.445 | 0.366 | **0.460** |
-| CLINC150, 20 intents | 0.971 | **0.981** | 0.801 | 0.950 |
+| 2,000-case test | 2,000 | 1,000 | 4–9 | everyday requests and support tickets, with hard wording, typos and unrelated texts ([details](benchmarks/benchmark_2000)) |
+| SNIPS | 1,000 | 500 | 6–7 | voice-assistant requests (English) |
+| ATIS | 351 | 300 | 8 | airline travel questions (English) |
+| MTOP | 852 | 500 | 10 | assistant requests in Spanish |
+| HWU64 | 534 | 450 | 10 | home-assistant requests (English) |
+| CLINC150 | 1,600 | 800 | 20 | everyday requests; cases with no right option are real out-of-scope questions |
+| Tickets, queue removed | 600 | 300 | 8 | support tickets; when no option is right, the ticket's own queue was removed from the list |
+| Tickets, unrelated texts | 600 | 300 | 9 | support queues; the cases with no right option are film reviews and newsgroup posts |
 
-On CLINC150 ZeroPoint chooses best. On the tickets Laya chooses better: it was trained on this ticket dataset,
-and the dataset's queues overlap a lot (no system reaches 50%). ZeroPoint's strength is the "none", not the
-choice: when the right option is on the list it chooses about as well as an ordinary classifier trained on the
-same data (in the research runs, a softmax with the same layers matched it within one point).
+No test text is in ZeroPoint's training data, with one exception: CLINC150's training split is part of the training
+data, so its test split, used here, is in a domain ZeroPoint has seen.
 
-## Calibrating on data it never saw
+## Systems
 
-The path a user follows, run end to end with
-[notebooks/calibrate_your_own.ipynb](notebooks/calibrate_your_own.ipynb) on
-[Banking77](https://huggingface.co/datasets/PolyAI/banking77) (77 banking intents, never used anywhere else
-in this project): 8,003 texts to calibrate, 2,000 kept apart, small encoder, default recipe, CPU only.
-
-| on the 2,000 texts kept apart | |
-|---|---|
-| accuracy, all 77 intents offered | 0.853 |
-| said "none" although the right intent was on the list | 1.3% |
-| said "none" when the right intent was removed from a list of 10 | 87.3% |
-
-## What each part contributes
-
-The far texts (`tickets_far`) show why the edge of the data matters. Without it ZeroPoint scores 0.68 there:
-on the unit sphere where the learned points live, a movie review can still land near a ticket queue. With the
-edge, 1.00. On the other three tests the edge changes nothing (within 0.01), which is the point: inside the
-data the zero of energy stays where it is.
-
-| test | with the edge | without |
+| System | Version | What it gets |
 |---|---|---|
-| `tickets_far` | 1.000 | 0.680 |
-| `tickets_made` | 0.712 | 0.713 |
-| `clinc_real` | 0.979 | 0.977 |
-| `clinc_made` | 0.973 | 0.974 |
+| ZeroPoint | 1.0.0 | the text and the options |
+| Laya + "None of these" | `laya` 0.4.21, its recommended `Router`, model commit `7b928d82` | the options plus one more, "None of these" |
+| Semantic Router | `semantic-router` 1.1.1, default encoder all-MiniLM-L6-v2 | one route per option, with the option name as its only example |
+| Zero-shot NLI | DeBERTa-v3-base MNLI, Hugging Face zero-shot pipeline, `multi_label=True` | the text and the options |
 
-## 8-bit or full precision
+Makers and licences are in [benchmarks/compare/README.md](benchmarks/compare/README.md).
 
-The 8-bit encoder costs about 0.01 AUROC at most, and on a CPU it is up to three times faster.
-Each shipped landscape stores the edge of its data measured with both precisions, so neither setting is
-penalised.
+## Summary
 
-| test (AUROC) | small fp32 | small int8 | base fp32 | base int8 |
+| | ZeroPoint | Laya + "None of these" | Semantic Router | Zero-shot NLI |
 |---|---|---|---|---|
-| `tickets_far` | 1.000 | 1.000 | 1.000 | 1.000 |
-| `tickets_made` | 0.711 | 0.712 | 0.724 | 0.713 |
-| `clinc_real` | 0.981 | 0.979 | 0.989 | 0.986 |
-| `clinc_made` | 0.976 | 0.973 | 0.988 | 0.986 |
+| Picks the right option, when there is one | 68.5% | **72.2%** | 56.8% | 50.6% |
+| Picks an option with probability ≥ 0.9 when none is right | **6.9%** | 21.4% | – | 30.2% |
+| Cases with no right option still acted on, at 95% recall (FPR95) | **53.6%** | 60.1% | 69.0% | 87.1% |
+| Right decision at default settings, all cases | **63.6%** | 59.9% | 34.6% | 28.6% |
+| Decision changes when the options come in another order | **0%** | 14.9% | 0.2% | 0% |
+| Time per decision (median, all cases) | 21 ms | 383 ms | **9 ms** | 1,316 ms |
+| Model size | **89 MB** | 1,486 MB | 91 MB | 369 MB |
+
+Mean over the eight tests. Semantic Router gives similarities, not probabilities, so it has no value in the second
+row. For zero-shot NLI, the 300-case sample.
+
+## Choosing: the right option, when there is one
+
+Share of cases with a right option in which the system scores the right option highest. In brackets, the 95%
+confidence interval.
+
+| Test | ZeroPoint | Laya + "None of these" | ZeroPoint − Laya | Semantic Router | Zero-shot NLI |
+|---|---|---|---|---|---|
+| 2,000-case test | 85.4% (83.1–87.6) | 87.5% (85.3–89.6) | −2.1 (−4.5 to +0.2) | 71.1% (68.2–73.8) | 68.7% (61.1–75.8) |
+| SNIPS | 80.4% (76.7–83.8) | 89.0% (86.3–91.6) | **−8.6** (−12.0 to −5.4) | 76.4% (72.5–80.2) | 58.0% (49.7–65.9) |
+| ATIS | 76.0% (71.2–80.9) | 77.3% (72.5–82.1) | −1.3 (−7.7 to +4.7) | 59.0% (53.5–64.4) | 35.7% (29.9–41.5) |
+| MTOP (Spanish) | 72.8% (68.7–76.5) | 68.0% (63.8–72.2) | **+4.8** (+0.2 to +9.4) | 31.2% (27.0–35.1) | 52.7% (44.4–60.9) |
+| HWU64 | 86.7% (83.5–89.6) | 82.0% (78.5–85.7) | **+4.7** (+0.4 to +8.9) | 74.2% (70.2–78.2) | 66.7% (60.2–72.7) |
+| CLINC150 | 93.5% (91.7–95.1) | 94.9% (93.3–96.3) | −1.4 (−3.2 to +0.4) | 87.1% (84.5–89.3) | 68.0% (60.1–75.2) |
+| Tickets, queue removed | 24.3% (19.5–29.4) | 39.0% (33.7–44.7) | **−14.7** (−21.0 to −8.3) | 27.3% (22.3–32.5) | 31.3% (23.6–38.8) |
+| Tickets, unrelated texts | 28.7% (23.9–34.2) | 40.0% (34.0–45.2) | **−11.3** (−17.3 to −5.7) | 28.3% (23.6–33.7) | 24.0% (17.8–30.5) |
+
+*ZeroPoint − Laya* is the difference in percentage points, with its 95% interval from a paired bootstrap over the
+same cases; in bold where the interval does not include zero. Laya chooses better on SNIPS and on support tickets;
+ZeroPoint on Spanish requests (MTOP) and on HWU64. On the 2,000-case test, ATIS and CLINC150 the difference is
+within the interval.
+
+## Saying *none*: confident answers when no option is right
+
+Share of cases with no right option in which the system still picks an option and gives it a probability of 0.9 or
+more.
+
+| Test | ZeroPoint | Laya + "None of these" | ZeroPoint − Laya | Zero-shot NLI |
+|---|---|---|---|---|
+| 2,000-case test | 5.8% (4.4–7.2) | 12.2% (10.2–14.4) | **−6.4** (−8.7 to −4.2) | 20.0% (13.5–26.3) |
+| SNIPS | 4.6% (2.9–6.5) | 29.4% (25.6–33.3) | **−24.8** (−28.8 to −21.0) | 26.7% (19.5–33.8) |
+| ATIS | 17.6% (7.8–29.5) | 47.1% (33.3–61.1) | **−29.4** (−45.1 to −11.8) | 88.2% (78.7–96.0) |
+| MTOP (Spanish) | 3.1% (1.5–5.1) | 25.0% (20.5–29.7) | **−21.9** (−26.4 to −17.3) | 25.3% (18.2–32.2) |
+| HWU64 | 2.4% (0.0–6.3) | 32.1% (22.4–41.7) | **−29.8** (−40.5 to −19.0) | 16.7% (9.2–25.6) |
+| CLINC150 | 1.9% (1.0–2.9) | 24.2% (21.4–27.3) | **−22.4** (−25.4 to −19.4) | 18.0% (12.1–24.5) |
+| Tickets, queue removed | 19.7% (15.4–24.3) | 1.3% (0.3–2.8) | **+18.3** (+14.0 to +23.0) | 38.0% (30.0–45.4) |
+| Tickets, unrelated texts | 0.3% (0.0–1.1) | 0.0% (0.0–0.0) | +0.3 (0.0 to +1.0) | 8.7% (4.4–13.4) |
+
+Lower is better. ZeroPoint is far less often confidently wrong on six tests, by 6 to 30 points. The exception is
+support tickets whose own queue was removed from the list: there ZeroPoint often picks a neighbouring queue with
+high confidence, and Laya does not. [Adapting ZeroPoint to the tickets](#adapting-to-your-labels) brings this to 0%.
+
+FPR95, which needs no probabilities and so covers every system: the share of cases with no right option still
+acted on, with the threshold set to keep 95% of the cases with a right option (lower is better).
+
+| Test | ZeroPoint | Laya + "None of these" | Semantic Router | Zero-shot NLI |
+|---|---|---|---|---|
+| 2,000-case test | 34.8% | 47.0% | 77.7% | 79.3% |
+| SNIPS | 59.2% | 54.8% | 72.0% | 89.3% |
+| ATIS | 94.1% | 88.2% | 92.2% | 88.2% |
+| MTOP (Spanish) | 77.3% | 85.5% | 96.0% | 85.3% |
+| HWU64 | 50.0% | 84.5% | 78.6% | 86.9% |
+| CLINC150 | 18.5% | 21.4% | 25.0% | 81.3% |
+| Tickets, queue removed | 91.3% | 92.3% | 95.3% | 95.3% |
+| Tickets, unrelated texts | 3.7% | 7.0% | 15.3% | 91.3% |
+
+When the case without a right option is close to the options (ATIS, tickets with their queue removed), no system
+separates it well at 95% recall.
+
+## Order of the options
+
+Share of cases whose decision changes when the same text and the same options come in another order (300 cases
+per test).
+
+| Test | ZeroPoint | Laya + "None of these" | Semantic Router | Zero-shot NLI |
+|---|---|---|---|---|
+| 2,000-case test | 0% | 9.3% | 0% | 0% |
+| SNIPS | 0% | 13.0% | 0% | 0% |
+| ATIS | 0% | 16.7% | 0% | 0% |
+| MTOP (Spanish) | 0% | 22.3% | 0% | 0% |
+| HWU64 | 0% | 15.0% | 0% | 0% |
+| CLINC150 | 0% | 13.0% | 0% | 0% |
+| Tickets, queue removed | 0% | 14.7% | 0% | 0% |
+| Tickets, unrelated texts | 0% | 15.3% | 1.7% | 0% |
+
+ZeroPoint and Laya both read the options together with the text. Laya reads them in the order they are given, and
+its answer depends on that order. ZeroPoint gives every option the same positions and reads them in an order fixed
+by their text, so the order they are given in cannot matter. Semantic Router and zero-shot NLI score each option
+on its own; Semantic Router's rare changes come from ties.
 
 ## Speed
 
-Time per decision on a modest machine: a cloud server with 2 virtual cores of an Intel Xeon at 2.1 GHz, no
-GPU. A recent laptop is faster. Texts are real support tickets (median about 400 characters) with 10 options.
-Median and, in brackets, 95th percentile, in milliseconds.
+Median time per case, in milliseconds, on the same machine.
 
-| encoder, precision | one text: encoder | one text: engine | one text: total | 32 texts: total per text |
+| Test | ZeroPoint | Laya + "None of these" | Semantic Router | Zero-shot NLI |
 |---|---|---|---|---|
-| small, int8 (default) | 15 [25] | 0.4 [0.5] | **19** [27] | **17** |
-| small, fp32 | 28 [54] | 0.5 [0.7] | 26 [44] | 31 |
-| base, int8 | 31 [51] | 1.1 [1.3] | 29 [45] | 32 |
-| base, fp32 | 96 [193] | 1.1 [1.2] | 106 [172] | 107 |
+| 2,000-case test | 16 | 345 | 9 | 780 |
+| SNIPS | 16 | 351 | 8 | 848 |
+| ATIS | 17 | 352 | 8 | 1,021 |
+| MTOP (Spanish) | 20 | 152 | 9 | 1,312 |
+| HWU64 | 20 | 380 | 7 | 1,354 |
+| CLINC150 (20 options) | 27 | 472 | 8 | 2,697 |
+| Tickets, queue removed | 43 | 620 | 18 | 1,705 |
+| Tickets, unrelated texts | 53 | 755 | 24 | 2,296 |
 
-The engine (wells, vacuum, edge) takes about a millisecond or less. Everything else is the encoder. On a CPU,
-the 8-bit encoder runs one text at a time, so a decision never depends on which other texts share its batch,
-and the full-precision encoder runs groups of four, which wastes less time on padding than large batches.
-For a GPU, install `onnxruntime-gpu` and use `precision="fp32"`; ZeroPoint picks CUDA when it is there.
+ZeroPoint's time grows with the length of the text and the number of options, because it reads them together.
+Semantic Router encodes only the text and compares it with option vectors computed once, which makes it the fastest
+and also explains why it chooses less well.
 
-Run `python benchmarks/latency.py` to measure on your own machine.
+## Adapting to your labels
 
-## A second benchmark: 2,000 cases
+`fit` with 300 labelled tickets (6 minutes on 2 CPU threads), measured on the two ticket tests:
 
-A separate set of 2,000 cases, each a text with 4 to 9 options: 1,000 with a right option and 1,000 without
-one (out-of-scope requests, near misses, unrelated text). ZeroPoint 0.1.0 from PyPI, default settings, against
-Laya, Semantic Router and a zero-shot NLI model. Data, code, per-case outputs and the full tables are in
-[benchmarks/benchmark_2000](benchmarks/benchmark_2000).
-
-<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/benchmark-2000-chart.png" width="100%" alt="AUROC against FPR at 95% recall on 2,000 cases. ZeroPoint (AUROC 0.89, FPR 0.44) is the only system in the green zone. Semantic Router with 10 examples per option (0.85, 0.57), Semantic Router with option names (0.82, 0.78), zero-shot NLI (0.79, 0.81) and Laya (0.79, 0.86) sit in the orange zone.">
-
-| System | Accuracy, choosing | Accuracy, default | AUROC | FPR95 |
-|---|---|---|---|---|
-| **ZeroPoint** (κ = 2, default) | 0.77 [0.73, 0.82] | **0.76** | **0.89** [0.86, 0.92] | **0.44** [0.32, 0.58] |
-| ZeroPoint, κ = 0.25 | 0.77 [0.73, 0.82] | 0.74 | 0.89 [0.85, 0.92] | 0.47 [0.38, 0.54] |
-| Laya | **0.88** [0.85, 0.91] | 0.44 | 0.79 [0.75, 0.83] | 0.86 [0.75, 0.93] |
-| Semantic Router, 10 examples per option | 0.75 [0.71, 0.80] | 0.38 | 0.85 [0.82, 0.89] | 0.57 [0.48, 0.66] |
-| Semantic Router, option names only | 0.71 [0.66, 0.76] | 0.36 | 0.82 [0.78, 0.86] | 0.78 [0.65, 0.88] |
-| Zero-shot NLI, DeBERTa-v3-base | 0.76 [0.71, 0.80] | 0.38 | 0.79 [0.74, 0.83] | 0.81 [0.72, 0.89] |
-
-*Accuracy, choosing*: the top option is right, on the 1,000 cases that have a right option. *Accuracy,
-default*: each system's own decision on all 2,000 cases; only ZeroPoint answers *none* without a threshold,
-so the others cannot exceed 0.50. Brackets: 95% interval, resampling the 552 distinct texts.
-
-By landscape (AUROC / FPR95, and accuracy choosing):
-
-| System | everyday (1,415 cases) | support (585 cases) |
+| | Before | After |
 |---|---|---|
-| ZeroPoint | **0.94 / 0.27** (0.93) | **0.78** / **0.78** (0.38) |
-| Laya | 0.89 / 0.41 (**0.98**) | 0.65 / 0.98 (**0.64**) |
-| Semantic Router, 10 examples | 0.92 / 0.31 (0.90) | 0.75 / 0.78 (0.38) |
-| Semantic Router, names only | 0.91 / 0.49 (0.85) | 0.64 / 0.87 (0.36) |
-| Zero-shot NLI | 0.87 / 0.51 (0.88) | 0.62 / 0.85 (0.47) |
+| Right queue, tickets with their queue removed | 24.3% | 36.0% |
+| Confident answers when the queue was removed | 19.7% | 0% |
+| Right queue, tickets against unrelated texts | 28.7% | 46.0% |
 
-What the numbers say:
+## The same numbers on every machine
 
-- **ZeroPoint separates the cases with a right option from the cases without one better than the other
-  systems**, most clearly on unrelated text (it answers *none* to 90% of it at the 95% threshold, against
-  16–87% for the others) and on out-of-scope requests (47%, against 13–20%).
-- **Laya chooses better when the right option is on the list** (0.88 against 0.77), and on `support` by a wide
-  margin (0.64 against 0.38). It rarely says that no option fits.
-- **Semantic Router with 10 examples per option is the closest.** Its intervals overlap ZeroPoint's on both
-  AUROC and FPR95, so this benchmark does not separate the two.
-- **The `support` landscape is ZeroPoint's weak point.** It chooses the right queue in 38% of the tickets.
-  Its queues come from a public dataset where they overlap heavily; for real tickets, calibrate on your own.
-- **κ = 0.25 does not help here.** It answers *none* to less unrelated text (0.68 against 0.90 at the 95%
-  threshold), which supports keeping κ = 2 as the default.
-- **Near misses are hard for every system**: at most 44% are answered *none* at the 95% threshold.
-
-Caveats. ZeroPoint's landscapes were calibrated on data with these option names; Laya, the NLI model and
-Semantic Router with names only use no training data, and Semantic Router with 10 examples uses a little.
-23 `everyday` cases (9 texts) are word for word in CLINC150; without them ZeroPoint's AUROC goes from 0.895
-to 0.893. Latency is not compared: the systems shared the CPU while running.
+On every change, CI runs 500 reference cases on Linux x86, Linux ARM, macOS (Apple silicon) and Windows, with
+Python 3.10 to 3.13. The decisions are the same on all of them, and every probability agrees with the reference
+to within 3 millionths.
 
 ## Limits
 
-- **`tickets_far` is easy for any distance.** Plain similarity also reaches 0.995 there. It is in the table
-  because a model without a sense of distance, such as Laya or ZeroPoint without the edge, fails it.
-- **`tickets_made` is hard for everyone.** A ticket whose right queue is missing usually still resembles one
-  of the listed queues. ZeroPoint's 0.71 is the best of the systems here and still far from solved.
-- **One training seed per shipped landscape.** The research runs averaged two seeds and found the same numbers
-  within 0.01.
-- **The encoder sets the ceiling.** All results use E5 encoders. A domain the encoder does not understand
-  will not be understood by ZeroPoint either.
-- **Not yet compared** with DUQ and other distance-aware classifiers trained on the same data.
+- **Support tickets.** Without adaptation, ZeroPoint picks the right queue in about a quarter of tickets.
+- **Training languages.** The training texts are English and Spanish. The other 23 languages are read through the
+  multilingual encoder and were not tested one by one.
+- **CLINC150 is in-domain** for ZeroPoint, as said above.
+- **Laya is used through its recommended Router at default settings.** A different setup could change its numbers.
 
-## Rebuild it
+## Run it again
 
 ```bash
-pip install -e ".[monitor]" datasets scikit-learn
-python scripts/build_presets.py --encoder small     # about 15 minutes on a laptop CPU
-python scripts/build_presets.py --encoder base      # about 45 minutes
-python benchmarks/quality.py
-python benchmarks/latency.py
+pip install -e . laya==0.4.21 semantic-router==1.1.1 transformers torch datasets pandas scikit-learn
+python benchmarks/compare/build_tests.py
+python benchmarks/compare/run.py zeropoint      # then laya_none, semantic_router, nli
+python benchmarks/compare/report.py
 ```
 
-Results land in `benchmarks/results/`.
+Details in [benchmarks/compare/README.md](benchmarks/compare/README.md).

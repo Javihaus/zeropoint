@@ -4,7 +4,7 @@
 
 <br>
 
-# ZeroPoint: energy-based System 1 decision engine
+# ZeroPoint
 
 <br>
 
@@ -18,36 +18,23 @@
 
 <br>
 
-### :dart: A decision engine that picks an option when none is right is hallucinating
-
-<br>
-
-> In a single forward pass, ZeroPoint turns a text into a choice among a list of options, with *none of them* as one of the possible answers.
+> Give ZeroPoint a text and a list of options. It picks the option that fits, or answers that none of them does.
 
 <br>
 
 </div>
 
-Results on CLINC150:
+Many systems need to pick one option from a list: the queue for a support ticket, the intent behind a request,
+the process for a document. A classifier always picks something, even when the right option is not on the list or
+the text has nothing to do with the task. ZeroPoint can answer *none*, and the probability of *none* comes out of
+the same calculation as the probability of each option.
 
-| | ZeroPoint | Laya | Jev | Similarity |
-|---|---|---|---|---|
-| Latency per decision | **19 ms** on a 2-core CPU | 33 ms on a T4 GPU; 193–464 ms on CPU | 70–500 ms | 15 ms on a 2-core CPU |
-| Picks the right option when it is on the list | **97%** | 95% | not public | 80% |
-| Out-of-scope requests still acted on, keeping 95% of the answerable ones | **10%** | 32% | not public | 52% |
-
-<sub>1,600 CLINC150 cases never seen in training (800 answerable requests and 800 out-of-scope requests, 20
-options per case), the same cases for every system measured. Similarity uses the same encoder as ZeroPoint.
-Latency: ZeroPoint and similarity were measured with the benchmark in this repository; Laya and Jev as
-published by their authors ([Laya](https://pypi.org/project/laya/), [Jev](https://www.truefoundry.com/blog/typesafe-ai-jev)).
-Full results are in [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).</sub>
-
-<br>
-
-Decision engines pick from a list: the support queue for a ticket, the intent behind a request, the route
-for a document. A classifier always picks something, even when the right option is not on the list or the
-text has nothing to do with the task. ZeroPoint returns the best option or `None`, and the probability of
-*none* comes out of the same calculation as the probability of each option.
+- **It runs on a CPU.** About 20 ms per decision on 2 cores. The model ships inside the package (89 MB); nothing is
+  downloaded at run time.
+- **It reads the text and all the options together**, like a person reading the whole list before choosing.
+- **The order of the options never changes the answer**, and the same input gives the same numbers on Linux, macOS
+  and Windows.
+- **It works in 25 European languages**, and you can adapt it to your own labels with a few hundred examples.
 
 <br>
 
@@ -57,424 +44,250 @@ text has nothing to do with the task. ZeroPoint returns the best option or `None
 pip install zeropoint
 ```
 
-ZeroPoint answers one question: which of these options fits this text, if any. It decides with an **energy
-landscape** that knows a set of options and is calibrated on real texts. Two landscapes come with the package.
-
-The first call downloads the encoder from the Hugging Face Hub (about 130 MB) and takes a few seconds; later
-calls take milliseconds. The full documentation is at [javihaus.github.io/zeropoint](https://javihaus.github.io/zeropoint/).
-
-### Default energy landscape
-
-`ZeroPoint.load()` loads the default landscape, `everyday`: 150 kinds of everyday requests to an assistant.
-
-**Case 1: one of the options is right.**
-
 ```python
 from zeropoint import ZeroPoint
 
-zp = ZeroPoint.load()
+zp = ZeroPoint()
 zp.decide("Can you move 200 euros from my savings to my checking account?",
-          options=["transfer", "balance", "pay bill"])
+          ["transfer", "balance", "pay bill"])
 ```
-
-Output:
 
 ```text
-transfer  0.98  ███████████████████▋
-balance   0.01  ▏
-pay bill  0.00
-none      0.01  ▏
-→ transfer · 9 ms
+transfer  0.77  ███████████████·····
+balance   0.02  ····················
+pay bill  0.01  ····················
+none      0.20  ████················
+→ transfer · 17 ms
 ```
 
-**Case 2: none of the options is right.**
+When none of the options fits, ZeroPoint says so:
 
 ```python
-zp.decide("Set an alarm for 6:30 tomorrow morning",
-          options=["transfer", "balance", "pay bill"])
+zp.decide("Set an alarm for 6:30 tomorrow morning", ["transfer", "balance", "pay bill"])
 ```
-
-Output:
 
 ```text
-pay bill  0.00
-transfer  0.00
-balance   0.00
-none      1.00  ███████████████████▉
-→ none · 8 ms
+pay bill  0.00  ····················
+transfer  0.00  ····················
+balance   0.00  ····················
+none      1.00  ████████████████████
+→ none · 16 ms
 ```
 
-<br>
-
-### Support energy landscape
-
-`ZeroPoint.load("support")` loads a landscape calibrated on customer support tickets. It routes each ticket to
-one of 10 queues.
-
-**Case 1: three options, and it chooses one.**
+The options can be any short text, in any of the supported languages:
 
 ```python
-zp = ZeroPoint.load("support")
-zp.decide("Subject: Charged twice for my subscription\n"
-          "Hello, my credit card was charged twice for the March invoice. Could you refund the duplicate payment?",
-          options=["Billing and Payments", "Technical Support", "Human Resources"])
+zp.decide("Me han cobrado dos veces la suscripción de marzo, ¿podéis devolverme el duplicado?",
+          ["facturación", "soporte técnico", "recursos humanos"])
 ```
-
-Output:
 
 ```text
-Billing and Payments  0.91  ██████████████████▏
-Human Resources       0.00
-Technical Support     0.00
-none                  0.09  █▊
-→ Billing and Payments · 14 ms
+facturación       0.76  ███████████████·····
+soporte técnico   0.00  ····················
+recursos humanos  0.00  ····················
+none              0.24  █████···············
+→ facturación · 20 ms
 ```
 
-**Case 2: no options given.**
+The full documentation is at [javihaus.github.io/zeropoint](https://javihaus.github.io/zeropoint/).
 
-When no list is passed, ZeroPoint chooses among all the options the landscape knows, here its 10 queues
-(listed in `zp.labels`). The output shows the five most probable.
+<br>
+
+## How it compares with common approaches
+
+The same eight tests for every system, on the same machine (CPU, 2 threads, one case at a time). In about half the
+cases one option on the list is right; in the other half none is.
+
+| | ZeroPoint | Laya + "None of these" | Semantic Router | Zero-shot NLI |
+|---|---|---|---|---|
+| Picks the right option, when there is one | 68.5% | **72.2%** | 56.8% | 50.6% ¹ |
+| Picks an option with probability ≥ 0.9 when none is right (lower is better) | **6.9%** | 21.4% | – ² | 30.2% ¹ |
+| Decision changes when the options come in another order | **0%** | 14.9% | 0.2% | 0% ¹ |
+| Time per decision (median) | 21 ms | 383 ms | **9 ms** | 1,316 ms |
+| Model size | **89 MB** | 1,486 MB | 91 MB | 369 MB |
+| Reads all the options together | yes | yes | no | no |
+
+<sub>Mean over eight tests: SNIPS, ATIS, HWU64, MTOP (Spanish), CLINC150 with 20 options, two support-ticket tests
+and a 2,000-case test, 7,537 cases in all. Laya 0.4.21 with "None of these" added as one more option; Semantic
+Router 1.1.1 with its default encoder and the option names as routes; zero-shot NLI with DeBERTa-v3-base MNLI.
+¹ Zero-shot NLI reads a fixed sample of 300 cases per test, because it runs its model once per option.
+² Semantic Router gives similarities, not probabilities. Per-test results, confidence intervals and how to run it
+all again: [benchmarks/compare](https://github.com/Javihaus/zeropoint/tree/main/benchmarks/compare).</sub>
+
+What the table shows:
+
+- **ZeroPoint is far less often confidently wrong** when no option fits: 2–5% of those cases against 24–32% for
+  Laya on SNIPS, MTOP, HWU64 and CLINC150.
+- **Laya picks the right option more often** on SNIPS (89% against 80%) and on support tickets (39–40% against
+  24–29%). ZeroPoint does better on Spanish (MTOP, 73% against 68%) and on HWU64 (87% against 82%); on the other
+  tests the two are within their confidence intervals.
+- **Support tickets are ZeroPoint's weak spot.** It picks the right queue in only about a quarter of tickets, and
+  when a ticket's own queue is missing from the list it still answers with high confidence in 20% of them (Laya:
+  1%). [Adapting it to your own tickets](#adapt-it-to-your-labels) fixes most of this.
+- **Laya's answer depends on the order of the options**: the same text and the same options, listed in another
+  order, change its decision in 9–22% of cases. ZeroPoint reads the options in an order that does not depend on how
+  they are given, so this cannot happen.
+- **Semantic Router is the fastest** and the weakest at picking the right option, especially in Spanish (31% on
+  MTOP).
+
+<br>
+
+## Using it in your code
+
+A common pattern is to act when ZeroPoint is confident and to pass the case to a person when it is not:
 
 ```python
-zp.decide("Subject: Service down since this morning\n"
-          "Our dashboard has been unreachable since 8am and all requests time out. "
-          "Is there an outage or scheduled maintenance?")
-```
+d = zp.decide(text, ["transfer", "balance", "pay bill"])
 
-Output:
-
-```text
-Service Outages and Maintenance  0.83  ████████████████▋
-IT Support                       0.05  █
-Technical Support                0.03  ▌
-Human Resources                  0.01  ▎
-Product Support                  0.01  ▏
-                                 (+5 more options)
-none                             0.06  █▏
-→ Service Outages and Maintenance · 12 ms
-```
-
-The support landscape knows tickets written in the style of its dataset (a subject line and a body) and
-treats very different writing as outside what it knows. For your own tickets, calibrate a landscape on your
-own data.
-
-<br>
-
-## Energy-based models
-
-<br>
-
-<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/how-it-works.png" width="100%" alt="Which team should handle the message: Can I change my delivery address? The options Billing and Technical are energy wells; None of these is the flat ground at energy zero. The text lands on the ground, so ZeroPoint answers none with 0.96, while softmax splits it between billing 0.55 and technical 0.45.">
-
-ZeroPoint is an energy-based model ([LeCun et al., 2006](http://yann.lecun.com/exdb/publis/orig/lecun-06.pdf)).
-Instead of scoring options against each other, it gives every option an energy and compares it with a
-reference state whose energy is fixed. In physics, energy is always measured relative to a reference level,
-just as a mountain's height is measured from sea level. ZeroPoint fixes that level once: an option counts
-only if the text sits below it, in that option's valley. A useful image is a ball on a floor with holes: it
-either drops into a hole (an option) or stays on the flat floor (none of the options).
-
-#### 1. The text
-
-ZeroPoint uses [multilingual-e5-small](https://huggingface.co/intfloat/multilingual-e5-small), a frozen
-multilingual encoder that turns the text into a vector. A small learned map places it as a point $z$ in a
-space of 256 dimensions.
-
-#### 2. The options
-
-Each option $y$ is a well in that space, built from the option's own text, with a center $c_y$, a depth
-$A_y$ and a width $s_y$:
-
-$$E_y(z) = -A_y \exp\left(-\frac{\lVert z - c_y \rVert^2}{s_y^2}\right)$$
-
-Near the center the energy is low. Far from it the well is flat and the energy is exactly zero.
-
-#### 3. The vacuum
-
-*None of the options* is a state of its own: the flat ground of the landscape, with its energy fixed at zero.
-This is the zero point, and it is the core of the approach.
-
-A classifier gives each option a score and divides the probability among the options with a softmax. The
-probabilities always add up to 1 across the options, so one of them always wins, even when the text has
-nothing to do with any of them. The next section shows how ZeroPoint avoids this.
-
-#### 4. Boltzmann's rule: from energy to probability
-
-In physics, Boltzmann's rule describes how likely a system is to be found in each of its states: the lower a
-state's energy, the more likely the state, exponentially so. A temperature $T$ sets how sharp the preference
-is. At low temperature the lowest state takes almost all the probability; at high temperature the states are
-close to equally likely.
-
-$$p(\text{state}) \propto e^{-E_{\text{state}}/T}$$
-
-A softmax classifier applies exactly this rule to the options only.
-
-> **The plain rule is not enough.** Adding *none* as one more state, at energy zero, and applying the rule as
-> it is does not solve the problem. A text far from every well also has energy zero in every well, so each
-> option gets the same weight as *none*, $e^{0} = 1$. With 2 options, *none* gets only a third of the
-> probability. With 150 options, it gets 1/151, less than 1%. The plain rule cannot say *none* with
-> confidence.
-
-ZeroPoint weights each option by how far its energy falls *below* the ground, not by its energy alone. With a
-temperature $T$ learned during calibration:
-
-$$w_y = e^{-E_y/T} - 1, \qquad w_{\text{none}} = 1, \qquad p(y) = \frac{w_y}{w_{\text{none}} + \sum_k w_k},
-\qquad p(\text{none}) = \frac{1}{w_{\text{none}} + \sum_k w_k}$$
-
-On the ground, $E_y = 0$ and $w_y = 0$: an option that does not fall below the ground adds nothing, however
-many such options there are. Deep in a well, $w_y$ grows exponentially and that option wins. The ground keeps
-a weight of 1 in every landscape, and that fixed reference is the zero point.
-
-Example: two texts and two options, Billing and Technical, at temperature 1.
-
-| Text | Energy in Billing | Energy in Technical | Softmax | Boltzmann with *none* | ZeroPoint |
-|---|---|---|---|---|---|
-| *I was charged twice this month* | −3.00 | 0.00 | billing 0.95, technical 0.05 | billing 0.91, none 0.05 | **billing 0.95**, none 0.05 |
-| *Can I change my delivery address?* | −0.05 | −0.04 | billing 0.50, technical 0.50 | billing 0.34, technical 0.34, none 0.32 | billing 0.05, technical 0.04, **none 0.92** |
-
-With the first text, the three rules agree. The second text lies in neither well. Softmax still has to split
-all the probability between the two options and answers *billing*. ZeroPoint finds that neither option falls
-below the ground and answers *none*. Because the ground never moves, *none* is an outcome of the model in its
-own right, not a remainder.
-
-#### 5. The edge of the data: texts unlike anything the landscape knows
-
-<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/edge-of-the-data.png" width="100%" alt="A movie review sent to the support landscape. After the map, every text sits on a sphere and the review lands next to Billing. Before the map, the review lies beyond the edge of the calibration tickets. Without the edge: billing 0.70. With the edge: none 0.98.">
-
-**The problem.** The map places every text on the surface of a sphere. On a sphere nothing is far away: every
-text, however unrelated, lands somewhere on the surface, and it can land close to a well by chance. A movie
-review given to the support landscape can land near *Billing* and get some probability for *billing*.
-Without a correction, ZeroPoint told support tickets apart from movie reviews and forum posts with an AUROC
-of only 0.68.
-
-**The idea.** Before the map, in the encoder's own space, unrelated texts do end up far away. So ZeroPoint
-asks a second, simpler question there: *does this text look like the texts this landscape was calibrated
-on?* If it does not, the probability moves to *none*, whatever the wells say.
-
-**How it works**, in three steps.
-
-1. **Measure how unusual the text is.** ZeroPoint uses the Mahalanobis distance
-   ([Mahalanobis, 1936](https://link.springer.com/article/10.1007/s13171-019-00164-5)). It is a distance that
-   weighs each difference by how common that difference is in the calibration texts. Among people, being
-   10 cm taller than average is ordinary; having a foot 10 cm longer than average is not. The Mahalanobis
-   distance counts the second difference as much larger, because feet vary much less than heights. In the
-   same way, a text that differs from the calibration texts where they barely vary ends up far away, even
-   when an ordinary distance would call it close. ZeroPoint measures the distance from the text $x$ to the
-   nearest option:
-
-   ```math
-   d(x) = \min_c \,(x - \mu_c)^\top \, \Sigma^{-1} \,(x - \mu_c)
-   ```
-
-   $\mu_c$ is the average of the calibration texts of option $c$, and $\Sigma$ describes how those texts spread
-   around their averages (one estimate shared by all options, made stable with Ledoit-Wolf shrinkage).
-
-2. **Set the edge.** During calibration, ZeroPoint measures $d$ for labeled texts kept apart for this purpose.
-   The edge is the distance within which 99% of them fall. A text inside the edge looks like the texts the
-   landscape knows; a text beyond it does not.
-
-3. **Beyond the edge, move the probability to *none*.** The ground's weight, 1 in Boltzmann's rule above, grows
-   with the distance past the edge:
-
-   ```math
-   w_{\text{none}} = e^{\kappa \cdot u}
-   ```
-
-   $u$ is how far past the edge the text is, counted in typical spreads of the calibration texts (the gap
-   between their median distance and the edge): $u = 0$ at the edge, $u = 1$ one spread beyond it. Inside the
-   edge, $u$ is taken as 0, the ground keeps its weight of 1, and nothing changes.
-
-   **κ (kappa) sets how fast the probability moves to *none*** once a text is past the edge. With κ = 2, the
-   default, the ground weighs about 7 one spread beyond the edge and about 400 three spreads beyond, where
-   *none* takes almost all the probability. A lower κ leaves more room for legitimate texts that look
-   different from the calibration data, such as a new kind of request. A higher κ rejects unrelated texts
-   sooner. κ = 0 turns the edge off. It can be set when a landscape is loaded, `ZeroPoint.load(kappa=0.5)`;
-   check the value on texts kept apart from calibration.
-
-With the edge, the test with movie reviews and forum posts goes from 0.68 to 1.00. The edge needs no examples
-of off-topic text: it is set from the landscape's own calibration texts. It never changes which option ranks
-first, only how the options compare with *none*. And inside the data, where almost all real requests fall,
-it has no effect.
-
-During calibration, ZeroPoint also learns when to say *none* inside the data: a share of the training examples
-have their right option removed from the list, with *none* as the answer.
-
-> Related work: deterministic uncertainty with distances to class centroids ([van Amersfoort et al., 2020](https://arxiv.org/abs/2003.02037)), Mahalanobis distance to class averages for detecting off-topic inputs ([Lee et al., 2018](https://arxiv.org/abs/1807.03888)), and world models whose energy is learned up to a constant ([Yalovetzky et al., 2026](https://arxiv.org/abs/2610.15267)). In ZeroPoint the constant is fixed, and that is what makes it possible to answer *none*.
-
-<br>
-
-## Choosing the energy landscape
-
-A landscape is what ZeroPoint knows: one valley for each option it can choose, and flat ground at energy zero
-that means *none of these*. It is calibrated from labeled texts.
-[Energy-based models](https://github.com/Javihaus/zeropoint#energy-based-models) explains how it decides.
-
-```python
-import zeropoint
-zeropoint.landscapes()  # lists the landscapes that ship with ZeroPoint
-```
-
-Output:
-
-```text
-everyday    150 options   everyday requests to an assistant: banking, travel, home, work, small talk   (default)
-support      10 options   customer support tickets, routed to a queue
-```
-
-| Landscape | What it decides | Calibrated on |
-|---|---|---|
-| `everyday` (default) | 150 kinds of everyday requests | [CLINC150](https://huggingface.co/datasets/clinc_oos), 15,000 requests written by people |
-| `support` | 10 support queues | a [public dataset](https://huggingface.co/datasets/Tobi-Bueck/customer-support-tickets) of 20,000 support tickets |
-
-> The `support` landscape chooses poorly between queues that overlap (38% right on the
-> [2,000-case benchmark](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md)). For your own tickets,
-> calibrate a landscape on your data.
-
-> Each landscape comes with two encoders: `encoder="small"` (default, faster) and `encoder="base"` (more accurate, slower). A landscape calibrated on your own data loads the same way: `ZeroPoint.load(path)`.
-
-<br>
-
-## Setting a threshold
-
-Acting on a wrong answer has a **cost**. A ticket sent to the wrong team waits for days; a request handled by
-the wrong service delays the answer the customer needs. By default, ZeroPoint returns its most probable
-answer, even when that answer is only 28% likely. A threshold makes it act only when it is at least that
-confident and return *none* otherwise, so that the case can go to a reviewer instead.
-
-```python
-zp = ZeroPoint.load()
-zp.decide("Write me a poem about the sea", min_confidence=0.5)
-```
-
-Output:
-
-```text
-timezone   0.28  █████▋
-time       0.05  ▉
-text       0.05  ▉
-weather    0.04  ▉
-what song  0.04  ▊
-           (+145 more options)
-none       0.16  ███▏
-→ none · 7 ms
-```
-
-> The right threshold depends on the cost of a wrong action. [notebooks/calibrate_your_own.ipynb](https://github.com/Javihaus/zeropoint/blob/main/notebooks/calibrate_your_own.ipynb) shows how to choose it from your own data.
-
-<br>
-
-## Calibration
-
-To calibrate your own landscape, you need texts with their right label, a few hundred per label to start.
-Examples of *none* are not needed.
-
-```bash
-pip install "zeropoint[train]"        # adds PyTorch, only needed to calibrate
-```
-
-```python
-zp = ZeroPoint.fit(texts, labels,
-                   descriptions={"BIL": "billing and invoices"},   # optional, helps with terse labels
-                   catch_all=["Other"])                            # optional, labels that fit anything
-zp.save("my_model.safetensors")
-
-ZeroPoint.load("my_model.safetensors").decide("...")
-```
-
-The encoder stays frozen and its embeddings are computed once. If the model does not beat chance on held-out
-texts by ten percentage points, `fit` stops with an error instead of returning a model that has not learned.
-
-> To monitor training, install `zeropoint[monitor]` and pass `monitor=True`. The
-> [ndt](https://pypi.org/project/ndtracker/) library tracks how many dimensions the learned space actually
-> uses; a collapse shows up there even when the loss looks normal.
-
-> A complete walk-through, with a held-out check and a table for choosing your threshold, is in
-> [notebooks/calibrate_your_own.ipynb](https://github.com/Javihaus/zeropoint/blob/main/notebooks/calibrate_your_own.ipynb).
-
-<br>
-
-## Accuracy
-
-AUROC measures how well ZeroPoint separates cases that have a right option from cases that have none, on texts
-it never saw (1 is perfect, 0.5 is chance). Small encoder, default settings:
-
-<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/benchmark-chart.png" width="100%" alt="AUROC against FPR at 95% recall, average of four tests. ZeroPoint sits in the green zone (AUROC 0.92, FPR 0.27); similarity with the same encoder (0.82, 0.58) and Laya (0.78, 0.65) sit in the orange zone, where many cases with no right answer still get an action.">
-
-| Test | ZeroPoint | Similarity, same encoder |
-|---|---|---|
-| Support tickets vs unrelated texts (reviews, forum posts) | **1.00** | 0.99 |
-| Support tickets whose right queue was removed from the list | **0.71** | 0.59 |
-| Everyday requests vs out-of-scope requests (CLINC150) | **0.98** | 0.90 |
-| Everyday requests whose right intent was swapped for a wrong one | **0.97** | 0.78 |
-
-When the right option is on the list, ZeroPoint chooses about as well as a classifier trained on the same
-data: 97% on CLINC150 with 20 options per request.
-
-On a second benchmark of 2,000 new cases, against Laya, Semantic Router and a zero-shot NLI model, ZeroPoint
-again separates cases with and without a right option best (AUROC 0.89, FPR95 0.44). Laya chooses better when
-the right option is on the list (88% against 77%), and ZeroPoint's `support` landscape chooses the right queue
-in only 38% of tickets. Details in [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).
-
-<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/benchmark-2000-chart.png" width="100%" alt="AUROC against FPR at 95% recall on 2,000 new cases. ZeroPoint (AUROC 0.89, FPR 0.44) is the only system in the green zone. Semantic Router with 10 examples per option (0.85, 0.57), Semantic Router with option names (0.82, 0.78), zero-shot NLI (0.79, 0.81) and Laya (0.79, 0.86) sit in the orange zone.">
-
-<br>
-
-## Latency
-
-On a 2-core cloud CPU, one decision takes about 19 ms with the default settings (small encoder, 8-bit). The
-base encoder takes about 30 ms. No GPU is needed, and a recent laptop is faster.
-
-The engine itself takes a millisecond or less. Almost all the time goes to the encoder, which runs with
-[ONNX Runtime](https://onnxruntime.ai) in 8-bit precision by default (`precision="fp32"` for full
-precision). Details are in [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).
-
-<br>
-
-## Using ZeroPoint in your code
-
-A common application is to route the case automatically when ZeroPoint is confident, and to pass it to a person
-when it is not:
-
-```python
-d = zp.decide(text, options=["transfer", "balance", "pay bill"])
-
-if d.choice is None:
-    send_to_person(text)        # none of the options fits, or the confidence is below the threshold
+if d.choice is None or d.confidence < 0.8:
+    send_to_person(text)        # no option fits, or ZeroPoint is not sure enough
 else:
     route(text, d.choice)       # e.g. "transfer"
 ```
 
+The right threshold depends on what a wrong action costs you; pick it on a few hundred of your own labelled texts.
+
+| Field | What it holds |
+|---|---|
+| `choice` | the chosen option, or `None` when *none* is the most probable answer |
+| `confidence` | probability of `choice` (of *none* when `choice` is `None`) |
+| `p_none` | probability that none of the options fits |
+| `probabilities` | probability of each option, in the order you gave them; with `p_none` they add up to 1 |
+| `depths` | how strongly the text belongs to each option (0: not at all) |
+| `text_truncated` | `True` if the text was longer than ZeroPoint reads (192 word pieces) and its end was ignored |
+| `options_truncated` | options longer than 16 word pieces, whose end was ignored |
+| `latency_ms` | time the decision took |
+
+For many texts, `zp.decide_many(texts, options)` takes one list of options for all texts, or one list per text.
+Each text is computed on its own, so every result is exactly what `decide` gives for that text alone.
+
+Lists can be of any length. ZeroPoint reads the options in blocks of 20 together with the text, and every option's
+probability comes from one distribution over the whole list.
+
+`ZeroPoint(threads=2)` sets how many CPU threads the encoder uses. The decisions do not depend on it.
+
 <br>
 
-| Field | What it holds | Use it to |
-|---|---|---|
-| `choice` | the chosen option, or `None` | act, or hand the case to a person |
-| `confidence` | probability of `choice` | log it, or set your own rule |
-| `p_none` | probability that none of the options fits | find requests your system does not cover |
-| `probabilities` | one probability per option | show the runner-up, or rank the options |
-| `beyond_edge` | how far the text is from anything the landscape has seen (zero or below: familiar) | detect unusual texts, or a change in the kind of requests you receive |
-| `latency_ms` | time the decision took | monitor speed in production |
-| `unseen_options` | options the landscape was not calibrated on | treat their probabilities with more care |
-| `truncated` | `True` if the text was longer than 512 tokens and its end was ignored | split long texts, or summarize them first |
-| `energies` | energy of the text in each option's valley | inspect how the decision was made |
+## Languages
+
+ZeroPoint reads the 22 official languages of the European Union written in the Latin script, plus Catalan, Basque
+and Galician:
+
+Basque, Catalan, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Galician, German, Hungarian,
+Irish, Italian, Latvian, Lithuanian, Maltese, Polish, Portuguese, Romanian, Slovak, Slovenian, Spanish, Swedish.
+
+A text written mostly in another script (Greek, Cyrillic, Arabic, Chinese and others) raises `UnsupportedLanguage`
+instead of returning a guess. Other languages in the Latin script, such as Turkish or Vietnamese, are not detected:
+ZeroPoint will answer, but it was not trained or tested on them.
+
+The texts ZeroPoint was trained on are in English and Spanish. The other languages are read through the
+multilingual encoder it is built on and were not tested one by one.
 
 <br>
 
-For many texts at once, use `decide_many`. It takes the same arguments, plus one list of options per text if
-they differ, and returns one decision per text:
+## Adapt it to your labels
+
+With a few hundred labelled texts, `fit` adapts ZeroPoint to your own options. It runs on a CPU.
+
+```bash
+pip install "zeropoint[fit]"        # adds PyTorch and onnx, only needed to adapt
+```
 
 ```python
-decisions = zp.decide_many(texts, options=["transfer", "balance", "pay bill"])
+mine, report = zp.fit(texts, labels)   # labels: the right option for each text, or None for "none of these"
+print(report["before"], report["after"])
+mine.save("my-model")
+
+zp = ZeroPoint("my-model")
 ```
+
+`fit` keeps 20% of your examples apart and reports how the model does on them before and after. Same data, same
+seed and same number of threads give the same model, bit for bit.
+
+On the support-ticket tests above, 300 labelled tickets and 6 minutes on 2 CPU threads raised the share of right
+queues from 24% to 36% when the queue is on the list, and from 29% to 46% against unrelated texts. Confident
+answers when the ticket's own queue is missing went from 20% to 0%.
+
+If your labels are already the ones ZeroPoint knows and you only want to move the balance between acting and
+answering *none*, `zp.recalibrate(texts, labels)` refits just two numbers, in seconds, without PyTorch.
+
+<br>
+
+## How it works
+
+<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/how-it-works.png" width="100%" alt="Which team should handle the message: Can I change my delivery address? The options Billing and Technical are energy wells; None of these is the flat ground at energy zero. The text lands on the ground, so ZeroPoint answers none with 0.96, while softmax splits it between billing 0.55 and technical 0.45.">
+
+ZeroPoint is an energy-based model ([LeCun et al., 2006](http://yann.lecun.com/exdb/publis/orig/lecun-06.pdf)).
+Each option is a well, and *none of the options* is flat ground at energy zero. A text either falls into a well or
+stays on the ground. A useful image is a ball on a floor with holes.
+
+#### 1. Reading the text and the options together
+
+The text and the options go through one encoder, [multilingual-e5-small](https://huggingface.co/intfloat/multilingual-e5-small),
+in a single sequence: the text first, then every option. Each option can look at the text and at the other options,
+so it is judged against the alternatives. All options get the same positions in the sequence, so the encoder
+cannot tell which one came first.
+
+#### 2. The depth of each well
+
+For each option, ZeroPoint reads how strongly the text belongs to it, a depth $a_y \ge 0$. Its energy is
+$E_y = -a_y$. A depth of zero means the text does not belong to that option at all: the well is flat ground.
+
+#### 3. Boltzmann's rule, with the ground at zero
+
+In physics, Boltzmann's rule gives how likely each state is: the lower its energy, the more likely, exponentially
+so. A softmax classifier applies this rule to the options only, so the probabilities of the options always add up
+to 1 and one of them always wins.
+
+ZeroPoint adds *none* as a state at energy zero and weighs each option by how far it falls below the ground:
+
+$$w_y = e^{a_y/T} - 1, \qquad w_{\text{none}} = e^{b}, \qquad p(y) = \frac{w_y}{w_{\text{none}} + \sum_k w_k},
+\qquad p(\text{none}) = \frac{w_{\text{none}}}{w_{\text{none}} + \sum_k w_k}$$
+
+An option at depth zero gets weight zero, however many such options there are. With the plain rule, each of them
+would get weight $e^0 = 1$ and *none* would be drowned out by long lists. The temperature $T$ and the level $b$
+are two numbers learned in training and refit by `recalibrate`.
+
+Example: two options, Billing and Technical, at temperature 1 and $b = 0$.
+
+| Text | Depth in Billing | Depth in Technical | Softmax | ZeroPoint |
+|---|---|---|---|---|
+| *I was charged twice this month* | 3.00 | 0.00 | billing 0.95, technical 0.05 | **billing 0.95**, none 0.05 |
+| *Can I change my delivery address?* | 0.05 | 0.04 | billing 0.50, technical 0.50 | billing 0.05, technical 0.04, **none 0.92** |
+
+With the second text, softmax has to split all the probability between the two options. ZeroPoint finds that
+neither option falls below the ground and answers *none*.
+
+#### 4. The same numbers every time
+
+The options are put in one fixed order (by their text) before reading, whatever order they arrive in. Each case is
+computed on its own, never padded together with other texts, and the last steps run in 64-bit precision. On the
+test machines (Linux on x86 and ARM, macOS, Windows), 500 reference cases give the same decisions everywhere, and
+the probabilities agree to within 3 millionths.
+
+<br>
+
+## What it was trained on
+
+Only data whose licence allows commercial use: CLINC150 (CC BY 3.0), Banking77 (CC BY 4.0), MASSIVE in English and
+Spanish (CC BY 4.0), four Bitext customer-service datasets (CDLA-Sharing 1.0), and 5,000 examples written for this
+project. None of the test texts above is in the training data. Details, with the criteria used to write the 5,000
+examples: [docs/training-data.md](https://github.com/Javihaus/zeropoint/blob/main/docs/training-data.md).
+
+<br>
+
+## Coming from 0.x
+
+1.0 replaces the landscapes of 0.x with one model that reads the options together with the text. `ZeroPoint.load()`
+becomes `ZeroPoint()`, and options are always given in each call. The full list of changes is in the
+[changelog](https://github.com/Javihaus/zeropoint/blob/main/CHANGELOG.md).
 
 <br>
 
 ## References
 
 - LeCun, Y., Chopra, S., Hadsell, R., Ranzato, M., & Huang, F. (2006). A tutorial on energy-based learning. *Predicting Structured Data*, 1(0).
-- Lee, K., Lee, K., Lee, H., & Shin, J. (2018). A simple unified framework for detecting out-of-distribution samples and adversarial attacks. *Advances in Neural Information Processing Systems*, 31.
-- Mahalanobis, P. C. (1936). On the generalised distance in statistics. Reprinted in *Sankhya A*, 80 (Suppl 1), 1–7 (2018). https://doi.org/10.1007/s13171-019-00164-5
-- van Amersfoort, J., Smith, L., Teh, Y. W., & Gal, Y. (2020). Uncertainty estimation using a single deep deterministic neural network. In *International Conference on Machine Learning* (pp. 9690–9700). PMLR.
-- Yalovetzky, R., Balestriero, R., & LeCun, Y. (2026). LeHami: Symplectic latent dynamics for world models. arXiv preprint arXiv:2610.15267.
+- Wang, L., Yang, N., Huang, X., Yang, L., Majumder, R., & Wei, F. (2024). Multilingual E5 text embeddings: a technical report. arXiv preprint arXiv:2402.05672.
 
 <br>
 
@@ -493,8 +306,8 @@ decisions = zp.decide_many(texts, options=["transfer", "balance", "pay bill"])
 
 ## License
 
-Apache 2.0. The encoders are downloaded from the Hugging Face Hub at first use and keep their own MIT
-license.
+Apache 2.0. The model inside the package is derived from
+[multilingual-e5-small](https://huggingface.co/intfloat/multilingual-e5-small) (MIT licence).
 
 <br>
 

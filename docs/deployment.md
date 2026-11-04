@@ -1,109 +1,45 @@
 # Running in production
 
-## Encoder and precision
+## Speed
 
-| Setting | Values | Default | Effect |
-|---|---|---|---|
-| `encoder` | `"small"`, `"base"` | `"small"` | The base encoder is somewhat more accurate and about 1.5 times slower. |
-| `precision` | `"int8"`, `"fp32"` | `"int8"` | 8-bit is up to three times faster on a CPU and costs at most about 0.01 AUROC. |
+On a 2-core cloud CPU (Intel Xeon at 2.1 GHz, 2 threads), the median time per decision is 16–20 ms with 4 to 10
+short options, 27 ms with 20 options, and 43–53 ms for support tickets with a subject and a body. Almost all of it is
+the encoder. No GPU is needed.
 
-```python
-zp = ZeroPoint.load("support", encoder="base", precision="fp32")
-```
-
-Each landscape stores the edge of its data measured at both precisions, so neither setting is penalized.
-
-Time per decision on a 2-core cloud CPU, median:
-
-| Encoder, precision | Time per decision |
-|---|---|
-| small, int8 (default) | 19 ms |
-| small, fp32 | 26 ms |
-| base, int8 | 29 ms |
-| base, fp32 | 106 ms |
-
-Almost all of it is the encoder; the engine itself takes a millisecond or less. Run
-`python benchmarks/latency.py` from the repository to measure on your own machine.
-
-## Texts unlike the calibration data
-
-Beyond the edge of the data a landscape was calibrated on, the probability moves to *none*. κ sets how fast:
-
-```python
-zp = ZeroPoint.load("support", kappa=0.5)   # 2 by default
-zp.kappa = 0.5                              # or after loading
-```
-
-| κ | Effect |
-|---|---|
-| lower (e.g. 0.25–1) | more room for legitimate texts unlike the calibration data, such as new kinds of request |
-| 2 (default) | rejects unrelated texts strongly |
-| 0 | the edge is off; only the wells decide |
-
-The right value depends on your data. Choose it on texts kept apart from calibration, ideally grouped so that
-whole kinds of request are left out, and check both how many right answers you keep and how many unrelated
-texts you reject. On the [2,000-case benchmark](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md),
-lowering κ to 0.25 let more unrelated text through, so the default stays at 2.
-
-## Long texts
-
-The encoder reads the first 512 tokens of a text, about 350 words. Anything after that is ignored, and the
-decision says so with `truncated=True`. For long documents, decide on the part that matters (subject and
-first paragraphs) or on a summary.
+The time grows with the length of the text and with the number of options. Lists longer than 20 options are read
+in blocks of 20, one encoder pass per block.
 
 ## Threads
 
-`threads` sets how many CPU threads ONNX Runtime uses. By default ONNX Runtime chooses, usually one per physical core.
+`ZeroPoint(threads=2)` sets how many CPU threads the encoder uses for one decision. More threads make one decision
+faster up to a point. To decide many texts in parallel, run several processes with one or two threads each.
 
-```python
-zp = ZeroPoint.load(threads=2)
-```
+The number of threads never changes the result.
 
-When several processes share a machine, give each one a few threads instead of letting all of them use every
-core.
+## The same numbers on every machine
 
-## GPU
+The options are put in one fixed order before reading, each case is computed on its own, and the last steps run in
+64-bit precision. On every change, CI runs 500 reference cases on Linux (x86 and ARM), macOS and Windows: the
+decisions are the same on all of them, and the probabilities agree with the reference to within 3 millionths.
 
-Install `onnxruntime-gpu` instead of `onnxruntime` and use full precision. ZeroPoint picks CUDA when it is
-available and the precision is `fp32`.
+## Long texts
 
-```python
-zp = ZeroPoint.load(precision="fp32")
-```
-
-To choose the execution providers yourself, pass `providers`, for example
-`providers=["CUDAExecutionProvider", "CPUExecutionProvider"]`.
-
-## Same text, same decision
-
-With the 8-bit encoder, ZeroPoint encodes one text at a time. An 8-bit encoder quantizes each batch as a
-whole, so a text's result could otherwise change slightly with the other texts in its batch. One text per run
-keeps every decision identical, whether it comes from `decide` or `decide_many`.
-
-The encoders are pinned to a fixed revision on the Hugging Face Hub, so an embedding computed today is the
-same embedding next year.
+ZeroPoint reads the first 192 word pieces of a text and the first 16 of each option. `text_truncated` and
+`options_truncated` tell you when something was cut. For long documents, pass the part that decides the case
+(the subject and the first paragraph of an email, for example).
 
 ## Offline use
 
-The encoder is downloaded once and kept in the Hugging Face cache (`~/.cache/huggingface` by default; set
-`HF_HOME` to move it). On a machine without network access:
+The model is inside the package, and ZeroPoint never connects to the network. It works on machines without
+internet access once the package is installed.
 
-1. Load the landscape once on a machine with network access, and copy the cache folder.
-2. On the offline machine, set `HF_HOME` to the copied folder and `HF_HUB_OFFLINE=1`.
+## Integrity of the model
 
-The landscapes that ship with the package are inside the package itself and need no download.
+Every model file is checked against the sha256 in `manifest.json` when the model is loaded, and the manifest of the
+shipped model is pinned in the code. A changed or missing file raises `ModelFilesError`. Releases carry signed SLSA
+level 3 provenance; `SECURITY.md` explains how to verify them.
 
-## Startup
+## Saved models
 
-Loading the encoder takes about a second; ZeroPoint does it on the first decision and keeps one encoder per
-process. To keep that second out of the first request, make one decision at startup:
-
-```python
-zp = ZeroPoint.load()
-zp.decide("warm up")
-```
-
-## Saved models across versions
-
-A model saved with `save` records the format it was written in. A newer version of ZeroPoint reads models saved
-by older ones. An older version refuses a model saved in a newer format, with a message asking to upgrade.
+`save` writes a folder with the model files and a manifest with their hashes, and the report of `fit` or
+`recalibrate`. Models from 0.x (`.safetensors` landscapes) cannot be loaded by 1.0.

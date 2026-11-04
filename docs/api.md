@@ -1,109 +1,78 @@
 # API reference
 
-Everything below is importable from `zeropoint`:
-
 ```python
-from zeropoint import ZeroPoint, Decision, Landscape, landscapes, __version__
+from zeropoint import ZeroPoint, Decision, UnsupportedLanguage, ModelFilesError, __version__
 ```
 
-## `ZeroPoint.load`
+## `ZeroPoint(model_dir, threads=2)`
 
-```python
-ZeroPoint.load(name_or_path="everyday", encoder="small", precision="int8",
-               providers=None, threads=None, kappa=None) -> ZeroPoint
-```
+Loads a model: the one shipped with the package when `model_dir` is not given, or a folder written by `save`.
+Every model file is checked against its sha256.
 
-Load a landscape that ships with the package, or one saved with `save`.
+| Argument | Default | What it does |
+|---|---|---|
+| `model_dir` | the shipped model | folder of a saved model |
+| `threads` | 2 | CPU threads for the encoder; does not change the results |
 
-| Argument | Meaning |
-|---|---|
-| `name_or_path` | `"everyday"` (default), `"support"`, or the path to a `.safetensors` file written by `save` |
-| `encoder` | `"small"` (default) or `"base"`; shipped landscapes only |
-| `precision` | `"int8"` (default) or `"fp32"`; `None` keeps the precision the model was calibrated with |
-| `providers` | ONNX Runtime execution providers; by default CUDA when available with `fp32`, otherwise CPU |
-| `threads` | number of CPU threads for ONNX Runtime; by default ONNX Runtime chooses |
-| `kappa` | how fast the probability moves to *none* beyond the edge of the data (≥ 0); `None` keeps the landscape's value, 2 for the shipped ones; 0 turns the edge off |
+Raises `ModelFilesError` if a model file is missing or does not match its hash, and `ValueError` if `threads` is
+not a positive integer.
 
-Raises `ValueError` when the name is neither a shipped landscape nor an existing file, when the file is not
-a valid ZeroPoint model, or when `kappa` is negative or not a number.
+## `ZeroPoint.decide(text, options)`
 
-## `ZeroPoint.decide`
+Chooses the option that fits `text`, or `None`. Returns a `Decision`.
 
-```python
-zp.decide(text, options=None, min_confidence=None) -> Decision
-```
+Raises `ValueError` for an empty text, an empty list, an empty option or the same option twice, `TypeError` when
+the text or an option is not a string, and `UnsupportedLanguage` when more than 20% of the letters of the text or of
+an option are outside the Latin script.
 
-| Argument | Meaning |
-|---|---|
-| `text` | the text to decide on |
-| `options` | list of options to choose from; `None` means every option the landscape knows |
-| `min_confidence` | if set, `choice` is `None` unless the chosen option has at least this probability |
+## `ZeroPoint.decide_many(texts, options)`
 
-Raises `ValueError` when `options` is empty or has repeated entries.
+Decides several texts. `options` is one list for all texts, or one list per text. Returns a list of `Decision`,
+each exactly what `decide` gives for that text alone.
 
-## `ZeroPoint.decide_many`
+## `ZeroPoint.fit(texts, labels, *, groups=None, steps=200, frozen_layers=8, seed=0, threads=None)`
 
-```python
-zp.decide_many(texts, options=None, min_confidence=None, batch_size=None) -> list[Decision]
-```
+Adapts the model to your labelled texts. `labels` holds the right option for each text, or `None` for texts that
+fit none of them. Returns `(model, report)`; the report compares the model before and after on a held-out 20% of
+the examples. Needs `pip install "zeropoint[fit]"`. See [Adapting to your labels](calibration.md).
 
-| Argument | Meaning |
-|---|---|
-| `texts` | list of texts |
-| `options` | `None`, one list shared by all texts, or one list per text |
-| `min_confidence` | as in `decide` |
-| `batch_size` | texts per encoder run; by default 1 with 8-bit, 4 with `fp32` on CPU, 32 on GPU |
+## `ZeroPoint.recalibrate(texts, labels, *, groups=None, seed=0)`
 
-## `ZeroPoint.fit`
+Refits only the temperature and the *none* level. Needs no PyTorch. Returns `(model, report)`.
 
-```python
-ZeroPoint.fit(texts, labels, *, descriptions=None, catch_all=(), encoder="small", precision="fp32",
-              seed=0, monitor=False, device=None, embeddings=None, recipe=None, verbose=True) -> ZeroPoint
-```
+## `ZeroPoint.save(path)`
 
-Calibrate a landscape on labeled texts. Needs `pip install "zeropoint[train]"`. Every argument is described in
-[Calibrating your own landscape](calibration.md#options). Raises `zeropoint.calibrate.DidNotLearn` when the
-model does not beat chance on held-out texts.
-
-## `ZeroPoint.save`
-
-```python
-zp.save(path)
-```
-
-Write the landscape to a `.safetensors` file. Load it back with `ZeroPoint.load(path)`.
+Writes the model to the folder `path`, with a manifest holding the sha256 of every file and the report of `fit` or
+`recalibrate`. Load it with `ZeroPoint(path)`.
 
 ## `ZeroPoint` attributes
 
-| Attribute | Meaning |
+| Attribute | What it holds |
 |---|---|
-| `labels` | the options the landscape knows |
-| `descriptions` | the text each known option's well was built from |
-| `temperature` | the temperature of Boltzmann's rule, learned during calibration |
-| `kappa` | how fast the probability moves to *none* beyond the edge of the data; can be changed after loading |
-| `encoder_spec` | the encoder repository, revision and precision |
+| `languages` | codes of the 25 supported languages |
+| `model_id` | first 12 characters of the hash of the model's training checkpoint |
+| `threads` | CPU threads used |
+| `report` | the report of `fit` or `recalibrate`, for a model made by them; `None` otherwise |
 
 ## `Decision`
 
-The result of one decision. Frozen dataclass.
-
-| Field | Type | Meaning |
+| Field | Type | What it holds |
 |---|---|---|
-| `choice` | `str` or `None` | the chosen option, or `None` |
-| `confidence` | `float` | probability of the most probable outcome: the chosen option, or *none* |
+| `choice` | `str` or `None` | the chosen option, or `None` when *none* is the most probable answer |
+| `confidence` | `float` | probability of `choice` (of *none* when `choice` is `None`) |
 | `p_none` | `float` | probability that none of the options fits |
-| `probabilities` | `dict[str, float]` | probability of each option; with `p_none` they add up to 1 |
-| `energies` | `dict[str, float]` | energy of the text in each option's well; 0 means not in the well |
-| `beyond_edge` | `float` | distance beyond the edge of the calibration data; zero or below means inside |
-| `latency_ms` | `float` | time to decide, in milliseconds |
-| `unseen_options` | `tuple[str, ...]` | listed options the landscape was not calibrated on |
-| `truncated` | `bool` | the text was longer than 512 tokens and its end was ignored |
+| `probabilities` | `dict[str, float]` | probability of each option, in the order given; with `p_none` they add up to 1 |
+| `depths` | `dict[str, float]` | depth of each option's well, 0 or more |
+| `text_truncated` | `bool` | the text was longer than 192 word pieces and its end was ignored |
+| `options_truncated` | `tuple[str, ...]` | options longer than 16 word pieces, whose end was ignored |
+| `blocks` | `int` | reads of 20 options the list needed |
+| `latency_ms` | `float` | time the decision took |
 
-## `landscapes`
+Printing a `Decision` shows the options with their probabilities, *none*, the choice and the time.
 
-```python
-zeropoint.landscapes() -> list[Landscape]
-```
+## Exceptions
 
-The landscapes that ship with the package. Each `Landscape` has `name`, `options` (how many), `description`,
-`examples` (a few of its options) and `source` (the data it was calibrated on).
+| Exception | Raised when |
+|---|---|
+| `UnsupportedLanguage` (a `ValueError`) | the text or an option is mostly outside the Latin script |
+| `ModelFilesError` (a `RuntimeError`) | a model file is missing or does not match its sha256 |
