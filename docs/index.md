@@ -56,4 +56,4 @@ none      1.00  ████████████████████
 | [Running in production](deployment.md) | threads, long texts, the same numbers on every machine, offline use |
 | [API reference](api.md) | every class, method and field |
 | [Training data](training-data.md) | what the model was trained on, and under which licences |
-| [Benchmark](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md) | ZeroPoint against Laya, Semantic Router and zero-shot NLI |
+| [Benchmark](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md) | ZeroPoint against Strands Decider, Clef-flash, Laya, Semantic Router, zero-shot NLI and hosted LLMs |

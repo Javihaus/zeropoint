@@ -262,6 +262,11 @@ def environment():
                     break
     except OSError:
         pass
+    try:                                   # the code actually imported, which may not be the installed copy
+        import zeropoint
+        info["zeropoint_code"] = zeropoint.__version__
+    except ImportError:
+        pass
     for p in ["zeropoint", "onnxruntime", "numpy", "laya", "semantic-router", "strands-decider", "transformers",
               "peft", "torch"]:
         try:

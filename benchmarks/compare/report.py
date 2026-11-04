@@ -58,6 +58,9 @@ B = 2000
 EXTRA_PAIRED = set()
 from run import LLM_TESTS  # noqa: E402  (hosted LLMs are compared on these tests only, see run.py)
 LLM_BASELINES = ["zeropoint", "laya_none"]
+# The table at the top of the README: every system that answers on its own machine, on the three tests.
+DECISION_MODELS = ["zeropoint", "strands_none", "clef_flash_none", "semantic_router", "nli"]
+THRESHOLDS = (0.9, 0.7, 0.5)
 
 
 def extra_systems():
@@ -105,10 +108,7 @@ def model_size(system, rows_by_test):
             return base + sum(os.path.getsize(hf_hub_download(repo, f, revision=REVISIONS[repo], local_files_only=True))
                               for f in ["lora/adapter_model.safetensors", "head.safetensors"])
         if system == "clef_flash_none":
-            from huggingface_hub import snapshot_download
-            repo = "Cloudflare/clef-flash"
-            d = snapshot_download(repo, revision=REVISIONS[repo], local_files_only=True)
-            return sum(os.path.getsize(os.path.join(d, f)) for f in os.listdir(d) if f.endswith(".safetensors"))
+            return 19_063_259_136              # its .safetensors files at the pinned revision, as the Hub lists them
         if system == "nli":
             return hub("MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli", "model.safetensors")
     except Exception:                                          # weights not on this machine: leave it out
@@ -215,8 +215,11 @@ def llm_comparison(tests, systems):
     def right(t, r, i):
         return float(r["choice"] == tests[t][i]["gold"])
 
-    def silent(r):
-        return float(r["choice"] is not None and r["p"][r["choice"]] >= 0.9)
+    def silent(r, threshold=0.9):
+        return float(r["choice"] is not None and r["p"][r["choice"]] >= threshold)
+
+    def confidence(r):
+        return r["p"][r["choice"]] if r["choice"] is not None else r["p_none"]
 
     def interval(d, seed=13):
         rng = np.random.default_rng(seed)
@@ -233,15 +236,25 @@ def llm_comparison(tests, systems):
             raise SystemExit(f"{s}: {len(missing)} cases of the sample have no answer; run it again to finish them")
         neg = [(t, i) for t, i in all_cases if tests[t][i]["gold"] is None]
         ms = np.array([R[t][i]["ms"] for t, i in all_cases])
+        probs = PROBABILITIES.get(s, True)
+        pos = [(t, i) for t, i in all_cases if tests[t][i]["gold"] is not None]
         res = {"right": float(np.mean([right(t, R[t][i], i) for t, i in all_cases])),
-               "silent": float(np.mean([silent(R[t][i]) for t, i in neg])),
+               "silent": float(np.mean([silent(R[t][i]) for t, i in neg])) if probs else None,
+               "silent_at": {str(th): float(np.mean([silent(R[t][i], th) for t, i in neg]))
+                             for th in THRESHOLDS} if probs else None,
+               "acts_when_none": float(np.mean([R[t][i]["choice"] is not None for t, i in neg])),
+               "right_confident": float(np.mean([confidence(R[t][i]) >= 0.9 for t, i in all_cases
+                                                 if right(t, R[t][i], i)])) if probs else None,
+               "choice": None if s.startswith("llm_") else
+               float(np.mean([max(R[t][i]["p"], key=R[t][i]["p"].get) == tests[t][i]["gold"] for t, i in pos])),
                "ms_median": float(np.median(ms)), "ms_p95": float(np.percentile(ms, 95)),
                "cases": len(all_cases),
                "invalid": int(sum(bool(R[t][i].get("invalid")) for t, i in all_cases)),
                "no_tool_call": int(sum(bool((R[t][i].get("stated") or {}).get("no_tool_call")) for t, i in all_cases)),
                "per_test": {t: {"right": float(np.mean([right(t, R[t][i], i) for i in cases[t]])),
                                 "silent": float(np.mean([silent(R[t][i]) for i in cases[t]
-                                                         if tests[t][i]["gold"] is None]))} for t in LLM_TESTS}}
+                                                         if tests[t][i]["gold"] is None])) if probs else None}
+                            for t in LLM_TESTS}}
         tin = [R[t][i].get("tokens_in") for t, i in all_cases if R[t][i].get("tokens_in") is not None]
         if tin:
             res["tokens_in"] = float(np.mean(tin))
@@ -250,10 +263,23 @@ def llm_comparison(tests, systems):
         res["mode"] = read_json(env).get("mode") if os.path.exists(env) else None
         if s != "zeropoint":
             d1 = np.array([right(t, zp[t][i], i) - right(t, R[t][i], i) for t, i in all_cases])
-            d2 = np.array([silent(zp[t][i]) - silent(R[t][i]) for t, i in neg])
-            res["zeropoint_minus"] = {"right": {"diff": float(d1.mean()), "ci": interval(d1)},
-                                      "silent": {"diff": float(d2.mean()), "ci": interval(d2)}}
+            res["zeropoint_minus"] = {"right": {"diff": float(d1.mean()), "ci": interval(d1)}}
+            if probs:
+                d2 = np.array([silent(zp[t][i]) - silent(R[t][i]) for t, i in neg])
+                res["zeropoint_minus"]["silent"] = {"diff": float(d2.mean()), "ci": interval(d2)}
         out["systems"][s] = res
+    # the most accurate open decision model against each LLM, case by case
+    if "strands_none" in systems:
+        st = rows_of("strands_none")
+        out["strands_minus"] = {}
+        for s in [x for x in systems if x.startswith("llm_")]:
+            R = rows_of(s)
+            neg = [(t, i) for t in LLM_TESTS for i in cases[t] if tests[t][i]["gold"] is None]
+            d1 = np.array([right(t, st[t][i], i) - right(t, R[t][i], i) for t in LLM_TESTS for i in cases[t]])
+            out["strands_minus"][s] = {"right": {"diff": float(d1.mean()), "ci": interval(d1)}}
+            for th in THRESHOLDS:
+                d = np.array([silent(st[t][i], th) - silent(R[t][i], th) for t, i in neg])
+                out["strands_minus"][s][f"silent_{th}"] = {"diff": float(d.mean()), "ci": interval(d)}
     return out
 
 
@@ -308,8 +334,16 @@ def main():
         summary["systems"][s] = res
     llms = [s for s in summary["systems"] if s.startswith("llm_")]
     if llms:
-        local = LLM_BASELINES + [s for s in LLM_TESTS_ONLY if s in summary["systems"]]
+        local = LLM_BASELINES + [s for s in LLM_TESTS_ONLY + ["semantic_router", "nli"] if s in summary["systems"]]
         summary["llm_comparison"] = llm_comparison(tests, local + llms)
+    lat = os.path.join(HERE, "out", "cpu_latency")             # written by cpu_latency.py
+    if os.path.isdir(lat):
+        ms = {}
+        for s in ("zeropoint", "strands_none"):
+            with open(os.path.join(lat, f"{s}.jsonl")) as f:
+                ms[s] = [json.loads(line)["ms"] for line in f if line.strip()]
+        summary["cpu_latency"] = {"cases": len(ms["zeropoint"]), "environment": read_json(os.path.join(lat, "environment.json")),
+                                  **{s: {"median": float(np.median(v)), "p95": float(np.percentile(v, 95))} for s, v in ms.items()}}
     os.makedirs(os.path.join(HERE, "results"), exist_ok=True)
     with open(os.path.join(HERE, "results", "summary.json"), "w") as f:
         json.dump(summary, f, indent=1)
@@ -327,31 +361,93 @@ def runs_on(env, s):
     return f"{env.get('cpus', 2)}-core CPU, {env.get('threads', 2)} threads"
 
 
+def order_on(summary, s, tests):
+    """Mean share of decisions that change with the order of the options, or None if not measured on every test."""
+    v = [summary["systems"][s]["tests"].get(t, {}).get("order_changed") for t in tests]
+    return float(np.mean(v)) if all(x is not None for x in v) else None
+
+
+def size_of(summary, s):
+    b = summary["systems"][s].get("model_bytes")
+    return "" if not b else (f"{b / 1e9:.1f} GB" if b >= 1e9 else f"{b / 1e6:.0f} MB")
+
+
 def llm_tables(summary):
     C = summary["llm_comparison"]
     name = lambda s: summary["systems"][s]["name"]
-    diff = lambda x: f"{100 * x['diff']:+.1f} ({100 * x['ci'][0]:+.1f} to {100 * x['ci'][1]:+.1f})"
-    lines = ["", "## Compared with LLMs and decision models, on " + ", ".join(C["tests"]), "",
-             "| System | Right decision | ZeroPoint − system | Silent mistakes | ZeroPoint − system | "
-             + "Latency, median | Latency, 95th percentile | Runs on |", "|---|---|---|---|---|---|---|---|"]
+    diff = lambda x: "" if x is None else f"{100 * x['diff']:+.1f} ({100 * x['ci'][0]:+.1f} to {100 * x['ci'][1]:+.1f})"
+    env = lambda s: summary["systems"][s].get("environment") or {}
+
+    # 1. The README table: the systems that run on your own machine
+    dm = [s for s in DECISION_MODELS if s in C["systems"]]
+    lines = ["", "## Decision models on your own machine, on " + ", ".join(C["tests"]), "",
+             "| System | Right decision | Decision changes with the order of the options | Right option, when one is "
+             + "right | Silent mistakes | Latency, median | Runs on | Model size |", "|---|---|---|---|---|---|---|---|"]
+    for s in dm:
+        r = C["systems"][s]
+        lines.append(f"| {name(s)} | {pct(r['right'])} | {pct(order_on(summary, s, C['tests']))} | {pct(r['choice'])} | "
+                     f"{pct(r['silent'])} | {r['ms_median']:,.0f} ms | {runs_on(env(s), s)} | {size_of(summary, s)} |")
+    lines += ["", "*" + DM_NOTE + "*"]
+
+    # 2. Every system, with ZeroPoint minus each, case by case
+    lines += ["", "## Compared with LLMs and decision models, on " + ", ".join(C["tests"]), "",
+              "| System | Right decision | ZeroPoint − system | Silent mistakes | ZeroPoint − system | "
+              + "Latency, median | Latency, 95th percentile | Runs on |", "|---|---|---|---|---|---|---|---|"]
     for s, r in C["systems"].items():
-        zm = r.get("zeropoint_minus")
-        lines.append(f"| {name(s)} | {pct(r['right'])} | {diff(zm['right']) if zm else ''} | {pct(r['silent'])} | "
-                     f"{diff(zm['silent']) if zm else ''} | {r['ms_median']:,.0f} ms | {r['ms_p95']:,.0f} ms | "
-                     f"{runs_on(summary['systems'][s].get('environment') or {}, s)} |")
+        zm = r.get("zeropoint_minus") or {}
+        lines.append(f"| {name(s)} | {pct(r['right'])} | {diff(zm.get('right'))} | {pct(r['silent'])} | "
+                     f"{diff(zm.get('silent'))} | {r['ms_median']:,.0f} ms | {r['ms_p95']:,.0f} ms | {runs_on(env(s), s)} |")
     lines += ["", "*" + LLM_NOTE + "*", "", "| System | " + " | ".join(
         f"Right decision, {TEST_NAMES[t]}" for t in C["tests"]) + " | " + " | ".join(
         f"Silent mistakes, {TEST_NAMES[t]}" for t in C["tests"]) + " |", "|---|" + "---|" * (2 * len(C["tests"]))]
     for s, r in C["systems"].items():
         lines.append(f"| {name(s)} | " + " | ".join(pct(r["per_test"][t]["right"]) for t in C["tests"]) + " | "
                      + " | ".join(pct(r["per_test"][t]["silent"]) for t in C["tests"]) + " |")
-    order = [s for s in C["systems"] if all(summary["systems"][s]["tests"].get(t, {}).get("order_changed") is not None
-                                             for t in C["tests"])]
-    if order:
-        lines += ["", "| System | Decision changes when the options come in another order |", "|---|---|"]
-        for s in order:
-            v = np.mean([summary["systems"][s]["tests"][t]["order_changed"] for t in C["tests"]])
-            lines.append(f"| {name(s)} | {pct(v)} |")
+
+    # 3. Silent mistakes at other thresholds
+    th = [s for s, r in C["systems"].items() if r.get("silent_at")]
+    lines += ["", "## Silent mistakes at other confidence thresholds", "",
+              "| System | Picks an option when none is right | ≥ 0.9 | ≥ 0.7 | ≥ 0.5 | Right answers given with ≥ 0.9 |",
+              "|---|---|---|---|---|---|"]
+    for s in th:
+        r = C["systems"][s]
+        lines.append(f"| {name(s)} | {pct(r['acts_when_none'])} | " + " | ".join(pct(r["silent_at"][str(t)])
+                     for t in THRESHOLDS) + f" | {pct(r['right_confident'])} |")
+    lines += ["", "*" + THRESHOLD_NOTE + "*"]
+
+    # 4. Order of the options, per test
+    order = [s for s in C["systems"] if order_on(summary, s, C["tests"]) is not None]
+    lines += ["", "## Order of the options, on " + ", ".join(C["tests"]), "",
+              "| System | " + " | ".join(TEST_NAMES[t] for t in C["tests"]) + " | Mean |", "|---|" + "---|" * (len(C["tests"]) + 1)]
+    for s in order:
+        lines.append(f"| {name(s)} | " + " | ".join(pct(summary["systems"][s]["tests"][t]["order_changed"])
+                     for t in C["tests"]) + f" | {pct(order_on(summary, s, C['tests']))} |")
+    lines += ["", "*Share of the 900 cases whose decision changes when the same options come in another order "
+              "(`run.py shuffled()`). The LLMs were not run a second time.*"]
+
+    L = summary.get("cpu_latency")
+    if L:
+        e = L["environment"]
+        lines += ["", "## ZeroPoint and Strands Decider on the same CPU", "",
+                  "| System | Latency, median | Latency, 95th percentile |", "|---|---|---|"]
+        for s in ("zeropoint", "strands_none"):
+            lines.append(f"| {name(s)} | {L[s]['median']:,.0f} ms | {L[s]['p95']:,.0f} ms |")
+        lines += ["", f"*The first {L['cases']} cases of the 2,000-case test's sample, on a {e.get('cpus')}-core "
+                  f"{e.get('cpu', 'CPU')} with {e.get('threads')} threads (`cpu_latency.py`). Strands Decider in "
+                  "bfloat16: float32 needs about 9 GB of memory; the library's own notes give about half the time in float32, "
+                  "on an Apple M3 Pro.*"]
+
+    # 5. Strands Decider minus each LLM
+    if C.get("strands_minus"):
+        lines += ["", "## Strands Decider − each LLM, case by case", "",
+                  "| LLM | Right decision | Silent mistakes ≥ 0.9 | ≥ 0.7 | ≥ 0.5 |", "|---|---|---|---|---|"]
+        for s, d in C["strands_minus"].items():
+            lines.append(f"| {name(s)} | {diff(d['right'])} | " + " | ".join(diff(d[f"silent_{t}"]) for t in THRESHOLDS) + " |")
+        lines += ["", "*Percentage points, with the 95% interval of a paired bootstrap; negative silent mistakes: "
+                  "Strands Decider makes fewer. The LLMs' confidence is the one they state, not a computed "
+                  "probability.*"]
+
+    # 6. How the LLMs were asked
     lines += ["", "| LLM | How it was asked | Answers outside the list | Tokens per decision (in / out) |",
               "|---|---|---|---|"]
     for s, r in C["systems"].items():
@@ -434,6 +530,16 @@ LLM_NOTE = (
     "the LLMs) of 0.9 or more. ZeroPoint − system: percentage points on the same cases, with the 95% interval of a "
     "paired bootstrap; for silent mistakes, negative means ZeroPoint makes fewer. Latency is measured where "
     "*Runs on* says: for an API, the call from a Google Colab machine, network included.")
+DM_NOTE = (
+    "The 300-case sample of each test, the same cases for every system, 900 in all, half with no right option. "
+    "Right decision: none counted as an answer. Right option, when one is right: the right option has the highest "
+    "score, on the 450 cases with one. Silent mistakes: on the 450 cases with no right option, an option picked with "
+    "probability 0.9 or more (Semantic Router gives similarities, not probabilities). Strands Decider and Clef-flash "
+    "get the options plus \"None of these\", like Laya.")
+THRESHOLD_NOTE = (
+    "On the 450 cases with no right option: how often the system picks an option at all, and how often it does so "
+    "with a probability (for the LLMs, a stated confidence) at or above each threshold. Last column: the share of "
+    "its right answers given with 0.9 or more, which shows how often a system states high confidence at all.")
 TESTS_NOTE = (
     "In a case with a right option, the right option is on the list among others. In a case without "
     "one, the list is made of other options only. The test files are rebuilt by `build_tests.py`; their "
