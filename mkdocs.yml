@@ -9,10 +9,11 @@ copyright: Copyright Javier Marín, 2026. Apache 2.0.
 nav:
   - Overview: index.md
   - Making decisions: usage.md
-  - Calibrating your own landscape: calibration.md
+  - Adapting to your labels: calibration.md
   - Running in production: deployment.md
   - API reference: api.md
-  - How it works: https://github.com/Javihaus/zeropoint#energy-based-models
+  - Training data: training-data.md
+  - How it works: https://github.com/Javihaus/zeropoint#how-it-works
   - Benchmark: https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md
   - Changelog: https://github.com/Javihaus/zeropoint/blob/main/CHANGELOG.md
 

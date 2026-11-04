@@ -1,11 +1,11 @@
 # ZeroPoint
 
-ZeroPoint chooses one option from a list for a given text, or answers that none of the options fits. It does
-this in a single forward pass of a small encoder, on a CPU, in about 19 ms.
+ZeroPoint chooses the option that fits a text from a list of options, or answers that none of them does. It runs on
+a CPU in about 20 ms, and the model ships inside the package.
 
-Typical uses are routing a support ticket to a queue, finding the intent behind a request, or sending a
-document to the right process. A classifier always picks something. ZeroPoint returns `None` when the right
-option is not on the list or the text has nothing to do with the task.
+Typical uses are routing a support ticket to a queue, finding the intent behind a request, or sending a document
+to the right process. A classifier always picks something. ZeroPoint returns `None` when the right option is not on
+the list or the text has nothing to do with the task.
 
 ## Install
 
@@ -13,50 +13,47 @@ option is not on the list or the text has nothing to do with the task.
 pip install zeropoint
 ```
 
-ZeroPoint needs Python 3.10 or newer. It runs on Linux, macOS and Windows, with
-[ONNX Runtime](https://onnxruntime.ai); PyTorch is only needed to [calibrate your own landscape](calibration.md).
+ZeroPoint needs Python 3.10 or newer and runs on Linux, macOS and Windows, with
+[ONNX Runtime](https://onnxruntime.ai). The package holds the model (89 MB); nothing is downloaded when it runs.
+PyTorch is only needed to [adapt it to your labels](calibration.md).
 
 ## First decision
 
 ```python
 from zeropoint import ZeroPoint
 
-zp = ZeroPoint.load()
+zp = ZeroPoint()
 zp.decide("Can you move 200 euros from my savings to my checking account?",
-          options=["transfer", "balance", "pay bill"])
+          ["transfer", "balance", "pay bill"])
 ```
 
 ```text
-transfer  0.98  ███████████████████▋
-balance   0.01  ▏
-pay bill  0.00
-none      0.01  ▏
-→ transfer · 8 ms
+transfer  0.77  ███████████████·····
+balance   0.02  ····················
+pay bill  0.01  ····················
+none      0.20  ████················
+→ transfer · 17 ms
 ```
 
 ```python
-zp.decide("Set an alarm for 6:30 tomorrow morning",
-          options=["transfer", "balance", "pay bill"])
+zp.decide("Set an alarm for 6:30 tomorrow morning", ["transfer", "balance", "pay bill"])
 ```
 
 ```text
-pay bill  0.00
-transfer  0.00
-balance   0.00
-none      1.00  ███████████████████▉
-→ none · 7 ms
+pay bill  0.00  ····················
+transfer  0.00  ····················
+balance   0.00  ····················
+none      1.00  ████████████████████
+→ none · 16 ms
 ```
-
-The first call downloads the encoder from the Hugging Face Hub (about 130 MB for the small one) and takes a
-few seconds. The encoder is cached, and later calls take milliseconds.
 
 ## Where to go next
 
 | Page | What it covers |
 |---|---|
-| [Making decisions](usage.md) | options, thresholds, many texts at once, what a decision holds |
-| [Calibrating your own landscape](calibration.md) | training ZeroPoint on your own labeled texts |
-| [Running in production](deployment.md) | encoders, precision, threads, GPU, offline use |
-| [API reference](api.md) | every public class, function and argument |
-| [How it works](https://github.com/Javihaus/zeropoint#energy-based-models) | the energy landscape, Boltzmann's rule and the edge of the data |
-| [Benchmark](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md) | accuracy, *none* detection and latency, with the scripts to rebuild them |
+| [Making decisions](usage.md) | options, what a decision holds, thresholds, many texts at once, languages |
+| [Adapting to your labels](calibration.md) | `fit` and `recalibrate` on your own labelled texts |
+| [Running in production](deployment.md) | threads, long texts, the same numbers on every machine, offline use |
+| [API reference](api.md) | every class, method and field |
+| [Training data](training-data.md) | what the model was trained on, and under which licences |
+| [Benchmark](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md) | ZeroPoint against Laya, Semantic Router and zero-shot NLI |
