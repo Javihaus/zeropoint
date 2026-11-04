@@ -45,6 +45,7 @@ TEST_NAMES = {"bench2000": "2,000-case benchmark", "snips": "SNIPS", "atis": "AT
 SYSTEMS = ["zeropoint", "laya_none", "laya", "semantic_router", "nli"]
 NAMES = {"zeropoint": "ZeroPoint 1.0", "laya_none": "Laya + \"None of these\"", "laya": "Laya",
          "semantic_router": "Semantic Router", "nli": "Zero-shot NLI (DeBERTa-v3-base)"}
+PAIRED_WITH = ("laya_none", "laya")          # systems compared with ZeroPoint case by case
 PROBABILITIES = {"zeropoint": True, "laya_none": True, "laya": True, "semantic_router": False, "nli": True}
 TOGETHER = {"zeropoint": "yes", "laya_none": "yes", "laya": "yes", "semantic_router": "no", "nli": "no"}
 B = 2000
@@ -132,6 +133,28 @@ def score(items, rows, rng, probabilities=True):
     return out
 
 
+def paired(items, a_rows, b_rows, rng):
+    """ZeroPoint minus another system, case by case on the same cases, with a 95% paired bootstrap interval
+    (2,000 resamples), for choice (cases with a right option) and sure_wrong (cases without one)."""
+    a = {r["i"]: r for r in a_rows}
+    b = {r["i"]: r for r in b_rows}
+    common = sorted(set(a) & set(b))
+    top = lambda r: max(r["p"], key=r["p"].get)
+    sure = lambda r: r["choice"] is not None and r["p"][r["choice"]] >= 0.9
+    out = {}
+    pos = [i for i in common if items[i]["gold"] is not None]
+    neg = [i for i in common if items[i]["gold"] is None]
+    for key, idx, f in [("choice", pos, lambda r, i: top(r) == items[i]["gold"]),
+                        ("sure_wrong", neg, lambda r, i: sure(r))]:
+        if not idx:
+            continue
+        d = np.array([float(f(a[i], i)) - float(f(b[i], i)) for i in idx])
+        boot = [d[rng.integers(0, len(d), len(d))].mean() for _ in range(B)]
+        out[key] = {"diff": float(d.mean()), "ci": [float(np.percentile(boot, 2.5)), float(np.percentile(boot, 97.5))],
+                    "cases": len(idx)}
+    return out
+
+
 def order_changed(rows, shuffled_rows):
     a = {r["i"]: r["choice"] for r in rows}
     b = {r["i"]: r["choice"] for r in shuffled_rows}
@@ -173,6 +196,10 @@ def main():
             if shuffled_rows is not None:
                 r["order_changed"], r["order_cases"] = order_changed(rows, shuffled_rows)
             res["tests"][t] = r
+            if s in PAIRED_WITH:
+                zp_rows = read_rows(os.path.join(HERE, "out", "zeropoint", f"{t}.json"))
+                if zp_rows is not None:
+                    r["zeropoint_minus"] = paired(tests[t], zp_rows, rows, np.random.default_rng(13))
         if not res["tests"]:
             continue
         all_ms = np.concatenate([[x["ms"] for x in rows] for rows in rows_by_test.values()])
@@ -246,6 +273,11 @@ SAMPLE_NOTE = (
     "The same measures as the summary, but every system is scored only on the 300-case sample that "
     "zero-shot NLI reads (150 cases with a right option and 150 without, per test), so all rows come from "
     "identical cases. Mean over the eight tests.")
+PAIRED_NOTE = (
+    "Difference in percentage points between ZeroPoint and the other system on the same cases, with its 95% interval "
+    "from a paired bootstrap (2,000 resamples of the cases). Choice: positive means ZeroPoint picks the right option "
+    "more often. Sure and wrong: negative means ZeroPoint is confidently wrong less often. When the interval does not "
+    "include zero, the difference is not due to chance in the choice of cases.")
 TESTS_NOTE = (
     "In a case with a right option, the right option is on the list among others. In a case without "
     "one, the list is made of other options only. The test files are rebuilt by `build_tests.py`; their "
@@ -299,6 +331,20 @@ def tables(summary):
             if key in ("choice", "sure_wrong") else ""
         nli_note = " " + NLI_NOTE if key not in ("order_changed",) else ""
         lines += ["", "*" + CAPTIONS[key] + ci_note + nli_note + " " + DASH + "*"]
+    for s in PAIRED_WITH:
+        if s not in S:
+            continue
+        lines += ["", f"## ZeroPoint − {S[s]['name']}, case by case", "",
+                  "| Test | Choice | Sure and wrong |", "|---|---|---|"]
+        for t in TESTS:
+            zm = S[s]["tests"].get(t, {}).get("zeropoint_minus", {})
+            cells = []
+            for key in ("choice", "sure_wrong"):
+                x = zm.get(key)
+                cells.append("–" if x is None else
+                             f"{100 * x['diff']:+.1f} ({100 * x['ci'][0]:+.1f} to {100 * x['ci'][1]:+.1f})")
+            lines.append(f"| {TEST_NAMES[t]} | " + " | ".join(cells) + " |")
+        lines += ["", "*" + PAIRED_NOTE + "*"]
     lines += ["", "## The tests", "",
               "| Test | Cases | With a right option | Options per case | What it is |", "|---|---|---|---|---|"]
     for t in TESTS:
