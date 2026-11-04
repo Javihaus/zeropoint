@@ -206,7 +206,9 @@ def run(system, tests):
         json.dump(environment(), f, indent=1)
     for test in tests:
         path = os.path.join(out, f"{test}.json")
-        if os.path.exists(path) and os.path.exists(path.replace(".json", ".shuffled.json")):
+        done = [p for p in (path, path.replace(".json", ".shuffled.json"))
+                if os.path.exists(p) or os.path.exists(p + ".gz")]
+        if len(done) == 2:
             print(f"{system} {test}: already done", flush=True)
             continue
         items = load(test)

@@ -1,0 +1,43 @@
+# Comparison with common approaches
+
+ZeroPoint against four other ways of picking one option from a list for a text, or saying that none fits:
+
+| System | What it is |
+|---|---|
+| **ZeroPoint 1.0** | this repository, default settings |
+| **Laya + "None of these"** | Laya 0.4.21 (its recommended `Router`), with one more option, "None of these", added to every list |
+| **Laya** | the same without that option, so it always picks one of the listed options (reported in BENCHMARK.md only) |
+| **Semantic Router** | Semantic Router 1.1.1, one route per option with the option name as its only example |
+| **Zero-shot NLI** | the Hugging Face zero-shot classification pipeline with DeBERTa-v3-base MNLI, `multi_label=True` |
+
+The results, with what every value means, are in [results/tables.md](results/tables.md).
+
+## How it is measured
+
+- Every system runs on the same machine, on CPU with 2 threads, one case at a time, at its default settings.
+- Every system reads the same cases: eight tests, from 351 to 2,000 cases each. About half the cases have a right
+  option on the list and half do not.
+- Zero-shot NLI runs its model once per option, so it reads a fixed sample of 300 cases per test (150 with a right
+  option, 150 without). A second table scores every system on that same sample.
+- Each system reads the 300-case sample a second time with the options in another order, to measure how often
+  the order changes its decision.
+- Model versions are fixed by their Hugging Face commit in `run.py`; dataset versions in `build_tests.py`.
+
+## Run it
+
+```bash
+pip install -e . laya==0.4.21 semantic-router==1.1.1 transformers torch datasets pandas scikit-learn
+python benchmarks/compare/build_tests.py          # rebuilds tests/*.json; check them against tests/SHA256SUMS
+python benchmarks/compare/run.py zeropoint         # one system at a time; about 5 minutes
+python benchmarks/compare/run.py semantic_router   # about 5 minutes
+python benchmarks/compare/run.py laya_none         # about 1.5 hours on 2 CPU cores
+python benchmarks/compare/run.py laya              # about 1.5 hours
+python benchmarks/compare/run.py nli               # about 3 hours
+python benchmarks/compare/report.py                # writes results/summary.json and results/tables.md
+```
+
+`out/` holds what every system decided on every case (gzipped), so `report.py` can check the numbers without
+running the models again. A test already in `out/` is not run again.
+
+The test texts are not in the repository: some source datasets do not allow redistribution, and the support-ticket
+dataset is CC BY-NC (used here for testing only, never for training). `build_tests.py` rebuilds them exactly.
