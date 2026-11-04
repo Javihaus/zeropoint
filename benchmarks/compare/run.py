@@ -8,13 +8,17 @@ Systems
   laya             Laya without that option (it then always picks one of the listed options)
   semantic_router  Semantic Router, one route per option, the option name as its only utterance
   nli              Hugging Face zero-shot classification, DeBERTa-v3-base MNLI, multi_label=True
+  strands_none     AWS Strands Decider 2B (Qwen3.5-2B base), with one more option "None of these", like laya_none
 
 Every system runs on CPU with 2 threads, one case at a time, in its own process, on the same machine. Each case
 is timed from the call with the text and options to the answer, with nothing cached between cases. Three calls
 run before the timed cases so that one-off loading is not counted.
 
 Zero-shot NLI runs one pass of a 184M-parameter model per option, so it reads a fixed sample of 300 cases per
-test (150 with a right option, 150 without; see `sample()`); the other systems read every case.
+test (150 with a right option, 150 without; see `sample()`); the other systems read every case. Strands Decider
+takes 6 to 15 seconds per case on this CPU, so it also reads the 300-case sample, and only on LLM_TESTS: its
+training data includes CLINC150 and 20 Newsgroups, and the other public tests are as likely to be in it as in an
+LLM's.
 
 Each system also reads the same 300-case sample a second time with the options in another order (`shuffled()`),
 to measure how often its decision depends on the order of the options.
@@ -47,6 +51,7 @@ REVISIONS = {
     "convaiinnovations/laya": "7b928d828b7b0e022f929d9bd2e44165aa270148",
     "sentence-transformers/all-MiniLM-L6-v2": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
     "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli": "6f5cf0a2b59cabb106aca4c287eed12e357e90eb",
+    "StrandsAgents/strands-decider-2B-qwen3.5-v1-2610": "216d1ccb46a9e9b036eb9187b248db98480f77d4",
 }
 
 
@@ -166,12 +171,40 @@ def build_nli(test, items):
     return decide
 
 
+_strands = None
+
+
+def build_strands(test, items):
+    """Strands Decider asked exactly as Laya is: the same instructions, the options plus "None of these" as one
+    more option of a `choice` question. strands-decider 0.2.0, on CPU. The base model (Qwen3.5-2B-Base, the
+    revision the checkpoint's provenance.json pins) is kept in bfloat16: the library would cast it to float32 on
+    CPU, which needs about 9 GB of memory, more than this machine has. Its authors report 106 ms (median) on an
+    RTX 3090."""
+    global _strands
+    if _strands is None:
+        from huggingface_hub import snapshot_download
+        from strands_decider import infer
+        repo = "StrandsAgents/strands-decider-2B-qwen3.5-v1-2610"
+        infer.SystemOneEngine._upcast_torso_for_cpu = lambda self: None
+        _strands = infer.load_engine(snapshot_download(repo, revision=REVISIONS[repo]), device="cpu")
+    key, instructions = asks(test)
+
+    def decide(text, options):
+        crit = {o: None for o in options + [NONE]}
+        a = _strands.ask({key: text}, {"q": {"type": "choice", "instructions": instructions, "criteria": crit}})
+        pr = {o: float(v) for o, v in a.answers["q"].probabilities.items()}
+        choice = max(pr, key=pr.get)
+        return {"p": {o: pr[o] for o in options}, "p_none": pr[NONE], "choice": None if choice == NONE else choice}
+    return decide
+
+
 SYSTEMS = {
     "zeropoint": (build_zeropoint, False),
     "laya_none": (build_laya(True), False),
     "laya": (build_laya(False), False),
     "semantic_router": (build_semantic_router, False),
     "nli": (build_nli, True),           # True: the 300-case sample only
+    "strands_none": (build_strands, True),
 }
 
 
@@ -187,7 +220,8 @@ def environment():
                     break
     except OSError:
         pass
-    for p in ["zeropoint", "onnxruntime", "numpy", "laya", "semantic-router", "transformers", "torch"]:
+    for p in ["zeropoint", "onnxruntime", "numpy", "laya", "semantic-router", "strands-decider", "transformers",
+              "peft", "torch"]:
         try:
             info[p] = md.version(p)
         except md.PackageNotFoundError:
@@ -221,20 +255,35 @@ def run(system, tests):
         sam = sample(items)
         for name, idx, order in [("", sam if sample_only else range(len(items)), False),
                                  (".shuffled", sam, True)]:
-            rows, t0 = [], time.time()
-            for n, i in enumerate(idx):
-                it = items[i]
-                opts = shuffled(it["options"], i) if order else it["options"]
-                s = time.perf_counter()
-                row = decide(it["text"], opts)
-                row["ms"] = (time.perf_counter() - s) * 1000
-                row["i"] = i
-                rows.append(row)
-                if n % 200 == 0:
-                    print(f"{system} {test}{name} {n}/{len(idx)} {time.time() - t0:.0f}s", flush=True)
+            final = os.path.join(out, f"{test}{name}.json")
+            if os.path.exists(final) or os.path.exists(final + ".gz"):
+                continue
+            partial = os.path.join(out, f"{test}{name}.partial.jsonl")   # cases are saved as they come, so an
+            rows = []                                                     # interrupted run continues where it stopped
+            if os.path.exists(partial):
+                with open(partial, encoding="utf-8") as f:
+                    rows = [json.loads(line) for line in f if line.strip()]
+            done, t0 = {r["i"] for r in rows}, time.time()
+            with open(partial, "a", encoding="utf-8") as pf:
+                for n, i in enumerate(idx):
+                    if i in done:
+                        continue
+                    it = items[i]
+                    opts = shuffled(it["options"], i) if order else it["options"]
+                    s = time.perf_counter()
+                    row = decide(it["text"], opts)
+                    row["ms"] = (time.perf_counter() - s) * 1000
+                    row["i"] = i
+                    rows.append(row)
+                    pf.write(json.dumps(row, ensure_ascii=False) + "\n")
+                    pf.flush()
+                    if n % 50 == 0:
+                        print(f"{system} {test}{name} {n}/{len(idx)} {time.time() - t0:.0f}s", flush=True)
             os.makedirs(out, exist_ok=True)                   # in case the folder was removed during the run
-            with open(os.path.join(out, f"{test}{name}.json"), "w", encoding="utf-8") as f:
+            rows = sorted({r["i"]: r for r in rows}.values(), key=lambda r: list(idx).index(r["i"]))
+            with open(final, "w", encoding="utf-8") as f:
                 json.dump(rows, f, ensure_ascii=False)
+            os.remove(partial)
             print(f"{system} {test}{name}: {len(rows)} cases, {time.time() - t0:.0f}s", flush=True)
 
 
