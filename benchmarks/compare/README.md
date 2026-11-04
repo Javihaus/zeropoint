@@ -12,6 +12,18 @@ ZeroPoint against four other ways of picking one option from a list for a text, 
 
 The results, with what every value means, are in [results/tables.md](results/tables.md).
 
+## Where each system comes from
+
+| System | Made by | Version used | Model | Licence |
+|---|---|---|---|---|
+| Laya | Convai Innovations ([convaiinnovations/laya](https://huggingface.co/convaiinnovations/laya)) | `laya` 0.4.21 | model commit `7b928d82`; its router chooses the English or the multilingual checkpoint per text | Apache 2.0 (library and model) |
+| Semantic Router | Aurelio AI ([aurelio-labs/semantic-router](https://github.com/aurelio-labs/semantic-router)) | `semantic-router` 1.1.1 | its default encoder, [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), commit `1110a243` | MIT (library), Apache 2.0 (encoder) |
+| Zero-shot NLI | Moritz Laurer, Vrije Universiteit Amsterdam ([MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli)); base model DeBERTa-v3-base by Microsoft, fine-tuned on MultiNLI, FEVER-NLI and ANLI | Hugging Face `transformers` zero-shot pipeline | commit `6f5cf0a2` | MIT |
+
+Zero-shot NLI model: Laurer, M., van Atteveldt, W., Salleras Casas, A. and Welbers, K. (2022). *Less Annotating,
+More Classifying: Addressing the Data Scarcity Issue of Supervised Machine Learning with Deep Transfer Learning and
+BERT-NLI*. Preprint, Open Science Framework. https://osf.io/74b8k
+
 ## How it is measured
 
 - Every system runs on the same machine, on CPU with 2 threads, one case at a time, at its default settings.
