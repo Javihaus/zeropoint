@@ -31,31 +31,34 @@ ZeroPoint can answer *none* with confidence.
 
 <table>
 <thead>
-<tr><th></th><th><img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/zeropoint-logo-256.png" width="44" alt=""><br>ZeroPoint<br><sub>decision engine</sub></th><th>Laya ¹<br><sub>decision engine</sub></th><th>Semantic Router<br><sub>zero-shot classification</sub></th><th>Zero-shot NLI ²<br><sub>zero-shot classification</sub></th></tr>
+<tr><th></th><th><img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/zeropoint-logo-256.png" width="44" alt=""><br>ZeroPoint</th><th>Strands Decider 2B ¹</th><th>Clef-flash ²</th><th>Semantic Router</th><th>Zero-shot NLI</th></tr>
 </thead>
 <tbody>
-<tr><td><b>Accuracy</b>: right answer, <i>none</i> included</td><td><b>63.6%</b></td><td>59.9%</td><td>34.6%</td><td>28.6%</td></tr>
-<tr><td><b>Accuracy</b> when one option is right</td><td>68.5%</td><td><b>72.2%</b></td><td>56.8%</td><td>50.6%</td></tr>
-<tr><td><b>Silent mistakes</b>: no option fits, yet it answers with ≥ 90% confidence</td><td><b>6.9%</b></td><td>21.4%</td><td>– ³</td><td>30.2%</td></tr>
-<tr><td><b>Latency</b>, median</td><td>21 ms</td><td>383 ms</td><td><b>9 ms</b></td><td>1,316 ms</td></tr>
-<tr><td><b>Runs on</b></td><td>CPU, 89 MB model inside the package</td><td>CPU or GPU, 1.5 GB of models</td><td>CPU, 91 MB</td><td>CPU or GPU, 369 MB</td></tr>
+<tr><td><b>Accuracy</b>: right answer, <i>none</i> included</td><td>53.6%</td><td><b>58.6%</b></td><td>53.3%</td><td>19.4%</td><td>20.7%</td></tr>
+<tr><td><b>Same answer whatever the order</b>: decisions that change when the same options are listed in another order</td><td><b>0%</b></td><td>7.3%</td><td><b>0%</b></td><td>0.6%</td><td><b>0%</b></td></tr>
+<tr><td><b>Accuracy</b> when one option is right</td><td>43.8%</td><td><b>58.4%</b></td><td>56.2%</td><td>38.9%</td><td>41.3%</td></tr>
+<tr><td><b>Silent mistakes</b>: no option fits, yet it answers with ≥ 90% confidence</td><td>7.8%</td><td><b>0.0%</b> ³</td><td>5.8%</td><td>– ⁴</td><td>22.2%</td></tr>
+<tr><td><b>Latency</b>, median</td><td>42 ms</td><td>93 ms ⁵</td><td>156 ms</td><td><b>17 ms</b></td><td>1,697 ms</td></tr>
+<tr><td><b>Runs on</b></td><td><b>CPU, 89 MB model inside the package</b></td><td>GPU, 4.8 GB</td><td>GPU, 19 GB</td><td>CPU, 91 MB</td><td>CPU or GPU, 369 MB</td></tr>
 </tbody>
 </table>
 
-<sub>Measured on the same machine (2-core CPU, 2 threads, one case at a time) on eight tests and 7,537 cases,
-about half of them with no right option: SNIPS, ATIS, HWU64, MTOP (Spanish), CLINC150, two support-ticket tests
-and a 2,000-case test. Mean over the eight tests. Semantic Router 1.1.1 with its default encoder; zero-shot NLI
-with DeBERTa-v3-base. ¹ Laya 0.4.21 with "None of these" added to every list as one more option, so that it can
-answer <i>none</i>; its authors report 33 ms on a T4 GPU. ² A fixed sample of 300 cases per test, because it runs its
-model once per option. ³ Semantic Router gives similarities, not probabilities. Per-test
-results and the scripts to run it all again: [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).</sub>
+<sub>Measured on the three tests no model is likely to have seen in training: a 2,000-case test and two
+support-ticket tests, 300 cases of each, 900 in all, half of them with no right option. ZeroPoint, Semantic Router
+and zero-shot NLI on a 2-core CPU with 2 threads, one case at a time; Strands Decider and Clef-flash on an NVIDIA L4
+GPU. Semantic Router 1.1.1 with its default encoder; zero-shot NLI with DeBERTa-v3-base. ¹ AWS, Apache 2.0, and
+² Cloudflare, Apache 2.0, each with "None of these" added to every list as one more option, so that it can answer
+<i>none</i>. ³ Strands Decider rarely states 90% confidence, even when it is right: 37% of its right answers, against
+66% for ZeroPoint. ⁴ Semantic Router gives similarities, not probabilities. ⁵ On the same 2-core CPU, Strands
+Decider takes 6.8 s per decision and ZeroPoint 18 ms. Per-test results, other confidence thresholds and the scripts
+to run it all again: [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).</sub>
 
 <br>
 
 > [!IMPORTANT]
-> Large LLMs pick the right answer a few points more often: 57–60% against 54% for ZeroPoint, on the three tests they
-are unlikely to have seen in training. They take 18 to 55 times longer, through an API.
-See the details [here](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md#compared-with-hosted-llms).
+> Large LLMs, through an API, are right in 57–60% of these cases, a few points more than ZeroPoint, and take 18 to
+> 55 times longer. Strands Decider is as accurate as them, with a 2B model on a GPU.
+> See the details [here](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md#compared-with-hosted-llms).
 
 <br>
 
@@ -63,15 +66,15 @@ See the details [here](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK
 
 <table>
 <tr>
-<th width="25%">Reliability</th>
+<th width="25%">Size</th>
 <th width="25%">Latency</th>
 <th width="25%">Deterministic</th>
 <th width="25%">Multilingual</th>
 </tr>
 <tr>
-<td valign="top"><h3>3× fewer silent mistakes</h3><sub>When no option fits, it answers wrongly with 90% confidence or more in 7% of cases; Laya in 21%. Those are the errors that pass a confidence threshold and reach your users unreviewed.</sub></td>
-<td valign="top"><h3>21 ms on a CPU</h3><sub>18 times faster than Laya, no GPU. The 89 MB model ships inside the package: nothing is downloaded at run time.</sub></td>
-<td valign="top"><h3>Same input, same answer</h3><sub>The order of the options never changes the decision; Laya's changes in 15% of cases. Same decisions on Linux, macOS and Windows, tested on every change.</sub></td>
+<td valign="top"><h3>89 MB, no GPU</h3><sub>The model ships inside the package: nothing is downloaded at run time. Strands Decider needs 4.8 GB and a GPU; Clef-flash 19 GB.</sub></td>
+<td valign="top"><h3>42 ms on a CPU</h3><sub>Median on the tests above, on 2 CPU cores. On the same CPU, Strands Decider takes 6.8 s per decision.</sub></td>
+<td valign="top"><h3>Same input, same answer</h3><sub>The order of the options never changes the decision; Strands Decider's changes in 7% of cases, and in 13% of support tickets whose own queue is not on the list. Same decisions on Linux, macOS and Windows, tested on every change.</sub></td>
 <td valign="top"><h3>25 languages</h3><sub>EU languages in the Latin script, plus Catalan, Basque and Galician. <a href="https://github.com/Javihaus/zeropoint/blob/main/LANGUAGES.md">Which ones, and why</a>.</sub></td>
 </tr>
 </table>

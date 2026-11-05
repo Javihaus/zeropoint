@@ -1,0 +1,17 @@
+{
+ "python": "3.13.17",
+ "machine": "x86_64",
+ "system": "Linux",
+ "threads": 2,
+ "cpus": 2,
+ "device": "cpu",
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+ "zeropoint_code": "1.0.0",
+ "zeropoint": "0.1.0",
+ "onnxruntime": "1.31.1",
+ "numpy": "2.5.4",
+ "strands-decider": "0.2.0",
+ "transformers": "5.22.1",
+ "peft": "0.21.2",
+ "torch": "2.15.0+cpu"
+}
