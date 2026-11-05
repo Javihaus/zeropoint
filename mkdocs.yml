@@ -1,5 +1,5 @@
 site_name: ZeroPoint
-site_description: An energy-based decision engine that chooses among options, or says that none of them fits.
+site_description: A CPU-first, energy-based decision model that chooses among options, or says that none of them fits.
 site_url: https://javihaus.github.io/zeropoint/
 repo_url: https://github.com/Javihaus/zeropoint
 repo_name: Javihaus/zeropoint

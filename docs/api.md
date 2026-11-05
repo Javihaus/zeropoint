@@ -30,11 +30,12 @@ an option are outside the Latin script.
 Decides several texts. `options` is one list for all texts, or one list per text. Returns a list of `Decision`,
 each exactly what `decide` gives for that text alone.
 
-## `ZeroPoint.fit(texts, labels, *, groups=None, steps=200, frozen_layers=8, seed=0, threads=None)`
+## `ZeroPoint.fit(texts, labels, *, groups=None, steps=200, frozen_layers=8, seed=0, threads=None, lr=3e-5, batch=16)`
 
 Adapts the model to your labelled texts. `labels` holds the right option for each text, or `None` for texts that
 fit none of them. Returns `(model, report)`; the report compares the model before and after on a held-out 20% of
-the examples. Needs `pip install "zeropoint[fit]"`. See [Adapting to your labels](calibration.md).
+the examples. Raises `ValueError` with fewer than two different labels or fewer than 20 examples left for
+training after the held-out 20%. Needs `pip install "zeropoint[fit]"`. See [Adapting to your labels](calibration.md).
 
 ## `ZeroPoint.recalibrate(texts, labels, *, groups=None, seed=0)`
 

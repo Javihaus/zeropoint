@@ -41,6 +41,8 @@ What `fit` does:
 | `frozen_layers` | 8 | encoder layers that stay as shipped (0 to 12); fewer frozen layers learn more and need more data |
 | `seed` | 0 | random seed |
 | `threads` | the model's | CPU threads for training |
+| `lr` | 3e-5 | learning rate of the encoder layers and the head |
+| `batch` | 16 | lists per training step |
 
 ## Only the balance between acting and *none*
 

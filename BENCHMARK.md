@@ -314,7 +314,7 @@ ZeroPoint has seen. Per-test values, FPR95 and AUROC: [the full tables](benchmar
 ## The same answers on every machine
 
 On every change, CI runs 500 reference cases on Linux x86, Linux ARM, macOS (Apple silicon) and Windows, with
-Python 3.10 to 3.13. The decisions are the same on all of them, and every probability agrees with the reference to
+Python 3.10, 3.13 and 3.14. The decisions are the same on all of them, and every probability agrees with the reference to
 within 3 millionths.
 
 ## Limits
