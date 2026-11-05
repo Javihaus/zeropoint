@@ -50,12 +50,15 @@ ZeroPoint can answer *none* with confidence.
 
 <sub>Measured on the three tests no model is likely to have seen in training: a 2,000-case test and two
 support-ticket tests, 300 cases of each, 900 in all, half of them with no right option. ZeroPoint, Semantic Router
-and zero-shot NLI on a 2-core CPU with 2 threads, one case at a time; Strands Decider and Clef-flash on an NVIDIA L4
-GPU. Semantic Router 1.1.1 with its default encoder; zero-shot NLI with DeBERTa-v3-base. ¹ AWS, Apache 2.0, and
-² Cloudflare, Apache 2.0, each with "None of these" added to every list as one more option, so that it can answer
-<i>none</i>. ³ Strands Decider rarely states 90% confidence, even when it is right: 37% of its right answers, against
-66% for ZeroPoint. ⁴ Semantic Router gives similarities, not probabilities. ⁵ On the same 2-core CPU, Strands
-Decider takes 6.8 s per decision and ZeroPoint 18 ms. ⁶ Results estimated in the lower band Per-test results, other confidence thresholds and the scripts to run it all agai. Results can be found [here](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).</sub>
+and zero-shot NLI on a 2-core CPU with 2 threads, one case at a time. Semantic Router 1.1.1 with its default
+encoder; zero-shot NLI with DeBERTa-v3-base. ¹ AWS, Apache 2.0, and ² Cloudflare, Apache 2.0, each with "None of
+these" added to every list as one more option, so that it can answer <i>none</i>. ³ Strands Decider rarely states
+90% confidence, even when it is right: 37% of its right answers, against 66% for ZeroPoint. ⁴ Semantic Router gives
+similarities, not probabilities. ⁵ On a CPU: measured on another 2-core CPU, on 118 cases of the 2,000-case test,
+where ZeroPoint takes 18 ms. On a GPU: an NVIDIA L4, on the 900 cases. ⁶ On a CPU: not measured, because
+Clef-flash needs about 19 GB of memory; a lower bound estimated from its size, 4.5 times that of Strands Decider.
+On a GPU: an NVIDIA L4, on the 900 cases. Per-test results, other confidence thresholds and the scripts to run it
+all again: <a href="https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md">BENCHMARK.md</a>.</sub>
 
 <br>
 
