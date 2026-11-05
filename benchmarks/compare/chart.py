@@ -2,16 +2,15 @@
 
     python chart.py                      # reads results/summary.json, writes ../../assets/decision-models-chart.png
 
-Drawn in the format of the earlier ZeroPoint charts: 2400 x 1600 px, transparent background, Archivo (OFL, in
-fonts/), the same zones and marker sizes. Every value comes from results/summary.json, written by
+Drawn in the format of the earlier ZeroPoint charts: 2400 x 1600 px, Archivo (OFL, in fonts/), the same marker
+sizes; white background, two axes and one colour scale. Every value comes from results/summary.json, written by
 report.py; nothing is typed in by hand.
 
   x       median latency on a CPU (log scale); the LLMs are called from a CPU, network included; Strands Decider
           from cpu_latency.py; Clef-flash needs a GPU and is left out
   y       right decision, none included, on the 900 cases
-  fill    silent mistakes: an option picked with probability 0.9 or more when none is right (white: no
+  colour  silent mistakes: an option picked with probability 0.9 or more when none is right (white: no
           probabilities)
-  ring    a second ring: the answer changes when the same options come in another order; dashed: not measured
 """
 
 import json
@@ -22,7 +21,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import font_manager as fm
 from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.patches import Rectangle
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 for w in ["400Regular", "500Medium", "600SemiBold"]:
@@ -33,10 +31,7 @@ plt.rcParams.update({"font.family": "Archivo"})
 
 DPI = 120
 px = lambda v: v * 72 / DPI                         # size in pixels -> points
-BLUE, LINE, ORANGE, LIGHT = "#2f5f9e", "#4f7cb8", "#d9622f", "#a9c1e0"
-ZONE_GREEN, ZONE_AMBER, ZONE_RED = (75 / 255, 174 / 255, 124 / 255, 0.16), (224 / 255, 168 / 255, 81 / 255, 0.16), \
-    (214 / 255, 82 / 255, 107 / 255, 0.12)
-TXT_GREEN, TXT_AMBER, TXT_RED = "#3f9c6c", "#c48a35", "#c9566a"
+BLUE, LINE, ORANGE, LIGHT = "#1f4a85", "#3d679f", "#d9622f", "#a9c1e0"
 BIG = px(58) ** 2
 SILENT = LinearSegmentedColormap.from_list("silent", ["#fdeee4", "#e8894f", "#9c3412"])
 SILENT_MAX = 0.30
@@ -57,29 +52,15 @@ def main(summary_path=os.path.join(HERE, "results", "summary.json"),
          out_path=os.path.join(HERE, "..", "..", "assets", "decision-models-chart.png")):
     S = json.load(open(summary_path, encoding="utf-8"))
     C = S["llm_comparison"]["systems"]
-    tests = S["llm_comparison"]["tests"]
-
-    def order(s):
-        v = [S["systems"][s]["tests"].get(t, {}).get("order_changed") for t in tests]
-        return None if any(x is None for x in v) else sum(v) / len(v)
 
     fig = plt.figure(figsize=(2400 / DPI, 1600 / DPI), dpi=DPI)
     ax = fig.add_axes([240 / 2400, 260 / 1600, 1800 / 2400, 1222 / 1600])
     ax.set_xscale("log")
     ax.set_xlim(10, 20000)
     ax.set_ylim(0.1, 0.7)
-    ax.patch.set_alpha(0)
+    ax.set_facecolor("white")
 
-    # human response-time limits: under 0.1 s feels instant, under 1 s keeps the flow, over 1 s is a wait
-    ax.add_patch(Rectangle((10, 0.1), 90, 0.6, color=ZONE_GREEN, lw=0, zorder=0))
-    ax.add_patch(Rectangle((100, 0.1), 900, 0.6, color=ZONE_AMBER, lw=0, zorder=0))
-    ax.add_patch(Rectangle((1000, 0.1), 19000, 0.6, color=ZONE_RED, lw=0, zorder=0))
-    ax.grid(color=LINE, alpha=0.22, lw=px(2), zorder=0.5)
-    for x in (100, 1000):
-        ax.axvline(x, color=LINE, lw=px(2), dashes=(5, 5), zorder=1)
-    ax.text(12, 0.11, "instant", fontsize=px(36), color=TXT_GREEN, weight="semibold")
-    ax.text(115, 0.11, "a pause", fontsize=px(36), color=TXT_AMBER, weight="semibold")
-    ax.text(17500, 0.11, "a wait", fontsize=px(36), color=TXT_RED, weight="semibold", ha="right")
+    ax.grid(color=LINE, alpha=0.18, lw=px(2), zorder=0.5)
 
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
@@ -100,21 +81,9 @@ def main(summary_path=os.path.join(HERE, "results", "summary.json"),
     fig.text(244 / 2400, 1 - 30 / 1600, "How often it is right, and how long it takes on a CPU  ·  900 new cases",
              fontsize=px(52), color=BLUE, weight="semibold", va="top")
 
-    def dot(x, y, silent, ring, zorder=4):
+    def dot(x, y, silent, zorder=4):
         fill = "white" if silent is None else SILENT(min(silent, SILENT_MAX) / SILENT_MAX)
         ax.scatter([x], [y], s=BIG, color=fill, edgecolor=BLUE, lw=px(3), zorder=zorder)
-        if ring == "changes":
-            ax.scatter([x], [y], s=(px(58) + px(26)) ** 2, facecolor="none", edgecolor=BLUE, lw=px(4),
-                       zorder=zorder)
-        elif ring == "not measured":
-            ax.scatter([x], [y], s=(px(58) + px(26)) ** 2, facecolor="none", edgecolor=LINE, lw=px(3),
-                       linestyle=(0, (2, 2)), zorder=zorder)
-
-    def ring_of(s):
-        if s.startswith("llm_"):
-            return "not measured"
-        o = order(s)
-        return "changes" if o and o > 0 else None
 
     def label(key, sub, color=BLUE):
         text, (lx, ly), ha, va = LABELS[key]
@@ -129,27 +98,27 @@ def main(summary_path=os.path.join(HERE, "results", "summary.json"),
     pct = lambda v: f"{100 * v:.1f}%"
     for s in ["zeropoint", "laya_none", "semantic_router", "nli"]:
         r = C[s]
-        dot(r["ms_median"], r["right"], r["silent"], ring_of(s))
+        dot(r["ms_median"], r["right"], r["silent"])
         sub = f"{pct(r['right'])} · {r['ms_median']:,.0f} ms"
         label(s, sub, ORANGE if s == "zeropoint" else BLUE)
 
     st = C["strands_none"]
     cpu = S.get("cpu_latency", {}).get("strands_none", {}).get("median")
     if cpu:
-        dot(cpu, st["right"], st["silent"], ring_of("strands_none"))
+        dot(cpu, st["right"], st["silent"])
         label("strands_cpu", f"{pct(st['right'])} · {cpu / 1000:.1f} s")
 
     for group, key in [("llm_claude", "claude"), ("llm_gpt", "gpt")]:
         members = [s for s in C if s.startswith(group)]
         for s in members:
-            dot(C[s]["ms_median"], C[s]["right"], C[s]["silent"], ring_of(s))
+            dot(C[s]["ms_median"], C[s]["right"], C[s]["silent"])
         lo = min(C[s]["right"] for s in members)
         hi = max(C[s]["right"] for s in members)
         t0 = min(C[s]["ms_median"] for s in members)
         t1 = max(C[s]["ms_median"] for s in members)
         label(key, f"{pct(lo)}–{pct(hi)} · {t0 / 1000:.1f}–{t1 / 1000:.1f} s")
 
-    # legend: fill = silent mistakes, rings = order
+    # colour scale: silent mistakes
     cax = fig.add_axes([2215 / 2400, 560 / 1600, 28 / 2400, 760 / 1600])
     grad = [[i / 255] for i in range(256)]
     cax.imshow(grad, aspect="auto", cmap=SILENT, origin="lower", extent=(0, 1, 0, SILENT_MAX))
@@ -163,21 +132,13 @@ def main(summary_path=os.path.join(HERE, "results", "summary.json"),
     fig.text(2229 / 2400, (560 + 760 + 24) / 1600, "silent\nmistakes", fontsize=px(30), color=BLUE,
              weight="semibold", ha="center", va="bottom", linespacing=1.1)
 
-    lx, ly = 13, 0.40
-    dot(lx, ly, 0.0, None, zorder=6)
-    ax.text(lx * 1.35, ly, "same answer whatever the order", fontsize=px(31.6), color=LINE, va="center", zorder=6)
-    dot(lx, ly - 0.045, 0.0, "changes", zorder=6)
-    ax.text(lx * 1.35, ly - 0.045, "changes with the order", fontsize=px(31.6), color=LINE, va="center", zorder=6)
-    dot(lx, ly - 0.09, 0.0, "not measured", zorder=6)
-    ax.text(lx * 1.35, ly - 0.09, "order not measured", fontsize=px(31.6), color=LINE, va="center", zorder=6)
-
     L = S.get("cpu_latency", {})
     zp_same = L.get("zeropoint", {}).get("median")
     note = ("¹ " + f"on another 2-core CPU, {L.get('cases', 0)} cases of the 2,000-case test, where ZeroPoint takes "
             f"{zp_same:.0f} ms" if zp_same else "")
     fig.text(244 / 2400, 22 / 1600, note + ".\nClef-flash needs a GPU: not measured on a CPU.  API: called from a "
              "CPU, network included.", fontsize=px(28), color=LINE, va="bottom", linespacing=1.4)
-    fig.savefig(out_path, dpi=DPI, transparent=True)
+    fig.savefig(out_path, dpi=DPI, facecolor="white")
 
 
 if __name__ == "__main__":
