@@ -1,0 +1,57 @@
+{
+ "full_train": {
+  "lists": 76211,
+  "none_share": 0.3019249189749511,
+  "long_share_gt20": 0.05211846058967866,
+  "options_mean": 12.237275458923252,
+  "options_max": 149,
+  "kinds": {
+   "gold": 43470,
+   "synth_gold": 9731,
+   "none_other_pool": 9230,
+   "none_removed": 9300,
+   "synth_none": 4480
+  }
+ },
+ "train_subset": {
+  "lists": 30000,
+  "none_share": 0.3010333333333333,
+  "long_share_gt20": 0.05173333333333333,
+  "options_mean": 12.2476,
+  "options_max": 149,
+  "kinds": {
+   "gold": 17108,
+   "synth_gold": 3861,
+   "none_removed": 3664,
+   "none_other_pool": 3613,
+   "synth_none": 1754
+  }
+ },
+ "dev_stop": {
+  "lists": 1281,
+  "none_share": 0.30991412958626074,
+  "long_share_gt20": 0.0507416081186573,
+  "options_mean": 12.260733801717409,
+  "options_max": 141,
+  "kinds": {
+   "none_removed": 151,
+   "gold": 713,
+   "none_other_pool": 154,
+   "synth_gold": 171,
+   "synth_none": 92
+  }
+ },
+ "dev_cal": {
+  "lists": 982,
+  "none_share": 0.2769857433808554,
+  "long_share_gt20": 0.04684317718940937,
+  "options_mean": 13.104887983706721,
+  "options_max": 139,
+  "kinds": {
+   "gold": 710,
+   "none_removed": 140,
+   "none_other_pool": 132
+  }
+ },
+ "subset_seed": 13
+}

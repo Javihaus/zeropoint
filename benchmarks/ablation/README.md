@@ -22,3 +22,15 @@ Column names:
 
 `tickets_real` in `run2/none_results.csv` is a test of 100 tickets written with a language model. It is not valid:
 text length alone separates it (AUROC 0.84), so it is kept here only for completeness and is not used in the paper.
+
+## Output-layer ablation on the released architecture
+
+`output_layer/` repeats the comparison on ZeroPoint 1.0 without retraining the whole model. The encoder is frozen and
+only the output layer is trained, so every variant shares the same features and the same 30,000 training lists. Two
+encoders are used: the released one (through the PyPI package) and the original multilingual-e5-small. Five output
+layers, five seeds each: the fixed zero, the same with `e^{a/T}` instead of `e^{a/T} - 1`, a learned rejection class,
+a softmax with a threshold, and the fixed zero with ReLU depths. Table 2 and Table 3 of the paper come from
+`results/summary.json` and `results/paired.json`. `results/PROTOCOL.md` was written before any result.
+`results/depths.json` measures how far the released model's softplus depths are from zero.
+
+    bash scripts/driver.sh     # resumable; expects the training archive unzipped in data_zip/
