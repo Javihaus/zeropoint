@@ -10,7 +10,7 @@ version is published.
 
 ## [Unreleased]
 
-## [1.0.0] - 2026-11-04
+## [1.0.0] - 2026-11-05
 
 1.0 is a new model and a new, smaller API. Code written for 0.x needs the changes listed under
 *Moving from 0.x*.
@@ -32,8 +32,10 @@ version is published.
   seed and threads.
 - `ZeroPoint.recalibrate(texts, labels)`: refits only the temperature and the *none* level, without PyTorch.
 - `Decision.depths`, `Decision.text_truncated`, `Decision.options_truncated`, `Decision.blocks`.
-- `benchmarks/compare`: ZeroPoint, Laya with and without "None of these", Semantic Router and zero-shot NLI on
-  eight tests, on one machine, with the scripts to run it all again and every per-case output.
+- `benchmarks/compare` and `benchmarks/llm`: ZeroPoint against Strands Decider 2B, Clef-flash, Laya, Semantic
+  Router, zero-shot NLI and six hosted LLMs, on three tests no model is likely to have seen, and against the CPU
+  systems on eight tests; with every per-case output and the scripts and notebooks to run it all again.
+  `report.py` writes the tables of BENCHMARK.md.
 - `LANGUAGES.md`: the supported languages, why these, and what happens with the others.
 - `docs/training-data.md`: the training data, all under licences that allow commercial use.
 
