@@ -54,7 +54,7 @@ def main(summary_path=os.path.join(HERE, "results", "summary.json"),
     C = S["llm_comparison"]["systems"]
 
     fig = plt.figure(figsize=(2400 / DPI, 1600 / DPI), dpi=DPI)
-    ax = fig.add_axes([240 / 2400, 260 / 1600, 1800 / 2400, 1222 / 1600])
+    ax = fig.add_axes([250 / 2400, 285 / 1600, 1790 / 2400, 1125 / 1600])
     ax.set_xscale("log")
     ax.set_xlim(10, 20000)
     ax.set_ylim(0.1, 0.7)
@@ -73,11 +73,11 @@ def main(summary_path=os.path.join(HERE, "results", "summary.json"),
     ax.minorticks_off()
     ax.set_yticks([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7])
     ax.set_yticklabels(["10%", "20%", "30%", "40%", "50%", "60%", "70%"])
-    ax.tick_params(colors=BLUE, labelsize=px(34), length=0, pad=px(22))
+    ax.tick_params(colors=BLUE, labelsize=px(40), length=0, pad=px(22))
     for t in ax.get_xticklabels() + ax.get_yticklabels():
         t.set_fontweight("medium")
-    ax.set_xlabel("Latency in CPU", fontsize=px(40), color=BLUE, weight="medium", labelpad=px(36))
-    ax.set_ylabel("Accuracy", fontsize=px(40), color=BLUE, weight="medium", labelpad=px(40))
+    ax.set_xlabel("Latency in CPU", fontsize=px(47), color=BLUE, weight="medium", labelpad=px(30))
+    ax.set_ylabel("Accuracy", fontsize=px(47), color=BLUE, weight="medium", labelpad=px(34))
     fig.text(244 / 2400, 1 - 30 / 1600, "How often it is right, and how long it takes on a CPU  ·  900 new cases",
              fontsize=px(52), color=BLUE, weight="semibold", va="top")
 
@@ -119,17 +119,17 @@ def main(summary_path=os.path.join(HERE, "results", "summary.json"),
         label(key, f"{pct(lo)}–{pct(hi)} · {t0 / 1000:.1f}–{t1 / 1000:.1f} s")
 
     # colour scale: silent mistakes
-    cax = fig.add_axes([2215 / 2400, 560 / 1600, 28 / 2400, 760 / 1600])
+    cax = fig.add_axes([2215 / 2400, 520 / 1600, 30 / 2400, 720 / 1600])
     grad = [[i / 255] for i in range(256)]
     cax.imshow(grad, aspect="auto", cmap=SILENT, origin="lower", extent=(0, 1, 0, SILENT_MAX))
     cax.set_xticks([])
     cax.yaxis.tick_right()
     cax.set_yticks([0, 0.1, 0.2, 0.3])
     cax.set_yticklabels(["0%", "10%", "20%", "30%"])
-    cax.tick_params(colors=BLUE, labelsize=px(30), length=0, pad=px(12))
+    cax.tick_params(colors=BLUE, labelsize=px(35), length=0, pad=px(12))
     for sp in cax.spines.values():
         sp.set_visible(False)
-    fig.text(2229 / 2400, (560 + 760 + 24) / 1600, "silent\nmistakes", fontsize=px(30), color=BLUE,
+    fig.text(2230 / 2400, (520 + 720 + 28) / 1600, "silent\nmistakes", fontsize=px(35), color=BLUE,
              weight="semibold", ha="center", va="bottom", linespacing=1.1)
 
     L = S.get("cpu_latency", {})
