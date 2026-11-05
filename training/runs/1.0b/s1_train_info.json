@@ -1,0 +1,30 @@
+{
+ "seed": 1,
+ "epochs": 2,
+ "train_seconds": 1543.5153005123138,
+ "device": "cuda",
+ "gpu": "NVIDIA L4",
+ "dev_loss": 0.4182332002426532,
+ "torch": "2.11.0+cu130",
+ "transformers": "5.22.0",
+ "model": "intfloat/multilingual-e5-small",
+ "args": {
+  "cmd": "train",
+  "model": "intfloat/multilingual-e5-small",
+  "seed": 1,
+  "epochs": 2,
+  "n_base": 50000,
+  "n_broad": 12000,
+  "synth_repeat": 3,
+  "batch": 16,
+  "lr": 3e-05,
+  "text_len": 192,
+  "opt_len": 16,
+  "chunk": 32,
+  "none_share": 0.3,
+  "fit_steps": 400,
+  "ckpt": "results/s0.pt",
+  "limit": 0
+ },
+ "sha256": "6f4f2d700ca99196ccfbe776e19745eac000dd2554ef2b50006307139812972f"
+}

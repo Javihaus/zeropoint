@@ -1,0 +1,13 @@
+items,system,accuracy
+tickets_ans9,laya,0.48411497730711045
+tickets_ans9,boltz,0.4130105900151286
+tickets_ans9,softmax,0.40771558245083206
+tickets_ans9,sim,0.4130105900151286
+triage_8opt,laya,0.46
+triage_8opt,boltz,0.446875
+triage_8opt,softmax,0.434375
+triage_8opt,sim,0.35125
+clinc_ans,laya,0.95
+clinc_ans,boltz,0.9825
+clinc_ans,softmax,0.983125
+clinc_ans,sim,0.84125

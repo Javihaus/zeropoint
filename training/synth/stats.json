@@ -1,0 +1,391 @@
+{
+ "rows": 5000,
+ "by_family_lang": {
+  "ticket/en": 1500,
+  "ticket/es": 700,
+  "negation/en": 1100,
+  "negation/es": 500,
+  "category/en": 900,
+  "category/es": 300
+ },
+ "null_labels": 138,
+ "verbatim_label": 27,
+ "words": {
+  "ticket": {
+   "min": 25,
+   "median": 44.0,
+   "max": 134
+  },
+  "negation": {
+   "min": 7,
+   "median": 17.0,
+   "max": 34
+  },
+  "category": {
+   "min": 4,
+   "median": 9.0,
+   "max": 23
+  }
+ },
+ "labels_per_pool": {
+  "tk_saas": {
+   "Login and Access": 22,
+   "Invoices and Refunds": 22,
+   "Bug Reports": 27,
+   "Feature Requests": 21,
+   "Plan Upgrades and Downgrades": 22,
+   "Data Export and Privacy": 23,
+   "API and Integrations": 21,
+   "Account Closure": 20,
+   "Onboarding and Training": 22
+  },
+  "tk_internal": {
+   "IT Helpdesk": 26,
+   "People Team": 23,
+   "Facilities": 23,
+   "Payroll": 22,
+   "Procurement": 21,
+   "Legal Counsel": 21,
+   "Travel Desk": 21,
+   "Information Security": 22,
+   "Expense Claims": 21
+  },
+  "tk_ecommerce": {
+   "Delivery Problems": 22,
+   "Refund Requests": 24,
+   "Coupons and Promotions": 21,
+   "Damaged or Wrong Item": 22,
+   "Order Tracking": 23,
+   "Marketplace Sellers": 23,
+   "Product Questions": 22,
+   "Customer Account": 23,
+   "Warranty Claims": 21
+  },
+  "tk_bank": {
+   "Debit and Credit Cards": 30,
+   "Loans and Mortgages": 24,
+   "Online Banking Access": 25,
+   "Fraud and Disputes": 23,
+   "Savings and Investments": 26,
+   "Business Banking": 24,
+   "International Payments": 23,
+   "Formal Complaints": 24
+  },
+  "tk_telco": {
+   "Network Faults": 21,
+   "Bill Disputes": 21,
+   "Phones and SIM Cards": 25,
+   "Plan Changes": 22,
+   "Broadband Installation": 21,
+   "Number Transfer": 21,
+   "Contract Cancellation": 22,
+   "Roaming": 22
+  },
+  "tk_utility": {
+   "Meter Readings": 23,
+   "Power Cuts": 21,
+   "Tariffs and Contracts": 22,
+   "Payment Arrangements": 21,
+   "New Connections": 22,
+   "Gas Leaks and Emergencies": 23,
+   "Solar Export Payments": 22,
+   "Moving Home": 21
+  },
+  "tk_university": {
+   "Admissions Office": 23,
+   "Registrar": 21,
+   "Financial Aid": 21,
+   "Student Housing": 21,
+   "Library": 21,
+   "Campus IT": 25,
+   "Exams and Grades": 22,
+   "International Students Office": 21
+  },
+  "tk_clinic": {
+   "Appointments": 28,
+   "Medical Records Requests": 21,
+   "Insurance and Billing Office": 28,
+   "Prescription Renewals": 28,
+   "Patient Relations": 25,
+   "Visitor Information": 21,
+   "Test Results Enquiries": 24
+  },
+  "tk_es_telco": {
+   "Averías de red": 22,
+   "Facturación": 21,
+   "Portabilidad": 16,
+   "Cambio de tarifa": 18,
+   "Instalación de fibra": 17,
+   "Terminales y tarjetas SIM": 17,
+   "Baja de contrato": 14,
+   "Itinerancia": 15
+  },
+  "tk_es_interno": {
+   "Notas de gastos": 15,
+   "Soporte informático": 19,
+   "Personas y Cultura": 18,
+   "Mantenimiento de oficinas": 15,
+   "Nóminas": 14,
+   "Ciberseguridad": 17,
+   "Compras": 14,
+   "Asesoría jurídica": 14,
+   "Viajes de empresa": 14
+  },
+  "tk_es_tienda": {
+   "Producto defectuoso": 19,
+   "Estado del pedido": 19,
+   "Devoluciones y reembolsos": 18,
+   "Cupones y promociones": 16,
+   "Incidencias de envío": 18,
+   "Cuenta de cliente": 17,
+   "Facturas": 15,
+   "Garantías": 18
+  },
+  "tk_es_ayuntamiento": {
+   "Padrón municipal": 18,
+   "Multas de tráfico": 16,
+   "Licencias de obra": 19,
+   "Limpieza y residuos": 21,
+   "Impuestos y tasas municipales": 17,
+   "Ayudas y subvenciones": 18,
+   "Cita previa": 16,
+   "Registro general": 15
+  },
+  "tk_es_seguros": {
+   "Partes de siniestro": 24,
+   "Recibos y pagos": 21,
+   "Asistencia en carretera": 21,
+   "Pólizas y coberturas": 21,
+   "Nuevas contrataciones": 19,
+   "Reclamaciones formales": 20,
+   "Cambio de datos del asegurado": 14
+  },
+  "ng_travel": {
+   "change a flight": 14,
+   "reserve a hotel room": 15,
+   "check flight status": 18,
+   "ask about baggage allowance": 17,
+   "get travel insurance": 16,
+   "rent a car": 22,
+   "cancel a hotel booking": 12,
+   "request a refund for a trip": 16,
+   "None": 17,
+   "report lost baggage": 16,
+   "book a flight": 17,
+   "change hotel dates": 13,
+   "cancel a flight": 11
+  },
+  "ng_banking": {
+   "block a card": 14,
+   "transfer money": 19,
+   "dispute a charge": 15,
+   "None": 16,
+   "open a savings account": 18,
+   "check account balance": 16,
+   "increase the credit limit": 13,
+   "close an account": 16,
+   "set up a direct debit": 17,
+   "change the card PIN": 16,
+   "see recent transactions": 14,
+   "order a new card": 12,
+   "pay a bill": 12
+  },
+  "ng_home": {
+   "turn the lights off": 12,
+   "None": 24,
+   "change the thermostat": 16,
+   "start the robot vacuum": 15,
+   "cancel an alarm": 12,
+   "play music in a room": 16,
+   "start a countdown": 12,
+   "add a shopping list item": 17,
+   "lock the front door": 14,
+   "dim the lights": 12,
+   "turn the lights on": 17,
+   "check the security camera": 17,
+   "set an alarm": 14
+  },
+  "ng_shopping": {
+   "ask for a refund": 15,
+   "track an order": 18,
+   "change the delivery address": 15,
+   "exchange an item for another size": 16,
+   "apply a discount code": 14,
+   "reorder a past purchase": 14,
+   "update payment details": 15,
+   "contact the seller": 17,
+   "None": 13,
+   "cancel an order": 15,
+   "return an item": 15
+  },
+  "ng_work": {
+   "move a meeting": 16,
+   "cancel a meeting": 14,
+   "schedule a meeting": 15,
+   "book a meeting room": 15,
+   "request time off": 15,
+   "check remaining vacation days": 15,
+   "submit an expense": 16,
+   "request new equipment": 15,
+   "reset a password": 14,
+   "send an email": 16,
+   "None": 14
+  },
+  "ng_food": {
+   "track a food delivery": 17,
+   "cancel a food order": 16,
+   "book a restaurant table": 16,
+   "order food delivery": 18,
+   "cancel a restaurant booking": 19,
+   "find a recipe": 16,
+   "check nutrition facts": 17,
+   "ask about allergens": 18,
+   "leave a restaurant review": 17,
+   "None": 14
+  },
+  "ng_es_compras": {
+   "repetir un pedido anterior": 10,
+   "pedir un reembolso": 12,
+   "cambiar la dirección de entrega": 12,
+   "aplicar un código de descuento": 10,
+   "cancelar un pedido": 12,
+   "contactar con el vendedor": 11,
+   "None": 10,
+   "actualizar los datos de pago": 10,
+   "seguir un pedido": 14,
+   "devolver un artículo": 13,
+   "cambiar un artículo por otra talla": 11
+  },
+  "ng_es_viajes": {
+   "pedir el reembolso de un viaje": 10,
+   "None": 10,
+   "reservar una habitación de hotel": 13,
+   "anular una reserva de hotel": 10,
+   "consultar el estado del vuelo": 10,
+   "alquilar un coche": 11,
+   "reclamar una maleta perdida": 10,
+   "consultar el equipaje permitido": 10,
+   "cambiar las fechas del hotel": 10,
+   "cambiar un vuelo": 11,
+   "cancelar un vuelo": 10,
+   "comprar un billete de avión": 10
+  },
+  "ng_es_hogar": {
+   "cerrar la puerta con llave": 10,
+   "apagar las luces": 9,
+   "poner música en una habitación": 10,
+   "poner un temporizador": 10,
+   "poner una alarma": 10,
+   "quitar una alarma": 9,
+   "cambiar la temperatura": 10,
+   "bajar la intensidad de las luces": 9,
+   "ver la cámara de seguridad": 9,
+   "encender las luces": 10,
+   "None": 10,
+   "añadir algo a la lista de la compra": 10,
+   "poner en marcha el robot aspirador": 9
+  },
+  "ng_es_banca": {
+   "pedir una tarjeta nueva": 9,
+   "cambiar el PIN": 9,
+   "reclamar un cargo": 10,
+   "abrir una cuenta de ahorro": 10,
+   "ampliar el límite de crédito": 9,
+   "pagar un recibo": 9,
+   "hacer una transferencia": 10,
+   "cancelar una cuenta": 9,
+   "ver los últimos movimientos": 10,
+   "bloquear una tarjeta": 10,
+   "consultar el saldo": 10,
+   "domiciliar un recibo": 10,
+   "None": 10
+  },
+  "ab_entertainment": {
+   "Films and Series": 24,
+   "Music Listening": 26,
+   "Books and Literature": 27,
+   "Live Shows and Cinemas": 27,
+   "Video Games": 24,
+   "Podcasts and Radio": 25,
+   "Reviews and Ratings": 27
+  },
+  "ab_places": {
+   "Eating Out": 32,
+   "Accommodation": 29,
+   "Getting Around": 32,
+   "Weather and Outdoors": 30,
+   "Local Services": 28,
+   "Sightseeing": 29
+  },
+  "ab_household": {
+   "Home Devices": 33,
+   "Cooking": 31,
+   "Groceries": 29,
+   "Cleaning": 30,
+   "Garden": 27,
+   "Pets": 30
+  },
+  "ab_life_admin": {
+   "Money": 30,
+   "Health and Fitness": 33,
+   "Work and Career": 27,
+   "Learning": 31,
+   "Family and Friends": 28,
+   "Paperwork and Government": 31
+  },
+  "ab_info": {
+   "Sports Results": 25,
+   "News Headlines": 24,
+   "Science Facts": 26,
+   "History Questions": 28,
+   "Maths and Conversions": 25,
+   "Language and Words": 26,
+   "People and Celebrities": 26
+  },
+  "ab_es_ocio": {
+   "Escuchar música": 22,
+   "Libros": 21,
+   "Espectáculos en directo": 21,
+   "Videojuegos": 23,
+   "Pódcasts y radio": 21,
+   "Opiniones y valoraciones": 20,
+   "Cine y series": 22
+  },
+  "ab_es_dia": {
+   "Comer fuera": 19,
+   "Desplazamientos": 20,
+   "Tiempo y planes al aire libre": 18,
+   "Dinero": 19,
+   "Trámites y papeleo": 18,
+   "Alojamiento": 19,
+   "Casa y dispositivos": 18,
+   "Salud y deporte": 19
+  }
+ },
+ "rewrites": 525,
+ "score_gain": {
+  "2": 77,
+  "1": 92,
+  "3": 134,
+  "4": 112,
+  "5": 53,
+  "6": 21,
+  "0": 6,
+  "7": 24,
+  "8": 4,
+  "9": 1,
+  "10": 1
+ },
+ "test_similarity": {
+  "median": 0.8713235855102539,
+  "p99": 0.9099935293197632,
+  "max": 0.9191420674324036,
+  "at_or_above_threshold": 0
+ },
+ "modes": {
+  "worst": 25,
+  "best": 25
+ },
+ "mean_score_gain_per_rewrite": 3.2495238095238097,
+ "mean_total_score": 26.5318
+}
