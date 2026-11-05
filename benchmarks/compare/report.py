@@ -510,7 +510,8 @@ def fill_benchmark(B):
     path = os.path.join(HERE, "..", "..", "BENCHMARK.md")
     if not os.path.exists(path):
         return
-    text = open(path, encoding="utf-8").read()
+    with open(path, encoding="utf-8") as f:
+        text = f.read()
     for k, v in B.items():
         text = re.sub(rf"(<!-- table:{k} -->\n)(?:(?!<!-- table:).)*?(<!-- /table -->)",
                       lambda m: m.group(1) + v + "\n" + m.group(2), text, flags=re.S)

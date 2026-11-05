@@ -33,6 +33,8 @@ Output: out/<system>/<test>.json and out/<system>/<test>.shuffled.json, a list w
   ms      time for that case, in milliseconds
 """
 
+import importlib.metadata
+import importlib.util
 import json
 import os
 import platform
@@ -242,46 +244,51 @@ SYSTEMS = {
 }
 
 
-def environment():
-    import importlib.metadata as md
-    info = {"python": platform.python_version(), "machine": platform.machine(), "system": platform.system(),
-            "threads": THREADS, "cpus": os.cpu_count(), "device": DEVICE}
-    try:
+def has(module):
+    """True when `module` can be imported, without importing it."""
+    return importlib.util.find_spec(module) is not None
+
+
+def set_torch_threads():
+    """Torch-based systems use the same 2 threads as the others."""
+    if has("torch"):
         import torch
-        if torch.cuda.is_available():
-            info["gpu"] = torch.cuda.get_device_name(0)
-    except ImportError:
-        pass
-    try:
+        torch.set_num_threads(THREADS)
+        torch.set_num_interop_threads(1)
+
+
+def cpu_name():
+    if os.path.exists("/proc/cpuinfo"):
         with open("/proc/cpuinfo") as f:
             for line in f:
                 if line.startswith("model name"):
-                    info["cpu"] = line.split(":", 1)[1].strip()
-                    break
-    except OSError:
-        pass
-    try:                                   # the code actually imported, which may not be the installed copy
-        import zeropoint
-        info["zeropoint_code"] = zeropoint.__version__
-    except ImportError:
-        pass
+                    return line.split(":", 1)[1].strip()
+    return platform.processor() or None
+
+
+def environment():
+    info = {"python": platform.python_version(), "machine": platform.machine(), "system": platform.system(),
+            "threads": THREADS, "cpus": os.cpu_count(), "device": DEVICE}
+    if has("torch"):
+        import torch
+        if torch.cuda.is_available():
+            info["gpu"] = torch.cuda.get_device_name(0)
+    if cpu_name():
+        info["cpu"] = cpu_name()
+    if has("zeropoint"):                   # the code actually imported, which may not be the installed copy
+        from zeropoint import __version__ as zeropoint_code
+        info["zeropoint_code"] = zeropoint_code
+    installed = {d.metadata["Name"].lower().replace("_", "-"): d.version for d in importlib.metadata.distributions()}
     for p in ["zeropoint", "onnxruntime", "numpy", "laya", "semantic-router", "strands-decider", "transformers",
               "peft", "torch"]:
-        try:
-            info[p] = md.version(p)
-        except md.PackageNotFoundError:
-            pass
+        if p in installed:
+            info[p] = installed[p]
     return info
 
 
 def run(system, tests):
     build, sample_only = SYSTEMS[system]
-    try:                                                      # torch-based systems: the same 2 threads
-        import torch
-        torch.set_num_threads(THREADS)
-        torch.set_num_interop_threads(1)
-    except ImportError:
-        pass
+    set_torch_threads()
     out = os.path.join(HERE, "out", system)
     os.makedirs(out, exist_ok=True)
     with open(os.path.join(out, "environment.json"), "w") as f:

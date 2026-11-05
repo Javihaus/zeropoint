@@ -41,8 +41,8 @@ def cpu_name():
         if sys.platform == "darwin":
             return subprocess.run(["sysctl", "-n", "machdep.cpu.brand_string"], capture_output=True,
                                   text=True, check=False).stdout.strip()
-    except OSError:
-        pass
+    except OSError:                         # no /proc/cpuinfo or sysctl: fall back to what platform knows
+        return platform.processor() or platform.machine()
     return platform.processor() or platform.machine()
 
 

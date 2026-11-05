@@ -13,7 +13,7 @@ import os
 import sys
 import time
 
-from run import HERE, SYSTEMS, THREADS, environment, load, sample
+from run import HERE, SYSTEMS, environment, load, sample, set_torch_threads
 
 TEST = "bench2000"
 
@@ -23,12 +23,7 @@ def main(n):
     os.makedirs(out, exist_ok=True)
     items = load(TEST)
     idx = sample(items)[:n]
-    try:
-        import torch
-        torch.set_num_threads(THREADS)
-        torch.set_num_interop_threads(1)
-    except ImportError:
-        pass
+    set_torch_threads()
     for system in ("zeropoint", "strands_none"):
         path = os.path.join(out, f"{system}.jsonl")
         done = set()
