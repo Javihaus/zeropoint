@@ -4,9 +4,13 @@
 
 <br>
 
-# ZeroPoint: a lightweight System 1 decision engine
+# ZeroPoint: a CPU-first, energy-based decision model
 
-**Picks the option that fits, or says none does**
+**Picks the option that fits,**
+
+**or says none does,**
+
+**without being told that none is an option**
 
 <br>
 
@@ -35,11 +39,12 @@ ZeroPoint can answer *none* with confidence.
 </thead>
 <tbody>
 <tr><td><b>Accuracy</b>: right answer, <i>none</i> included</td><td>53.6%</td><td><b>58.6%</b></td><td>53.3%</td><td>19.4%</td><td>20.7%</td></tr>
-<tr><td><b>Same answer whatever the order</b>: decisions that change when the same options are listed in another order</td><td><b>0%</b></td><td>7.3%</td><td><b>0%</b></td><td>0.6%</td><td><b>0%</b></td></tr>
+<tr><td><b>Same answer whatever the order</b>: decisions that change when the same options are listed in another order</td><td><b>0%</b></td><td>7.3%</td><td>0%</td><td>0.6%</td><td><b>0%</b></td></tr>
 <tr><td><b>Accuracy</b> when one option is right</td><td>43.8%</td><td><b>58.4%</b></td><td>56.2%</td><td>38.9%</td><td>41.3%</td></tr>
-<tr><td><b>Silent mistakes</b>: no option fits, yet it answers with ≥ 90% confidence</td><td>7.8%</td><td><b>0.0%</b> ³</td><td>5.8%</td><td>– ⁴</td><td>22.2%</td></tr>
-<tr><td><b>Latency</b>, median</td><td>42 ms</td><td>93 ms ⁵</td><td>156 ms</td><td><b>17 ms</b></td><td>1,697 ms</td></tr>
-<tr><td><b>Runs on</b></td><td><b>CPU, 89 MB model inside the package</b></td><td>GPU, 4.8 GB</td><td>GPU, 19 GB</td><td>CPU, 91 MB</td><td>CPU or GPU, 369 MB</td></tr>
+<tr><td><b>Silent mistakes</b>: no option fits, yet it answers with ≥ 90% confidence</td><td>7.8%</td><td><b>0.0%</b>³</td><td>5.8%</td><td>– ⁴</td><td>22.2%</td></tr>
+<tr><td><b>Latency</b>, median on a CPU (on a GPU)</td><td><b>42 ms</b></td><td>6,770 ms (93 ms)⁵</td><td>+ 20,000 ms (156 ms)⁶</td><td><b>17 ms</b></td><td>1,697 ms</td></tr>
+<tr><td><b>Model size</b></td><td><b>89 MB</b></td><td>4.8 GB</td><td>19 GB</td><td>91 MB</td><td>369 MB</td></tr>
+<tr><td><b>Runs on</b></td><td><b>CPU</b></td><td>GPU</td><td>GPU</td><td>CPU</td><td>CPU or GPU</td></tr>
 </tbody>
 </table>
 
@@ -50,14 +55,13 @@ GPU. Semantic Router 1.1.1 with its default encoder; zero-shot NLI with DeBERTa-
 ² Cloudflare, Apache 2.0, each with "None of these" added to every list as one more option, so that it can answer
 <i>none</i>. ³ Strands Decider rarely states 90% confidence, even when it is right: 37% of its right answers, against
 66% for ZeroPoint. ⁴ Semantic Router gives similarities, not probabilities. ⁵ On the same 2-core CPU, Strands
-Decider takes 6.8 s per decision and ZeroPoint 18 ms. Per-test results, other confidence thresholds and the scripts
-to run it all again: [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).</sub>
+Decider takes 6.8 s per decision and ZeroPoint 18 ms. ⁶ Results estimated in the lower band Per-test results, other confidence thresholds and the scripts to run it all agai. Results can be found [here](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md).</sub>
 
 <br>
 
 > [!IMPORTANT]
-> Large LLMs, through an API, are right in 57–60% of these cases, a few points more than ZeroPoint, and take 18 to
-> 55 times longer. Strands Decider is as accurate as them, with a 2B model on a GPU.
+> Edge LLMs, through an API, are right in 57–60% of these cases, a few points more than ZeroPoint, and take 18 to
+> 55 times longer.
 > See the details [here](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md#the-hosted-llms).
 
 <br>
@@ -81,8 +85,8 @@ to run it all again: [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/m
 
 <br>
 
-> [!NOTE]
-> Routing a support ticket, finding the intent behind a request, sending a document to the right process: each means picking one option from a list. A classifier always picks something, even when the right option is not on the list or the text has nothing to do with the task. ZeroPoint can answer *none*, and the probability of *none* comes out of the same calculation as the probability of each option.
+
+Routing a support ticket, finding the intent behind a request, sending a document to the right process: each means picking one option from a list. A classifier always picks something, even when the right option is not on the list or the text has nothing to do with the task. ZeroPoint can answer *none*, and the probability of *none* comes out of the same calculation as the probability of each option.
 
 <br>
 
@@ -141,7 +145,7 @@ none              0.24  █████···············
 → facturación · 16 ms
 ```
 
-Documentation: [javihaus.github.io/zeropoint](https://javihaus.github.io/zeropoint/).
+See the Docs: [javihaus.github.io/zeropoint](https://javihaus.github.io/zeropoint/).
 
 <br>
 
@@ -173,13 +177,13 @@ The right threshold depends on what a wrong action costs you; pick it on a few h
 | `options_truncated` | options longer than 16 word pieces, whose end was ignored |
 | `latency_ms` | time the decision took |
 
+<br>
+
 > [!NOTE]
 > For many texts, `zp.decide_many(texts, options)` takes one list of options for all texts, or one list per text.
-Each text is computed on its own, so every result is exactly what `decide` gives for that text alone.
+Each text is computed on its own, so every result is exactly what `decide` gives for that text alone. Lists can be of any length. ZeroPoint reads the options in blocks of 20 together with the text, and every option's probability comes from one distribution over the whole list.
 
-> [!IMPORTANT]
-> Lists can be of any length. ZeroPoint reads the options in blocks of 20 together with the text, and every option's
-probability comes from one distribution over the whole list.
+<br>
 
 > [!TIP]
 > The option `ZeroPoint(threads=2)` sets how many CPU threads the encoder uses. The decisions do not depend on it.
@@ -214,20 +218,18 @@ answering *none*, `zp.recalibrate(texts, labels)` refits just two numbers, in se
 
 ## How it works
 
-<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/how-it-works.png" width="100%" alt="Which team should handle the message: Can I change my delivery address? The options Billing and Technical are energy wells; None of these is the flat ground at energy zero. The text lands on the ground, so ZeroPoint answers none with 0.96, while softmax splits it between billing 0.55 and technical 0.45.">
+<div align="center">
 
-ZeroPoint is an energy-based model, not a generative LLM. It does not write an answer: it measures one number 
-per option, its energy, which is lower the better the option fits the text. The text and all the options are
-read together, in one pass of a small multilingual encoder, so each option is measured against the text and 
-against the other options. *None of the options* is a state of its own, with its energy fixed at zero: the 
-flat ground around the wells the options form.
+<img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/how-it-works.png" width="75%" alt="Which team should handle the message: Can I change my delivery address? The options Billing and Technical are energy wells; None of these is the flat ground at energy zero. The text lands on the ground, so ZeroPoint answers none with 0.96, while softmax splits it between billing 0.55 and technical 0.45.">
 
-Energies become probabilities with Boltzmann’s rule, the rule physics uses for the states of a system. A 
-classifier applies it to the options alone, so one of them always wins, even when the text has nothing 
-to do with any of them. ZeroPoint applies it with the ground included, and counts each option only by 
-how far it falls below zero: an option that does not fall below the ground gets nothing, however many 
-such options there are. *None* is an answer in its own right, with its probability computed in the same 
-step as every option’s.
+</div>
+
+ZeroPoint is an energy-based model, in the sense of LeCun et al. (2006)¹. It does not write an answer. It gives each option an energy: a number that measures how compatible the option is with the text, low when they fit and high when they do not. Training shapes these energies, pushing down the energy of the right option and pushing up the energy of the others. The text and all the options are read together, in one pass of a small multilingual encoder, so each option is measured against the text and against the other options.
+
+Energies become probabilities with Boltzmann’s rule, the rule physics uses for a system in equilibrium: the lower the energy of a state, the more probable it is. A classifier applies the rule to the options alone, so one of them always wins, even when the text has nothing to do with any of them. ZeroPoint adds one more state, none of the options, with its energy fixed at zero: the flat ground around the wells the options form. Each option counts only by how far it falls below that ground. An option that does not fall below it gets nothing, however many such options there are, and none gets its probability in the same step as every option.
+<br>
+
+<sub>¹ LeCun, Chopra, Hadsell, Ranzato y Huang, A Tutorial on Energy-Based Learning, en Predicting Structured Data, MIT Press, 2006.<sub>
 
 <br>
 
