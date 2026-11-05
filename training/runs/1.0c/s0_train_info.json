@@ -1,0 +1,56 @@
+{
+ "seed": 0,
+ "calibration": {
+  "T_before": 0.2387792468070984,
+  "b_before": 4.5055460929870605,
+  "T_after": 0.2575009763240814,
+  "b_after": 4.517323970794678,
+  "before_cal": {
+   "nll": 0.3503432869911194,
+   "ece": 0.025479201857159857
+  },
+  "before_stop": {
+   "nll": 0.45192569494247437,
+   "ece": 0.037248079870754056
+  },
+  "after_cal": {
+   "nll": 0.3457096219062805,
+   "ece": 0.023605175361856648
+  },
+  "after_stop": {
+   "nll": 0.4379042387008667,
+   "ece": 0.01695991169652556
+  }
+ },
+ "epochs": 2,
+ "train_seconds": 1429.152598619461,
+ "device": "cuda",
+ "gpu": "NVIDIA L4",
+ "dev_loss": 0.45192596525721584,
+ "torch": "2.11.0+cu130",
+ "transformers": "5.22.0",
+ "model": "intfloat/multilingual-e5-small",
+ "args": {
+  "cmd": "train",
+  "model": "intfloat/multilingual-e5-small",
+  "seed": 0,
+  "epochs": 2,
+  "n_base": 50000,
+  "n_broad": 12000,
+  "synth_repeat": 3,
+  "batch": 16,
+  "lr": 3e-05,
+  "text_len": 192,
+  "opt_len": 16,
+  "chunk": 20,
+  "long_share": 0.08,
+  "hard_share": 0.5,
+  "vocab": "vocab",
+  "none_share": 0.3,
+  "fit_steps": 200,
+  "fit_freeze": 0,
+  "ckpt": "results/s0.pt",
+  "limit": 0
+ },
+ "sha256": "fb0998fc59d7cba2fe4c956fb284614c6dfc40d4e19917c9b38332e4bd694ac2"
+}
