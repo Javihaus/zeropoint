@@ -88,7 +88,7 @@ class Decision:
 
 
 class ZeroPoint:
-    """The decision engine. Load it once and reuse it: loading checks every model file against its sha256."""
+    """The decision model. Load it once and reuse it: loading checks every model file against its sha256."""
 
     def __init__(self, model_dir: str = MODEL_DIR, threads: int = 2):
         if not isinstance(threads, int) or threads < 1:

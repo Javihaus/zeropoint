@@ -63,7 +63,7 @@ all again: <a href="https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md
 <br>
 
 > [!IMPORTANT]
-> Edge LLMs, through an API, are right in 57–60% of these cases, a few points more than ZeroPoint, and take 18 to
+> Hosted LLMs, through an API, are right in 57–60% of these cases, a few points more than ZeroPoint, and take 18 to
 > 55 times longer.
 > See the details [here](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md#the-hosted-llms).
 
@@ -80,7 +80,7 @@ all again: <a href="https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md
 </tr>
 <tr>
 <td valign="top"><h3>89 MB, no GPU</h3><sub>The model ships inside the package: nothing is downloaded at run time. Strands Decider needs 4.8 GB and a GPU; Clef-flash 19 GB.</sub></td>
-<td valign="top"><h3>42 ms on a CPU</h3><sub>Median on the tests above, on 2 CPU cores. On the same CPU, Strands Decider takes 6.8 s per decision.</sub></td>
+<td valign="top"><h3>42 ms on a CPU</h3><sub>Median on the tests above, on 2 CPU cores. On another 2-core CPU, ZeroPoint takes 18 ms per decision and Strands Decider 6.8 s.</sub></td>
 <td valign="top"><h3>Same input, same answer</h3><sub>The order of the options never changes the decision; Strands Decider's changes in 7% of cases, and in 13% of support tickets whose own queue is not on the list. Same decisions on Linux, macOS and Windows, tested on every change.</sub></td>
 <td valign="top"><h3>25 languages</h3><sub>EU languages in the Latin script, plus Catalan, Basque and Galician. <a href="https://github.com/Javihaus/zeropoint/blob/main/LANGUAGES.md">Which ones, and why</a>.</sub></td>
 </tr>
@@ -178,6 +178,7 @@ The right threshold depends on what a wrong action costs you; pick it on a few h
 | `depths` | how strongly the text belongs to each option (0: not at all) |
 | `text_truncated` | `True` if the text was longer than ZeroPoint reads (192 word pieces) and its end was ignored |
 | `options_truncated` | options longer than 16 word pieces, whose end was ignored |
+| `blocks` | how many reads of 20 options the list needed |
 | `latency_ms` | time the decision took |
 
 <br>
@@ -227,12 +228,13 @@ answering *none*, `zp.recalibrate(texts, labels)` refits just two numbers, in se
 
 </div>
 
-ZeroPoint is an energy-based model, in the sense of LeCun et al. (2006)¹. It does not write an answer. It gives each option an energy: a number that measures how compatible the option is with the text, low when they fit and high when they do not. Training shapes these energies, pushing down the energy of the right option and pushing up the energy of the others. The text and all the options are read together, in one pass of a small multilingual encoder, so each option is measured against the text and against the other options.
+ZeroPoint is an energy-based model, in the sense of LeCun et al. (2006) ¹. It does not write an answer. It gives each option an energy: a number that measures how compatible the option is with the text, low when they fit and high when they do not. Training shapes these energies, pushing down the energy of the right option and pushing up the energy of the others. The text and all the options are read together, in one pass of a small multilingual encoder, so each option is measured against the text and against the other options.
 
-Energies become probabilities with Boltzmann’s rule, the rule physics uses for a system in equilibrium: the lower the energy of a state, the more probable it is. A classifier applies the rule to the options alone, so one of them always wins, even when the text has nothing to do with any of them. ZeroPoint adds one more state, none of the options, with its energy fixed at zero: the flat ground around the wells the options form. Each option counts only by how far it falls below that ground. An option that does not fall below it gets nothing, however many such options there are, and none gets its probability in the same step as every option.
+Energies become probabilities with Boltzmann’s rule, the rule physics uses for a system in equilibrium: the lower the energy of a state, the more probable it is. A classifier applies the rule to the options alone, so one of them always wins, even when the text has nothing to do with any of them. ZeroPoint adds one more state, *none of the options*, with its energy fixed at zero: the flat ground around the wells the options form. Each option counts only by how far it falls below that ground. An option that does not fall below it gets nothing, however many such options there are, and *none* gets its probability in the same step as every option.
+
 <br>
 
-<sub>¹ LeCun, Chopra, Hadsell, Ranzato y Huang, A Tutorial on Energy-Based Learning, en Predicting Structured Data, MIT Press, 2006.<sub>
+<sub>¹ Y. LeCun, S. Chopra, R. Hadsell, M. Ranzato and F. J. Huang, <a href="https://yann.lecun.com/exdb/publis/pdf/lecun-06.pdf">A Tutorial on Energy-Based Learning</a>, in <i>Predicting Structured Data</i>, MIT Press, 2006.</sub>
 
 <br>
 
@@ -241,7 +243,7 @@ Energies become probabilities with Boltzmann’s rule, the rule physics uses for
 ```bibtex
 @software{marin_zeropoint_2026,
   author = {Marín, Javier},
-  title  = {ZeroPoint: an energy-based decision engine},
+  title  = {ZeroPoint: a CPU-first, energy-based decision model},
   year   = {2026},
   url    = {https://github.com/Javihaus/zeropoint}
 }
