@@ -5,7 +5,6 @@
 Systems
   zeropoint        ZeroPoint, this repository, default settings
   laya_none        Laya, its recommended Router, with one more option "None of these" on every case
-  laya             Laya without that option (it then always picks one of the listed options)
   semantic_router  Semantic Router, one route per option, the option name as its only utterance
   nli              Hugging Face zero-shot classification, DeBERTa-v3-base MNLI, multi_label=True
   strands_none     AWS Strands Decider 2B (Qwen3.5-2B base), with one more option "None of these", like laya_none
@@ -236,7 +235,6 @@ def build_clef_flash(test, items):
 SYSTEMS = {
     "zeropoint": (build_zeropoint, False),
     "laya_none": (build_laya(True), False),
-    "laya": (build_laya(False), False),
     "semantic_router": (build_semantic_router, False),
     "nli": (build_nli, True),           # True: the 300-case sample only
     "strands_none": (build_strands, True),

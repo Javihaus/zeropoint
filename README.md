@@ -58,7 +58,7 @@ to run it all again: [BENCHMARK.md](https://github.com/Javihaus/zeropoint/blob/m
 > [!IMPORTANT]
 > Large LLMs, through an API, are right in 57–60% of these cases, a few points more than ZeroPoint, and take 18 to
 > 55 times longer. Strands Decider is as accurate as them, with a 2B model on a GPU.
-> See the details [here](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md#compared-with-hosted-llms).
+> See the details [here](https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md#the-hosted-llms).
 
 <br>
 

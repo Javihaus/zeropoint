@@ -5,12 +5,11 @@ ZeroPoint against other ways of picking one option from a list for a text, or sa
 | System | What it is |
 |---|---|
 | **ZeroPoint 1.0** | this repository, default settings |
-| **Laya + "None of these"** | Laya 0.4.21 (its recommended `Router`), with one more option, "None of these", added to every list |
-| **Laya** | the same without that option, so it always picks one of the listed options (reported in BENCHMARK.md only) |
+| **Laya** | Laya 0.4.21 (its recommended `Router`), with one more option, "None of these", added to every list |
 | **Semantic Router** | Semantic Router 1.1.1, one route per option with the option name as its only example |
 | **Zero-shot NLI** | the Hugging Face zero-shot classification pipeline with DeBERTa-v3-base MNLI, `multi_label=True` |
-| **Strands Decider 2B + "None of these"** | AWS's open decision model, `strands-decider` 0.2.0, with "None of these" added like Laya; three tests only |
-| **Clef-flash + "None of these"** | Cloudflare's open 9B decision model, with the code of its release, the same way; three tests only |
+| **Strands Decider 2B** | AWS's open decision model, `strands-decider` 0.2.0, with "None of these" added like Laya; three tests only |
+| **Clef-flash** | Cloudflare's open 9B decision model, with the code of its release, the same way; three tests only |
 
 The results, with what every value means, are in [results/tables.md](results/tables.md).
 
@@ -51,7 +50,6 @@ python benchmarks/compare/build_tests.py          # rebuilds tests/*.json; check
 python benchmarks/compare/run.py zeropoint         # one system at a time; about 5 minutes
 python benchmarks/compare/run.py semantic_router   # about 5 minutes
 python benchmarks/compare/run.py laya_none         # about 1.5 hours on 2 CPU cores
-python benchmarks/compare/run.py laya              # about 1.5 hours
 python benchmarks/compare/run.py nli               # about 3 hours
 DECIDER_DEVICE=cuda python benchmarks/compare/run.py strands_none bench2000 tickets_made tickets_far      # GPU
 DECIDER_DEVICE=cuda python benchmarks/compare/run.py clef_flash_none bench2000 tickets_made tickets_far   # GPU

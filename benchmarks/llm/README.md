@@ -1,8 +1,7 @@
 # ZeroPoint against hosted LLMs
 
 Runs Anthropic and OpenAI models as decision engines on three of the tests of [benchmarks/compare](../compare), and
-scores them with the same `report.py`, next to ZeroPoint and Laya with "None of these". The results are in
-[BENCHMARK.md](../../BENCHMARK.md#compared-with-hosted-llms).
+scores them with the same `report.py`, next to every other system. The results are in [BENCHMARK.md](../../BENCHMARK.md#the-hosted-llms).
 
 The three tests are the 2,000-case test and the two support-ticket tests (`LLM_TESTS` in `run.py`). The other five
 have been public since 1990–2020 and are very likely in the LLMs' training data.
