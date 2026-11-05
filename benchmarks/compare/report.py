@@ -39,20 +39,23 @@ TEST_ABOUT = {
     "tickets_made": "support tickets; for cases with no right option, the ticket's own queue is removed from the list",
     "tickets_far": "support queues; cases with no right option are film reviews and newsgroup posts",
 }
-TEST_NAMES = {"bench2000": "2,000-case benchmark", "snips": "SNIPS", "atis": "ATIS", "mtop_es": "MTOP (Spanish)",
+TEST_NAMES = {"bench2000": "2,000-case test", "snips": "SNIPS", "atis": "ATIS", "mtop_es": "MTOP (Spanish)",
               "hwu64": "HWU64", "clinc_real_indomain": "CLINC150 (20 options)", "tickets_made": "Tickets, queue removed",
               "tickets_far": "Tickets, unrelated texts"}
-SYSTEMS = ["zeropoint", "laya_none", "laya", "semantic_router", "nli", "strands_none", "clef_flash_none"]
-NAMES = {"zeropoint": "ZeroPoint 1.0", "laya_none": "Laya + \"None of these\"", "laya": "Laya",
-         "semantic_router": "Semantic Router", "nli": "Zero-shot NLI (DeBERTa-v3-base)",
-         "strands_none": "Strands Decider 2B + \"None of these\"",
-         "clef_flash_none": "Clef-flash + \"None of these\""}
+SYSTEMS = ["zeropoint", "laya_none", "semantic_router", "nli", "strands_none", "clef_flash_none"]
+# Laya, Strands Decider, Clef-flash and the LLMs have no "none" answer of their own: every list they read has one
+# more option, "None of these" (see run.py). Their names here are their own names.
+NAMES = {"zeropoint": "ZeroPoint 1.0", "laya_none": "Laya", "semantic_router": "Semantic Router",
+         "nli": "Zero-shot NLI", "strands_none": "Strands Decider 2B", "clef_flash_none": "Clef-flash"}
+ORDER = ["zeropoint", "strands_none", "clef_flash_none", "laya_none", "semantic_router", "nli",
+         "llm_claude-haiku-5-5", "llm_claude-sonnet-5-5", "llm_claude-opus-5-5",
+         "llm_gpt-6-luna", "llm_gpt-6_1-terra", "llm_gpt-6_1-sol"]
 # Systems run only on LLM_TESTS: they are left out of the eight-test tables and shown in the LLM comparison.
 LLM_TESTS_ONLY = ["strands_none", "clef_flash_none"]
-PAIRED_WITH = ("laya_none", "laya")          # systems compared with ZeroPoint case by case
-PROBABILITIES = {"zeropoint": True, "laya_none": True, "laya": True, "semantic_router": False, "nli": True,
+PAIRED_WITH = ("laya_none",)                 # systems compared with ZeroPoint case by case
+PROBABILITIES = {"zeropoint": True, "laya_none": True, "semantic_router": False, "nli": True,
                  "strands_none": True, "clef_flash_none": True}
-TOGETHER = {"zeropoint": "yes", "laya_none": "yes", "laya": "yes", "semantic_router": "no", "nli": "no",
+TOGETHER = {"zeropoint": "yes", "laya_none": "yes", "semantic_router": "no", "nli": "no",
             "strands_none": "yes", "clef_flash_none": "yes"}
 B = 2000
 EXTRA_PAIRED = set()
@@ -221,6 +224,9 @@ def llm_comparison(tests, systems):
     def confidence(r):
         return r["p"][r["choice"]] if r["choice"] is not None else r["p_none"]
 
+    def top_right(t, r, i):
+        return float(max(r["p"], key=r["p"].get) == tests[t][i]["gold"])
+
     def interval(d, seed=13):
         rng = np.random.default_rng(seed)
         boot = [d[rng.integers(0, len(d), len(d))].mean() for _ in range(B)]
@@ -252,6 +258,8 @@ def llm_comparison(tests, systems):
                "invalid": int(sum(bool(R[t][i].get("invalid")) for t, i in all_cases)),
                "no_tool_call": int(sum(bool((R[t][i].get("stated") or {}).get("no_tool_call")) for t, i in all_cases)),
                "per_test": {t: {"right": float(np.mean([right(t, R[t][i], i) for i in cases[t]])),
+                                "choice": None if s.startswith("llm_") else float(np.mean(
+                                    [top_right(t, R[t][i], i) for i in cases[t] if tests[t][i]["gold"] is not None])),
                                 "silent": float(np.mean([silent(R[t][i]) for i in cases[t]
                                                          if tests[t][i]["gold"] is None])) if probs else None}
                             for t in LLM_TESTS}}
@@ -264,6 +272,9 @@ def llm_comparison(tests, systems):
         if s != "zeropoint":
             d1 = np.array([right(t, zp[t][i], i) - right(t, R[t][i], i) for t, i in all_cases])
             res["zeropoint_minus"] = {"right": {"diff": float(d1.mean()), "ci": interval(d1)}}
+            if not s.startswith("llm_"):
+                d3 = np.array([top_right(t, zp[t][i], i) - top_right(t, R[t][i], i) for t, i in pos])
+                res["zeropoint_minus"]["choice"] = {"diff": float(d3.mean()), "ci": interval(d3)}
             if probs:
                 d2 = np.array([silent(zp[t][i]) - silent(R[t][i]) for t, i in neg])
                 res["zeropoint_minus"]["silent"] = {"diff": float(d2.mean()), "ci": interval(d2)}
@@ -349,6 +360,8 @@ def main():
         json.dump(summary, f, indent=1)
     with open(os.path.join(HERE, "results", "tables.md"), "w", encoding="utf-8") as f:
         f.write(tables(summary))
+    if "llm_comparison" in summary:
+        fill_benchmark(blocks(summary))
     print(tables(summary))
 
 
@@ -372,93 +385,137 @@ def size_of(summary, s):
     return "" if not b else (f"{b / 1e9:.1f} GB" if b >= 1e9 else f"{b / 1e6:.0f} MB")
 
 
-def llm_tables(summary):
+def signed(x):
+    return "" if x is None else (f"{100 * x['diff']:+.1f} ({100 * x['ci'][0]:+.1f} to {100 * x['ci'][1]:+.1f})"
+                                 .replace("-", "−"))
+
+
+def ms(x):
+    return f"{x:,.0f} ms"
+
+
+def blocks(summary):
+    """The tables of BENCHMARK.md, in its order: name -> markdown. report.py writes them into BENCHMARK.md between
+    <!-- table:NAME --> and <!-- /table --> and into results/tables.md, so the page and the data cannot disagree."""
     C = summary["llm_comparison"]
-    name = lambda s: summary["systems"][s]["name"]
-    diff = lambda x: "" if x is None else f"{100 * x['diff']:+.1f} ({100 * x['ci'][0]:+.1f} to {100 * x['ci'][1]:+.1f})"
-    env = lambda s: summary["systems"][s].get("environment") or {}
+    T = C["tests"]
+    S = summary["systems"]
+    systems = [s for s in ORDER if s in C["systems"]] + [s for s in C["systems"] if s not in ORDER]
+    local = [s for s in systems if not s.startswith("llm_")]
+    name = lambda s: S[s]["name"]
+    r = lambda s: C["systems"][s]
+    env = lambda s: S[s].get("environment") or {}
+    head = lambda cols: ["| " + " | ".join(cols) + " |", "|" + "---|" * len(cols)]
+    tests = [TEST_NAMES[t] for t in T]
+    out = {}
 
-    # 1. The README table: the systems that run on your own machine
-    dm = [s for s in DECISION_MODELS if s in C["systems"]]
-    lines = ["", "## Decision models on your own machine, on " + ", ".join(C["tests"]), "",
-             "| System | Right decision | Decision changes with the order of the options | Right option, when one is "
-             + "right | Silent mistakes | Latency, median | Runs on | Model size |", "|---|---|---|---|---|---|---|---|"]
-    for s in dm:
-        r = C["systems"][s]
-        lines.append(f"| {name(s)} | {pct(r['right'])} | {pct(order_on(summary, s, C['tests']))} | {pct(r['choice'])} | "
-                     f"{pct(r['silent'])} | {r['ms_median']:,.0f} ms | {runs_on(env(s), s)} | {size_of(summary, s)} |")
-    lines += ["", "*" + DM_NOTE + "*"]
+    rows = head(["System", "Right decision", "Answer changes with the order of the options",
+                 "Right option, when one is right", "Silent mistakes", "Latency, median", "Runs on", "Model size"])
+    for s in systems:
+        o = order_on(summary, s, T)
+        rows.append(f"| {name(s)} | {pct(r(s)['right'])} | {'not measured' if s.startswith('llm_') else pct(o)} | "
+                    f"{pct(r(s)['choice'])} | {pct(r(s)['silent'])} | {ms(r(s)['ms_median'])} | "
+                    f"{runs_on(env(s), s)} | {size_of(summary, s) or ('–' if s.startswith('llm_') else '')} |")
+    out["main"] = rows
 
-    # 2. Every system, with ZeroPoint minus each, case by case
-    lines += ["", "## Compared with LLMs and decision models, on " + ", ".join(C["tests"]), "",
-              "| System | Right decision | ZeroPoint − system | Silent mistakes | ZeroPoint − system | "
-              + "Latency, median | Latency, 95th percentile | Runs on |", "|---|---|---|---|---|---|---|---|"]
-    for s, r in C["systems"].items():
-        zm = r.get("zeropoint_minus") or {}
-        lines.append(f"| {name(s)} | {pct(r['right'])} | {diff(zm.get('right'))} | {pct(r['silent'])} | "
-                     f"{diff(zm.get('silent'))} | {r['ms_median']:,.0f} ms | {r['ms_p95']:,.0f} ms | {runs_on(env(s), s)} |")
-    lines += ["", "*" + LLM_NOTE + "*", "", "| System | " + " | ".join(
-        f"Right decision, {TEST_NAMES[t]}" for t in C["tests"]) + " | " + " | ".join(
-        f"Silent mistakes, {TEST_NAMES[t]}" for t in C["tests"]) + " |", "|---|" + "---|" * (2 * len(C["tests"]))]
-    for s, r in C["systems"].items():
-        lines.append(f"| {name(s)} | " + " | ".join(pct(r["per_test"][t]["right"]) for t in C["tests"]) + " | "
-                     + " | ".join(pct(r["per_test"][t]["silent"]) for t in C["tests"]) + " |")
+    rows = head(["System"] + tests + ["All three", "ZeroPoint − system"])
+    for s in systems:
+        rows.append(f"| {name(s)} | " + " | ".join(pct(r(s)["per_test"][t]["right"]) for t in T)
+                    + f" | {pct(r(s)['right'])} | {signed((r(s).get('zeropoint_minus') or {}).get('right'))} |")
+    out["right"] = rows
 
-    # 3. Silent mistakes at other thresholds
-    th = [s for s, r in C["systems"].items() if r.get("silent_at")]
-    lines += ["", "## Silent mistakes at other confidence thresholds", "",
-              "| System | Picks an option when none is right | ≥ 0.9 | ≥ 0.7 | ≥ 0.5 | Right answers given with ≥ 0.9 |",
-              "|---|---|---|---|---|---|"]
-    for s in th:
-        r = C["systems"][s]
-        lines.append(f"| {name(s)} | {pct(r['acts_when_none'])} | " + " | ".join(pct(r["silent_at"][str(t)])
-                     for t in THRESHOLDS) + f" | {pct(r['right_confident'])} |")
-    lines += ["", "*" + THRESHOLD_NOTE + "*"]
+    rows = head(["System"] + tests + ["All three"])
+    for s in local:
+        if order_on(summary, s, T) is None:
+            continue
+        rows.append(f"| {name(s)} | " + " | ".join(pct(S[s]["tests"][t]["order_changed"]) for t in T)
+                    + f" | {pct(order_on(summary, s, T))} |")
+    out["order"] = rows
 
-    # 4. Order of the options, per test
-    order = [s for s in C["systems"] if order_on(summary, s, C["tests"]) is not None]
-    lines += ["", "## Order of the options, on " + ", ".join(C["tests"]), "",
-              "| System | " + " | ".join(TEST_NAMES[t] for t in C["tests"]) + " | Mean |", "|---|" + "---|" * (len(C["tests"]) + 1)]
-    for s in order:
-        lines.append(f"| {name(s)} | " + " | ".join(pct(summary["systems"][s]["tests"][t]["order_changed"])
-                     for t in C["tests"]) + f" | {pct(order_on(summary, s, C['tests']))} |")
-    lines += ["", "*Share of the 900 cases whose decision changes when the same options come in another order "
-              "(`run.py shuffled()`). The LLMs were not run a second time.*"]
+    rows = head(["System"] + tests + ["All three", "ZeroPoint − system"])
+    for s in local:
+        rows.append(f"| {name(s)} | " + " | ".join(pct(r(s)["per_test"][t]["choice"]) for t in T)
+                    + f" | {pct(r(s)['choice'])} | {signed((r(s).get('zeropoint_minus') or {}).get('choice'))} |")
+    out["choice"] = rows
+
+    prob = [s for s in systems if r(s).get("silent") is not None]
+    rows = head(["System"] + tests + ["All three", "ZeroPoint − system"])
+    for s in prob:
+        rows.append(f"| {name(s)} | " + " | ".join(pct(r(s)["per_test"][t]["silent"]) for t in T)
+                    + f" | {pct(r(s)['silent'])} | {signed((r(s).get('zeropoint_minus') or {}).get('silent'))} |")
+    out["silent"] = rows
+
+    rows = head(["System", "Picks an option at all", "≥ 0.9", "≥ 0.7", "≥ 0.5", "Right answers given with ≥ 0.9"])
+    for s in prob:
+        rows.append(f"| {name(s)} | {pct(r(s)['acts_when_none'])} | "
+                    + " | ".join(pct(r(s)["silent_at"][str(t)]) for t in THRESHOLDS)
+                    + f" | {pct(r(s)['right_confident'])} |")
+    out["thresholds"] = rows
+
+    if C.get("strands_minus"):
+        rows = head(["LLM", "Right decision", "Silent mistakes ≥ 0.9", "≥ 0.7", "≥ 0.5"])
+        for s in [x for x in systems if x in C["strands_minus"]]:
+            d = C["strands_minus"][s]
+            rows.append(f"| {name(s)} | {signed(d['right'])} | "
+                        + " | ".join(signed(d[f"silent_{t}"]) for t in THRESHOLDS) + " |")
+        out["strands_minus"] = rows
+
+    rows = head(["System", "Latency, median", "Latency, 95th percentile", "Runs on", "Model size"])
+    for s in systems:
+        rows.append(f"| {name(s)} | {ms(r(s)['ms_median'])} | {ms(r(s)['ms_p95'])} | {runs_on(env(s), s)} | "
+                    f"{size_of(summary, s) or '–'} |")
+    out["latency"] = rows
 
     L = summary.get("cpu_latency")
     if L:
-        e = L["environment"]
-        lines += ["", "## ZeroPoint and Strands Decider on the same CPU", "",
-                  "| System | Latency, median | Latency, 95th percentile |", "|---|---|---|"]
+        rows = head(["System", "Latency, median", "Latency, 95th percentile"])
         for s in ("zeropoint", "strands_none"):
-            lines.append(f"| {name(s)} | {L[s]['median']:,.0f} ms | {L[s]['p95']:,.0f} ms |")
-        lines += ["", f"*The first {L['cases']} cases of the 2,000-case test's sample, on a {e.get('cpus')}-core "
-                  f"{e.get('cpu', 'CPU')} with {e.get('threads')} threads (`cpu_latency.py`). Strands Decider in "
-                  "bfloat16: float32 needs about 9 GB of memory; the library's own notes give about half the time in float32, "
-                  "on an Apple M3 Pro.*"]
+            rows.append(f"| {name(s)} | {ms(L[s]['median'])} | {ms(L[s]['p95'])} |")
+        out["same_cpu"] = rows
 
-    # 5. Strands Decider minus each LLM
-    if C.get("strands_minus"):
-        lines += ["", "## Strands Decider − each LLM, case by case", "",
-                  "| LLM | Right decision | Silent mistakes ≥ 0.9 | ≥ 0.7 | ≥ 0.5 |", "|---|---|---|---|---|"]
-        for s, d in C["strands_minus"].items():
-            lines.append(f"| {name(s)} | {diff(d['right'])} | " + " | ".join(diff(d[f"silent_{t}"]) for t in THRESHOLDS) + " |")
-        lines += ["", "*Percentage points, with the 95% interval of a paired bootstrap; negative silent mistakes: "
-                  "Strands Decider makes fewer. The LLMs' confidence is the one they state, not a computed "
-                  "probability.*"]
-
-    # 6. How the LLMs were asked
-    lines += ["", "| LLM | How it was asked | Answers outside the list | Tokens per decision (in / out) |",
-              "|---|---|---|---|"]
-    for s, r in C["systems"].items():
-        if not s.startswith("llm_"):
-            continue
-        m = r.get("mode") or {}
+    rows = head(["LLM", "How it was asked", "Answers outside the list", "Tokens per decision (in / out)"])
+    for s in [x for x in systems if x.startswith("llm_")]:
+        m = r(s).get("mode") or {}
         how = (("forced tool call" if m.get("tool_choice") == "forced" else "tool offered, not forced")
-               + (", temperature 0" if m.get("temperature_0") else ", default temperature")) if m else "strict JSON schema (temperature not recorded)"
-        lines.append(f"| {name(s)} | {how} | {r['invalid']} of {r['cases']} | "
-                     f"{r.get('tokens_in', 0):,.0f} / {r.get('tokens_out', 0):,.0f} |")
-    return lines
+               + (", temperature 0" if m.get("temperature_0") else ", default temperature")) if m \
+            else "strict JSON schema (temperature not recorded)"
+        rows.append(f"| {name(s)} | {how} | {r(s)['invalid']} of {r(s)['cases']} | "
+                    f"{r(s).get('tokens_in', 0):,.0f} / {r(s).get('tokens_out', 0):,.0f} |")
+    out["llm_how"] = rows
+
+    E = {s: x for s, x in S.items() if not s.startswith("llm_") and s not in LLM_TESTS_ONLY}
+    rows = head(["System", "Right decision", "Answer changes with the order of the options",
+                 "Right option, when one is right", "Silent mistakes", "Latency, median", "Model size"])
+    for s in [x for x in ORDER if x in E]:
+        x = E[s]
+        oc = [v.get("order_changed") for v in x["tests"].values()]
+        oc = float(np.mean(oc)) if len(oc) == len(TESTS) and all(v is not None for v in oc) else None
+        rows.append(f"| {x['name']} | {pct(mean_over(x, 'decision'))} | {pct(oc)} | {pct(mean_over(x, 'choice'))} | "
+                    f"{pct(mean_over(x, 'sure_wrong'))} | {ms(x['ms_median_all'])} | {size_of(summary, s)} |")
+    out["eight"] = rows
+    return {k: "\n".join(v) for k, v in out.items()}
+
+
+SECTIONS = [("main", "All systems, on the three tests"), ("right", "Right decision, *none* included"),
+            ("order", "Same answer whatever the order of the options"), ("choice", "Right option, when one is right"),
+            ("silent", "Silent mistakes"), ("thresholds", "Silent mistakes at other confidence thresholds"),
+            ("strands_minus", "Strands Decider 2B − each LLM, case by case"), ("latency", "Latency and size"),
+            ("same_cpu", "ZeroPoint and Strands Decider on the same CPU"), ("llm_how", "How the LLMs answered"),
+            ("eight", "Eight tests: the systems that run on a CPU")]
+
+
+def fill_benchmark(B):
+    """Write each table into BENCHMARK.md between its markers."""
+    import re
+    path = os.path.join(HERE, "..", "..", "BENCHMARK.md")
+    if not os.path.exists(path):
+        return
+    text = open(path, encoding="utf-8").read()
+    for k, v in B.items():
+        text = re.sub(rf"(<!-- table:{k} -->\n)(?:(?!<!-- table:).)*?(<!-- /table -->)",
+                      lambda m: m.group(1) + v + "\n" + m.group(2), text, flags=re.S)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(text)
 
 
 def pct(x, nd=1):
@@ -487,14 +544,13 @@ CAPTIONS = {
               "Higher is better. It ignores whether the system would also say that no option fits.",
     "sure_wrong": "Share of the cases with no right option in which the system still picks an option and gives it "
                   "a probability of 0.9 or more: a confident wrong answer. Lower is better. Semantic Router has no "
-                  "value because its scores are similarities, not probabilities. Laya without \"None of these\" "
-                  "always picks an option, so its value is the share of those cases where it does so at 0.9 or more.",
+                  "value because its scores are similarities, not probabilities.",
     "fpr95": "Share of the cases with no right option that the system still acts on, when its threshold is set so "
              "that it keeps 95% of the cases with a right option. Lower is better. It uses 1 − p(none) for systems "
              "that give p(none), and the top option's score otherwise, so every system can be measured.",
     "decision": "Share of all cases in which the system's own answer at its default settings is right. On a case "
                 "with no right option only \"no option fits\" is right, so a system that always picks an option "
-                "(Semantic Router, zero-shot NLI, Laya without \"None of these\") gets none of those cases right.",
+                "(Semantic Router, zero-shot NLI) gets none of those cases right.",
     "order_changed": "Share of cases whose decision changes when the system reads the same text and the same "
                      "options in another order (a fixed shuffle per case), on the 300-case sample of each test. "
                      "Lower is better; 0% means the order never matters.",
@@ -523,23 +579,6 @@ PAIRED_NOTE = (
     "from a paired bootstrap (2,000 resamples of the cases). Choice: positive means ZeroPoint picks the right option "
     "more often. Sure and wrong: negative means ZeroPoint is confidently wrong less often. When the interval does not "
     "include zero, the difference is not due to chance in the choice of cases.")
-LLM_NOTE = (
-    "The 300-case sample of each test, the same cases for every system, 900 in all. Only these three tests: the other "
-    "five are public since 1990-2020 and very likely in the LLMs' training data. Right decision: none counted as an "
-    "answer. Silent mistakes: on cases with no right option, an option picked with probability (stated confidence for "
-    "the LLMs) of 0.9 or more. ZeroPoint − system: percentage points on the same cases, with the 95% interval of a "
-    "paired bootstrap; for silent mistakes, negative means ZeroPoint makes fewer. Latency is measured where "
-    "*Runs on* says: for an API, the call from a Google Colab machine, network included.")
-DM_NOTE = (
-    "The 300-case sample of each test, the same cases for every system, 900 in all, half with no right option. "
-    "Right decision: none counted as an answer. Right option, when one is right: the right option has the highest "
-    "score, on the 450 cases with one. Silent mistakes: on the 450 cases with no right option, an option picked with "
-    "probability 0.9 or more (Semantic Router gives similarities, not probabilities). Strands Decider and Clef-flash "
-    "get the options plus \"None of these\", like Laya.")
-THRESHOLD_NOTE = (
-    "On the 450 cases with no right option: how often the system picks an option at all, and how often it does so "
-    "with a probability (for the LLMs, a stated confidence) at or above each threshold. Last column: the share of "
-    "its right answers given with 0.9 or more, which shows how often a system states high confidence at all.")
 TESTS_NOTE = (
     "In a case with a right option, the right option is on the list among others. In a case without "
     "one, the list is made of other options only. The test files are rebuilt by `build_tests.py`; their "
@@ -608,7 +647,11 @@ def tables(summary):
             lines.append(f"| {TEST_NAMES[t]} | " + " | ".join(cells) + " |")
         lines += ["", "*" + PAIRED_NOTE + "*"]
     if "llm_comparison" in summary:
-        lines += llm_tables(summary)
+        B = blocks(summary)
+        lines += ["", "## The three tests no model is likely to have seen", ""]
+        for k, title in SECTIONS:
+            if k in B and k != "eight":
+                lines += ["", f"### {title}", "", B[k]]
     lines += ["", "## The tests", "",
               "| Test | Cases | With a right option | Options per case | What it is |", "|---|---|---|---|---|"]
     for t in TESTS:
