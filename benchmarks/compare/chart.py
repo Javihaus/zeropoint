@@ -76,8 +76,8 @@ def main(summary_path=os.path.join(HERE, "results", "summary.json"),
     ax.tick_params(colors=BLUE, labelsize=px(34), length=0, pad=px(22))
     for t in ax.get_xticklabels() + ax.get_yticklabels():
         t.set_fontweight("medium")
-    ax.set_xlabel("latency on a CPU, median", fontsize=px(40), color=BLUE, weight="medium", labelpad=px(36))
-    ax.set_ylabel("right decision, none included", fontsize=px(40), color=BLUE, weight="medium", labelpad=px(40))
+    ax.set_xlabel("Latency in CPU", fontsize=px(40), color=BLUE, weight="medium", labelpad=px(36))
+    ax.set_ylabel("Accuracy", fontsize=px(40), color=BLUE, weight="medium", labelpad=px(40))
     fig.text(244 / 2400, 1 - 30 / 1600, "How often it is right, and how long it takes on a CPU  ·  900 new cases",
              fontsize=px(52), color=BLUE, weight="semibold", va="top")
 
