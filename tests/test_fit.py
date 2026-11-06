@@ -55,3 +55,31 @@ def test_bad_fit_input_is_refused(base):
         base.fit(TEXTS, ["weather"] * len(TEXTS))
     with pytest.raises(ValueError):
         base.fit(TEXTS, LABELS[:-1])
+
+
+def test_fit_warns_when_the_held_out_part_is_small(base):
+    with pytest.warns(UserWarning, match="held-out examples"):
+        base.fit(TEXTS, LABELS, steps=1, frozen_layers=11, threads=1)
+
+
+def test_fit_folder_is_deleted_with_the_model(base):
+    import gc
+    fitted, _ = base.fit(TEXTS, LABELS, steps=1, frozen_layers=11, threads=1)
+    folder = fitted._rt.model_dir
+    assert os.path.isdir(folder)
+    del fitted
+    gc.collect()
+    assert not os.path.exists(folder)
+
+
+def test_fit_folder_stays_while_a_recalibrated_copy_lives(base):
+    import gc
+    fitted, _ = base.fit(TEXTS, LABELS, steps=1, frozen_layers=11, threads=1)
+    folder = fitted._rt.model_dir
+    recal, _ = fitted.recalibrate(TEXTS, LABELS)
+    del fitted
+    gc.collect()
+    assert os.path.isdir(folder)                          # recal still reads it
+    del recal
+    gc.collect()
+    assert not os.path.exists(folder)

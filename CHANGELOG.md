@@ -10,6 +10,27 @@ version is published.
 
 ## [Unreleased]
 
+### Added
+
+- `fit` and `recalibrate` warn (`UserWarning`) when fewer than 50 examples are held out, because the report's
+  numbers are then too small to trust. `recalibrate` also warns when the temperature changes by more than a factor
+  of 2 or the *none* level by more than 2.
+
+### Fixed
+
+- A model made by `fit` kept its files in a temporary folder that was never deleted. The folder is now deleted
+  when the last model that reads it is freed; `save` still keeps a copy wherever you want.
+- The documentation said an option with depth 0 gets no probability. Depths are never exactly 0, so such an option
+  gets almost no probability; the wording now says so.
+- The first example in `docs/usage.md` and in the module docstring answered *none*; it is replaced by the example
+  of the README, which picks an option.
+- The fit time in the documentation (6 minutes) had no measurement behind it. It now gives the two measured step
+  times (1.3 s and 3.4 s on 2 threads), about 4 to 12 minutes for the default 200 steps.
+- The documentation shows how to install the CPU-only PyTorch before `zeropoint[fit]`.
+- Every file the training, benchmark and ablation scripts open is now closed (`with` blocks).
+- `training/zp1.py` no longer claims that the model measured is the model shipped, and `training/README.md`
+  documents a flaw in the dev split of run 1.0c: the calibration half has no written examples.
+
 ## [1.0.0] - 2026-11-05
 
 1.0 is a new model and a new, smaller API. Code written for 0.x needs the changes listed under

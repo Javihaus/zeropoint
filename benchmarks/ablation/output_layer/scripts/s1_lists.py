@@ -9,6 +9,16 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 from common import CACHE, RESULTS, build_data, jdump
 
+
+def _json_load(*args, **kw):
+    with open(*args, **kw) as f:
+        return json.load(f)
+
+
+def _jsonl(*args, **kw):
+    with open(*args, **kw) as f:
+        return [json.loads(line) for line in f]
+
 N_SUB = int(os.environ.get("N_SUB", "0"))   # set from the protocol
 
 full_p = os.path.join(CACHE, "lists_full_train.json")
@@ -22,7 +32,7 @@ if not os.path.exists(full_p):
 sub_p = os.path.join(CACHE, "lists_train.json")
 if N_SUB and not os.path.exists(sub_p):
     import json
-    train = json.load(open(full_p, encoding="utf-8"))
+    train = _json_load(full_p, encoding="utf-8")
     rng = np.random.default_rng(13)
     idx = sorted(rng.choice(len(train), N_SUB, replace=False).tolist())
     sub = [train[i] for i in idx]
@@ -33,8 +43,8 @@ if N_SUB and not os.path.exists(sub_p):
         return {"lists": len(lists), "none_share": float(np.mean([e["gold"] is None for e in lists])),
                 "long_share_gt20": float(np.mean(k > 20)), "options_mean": float(k.mean()),
                 "options_max": int(k.max()), "kinds": dict(collections.Counter(e["kind"] for e in lists))}
-    dev_stop = json.load(open(os.path.join(CACHE, "lists_dev_stop.json"), encoding="utf-8"))
-    dev_cal = json.load(open(os.path.join(CACHE, "lists_dev_cal.json"), encoding="utf-8"))
+    dev_stop = _json_load(os.path.join(CACHE, "lists_dev_stop.json"), encoding="utf-8")
+    dev_cal = _json_load(os.path.join(CACHE, "lists_dev_cal.json"), encoding="utf-8")
     jdump({"full_train": desc(train), "train_subset": desc(sub), "dev_stop": desc(dev_stop),
            "dev_cal": desc(dev_cal), "subset_seed": 13}, os.path.join(RESULTS, "lists_info.json"))
     print("subset drawn", N_SUB, flush=True)

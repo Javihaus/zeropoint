@@ -14,9 +14,9 @@ Load it once and reuse it. Loading checks every model file against its sha256 an
 ## Choosing among options
 
 ```python
-d = zp.decide("my card was swallowed by the cash machine",
-              ["block a card", "check the balance", "order a new card"])
-d.choice        # the chosen option, or None
+d = zp.decide("Can you move 200 euros from my savings to my checking account?",
+              ["transfer", "balance", "pay bill"])
+d.choice        # "transfer" (probability about 0.77; none about 0.20)
 ```
 
 The options are any short texts: intents, queue names, categories. ZeroPoint reads the text and all the options
@@ -36,7 +36,7 @@ Payments", "order a new card"), not as codes ("BIL_02").
 | `confidence` | probability of `choice` (of *none* when `choice` is `None`) |
 | `p_none` | probability that none of the options fits |
 | `probabilities` | probability of each option, in the order you gave them; with `p_none` they add up to 1 |
-| `depths` | how strongly the text belongs to each option (0: not at all) |
+| `depths` | how strongly the text belongs to each option (near 0: not at all) |
 | `text_truncated` | `True` if the text was longer than 192 word pieces and its end was ignored |
 | `options_truncated` | options longer than 16 word pieces, whose end was ignored |
 | `blocks` | how many reads of 20 options the list needed |

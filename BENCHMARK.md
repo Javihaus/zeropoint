@@ -303,7 +303,7 @@ ZeroPoint has seen. Per-test values, FPR95 and AUROC: [the full tables](benchmar
 
 ## Adapting to your labels
 
-`fit` with 300 labelled tickets (6 minutes on 2 CPU threads), measured on the two ticket tests:
+`fit` with 300 labelled tickets (200 steps; 11.4 minutes on 2 threads of the Colab CPU used for training), measured on the two ticket tests:
 
 | | Before | After |
 |---|---|---|

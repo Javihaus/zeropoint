@@ -14,6 +14,16 @@ if os.path.exists(OUT):
     sys.exit(0)
 from zeropoint import ZeroPoint
 
+
+def _json_load(*args, **kw):
+    with open(*args, **kw) as f:
+        return json.load(f)
+
+
+def _jsonl(*args, **kw):
+    with open(*args, **kw) as f:
+        return [json.loads(line) for line in f]
+
 zp = ZeroPoint()
 rt = zp._rt
 T, b = rt.temperature, rt.none_level
@@ -89,8 +99,8 @@ for t in TESTS:
     p = os.path.join(RUNS, f"s0_cases_{t}.json")
     if not os.path.exists(p):
         continue
-    ref = json.load(open(p, encoding="utf-8"))
-    items = json.load(open(os.path.join(DATA, "tests", t + ".json"), encoding="utf-8"))
+    ref = _json_load(p, encoding="utf-8")
+    items = _json_load(os.path.join(DATA, "tests", t + ".json"), encoding="utf-8")
     d, off, g = load(t)
     from common import canonical_order
     diffs, agree = [], []

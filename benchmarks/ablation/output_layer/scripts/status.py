@@ -8,6 +8,16 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import CACHE, LONG, RESULTS, SEEDS, TESTS, VARIANTS
 
+
+def _json_load(*args, **kw):
+    with open(*args, **kw) as f:
+        return json.load(f)
+
+
+def _jsonl(*args, **kw):
+    with open(*args, **kw) as f:
+        return [json.loads(line) for line in f]
+
 note = " ".join(sys.argv[1:])
 splits = ["dev_stop", "dev_cal"] + TESTS + LONG + ["train"]
 
@@ -42,5 +52,6 @@ lines += ["", "## How to continue", "",
           "Deviations from PROTOCOL.md, if any, are listed below and in REPORT.md.", ""]
 dev_p = os.path.join(RESULTS, "deviations.json")
 if os.path.exists(dev_p):
-    lines += ["## Deviations", ""] + [f"- {d}" for d in json.load(open(dev_p))] + [""]
-open(os.path.join(RESULTS, "STATUS.md"), "w").write("\n".join(lines))
+    lines += ["## Deviations", ""] + [f"- {d}" for d in _json_load(dev_p)] + [""]
+with open(os.path.join(RESULTS, "STATUS.md"), "w") as f:
+    f.write("\n".join(lines))

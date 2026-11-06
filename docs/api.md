@@ -35,11 +35,14 @@ each exactly what `decide` gives for that text alone.
 Adapts the model to your labelled texts. `labels` holds the right option for each text, or `None` for texts that
 fit none of them. Returns `(model, report)`; the report compares the model before and after on a held-out 20% of
 the examples. Raises `ValueError` with fewer than two different labels or fewer than 20 examples left for
-training after the held-out 20%. Needs `pip install "zeropoint[fit]"`. See [Adapting to your labels](calibration.md).
+training after the held-out 20%. Warns (`UserWarning`) when fewer than 50 examples are held out. The model's
+files live in a temporary folder that is deleted when the model is; call `save` to keep them. Needs `pip install "zeropoint[fit]"`. See [Adapting to your labels](calibration.md).
 
 ## `ZeroPoint.recalibrate(texts, labels, *, groups=None, seed=0)`
 
-Refits only the temperature and the *none* level. Needs no PyTorch. Returns `(model, report)`.
+Refits only the temperature and the *none* level. Needs no PyTorch. Returns `(model, report)`. Warns
+(`UserWarning`) when fewer than 50 examples are held out, or when the temperature changes by more than a factor of 2
+or the *none* level by more than 2.
 
 ## `ZeroPoint.save(path)`
 

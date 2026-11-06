@@ -7,7 +7,13 @@ can learn your labels and how your texts are written.
 
 - Texts with their right label: a few hundred in all, and at least a few dozen per label.
 - Optionally, texts that fit none of your labels, with the label `None`.
-- `pip install "zeropoint[fit]"`, which adds PyTorch and onnx. Deciding never needs them.
+- `pip install "zeropoint[fit]"`, which adds PyTorch and onnx. Deciding never needs them. On a machine without a
+  GPU, install the CPU-only PyTorch first; it leaves out the GPU libraries the default build downloads:
+
+  ```bash
+  pip install torch --index-url https://download.pytorch.org/whl/cpu
+  pip install "zeropoint[fit]"
+  ```
 
 ## Adapt, save, load
 
@@ -27,9 +33,10 @@ What `fit` does:
 - Your labels become the options. Each example becomes lists of 4 to 20 of them; in 30% of the lists the right
   option is removed and the answer is *none*, so the model keeps learning to say *none*.
 - 20% of your examples are kept apart and never trained on. The report measures the model on them before and
-  after.
+  after. With fewer than 50 held-out examples (about 250 in all) `fit` warns that the report is too small to
+  trust.
 - The word embeddings and the first 8 encoder layers stay as shipped; the rest of the model is trained for 200
-  steps. It runs on a CPU: about 6 minutes for 300 examples on 2 threads.
+  steps. It runs on a CPU: a fit is 200 steps, and on the two CPUs we timed one step took 1.3 s and 3.4 s on 2 threads, so about 4 to 12 minutes. The time depends on the number of steps, not on the number of examples.
 - Same data, same seed and same number of threads give the same model, bit for bit.
 
 ## Options

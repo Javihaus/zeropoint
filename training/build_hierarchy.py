@@ -12,6 +12,16 @@ import json
 import os
 from collections import defaultdict
 
+
+def _json_load(*args, **kw):
+    with open(*args, **kw) as f:
+        return json.load(f)
+
+
+def _jsonl(*args, **kw):
+    with open(*args, **kw) as f:
+        return [json.loads(line) for line in f]
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 CLINC = {
@@ -131,8 +141,7 @@ def invert(groups):
 
 def main():
     labels = defaultdict(set)
-    for line in open(os.path.join(HERE, "data", "train.jsonl"), encoding="utf-8"):
-        r = json.loads(line)
+    for r in _jsonl(os.path.join(HERE, "data", "train.jsonl"), encoding="utf-8"):
         labels[r["source"]].add(r["label"])
     cmap = {"clinc150": invert(CLINC), "banking77": invert(BANKING77)}
     cmap["massive_en"] = {l: MASSIVE_EN[l.split()[0]] for l in labels["massive_en"]}
@@ -144,7 +153,7 @@ def main():
         for intent, cat in zip(d["intent"], d["category"]):
             m[norm(intent)] = BITEXT[src][cat]
         cmap[src] = m
-    forbidden = set(json.load(open(os.path.join(HERE, "forbidden_labels.json"))))
+    forbidden = set(_json_load(os.path.join(HERE, "forbidden_labels.json")))
     for src, m in cmap.items():
         missing = labels[src] - set(m)
         extra = set(m) - labels[src]
@@ -153,8 +162,8 @@ def main():
         bad = {b for b in m.values() if b.lower() in forbidden}
         assert not bad, f"{src}: broad labels equal to test labels: {bad}"
         print(f"{src:18s} {len(m):3d} fine -> {len(set(m.values())):2d} broad")
-    json.dump(cmap, open(os.path.join(HERE, "data", "coarse_map.json"), "w", encoding="utf-8"),
-              ensure_ascii=False, indent=1)
+    with open(os.path.join(HERE, "data", "coarse_map.json"), "w", encoding="utf-8") as f:
+        json.dump(cmap, f, ensure_ascii=False, indent=1)
 
 
 if __name__ == "__main__":

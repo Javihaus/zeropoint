@@ -2,9 +2,9 @@
 
     from zeropoint import ZeroPoint
     zp = ZeroPoint()
-    d = zp.decide("my card was swallowed by the cash machine",
-                  ["block a card", "check the balance", "order a new card"])
-    d.choice, d.confidence, d.p_none
+    d = zp.decide("Can you move 200 euros from my savings to my checking account?",
+                  ["transfer", "balance", "pay bill"])
+    d.choice, d.confidence, d.p_none     # 'transfer', about 0.77, about 0.20
 
 One model reads the text and all the options together. Each option gets a well whose depth says how well it fits;
 "none of them" is a state with energy zero. The probabilities of the options and of "none" come from one Boltzmann
@@ -17,9 +17,12 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import tempfile
 import time
 import unicodedata
+import warnings
+import weakref
 from dataclasses import dataclass, field
 from typing import Sequence
 
@@ -57,7 +60,7 @@ class Decision:
     confidence         probability of `choice` (of "none" when choice is None)
     p_none             probability that none of the options is right
     probabilities      probability of each option, in the order the options were given; with p_none they sum to 1
-    depths             depth of each option's well (0 = the text does not belong there at all)
+    depths             depth of each option's well (near 0 when the text does not belong there)
     text_truncated     True when the text was longer than the model reads (192 pieces) and its end was ignored
     options_truncated  options longer than the model reads (16 pieces), whose end was ignored
     blocks             how many reads of 20 options the list needed
@@ -151,8 +154,9 @@ class ZeroPoint:
 
     def recalibrate(self, texts: Sequence[str], labels: Sequence[str | None], *, groups=None, seed: int = 0):
         """Re-fit only the temperature and the "none" level on your labelled texts, nothing else.
-        No torch needed. Returns (new model, report); the report compares before and after on a held-out 20%."""
-        from .fit import _held_out, _lists, _evaluate
+        No torch needed. Returns (new model, report); the report compares before and after on a held-out 20%.
+        Warns when that held-out part is too small to trust the report, or when the two numbers move far."""
+        from .fit import _held_out, _lists, _evaluate, _warn_small_held_out
         texts, labels = list(texts), list(labels)
         label_set = sorted({l for l in labels if l is not None}, key=lambda s: s.encode("utf-8"))
         if len(label_set) < 2:
@@ -171,6 +175,14 @@ class ZeroPoint:
             d, _ = self._rt.depths(t, canon)
             data.append((d, canon.index(gold) if gold is not None else len(canon)))
         log_t, b = _fit_two_numbers(data, self._log_temperature, self._none_level)
+        _warn_small_held_out(len(held), "recalibrate")
+        t_ratio = float(np.exp(log_t - self._log_temperature))
+        if not 0.5 <= t_ratio <= 2.0 or abs(b - self._none_level) > 2.0:
+            warnings.warn(
+                f"recalibrate moved the temperature from {np.exp(self._log_temperature):.3f} to {np.exp(log_t):.3f} "
+                f"and the none level from {self._none_level:.2f} to {b:.2f}. A change this large usually means the "
+                f"examples are few or unlike the texts you will decide; compare report['before'] and "
+                f"report['after'] before using the new model.", UserWarning, stacklevel=2)
         new = self._derived(log_t=log_t, none_level=b)
         report = {"before": _evaluate(self, held), "after": _evaluate(new, held),
                   "temperature": {"before": float(np.exp(self._log_temperature)), "after": float(np.exp(log_t))},
@@ -218,8 +230,16 @@ class ZeroPoint:
         manifest["fit"] = fit_info
         manifest["source_checkpoint_sha256"] = hashlib.sha256(enc_bytes + json.dumps(head).encode()).hexdigest()
         out = tempfile.mkdtemp(prefix="zeropoint-fit-")
-        write_model_dir(base._rt.model_dir, out, enc_bytes, head, manifest)
-        return cls(out, threads=base.threads)
+        try:
+            write_model_dir(base._rt.model_dir, out, enc_bytes, head, manifest)
+            new = cls(out, threads=base.threads)
+        except BaseException:
+            shutil.rmtree(out, ignore_errors=True)
+            raise
+        # The folder lives as long as any model that reads it (save() copies from it, and models made from this one
+        # with recalibrate() share its runtime) and is deleted with the last of them.
+        weakref.finalize(new._rt, shutil.rmtree, out, True)
+        return new
 
     def _check(self, text, options) -> list[str]:
         if not isinstance(text, str):
