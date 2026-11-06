@@ -8,11 +8,14 @@ What this run adds, against 1.0b:
   * The order of the options cannot change the answer (same position ids for every option, canonical order,
     duplicates rejected, ties to the first option in canonical order). Unchanged from 1.0b.
   * Vocabulary of 25 languages (EU official languages in Latin script + Catalan, Basque, Galician), about 90,000
-    pieces instead of 250,000; the model is trained with it, so the model measured is the model shipped.
+    pieces instead of 250,000; the model is trained with it. The released files are an ONNX export of the checkpoint
+    with float16 weights and an int8 vocabulary, measured on their own in benchmarks/results/v1_model_measure.json.
   * Wrong options: in half of the lists, half of them are the labels closest to the right one (data/neighbors.json).
   * Long lists: 8% of the lists have 21 to all options of the pool, read in blocks of 20 like at inference.
   * Calibration: the dev data is split in two halves by text. One decides when to stop; the other, after training,
-    fits the single temperature and the "none" level (two numbers, encoder frozen).
+    fits the single temperature and the "none" level (two numbers, encoder frozen). Known flaw, kept so the run can
+    be repeated exactly: written examples reach dev when sha256 % 20 == 0, which makes sha256 % 2 == 0, so they all
+    land in the stopping half and none in the calibration half (see README.md).
   * Reports: share of confident answers (0.9 or more), wrong answers among them, and "false admissions": no right
     option in the list, yet an option chosen with confidence 0.9 or more.
   * fit(): 200 steps, with all layers or with the first 8 frozen (faster on a CPU).
@@ -42,6 +45,16 @@ import torch
 import torch.nn.functional as F
 from sklearn.metrics import roc_auc_score
 from transformers import AutoModel, AutoTokenizer, PreTrainedTokenizerFast
+
+
+def _json_load(*args, **kw):
+    with open(*args, **kw) as f:
+        return json.load(f)
+
+
+def _jsonl(*args, **kw):
+    with open(*args, **kw) as f:
+        return [json.loads(line) for line in f]
 
 ap = argparse.ArgumentParser()
 ap.add_argument("cmd", choices=["train", "checks", "fit", "summary"])
@@ -79,7 +92,7 @@ else:
     tok = AutoTokenizer.from_pretrained(args.model)
     KEEP = None
 CLS, SEP, PAD = tok.cls_token_id, tok.sep_token_id, tok.pad_token_id
-NB = json.load(open("data/neighbors.json", encoding="utf-8")) if os.path.exists("data/neighbors.json") else {}
+NB = _json_load("data/neighbors.json", encoding="utf-8") if os.path.exists("data/neighbors.json") else {}
 
 
 # ---------------------------------------------------------------- canonical order and input encoding
@@ -276,9 +289,9 @@ def held_out(text):
 def build_data(seed):
     rng = np.random.default_rng(seed)
     lim = args.limit
-    tr = [json.loads(l) for l in open("data/train.jsonl", encoding="utf-8")]
-    dv = [json.loads(l) for l in open("data/dev.jsonl", encoding="utf-8")]
-    cmap = json.load(open("data/coarse_map.json", encoding="utf-8"))
+    tr = _jsonl("data/train.jsonl", encoding="utf-8")
+    dv = _jsonl("data/dev.jsonl", encoding="utf-8")
+    cmap = _json_load("data/coarse_map.json", encoding="utf-8")
     fine_pools, broad_pools = {}, {}
     for r in tr:
         fine_pools.setdefault(r["source"], set()).add(r["label"])
@@ -293,9 +306,9 @@ def build_data(seed):
     dv = [r for r in dv if r["label"] in fine_pools.get(r["source"], [])]
     tr_b = [{**r, "_pool": r["source"] + "#broad"} for r in tr]
     dv_b = [{**r, "_pool": r["source"] + "#broad"} for r in dv]
-    synth_pools = {k: v["labels"] for k, v in json.load(open("data/synth_pools.json", encoding="utf-8")).items()
+    synth_pools = {k: v["labels"] for k, v in _json_load("data/synth_pools.json", encoding="utf-8").items()
                    if not k.startswith("_")}
-    syn = [json.loads(l) for l in open("data/synth.jsonl", encoding="utf-8")]
+    syn = _jsonl("data/synth.jsonl", encoding="utf-8")
     syn_tr = [r for r in syn if not held_out(r["text"])]
     syn_dv = [r for r in syn if held_out(r["text"])]
     if lim:
@@ -431,12 +444,15 @@ def cmd_train():
     model.load(f"results/{tag}.pt")
     cal = calibrate(model, dev_cal, dev)
     model.save(f"results/{tag}.pt")
-    json.dump({"seed": args.seed, "calibration": cal, "epochs": args.epochs, "train_seconds": time.time() - t0, "device": DEV,
-               "gpu": torch.cuda.get_device_name(0) if DEV == "cuda" else None, "dev_loss": best,
-               "torch": torch.__version__, "transformers": __import__("transformers").__version__,
-               "model": args.model, "args": vars(args),
-               "sha256": hashlib.sha256(open(f"results/{tag}.pt", "rb").read()).hexdigest()},
-              open(f"results/{tag}_train_info.json", "w"), indent=1)
+    with open(f"results/{tag}.pt", "rb") as f:
+        sha = hashlib.sha256(f.read()).hexdigest()
+    info = {"seed": args.seed, "calibration": cal, "epochs": args.epochs, "train_seconds": time.time() - t0, "device": DEV,
+            "gpu": torch.cuda.get_device_name(0) if DEV == "cuda" else None, "dev_loss": best,
+            "torch": torch.__version__, "transformers": __import__("transformers").__version__,
+            "model": args.model, "args": vars(args),
+            "sha256": sha}
+    with open(f"results/{tag}_train_info.json", "w") as f:
+        json.dump(info, f, indent=1)
     evaluate_all(model, tag)
 
 
@@ -493,7 +509,7 @@ def run_items(model, items):
 
 
 def load_test(path):
-    items = json.load(open(path, encoding="utf-8"))
+    items = _json_load(path, encoding="utf-8")
     if args.limit:
         items = items[:args.limit // 2] + items[-args.limit // 2:]
     return items
@@ -504,10 +520,12 @@ def evaluate_all(model, tag):
     for t in TESTS:
         items = load_test(f"tests/{t}.json")
         rows = run_items(model, items)
-        json.dump(rows, open(f"results/{tag}_cases_{t}.json", "w"))
+        with open(f"results/{tag}_cases_{t}.json", "w") as f:
+            json.dump(rows, f)
         res[t] = scores(items, rows)
         print(f"[{tag}] {t} {json.dumps({k: (round(v, 3) if v is not None else None) for k, v in res[t].items()})}", flush=True)
-    json.dump(res, open(f"results/{tag}_results.json", "w"), indent=1)
+    with open(f"results/{tag}_results.json", "w") as f:
+        json.dump(res, f, indent=1)
 
 
 def cmd_checks():
@@ -560,7 +578,8 @@ def cmd_checks():
                       "decision_changes": int(sum(x["decision"] != y["decision"] for x, y in zip(g, outs[1])))}
     res["gpu_vs_cpu"] = gpu_vs_cpu
     print("[cpu]", res["cpu_threads"], "gpu vs cpu:", gpu_vs_cpu, flush=True)
-    json.dump(res, open("results/checks.json", "w"), indent=1)
+    with open("results/checks.json", "w") as f:
+        json.dump(res, f, indent=1)
 
 
 def freeze_layers(model, n):
@@ -578,7 +597,7 @@ def cmd_fit():
     """Adapt to a client's tickets with 100, 300, 1000 and 2000 examples. Always --fit_steps optimiser steps,
     so a small client set is seen many times and a large one once or twice. Also times one step on the CPU."""
     global DEV
-    rows = [json.loads(l) for l in open("data/tickets_fit.jsonl", encoding="utf-8")]
+    rows = _jsonl("data/tickets_fit.jsonl", encoding="utf-8")
     labels = sorted({r["label"] for r in rows})
     res = {}
     base = Joint().to(DEV).load(args.ckpt)
@@ -622,21 +641,22 @@ def cmd_fit():
         res[f"cpu_freeze{freeze}_minutes_for_fit_2_threads"] = per_step * args.fit_steps / 60
         print(f"[fit] cpu, {freeze} frozen layers: {per_step:.1f} s per step, "
               f"{per_step * args.fit_steps / 60:.1f} min for a fit", flush=True)
-    json.dump(res, open("results/fit_results.json", "w"), indent=1)
+    with open("results/fit_results.json", "w") as f:
+        json.dump(res, f, indent=1)
 
 
 def cmd_summary():
     for f in sorted(glob.glob("results/s*_results.json")):
         tag = os.path.basename(f)[:-13]
         print(f"\n== {tag} ==")
-        for t, r in json.load(open(f)).items():
+        for t, r in _json_load(f).items():
             print(f"  {t:22s} choice {r['choice']:.3f}  AUROC {r.get('auroc', float('nan')):.3f}  "
                   f"FPR95 {r.get('fpr95', float('nan')):.2f}  ECE {r['ece']:.3f}")
     for name in ["checks", "fit_results"]:
         p = f"results/{name}.json"
         if os.path.exists(p):
             print(f"\n== {name} ==")
-            print(json.dumps(json.load(open(p)), indent=1))
+            print(json.dumps(_json_load(p), indent=1))
 
 
 {"train": cmd_train, "checks": cmd_checks, "fit": cmd_fit, "summary": cmd_summary}[args.cmd]()

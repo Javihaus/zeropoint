@@ -22,6 +22,16 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager as fm
 from matplotlib.colors import LinearSegmentedColormap
 
+
+def _json_load(*args, **kw):
+    with open(*args, **kw) as f:
+        return json.load(f)
+
+
+def _jsonl(*args, **kw):
+    with open(*args, **kw) as f:
+        return [json.loads(line) for line in f]
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 for w in ["400Regular", "500Medium", "600SemiBold"]:
     path = os.path.join(HERE, "fonts", w, f"Archivo_{w}.ttf")
@@ -50,7 +60,7 @@ LABELS = {
 
 def main(summary_path=os.path.join(HERE, "results", "summary.json"),
          out_path=os.path.join(HERE, "..", "..", "assets", "decision-models-chart.png")):
-    S = json.load(open(summary_path, encoding="utf-8"))
+    S = _json_load(summary_path, encoding="utf-8")
     C = S["llm_comparison"]["systems"]
 
     fig = plt.figure(figsize=(2400 / DPI, 1600 / DPI), dpi=DPI)

@@ -29,3 +29,8 @@ def test_base_model_is_unchanged_by_recalibrate(base):
     base.recalibrate(TEXTS, LABELS)
     after = base.decide("play jazz", ["music", "weather"])
     assert before.probabilities == after.probabilities
+
+
+def test_recalibrate_warns_when_the_held_out_part_is_small(base):
+    with pytest.warns(UserWarning, match="held-out examples"):
+        base.recalibrate(TEXTS, LABELS)               # 52 examples: about 10 held out

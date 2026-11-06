@@ -7,12 +7,24 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import ENCODERS, LONG, RESULTS, TESTS, VARIANTS, jdump
 
-J = lambda n: json.load(open(os.path.join(RESULTS, n), encoding="utf-8"))
+
+def _json_load(*args, **kw):
+    with open(*args, **kw) as f:
+        return json.load(f)
+
+
+def _jsonl(*args, **kw):
+    with open(*args, **kw) as f:
+        return [json.loads(line) for line in f]
+
+J = lambda n: _json_load(os.path.join(RESULTS, n), encoding="utf-8")
 M, P, D, K, L = J("metrics.json"), J("paired.json"), J("depths.json"), J("packaging.json"), J("lists_info.json")
 DEV = J("deviations.json") if os.path.exists(os.path.join(RESULTS, "deviations.json")) else []
 NOTES = J("packaging_notes.json") if os.path.exists(os.path.join(RESULTS, "packaging_notes.json")) else []
-READING = open(os.path.join(RESULTS, "reading.md"), encoding="utf-8").read() if os.path.exists(
-    os.path.join(RESULTS, "reading.md")) else "(reading not written yet)"
+READING = "(reading not written yet)"
+if os.path.exists(os.path.join(RESULTS, "reading.md")):
+    with open(os.path.join(RESULTS, "reading.md"), encoding="utf-8") as f:
+        READING = f.read()
 
 MEAS = [("correct_decisions", "Correct", 3), ("ranking", "Ranking", 3), ("auroc_none", "AUROC", 3),
         ("auprc_none", "AUPRC", 3), ("fpr95", "FPR95", 3), ("silent_mistakes_09", "Silent@0.9", 3),
@@ -166,7 +178,8 @@ Package (ONNX, int8 vocabulary, CPU) against the released per-case outputs of th
 - E2 is run in PyTorch with padded batches, E1 one sequence at a time through onnxruntime; both are deterministic,
   but tiny numeric differences from batching are possible in E2.
 """
-open(os.path.join(RESULTS, "REPORT.md"), "w", encoding="utf-8").write(report)
+with open(os.path.join(RESULTS, "REPORT.md"), "w", encoding="utf-8") as f:
+    f.write(report)
 
 summary = {"protocol": "results/PROTOCOL.md", "report": "results/REPORT.md", "lists": L,
            "packaging": {"failed_checks": K["issues"], "notes": NOTES, "checks": {k: pkg[k] for k in [

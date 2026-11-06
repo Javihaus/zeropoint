@@ -32,6 +32,16 @@ rep["checks"]["import_and_load_seconds"] = float(t.stdout.strip())
 
 import zeropoint
 from zeropoint import Decision, ModelFilesError, UnsupportedLanguage, ZeroPoint
+
+
+def _json_load(*args, **kw):
+    with open(*args, **kw) as f:
+        return json.load(f)
+
+
+def _jsonl(*args, **kw):
+    with open(*args, **kw) as f:
+        return [json.loads(line) for line in f]
 rep["checks"]["version"] = zeropoint.__version__
 rep["checks"]["dist_version"] = md.version("zeropoint")
 files = [str(f) for f in md.files("zeropoint")]
@@ -122,7 +132,7 @@ rep["checks"]["onnx_exposes"] = ("per-token last hidden states ('hidden', shape 
                                  "states and probabilities are computed in numpy by _runtime.py")
 
 # recalibrate and fit on a few examples (support tickets shipped with the training archive)
-rows = [json.loads(l) for l in open(os.path.join(DATA, "data", "tickets_fit.jsonl"), encoding="utf-8")]
+rows = _jsonl(os.path.join(DATA, "data", "tickets_fit.jsonl"), encoding="utf-8")
 rows = rows[:60]
 texts, labels = [r["text"] for r in rows], [r["label"] for r in rows]
 t0 = time.time()

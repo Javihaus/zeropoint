@@ -165,6 +165,19 @@ def _evaluate(zp, cases) -> dict:
 
 # ---------------------------------------------------------------- fit
 
+MIN_HELD_OUT_EXAMPLES = 50
+
+
+def _warn_small_held_out(n_examples: int, what: str, stacklevel: int = 3) -> None:
+    """The report is measured on the held-out examples; with few of them its numbers move a lot by chance."""
+    if n_examples < MIN_HELD_OUT_EXAMPLES:
+        import warnings
+        warnings.warn(
+            f"{what}: the report is measured on only {n_examples} held-out examples, too few for its numbers to be "
+            f"reliable. Give more examples, or measure the new model on a separate test set of your own.",
+            UserWarning, stacklevel=stacklevel)
+
+
 def fit(zp, texts: Sequence[str], labels: Sequence[str | None], *, groups: Sequence[str] | None = None,
         steps: int = 200, frozen_layers: int = 8, seed: int = 0, threads: int | None = None,
         lr: float = 3e-5, batch: int = 16):
@@ -275,6 +288,7 @@ def fit(zp, texts: Sequence[str], labels: Sequence[str | None], *, groups: Seque
                                         "seed": seed, "threads": threads or rt.threads, "seconds": seconds})
     hrng = np.random.default_rng(seed + 1)
     held = _lists([t for t, _ in ho], [y for _, y in ho], label_set, hrng)
+    _warn_small_held_out(len(held), "fit", stacklevel=4)   # points at the caller of ZeroPoint.fit
     report = {"before": _evaluate(zp, held), "after": _evaluate(new, held), "held_out_examples": len(ho),
               "trained_on": len(tr), "seconds": round(seconds, 1), "steps": steps, "frozen_layers": frozen_layers,
               "seed": seed, "labels": label_set,

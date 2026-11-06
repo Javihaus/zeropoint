@@ -29,5 +29,15 @@ match a test label. `synth/` describes how the 5,000 written examples were produ
 reduction, the confusable options, the long lists and the refit were added. It measures the variation between
 training seeds.
 
+## A known flaw in the dev split
+
+The dev data is split in two halves by a hash of the text: one half decides when to stop training, the other fits
+`T` and `b` afterwards. Written examples reach dev when `sha256(text) % 20 == 0`, and every such number is even, so
+the split by `sha256(text) % 2` sends all 263 of them to the stopping half. The calibration half has no written
+examples; `T` and `b` were fitted on public texts only. The script is left as it ran, so that run `1.0c` can be
+repeated exactly; a future run should split dev with a different hash.
+
+## The released files
+
 The released files store weights in float16 and the vocabulary in int8. Their own measurements, including how
 many decisions that storage changes, are in `benchmarks/results/v1_model_measure.json`.

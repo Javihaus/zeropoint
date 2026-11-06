@@ -28,8 +28,8 @@
 </div>
 
 ZeroPoint is a small energy-based model. It measures how well each option fits the text and compares it with a fixed
-level, zero, that stands for *none of these*. An option that fits no better than zero gets no probability, so
-ZeroPoint can answer *none* with confidence.
+level, zero, that stands for *none of these*. An option that fits no better than zero gets almost no probability,
+so ZeroPoint can answer *none* with confidence.
 
 <br>
 
@@ -175,7 +175,7 @@ The right threshold depends on what a wrong action costs you; pick it on a few h
 | `confidence` | probability of `choice` (of *none* when `choice` is `None`) |
 | `p_none` | probability that none of the options fits |
 | `probabilities` | probability of each option, in the order you gave them; with `p_none` they add up to 1 |
-| `depths` | how strongly the text belongs to each option (0: not at all) |
+| `depths` | how strongly the text belongs to each option (near 0: not at all) |
 | `text_truncated` | `True` if the text was longer than ZeroPoint reads (192 word pieces) and its end was ignored |
 | `options_truncated` | options longer than 16 word pieces, whose end was ignored |
 | `blocks` | how many reads of 20 options the list needed |
@@ -199,6 +199,7 @@ Each text is computed on its own, so every result is exactly what `decide` gives
 You can calibrate ZeroPoint on your own labelled data, on a CPU.
 
 ```bash
+pip install torch --index-url https://download.pytorch.org/whl/cpu   # optional: CPU-only PyTorch, without the GPU libraries
 pip install "zeropoint[fit]"        # adds PyTorch and onnx; deciding never needs them
 ```
 
@@ -212,7 +213,12 @@ zp = ZeroPoint("my-model")
 
 > [!NOTE]
 > `fit` keeps 20% of your examples apart and reports how the model does on them before and after. Same data, same
-seed and same number of threads give the same model, bit for bit. On the support-ticket tests above, 300 labelled tickets and 6 minutes on 2 CPU threads raised the share of right queues from 24% to 36% when the queue is on the list, and from 29% to 46% against unrelated texts. Confident answers when the ticket's own queue is missing went from 20% to 0%.
+seed and same number of threads give the same model, bit for bit. On the support-ticket tests above, 300 labelled tickets raised the share of right queues from 24% to 36% when the queue is on the list, and from 29% to 46% against unrelated texts. Confident answers when the ticket's own queue is missing went from 20% to 0%. A fit is 200 steps and takes about 4 to 12
+minutes on 2 CPU threads, depending on the CPU.
+
+> [!WARNING]
+> With few examples the held-out part is small, and the report's numbers move a lot by chance. `fit` and
+`recalibrate` warn when fewer than 50 examples are held out.
 
 > [!TIP]
 > If your labels are already the ones ZeroPoint knows and you only want to move the balance between acting and

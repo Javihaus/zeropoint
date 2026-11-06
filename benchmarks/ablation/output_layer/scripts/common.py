@@ -10,6 +10,16 @@ import unicodedata
 
 import numpy as np
 
+
+def _json_load(*args, **kw):
+    with open(*args, **kw) as f:
+        return json.load(f)
+
+
+def _jsonl(*args, **kw):
+    with open(*args, **kw) as f:
+        return [json.loads(line) for line in f]
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data_zip")
 CACHE = os.path.join(ROOT, "cache")
@@ -50,7 +60,7 @@ def canon_case(text, opts, gold):
 
 # ---------------------------------------------------------------- copy of zp1.py list construction
 
-NB = json.load(open(os.path.join(DATA, "data", "neighbors.json"), encoding="utf-8"))
+NB = _json_load(os.path.join(DATA, "data", "neighbors.json"), encoding="utf-8")
 
 
 def wrong_options(pool, lab, same, k, rng):
@@ -119,9 +129,9 @@ def held_out(text):
 def build_data(seed=0):
     """Exactly zp1.build_data(seed) with default arguments (limit=0)."""
     rng = np.random.default_rng(seed)
-    tr = [json.loads(l) for l in open(os.path.join(DATA, "data", "train.jsonl"), encoding="utf-8")]
-    dv = [json.loads(l) for l in open(os.path.join(DATA, "data", "dev.jsonl"), encoding="utf-8")]
-    cmap = json.load(open(os.path.join(DATA, "data", "coarse_map.json"), encoding="utf-8"))
+    tr = _jsonl(os.path.join(DATA, "data", "train.jsonl"), encoding="utf-8")
+    dv = _jsonl(os.path.join(DATA, "data", "dev.jsonl"), encoding="utf-8")
+    cmap = _json_load(os.path.join(DATA, "data", "coarse_map.json"), encoding="utf-8")
     fine_pools, broad_pools = {}, {}
     for r in tr:
         fine_pools.setdefault(r["source"], set()).add(r["label"])
@@ -137,9 +147,9 @@ def build_data(seed=0):
     tr_b = [{**r, "_pool": r["source"] + "#broad"} for r in tr]
     dv_b = [{**r, "_pool": r["source"] + "#broad"} for r in dv]
     synth_pools = {k: v["labels"] for k, v in
-                   json.load(open(os.path.join(DATA, "data", "synth_pools.json"), encoding="utf-8")).items()
+                   _json_load(os.path.join(DATA, "data", "synth_pools.json"), encoding="utf-8").items()
                    if not k.startswith("_")}
-    syn = [json.loads(l) for l in open(os.path.join(DATA, "data", "synth.jsonl"), encoding="utf-8")]
+    syn = _jsonl(os.path.join(DATA, "data", "synth.jsonl"), encoding="utf-8")
     syn_tr = [r for r in syn if not held_out(r["text"])]
     syn_dv = [r for r in syn if held_out(r["text"])]
     train = (lists_from_rows(tr, "label", fine_pools, N_BASE, rng)
@@ -158,7 +168,7 @@ def build_data(seed=0):
 
 def load_test(name):
     sub = "tests" if name in TESTS else "tests_long"
-    items = json.load(open(os.path.join(DATA, sub, name + ".json"), encoding="utf-8"))
+    items = _json_load(os.path.join(DATA, sub, name + ".json"), encoding="utf-8")
     out = []
     for it in items:
         c = canon_case(it["text"], it["options"], it["gold"])
@@ -169,7 +179,7 @@ def load_test(name):
 def load_split(split):
     """split: 'train', 'dev_stop', 'dev_cal', or a test name. Lists in canonical order."""
     if split in ("train", "dev_stop", "dev_cal", "full_train"):
-        return json.load(open(os.path.join(CACHE, f"lists_{split}.json"), encoding="utf-8"))
+        return _json_load(os.path.join(CACHE, f"lists_{split}.json"), encoding="utf-8")
     return load_test(split)
 
 
