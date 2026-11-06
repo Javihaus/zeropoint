@@ -188,7 +188,6 @@ for rank, i in enumerate(order):
     running = max(running, adj)
     comps[i]["p_holm"] = running
 for c in comps:
-    good = c["diff"] > 0 if c["measure"] != "fpr95" else c["diff"] < 0
     ci_side = (c["ci95"][0] > 0) if c["measure"] != "fpr95" else (c["ci95"][1] < 0)
     ci_other = (c["ci95"][1] < 0) if c["measure"] != "fpr95" else (c["ci95"][0] > 0)
     c["reading"] = ("V1 better" if (c["p_holm"] < 0.05 and ci_side) else

@@ -72,8 +72,8 @@ def paired_table():
 
 
 def depth_table():
-    rows = ["| test | options | depth median | depth p95 | depth min | S/e^b median | S/e^b p95 | share S > e^b | "
-            "S/e^b median, wrong options of cases with a right one |", "|---|---|---|---|---|---|---|---|---|"]
+    rows = [("| test | options | depth median | depth p95 | depth min | S/e^b median | S/e^b p95 | share S > e^b | "
+             "S/e^b median, wrong options of cases with a right one |"), "|---|---|---|---|---|---|---|---|---|"]
     for sec, names in [("per_test", TESTS), ("per_long", LONG)]:
         for t in names:
             n, p = D[sec][t]["none"], D[sec][t]["with_right_option"]

@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 import torch
 import torch.nn.functional as F
-from common import CACHE, LONG, SEEDS, TESTS, VARIANTS, jdump
+from common import CACHE, LONG, SEEDS, TESTS, VARIANTS
 
 torch.set_num_threads(1)   # small ops: one thread each, E1 and E2 trained in parallel
 ENC = sys.argv[1]

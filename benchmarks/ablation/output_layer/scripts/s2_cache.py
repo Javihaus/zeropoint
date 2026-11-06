@@ -107,7 +107,6 @@ class E2:
             h = h.numpy()
             for r, i in enumerate(idx):
                 hid[i] = h[r, :len(seqs[i][0])]
-        res = [([], [], 0) for _ in cases]
         res = [{"pooled": [], "cls": [], "nb": 0} for _ in cases]
         for i, (_, _, spans) in enumerate(seqs):
             h = hid[i]

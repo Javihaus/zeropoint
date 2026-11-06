@@ -10,6 +10,8 @@ version is published.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-06
+
 ### Added
 
 - `fit` and `recalibrate` warn (`UserWarning`) when fewer than 50 examples are held out, because the report's
@@ -28,6 +30,8 @@ version is published.
   times (1.3 s and 3.4 s on 2 threads), about 4 to 12 minutes for the default 200 steps.
 - The documentation shows how to install the CPU-only PyTorch before `zeropoint[fit]`.
 - Every file the training, benchmark and ablation scripts open is now closed (`with` blocks).
+- `zeropoint.fit` no longer imports `zeropoint.model`, which removes a cyclic import; the ablation scripts drop
+  unused names and a value assigned twice.
 - `training/zp1.py` no longer claims that the model measured is the model shipped, and `training/README.md`
   documents a flaw in the dev split of run 1.0c: the calibration half has no written examples.
 
@@ -129,7 +133,8 @@ First release.
 - Benchmark against similarity with the same encoder and against Laya, with the scripts to rebuild it.
 - Documentation site at <https://javihaus.github.io/zeropoint/>.
 
-[Unreleased]: https://github.com/Javihaus/zeropoint/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/Javihaus/zeropoint/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/Javihaus/zeropoint/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Javihaus/zeropoint/compare/v0.2.0...v1.0.0
 [0.2.0]: https://github.com/Javihaus/zeropoint/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Javihaus/zeropoint/releases/tag/v0.1.0
