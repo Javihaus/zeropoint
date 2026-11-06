@@ -182,7 +182,6 @@ def fit(zp, texts: Sequence[str], labels: Sequence[str | None], *, groups: Seque
         steps: int = 200, frozen_layers: int = 8, seed: int = 0, threads: int | None = None,
         lr: float = 3e-5, batch: int = 16):
     torch = _need("torch")
-    from .model import ZeroPoint
 
     texts, labels = list(texts), list(labels)
     if len(texts) != len(labels):
@@ -281,7 +280,7 @@ def fit(zp, texts: Sequence[str], labels: Sequence[str | None], *, groups: Seque
     seconds = time.perf_counter() - t0
 
     trained = {theirs: enc.state_dict()[ours].detach().numpy() for ours, theirs in names.items()}
-    new = ZeroPoint._from_fit(zp, trained, w.detach().numpy().astype(np.float64), float(bias.detach()),
+    new = type(zp)._from_fit(zp, trained, w.detach().numpy().astype(np.float64), float(bias.detach()),
                               float(log_t.detach()), float(b.detach()),
                               fit_info={"examples": len(texts), "trained_on": len(tr), "held_out": len(ho),
                                         "labels": label_set, "steps": steps, "frozen_layers": frozen_layers,

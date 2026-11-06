@@ -18,20 +18,20 @@ if os.path.exists(OUT):
 rep = {"issues": [], "checks": {}}
 W = []
 warnings.simplefilter("always")
-_show = warnings.showwarning
 warnings.showwarning = lambda m, c, f, l, file=None, line=None: W.append(f"{c.__name__}: {m} ({os.path.basename(f)}:{l})")
 
 # import time in a fresh interpreter
-t = subprocess.run([sys.executable, "-I", "-c", "import time;t=time.perf_counter();import zeropoint;"
-                    "print(time.perf_counter()-t)"], capture_output=True, text=True)
+t = subprocess.run([sys.executable, "-I", "-c", ("import time;t=time.perf_counter();import zeropoint;"
+                                                 "print(time.perf_counter()-t)")], capture_output=True, text=True)
 rep["checks"]["import_seconds"] = float(t.stdout.strip())
 rep["checks"]["import_stderr"] = t.stderr
-t = subprocess.run([sys.executable, "-I", "-c", "import time;t=time.perf_counter();from zeropoint import ZeroPoint;"
-                    "ZeroPoint();print(time.perf_counter()-t)"], capture_output=True, text=True)
+t = subprocess.run([sys.executable, "-I", "-c", ("import time;t=time.perf_counter();from zeropoint import ZeroPoint;"
+                                                 "ZeroPoint();print(time.perf_counter()-t)")], capture_output=True, text=True)
 rep["checks"]["import_and_load_seconds"] = float(t.stdout.strip())
 
 import zeropoint
-from zeropoint import Decision, ModelFilesError, UnsupportedLanguage, ZeroPoint
+
+UnsupportedLanguage, ZeroPoint = zeropoint.UnsupportedLanguage, zeropoint.ZeroPoint
 
 
 def _json_load(*args, **kw):
