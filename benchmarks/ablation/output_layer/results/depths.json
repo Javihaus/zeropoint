@@ -1,0 +1,540 @@
+{
+ "T": 0.25750097501415153,
+ "b": 4.517323970794678,
+ "exp_b": 91.59017176619525,
+ "note": "Depths from the released ONNX in the PyPI package, cached through zeropoint._runtime and checked bit for bit against ZeroPoint.decide. 'none' = cases without a right option, all their options. 'with_right_option' = the wrong options of cases with a right option. sum_weight = sum(exp(a/T) - 1) with the runtime clip; > exp(b) means the options together outweigh none.",
+ "per_test": {
+  "bench2000": {
+   "none": {
+    "cases": 1000,
+    "options_per_list_mean": 5.463,
+    "depth_median": 0.05222430112386621,
+    "depth_p95": 0.9074600222038932,
+    "depth_min": 0.006356374703325185,
+    "depth_max": 3.3159976800039197,
+    "share_depth_below_0.05": 0.4933186893648179,
+    "weight_per_option_median": 0.22484223991223168,
+    "sum_weight_over_exp_b_median": 0.05223775954584425,
+    "sum_weight_over_exp_b_p95": 22.63773237607815,
+    "share_cases_sum_weight_gt_exp_b": 0.173,
+    "mean_p_none_if_only_these_options": 0.7960712052745648
+   },
+   "with_right_option": {
+    "cases": 1000,
+    "options_per_list_mean": 5.963,
+    "depth_median": 0.08781663145592292,
+    "depth_p95": 1.0443926250112403,
+    "depth_min": 0.006364242690147215,
+    "depth_max": 3.1757885588717096,
+    "share_depth_below_0.05": 0.40519846866814424,
+    "weight_per_option_median": 0.40640129768981487,
+    "sum_weight_over_exp_b_median": 0.08485063246364932,
+    "sum_weight_over_exp_b_p95": 11.653107801325579,
+    "share_cases_sum_weight_gt_exp_b": 0.18,
+    "mean_p_none_if_only_these_options": 0.7775866472264945
+   }
+  },
+  "snips": {
+   "none": {
+    "cases": 500,
+    "options_per_list_mean": 6.0,
+    "depth_median": 0.05165815191479441,
+    "depth_p95": 0.9036860406321828,
+    "depth_min": 0.006453064784233703,
+    "depth_max": 2.593296619897121,
+    "share_depth_below_0.05": 0.491,
+    "weight_per_option_median": 0.22215222456492564,
+    "sum_weight_over_exp_b_median": 0.07107558733068653,
+    "sum_weight_over_exp_b_p95": 8.606581568249872,
+    "share_cases_sum_weight_gt_exp_b": 0.224,
+    "mean_p_none_if_only_these_options": 0.7585285527031913
+   },
+   "with_right_option": {
+    "cases": 500,
+    "options_per_list_mean": 7.0,
+    "depth_median": 0.05903846350219,
+    "depth_p95": 0.8535834393497369,
+    "depth_min": 0.006433903762225128,
+    "depth_max": 2.125723965120748,
+    "share_depth_below_0.05": 0.44766666666666666,
+    "weight_per_option_median": 0.2576875081854134,
+    "sum_weight_over_exp_b_median": 0.06356770431738462,
+    "sum_weight_over_exp_b_p95": 4.588761825855395,
+    "share_cases_sum_weight_gt_exp_b": 0.176,
+    "mean_p_none_if_only_these_options": 0.7901795039624342
+   }
+  },
+  "atis": {
+   "none": {
+    "cases": 51,
+    "options_per_list_mean": 8.0,
+    "depth_median": 0.41214099948047156,
+    "depth_p95": 2.517309783982621,
+    "depth_min": 0.00640697565452089,
+    "depth_max": 3.1388859936471567,
+    "share_depth_below_0.05": 0.18382352941176472,
+    "weight_per_option_median": 3.9561572082390057,
+    "sum_weight_over_exp_b_median": 107.09494660150973,
+    "sum_weight_over_exp_b_p95": 1359.3306133848898,
+    "share_cases_sum_weight_gt_exp_b": 0.9215686274509803,
+    "mean_p_none_if_only_these_options": 0.10097720907068095
+   },
+   "with_right_option": {
+    "cases": 300,
+    "options_per_list_mean": 8.0,
+    "depth_median": 0.3647626566956451,
+    "depth_p95": 2.3988187073120675,
+    "depth_min": 0.006435195100027033,
+    "depth_max": 3.149994129977877,
+    "share_depth_below_0.05": 0.20476190476190476,
+    "weight_per_option_median": 3.1228664176079466,
+    "sum_weight_over_exp_b_median": 31.559529058360347,
+    "sum_weight_over_exp_b_p95": 743.4573073440554,
+    "share_cases_sum_weight_gt_exp_b": 0.8633333333333333,
+    "mean_p_none_if_only_these_options": 0.16682741677562296
+   }
+  },
+  "mtop_es": {
+   "none": {
+    "cases": 352,
+    "options_per_list_mean": 10.0,
+    "depth_median": 0.03993286802269437,
+    "depth_p95": 0.750610627825502,
+    "depth_min": 0.006344126053793778,
+    "depth_max": 2.703376059396578,
+    "share_depth_below_0.05": 0.5480113636363636,
+    "weight_per_option_median": 0.16774964024299396,
+    "sum_weight_over_exp_b_median": 0.10794919025548969,
+    "sum_weight_over_exp_b_p95": 10.706737243025781,
+    "share_cases_sum_weight_gt_exp_b": 0.1846590909090909,
+    "mean_p_none_if_only_these_options": 0.7562719852268157
+   },
+   "with_right_option": {
+    "cases": 500,
+    "options_per_list_mean": 10.0,
+    "depth_median": 0.04544758030023546,
+    "depth_p95": 0.7395861611196872,
+    "depth_min": 0.006363598726592991,
+    "depth_max": 2.492994328728775,
+    "share_depth_below_0.05": 0.5204444444444445,
+    "weight_per_option_median": 0.19302821009494603,
+    "sum_weight_over_exp_b_median": 0.10821921963668452,
+    "sum_weight_over_exp_b_p95": 12.223958415806672,
+    "share_cases_sum_weight_gt_exp_b": 0.18,
+    "mean_p_none_if_only_these_options": 0.7630658966773893
+   }
+  },
+  "hwu64": {
+   "none": {
+    "cases": 84,
+    "options_per_list_mean": 10.0,
+    "depth_median": 0.0613691484207145,
+    "depth_p95": 0.848907697750112,
+    "depth_min": 0.006361219328916842,
+    "depth_max": 1.890593174913599,
+    "share_depth_below_0.05": 0.4726190476190476,
+    "weight_per_option_median": 0.2691234508741387,
+    "sum_weight_over_exp_b_median": 0.2727537046358989,
+    "sum_weight_over_exp_b_p95": 8.269904999588602,
+    "share_cases_sum_weight_gt_exp_b": 0.2857142857142857,
+    "mean_p_none_if_only_these_options": 0.6911727729522044
+   },
+   "with_right_option": {
+    "cases": 450,
+    "options_per_list_mean": 10.0,
+    "depth_median": 0.06804134798001056,
+    "depth_p95": 0.6857544485928246,
+    "depth_min": 0.006349101345074959,
+    "depth_max": 2.3834569386553768,
+    "share_depth_below_0.05": 0.43382716049382714,
+    "weight_per_option_median": 0.3024371571705509,
+    "sum_weight_over_exp_b_median": 0.1454795963059604,
+    "sum_weight_over_exp_b_p95": 5.923698518974488,
+    "share_cases_sum_weight_gt_exp_b": 0.15777777777777777,
+    "mean_p_none_if_only_these_options": 0.768126941836811
+   }
+  },
+  "clinc_real_indomain": {
+   "none": {
+    "cases": 800,
+    "options_per_list_mean": 20.0,
+    "depth_median": 0.019290099135792427,
+    "depth_p95": 0.285335384367456,
+    "depth_min": 0.006326797148827324,
+    "depth_max": 2.8848948216077135,
+    "share_depth_below_0.05": 0.7136875,
+    "weight_per_option_median": 0.07779008019418188,
+    "sum_weight_over_exp_b_median": 0.07545141720016424,
+    "sum_weight_over_exp_b_p95": 2.007404148482545,
+    "share_cases_sum_weight_gt_exp_b": 0.08,
+    "mean_p_none_if_only_these_options": 0.8442039310915035
+   },
+   "with_right_option": {
+    "cases": 800,
+    "options_per_list_mean": 20.0,
+    "depth_median": 0.03020712326701626,
+    "depth_p95": 0.38495013683185836,
+    "depth_min": 0.006329901531812975,
+    "depth_max": 2.6752184359394686,
+    "share_depth_below_0.05": 0.6165131578947368,
+    "weight_per_option_median": 0.12446658032757053,
+    "sum_weight_over_exp_b_median": 0.1282169922752125,
+    "sum_weight_over_exp_b_p95": 5.254631049469475,
+    "share_cases_sum_weight_gt_exp_b": 0.1275,
+    "mean_p_none_if_only_these_options": 0.7839893217376485
+   }
+  },
+  "tickets_made": {
+   "none": {
+    "cases": 300,
+    "options_per_list_mean": 8.0,
+    "depth_median": 0.38142478210002034,
+    "depth_p95": 2.4799112548724174,
+    "depth_min": 0.008475039486771198,
+    "depth_max": 3.3207106227636425,
+    "share_depth_below_0.05": 0.018333333333333333,
+    "weight_per_option_median": 3.398466187331959,
+    "sum_weight_over_exp_b_median": 25.823045725856613,
+    "sum_weight_over_exp_b_p95": 2642.6359430914085,
+    "share_cases_sum_weight_gt_exp_b": 0.79,
+    "mean_p_none_if_only_these_options": 0.21603611666509961
+   },
+   "with_right_option": {
+    "cases": 300,
+    "options_per_list_mean": 8.0,
+    "depth_median": 0.40273659499444203,
+    "depth_p95": 2.2466564743855164,
+    "depth_min": 0.00818331635060126,
+    "depth_max": 3.293823314584262,
+    "share_depth_below_0.05": 0.015238095238095238,
+    "weight_per_option_median": 3.777992315568657,
+    "sum_weight_over_exp_b_median": 13.858821024356436,
+    "sum_weight_over_exp_b_p95": 1343.61490572243,
+    "share_cases_sum_weight_gt_exp_b": 0.7966666666666666,
+    "mean_p_none_if_only_these_options": 0.22901476140201452
+   }
+  },
+  "tickets_far": {
+   "none": {
+    "cases": 300,
+    "options_per_list_mean": 9.0,
+    "depth_median": 0.061622170170984585,
+    "depth_p95": 0.38474015028315195,
+    "depth_min": 0.006490103551585286,
+    "depth_max": 2.3007429563140396,
+    "share_depth_below_0.05": 0.44962962962962966,
+    "weight_per_option_median": 0.27037038002616387,
+    "sum_weight_over_exp_b_median": 0.03921786288956226,
+    "sum_weight_over_exp_b_p95": 0.6247909563396564,
+    "share_cases_sum_weight_gt_exp_b": 0.03666666666666667,
+    "mean_p_none_if_only_these_options": 0.901959406020951
+   },
+   "with_right_option": {
+    "cases": 300,
+    "options_per_list_mean": 9.0,
+    "depth_median": 0.44473285179438377,
+    "depth_p95": 2.5013326073880062,
+    "depth_min": 0.016983490256361734,
+    "depth_max": 3.2648364694195995,
+    "share_depth_below_0.05": 0.00875,
+    "weight_per_option_median": 4.624383767096825,
+    "sum_weight_over_exp_b_median": 68.72195394921272,
+    "sum_weight_over_exp_b_p95": 1641.143727504052,
+    "share_cases_sum_weight_gt_exp_b": 0.8766666666666667,
+    "mean_p_none_if_only_these_options": 0.13882560903887198
+   }
+  }
+ },
+ "per_long": {
+  "clinc_20": {
+   "none": {
+    "cases": 300,
+    "options_per_list_mean": 20.0,
+    "depth_median": 0.018602609213757004,
+    "depth_p95": 0.2917417696706474,
+    "depth_min": 0.006339219157123619,
+    "depth_max": 3.2662060566567797,
+    "share_depth_below_0.05": 0.7153333333333334,
+    "weight_per_option_median": 0.07491637673370222,
+    "sum_weight_over_exp_b_median": 0.0723943777524167,
+    "sum_weight_over_exp_b_p95": 1.4653424931375545,
+    "share_cases_sum_weight_gt_exp_b": 0.06333333333333334,
+    "mean_p_none_if_only_these_options": 0.8531406407044667
+   },
+   "with_right_option": {
+    "cases": 300,
+    "options_per_list_mean": 20.0,
+    "depth_median": 0.029663943319104276,
+    "depth_p95": 0.41356033375436463,
+    "depth_min": 0.00632577954134043,
+    "depth_max": 3.0969017103637557,
+    "share_depth_below_0.05": 0.621578947368421,
+    "weight_per_option_median": 0.12209710341223728,
+    "sum_weight_over_exp_b_median": 0.1369318542309241,
+    "sum_weight_over_exp_b_p95": 4.406874249072081,
+    "share_cases_sum_weight_gt_exp_b": 0.17333333333333334,
+    "mean_p_none_if_only_these_options": 0.7619594786796283
+   }
+  },
+  "clinc_50": {
+   "none": {
+    "cases": 300,
+    "options_per_list_mean": 50.0,
+    "depth_median": 0.019366746701753965,
+    "depth_p95": 0.3286557475174873,
+    "depth_min": 0.006327676367547049,
+    "depth_max": 3.140726371435738,
+    "share_depth_below_0.05": 0.7068,
+    "weight_per_option_median": 0.07811094218907885,
+    "sum_weight_over_exp_b_median": 0.3566288597681486,
+    "sum_weight_over_exp_b_p95": 15.44283588493151,
+    "share_cases_sum_weight_gt_exp_b": 0.26666666666666666,
+    "mean_p_none_if_only_these_options": 0.6400796946225689
+   },
+   "with_right_option": {
+    "cases": 300,
+    "options_per_list_mean": 50.0,
+    "depth_median": 0.02418264096287996,
+    "depth_p95": 0.3926322725224257,
+    "depth_min": 0.00632462722004247,
+    "depth_max": 3.0488305195020713,
+    "share_depth_below_0.05": 0.6559183673469388,
+    "weight_per_option_median": 0.0984639702078428,
+    "sum_weight_over_exp_b_median": 0.5415659049132606,
+    "sum_weight_over_exp_b_p95": 11.81513746092566,
+    "share_cases_sum_weight_gt_exp_b": 0.36,
+    "mean_p_none_if_only_these_options": 0.5719874378494064
+   }
+  },
+  "clinc_100": {
+   "none": {
+    "cases": 300,
+    "options_per_list_mean": 100.0,
+    "depth_median": 0.019403385996607573,
+    "depth_p95": 0.3267201145456839,
+    "depth_min": 0.006331024341664036,
+    "depth_max": 3.2169548009461586,
+    "share_depth_below_0.05": 0.7002666666666667,
+    "weight_per_option_median": 0.0782643555218229,
+    "sum_weight_over_exp_b_median": 1.0509025381932773,
+    "sum_weight_over_exp_b_p95": 26.915841598253582,
+    "share_cases_sum_weight_gt_exp_b": 0.5166666666666667,
+    "mean_p_none_if_only_these_options": 0.466812916717359
+   },
+   "with_right_option": {
+    "cases": 300,
+    "options_per_list_mean": 100.0,
+    "depth_median": 0.02246203917003931,
+    "depth_p95": 0.374343748217585,
+    "depth_min": 0.006326016484255267,
+    "depth_max": 3.161947867018859,
+    "share_depth_below_0.05": 0.6697979797979798,
+    "weight_per_option_median": 0.09114858572091927,
+    "sum_weight_over_exp_b_median": 1.6732055404488009,
+    "sum_weight_over_exp_b_p95": 52.25571961174117,
+    "share_cases_sum_weight_gt_exp_b": 0.6333333333333333,
+    "mean_p_none_if_only_these_options": 0.38482168598266303
+   }
+  },
+  "clinc_150": {
+   "none": {
+    "cases": 300,
+    "options_per_list_mean": 150.0,
+    "depth_median": 0.02140017754556947,
+    "depth_p95": 0.3470612582332683,
+    "depth_min": 0.006334121088835575,
+    "depth_max": 3.160073706548382,
+    "share_depth_below_0.05": 0.6816444444444445,
+    "weight_per_option_median": 0.0866582604863993,
+    "sum_weight_over_exp_b_median": 2.0650921471589685,
+    "sum_weight_over_exp_b_p95": 94.3050273371363,
+    "share_cases_sum_weight_gt_exp_b": 0.7433333333333333,
+    "mean_p_none_if_only_these_options": 0.3322883042177782
+   },
+   "with_right_option": {
+    "cases": 300,
+    "options_per_list_mean": 150.0,
+    "depth_median": 0.023277852608949816,
+    "depth_p95": 0.416542625641475,
+    "depth_min": 0.006329368286764967,
+    "depth_max": 3.1961679200664226,
+    "share_depth_below_0.05": 0.6555480984340045,
+    "weight_per_option_median": 0.09461103975892601,
+    "sum_weight_over_exp_b_median": 3.84211463364983,
+    "sum_weight_over_exp_b_p95": 72.1273384519038,
+    "share_cases_sum_weight_gt_exp_b": 0.85,
+    "mean_p_none_if_only_these_options": 0.25239602333408917
+   }
+  },
+  "mtop_es_20": {
+   "none": {
+    "cases": 300,
+    "options_per_list_mean": 20.0,
+    "depth_median": 0.04405161912031534,
+    "depth_p95": 0.7374727706300395,
+    "depth_min": 0.00634154886734619,
+    "depth_max": 2.914990308535696,
+    "share_depth_below_0.05": 0.5308333333333334,
+    "weight_per_option_median": 0.1865780794821938,
+    "sum_weight_over_exp_b_median": 0.44144894889588554,
+    "sum_weight_over_exp_b_p95": 27.1036853623455,
+    "share_cases_sum_weight_gt_exp_b": 0.3466666666666667,
+    "mean_p_none_if_only_these_options": 0.6154225323159346
+   },
+   "with_right_option": {
+    "cases": 300,
+    "options_per_list_mean": 20.0,
+    "depth_median": 0.04615632150822656,
+    "depth_p95": 0.7022086522943333,
+    "depth_min": 0.006337613130994797,
+    "depth_max": 3.0825379954472787,
+    "share_depth_below_0.05": 0.522280701754386,
+    "weight_per_option_median": 0.19631640360070163,
+    "sum_weight_over_exp_b_median": 0.3796046119068476,
+    "sum_weight_over_exp_b_p95": 58.24612780422482,
+    "share_cases_sum_weight_gt_exp_b": 0.3566666666666667,
+    "mean_p_none_if_only_these_options": 0.6098963714717496
+   }
+  },
+  "mtop_es_50": {
+   "none": {
+    "cases": 300,
+    "options_per_list_mean": 50.0,
+    "depth_median": 0.0509410355942948,
+    "depth_p95": 0.8563162856746883,
+    "depth_min": 0.0063459264243333575,
+    "depth_max": 3.1554327962232156,
+    "share_depth_below_0.05": 0.4952666666666667,
+    "weight_per_option_median": 0.21875337872973408,
+    "sum_weight_over_exp_b_median": 4.377080316783855,
+    "sum_weight_over_exp_b_p95": 409.9629017438059,
+    "share_cases_sum_weight_gt_exp_b": 0.71,
+    "mean_p_none_if_only_these_options": 0.3333893093874237
+   },
+   "with_right_option": {
+    "cases": 300,
+    "options_per_list_mean": 50.0,
+    "depth_median": 0.05058738916439133,
+    "depth_p95": 0.8131801175992864,
+    "depth_min": 0.006344357295686535,
+    "depth_max": 3.2606541827348376,
+    "share_depth_below_0.05": 0.49727891156462584,
+    "weight_per_option_median": 0.21708071702788195,
+    "sum_weight_over_exp_b_median": 2.936083259119953,
+    "sum_weight_over_exp_b_p95": 461.9732419690894,
+    "share_cases_sum_weight_gt_exp_b": 0.6466666666666666,
+    "mean_p_none_if_only_these_options": 0.3677727789777479
+   }
+  }
+ },
+ "package_vs_1.0c_checkpoint": {
+  "bench2000": {
+   "cases": 2000,
+   "p_none_abs_diff_max": 0.03655797432354879,
+   "p_none_abs_diff_median": 0.00022973321066220402,
+   "decision_agreement": 0.9985
+  },
+  "snips": {
+   "cases": 1000,
+   "p_none_abs_diff_max": 0.021065396797209868,
+   "p_none_abs_diff_median": 0.0004127815453658437,
+   "decision_agreement": 0.999
+  },
+  "atis": {
+   "cases": 351,
+   "p_none_abs_diff_max": 0.020937778673750684,
+   "p_none_abs_diff_median": 2.1051085292359776e-05,
+   "decision_agreement": 0.9971509971509972
+  },
+  "mtop_es": {
+   "cases": 852,
+   "p_none_abs_diff_max": 0.03082690645926628,
+   "p_none_abs_diff_median": 0.0007362883252979985,
+   "decision_agreement": 0.9964788732394366
+  },
+  "hwu64": {
+   "cases": 534,
+   "p_none_abs_diff_max": 0.018461269820776005,
+   "p_none_abs_diff_median": 0.0004580739650343465,
+   "decision_agreement": 0.99812734082397
+  },
+  "clinc_real_indomain": {
+   "cases": 1600,
+   "p_none_abs_diff_max": 0.03505587903325469,
+   "p_none_abs_diff_median": 0.00033861413431560215,
+   "decision_agreement": 1.0
+  },
+  "tickets_made": {
+   "cases": 600,
+   "p_none_abs_diff_max": 0.015716885418829873,
+   "p_none_abs_diff_median": 0.00037251251003708914,
+   "decision_agreement": 0.9983333333333333
+  },
+  "tickets_far": {
+   "cases": 600,
+   "p_none_abs_diff_max": 0.015009202792154619,
+   "p_none_abs_diff_median": 0.0002887812464870687,
+   "decision_agreement": 0.9983333333333333
+  }
+ },
+ "pooled_tests": {
+  "none": {
+   "cases": 3387,
+   "options_per_list_mean": 10.136108650723354,
+   "depth_median": 0.03716760597234624,
+   "depth_p95": 0.8368917981049137,
+   "depth_min": 0.006326797148827324,
+   "depth_max": 3.3207106227636425,
+   "share_depth_below_0.05": 0.5606012059071975,
+   "weight_per_option_median": 0.15527645560105857,
+   "sum_weight_over_exp_b_median": 0.08486499512267043,
+   "sum_weight_over_exp_b_p95": 95.68696613294247,
+   "share_cases_sum_weight_gt_exp_b": 0.2164157071154414,
+   "mean_p_none_if_only_these_options": 0.742696596603368
+  },
+  "with_right_option": {
+   "cases": 4150,
+   "options_per_list_mean": 10.232048192771085,
+   "depth_median": 0.06383286509788284,
+   "depth_p95": 1.301224050660446,
+   "depth_min": 0.006329901531812975,
+   "depth_max": 3.293823314584262,
+   "share_depth_below_0.05": 0.45172656800563776,
+   "weight_per_option_median": 0.2813236985875756,
+   "sum_weight_over_exp_b_median": 0.18956016418560145,
+   "sum_weight_over_exp_b_p95": 289.58813448108225,
+   "share_cases_sum_weight_gt_exp_b": 0.31132530120481927,
+   "mean_p_none_if_only_these_options": 0.6475803048019381
+  }
+ },
+ "pooled_long": {
+  "none": {
+   "cases": 1800,
+   "options_per_list_mean": 65.0,
+   "depth_median": 0.023857808125902158,
+   "depth_p95": 0.41586083406669627,
+   "depth_min": 0.006327676367547049,
+   "depth_max": 3.2662060566567797,
+   "share_depth_below_0.05": 0.6597435897435897,
+   "weight_per_option_median": 0.09707915132693956,
+   "sum_weight_over_exp_b_median": 0.7241436940501185,
+   "sum_weight_over_exp_b_p95": 67.47827671514206,
+   "share_cases_sum_weight_gt_exp_b": 0.4411111111111111,
+   "mean_p_none_if_only_these_options": 0.5401888996609219
+  },
+  "with_right_option": {
+   "cases": 1800,
+   "options_per_list_mean": 65.0,
+   "depth_median": 0.02719694642499391,
+   "depth_p95": 0.46518527689306816,
+   "depth_min": 0.00632462722004247,
+   "depth_max": 3.2606541827348376,
+   "share_depth_below_0.05": 0.6307986111111111,
+   "weight_per_option_median": 0.11139814133186454,
+   "sum_weight_over_exp_b_median": 1.0130135620933274,
+   "sum_weight_over_exp_b_p95": 68.20747703446521,
+   "share_cases_sum_weight_gt_exp_b": 0.5033333333333333,
+   "mean_p_none_if_only_these_options": 0.4914722960492141
+  }
+ }
+}

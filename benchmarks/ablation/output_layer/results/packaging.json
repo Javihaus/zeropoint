@@ -1,0 +1,239 @@
+{
+ "issues": [],
+ "checks": {
+  "import_seconds": 0.0767063360000293,
+  "import_stderr": "",
+  "import_and_load_seconds": 0.6446628330000976,
+  "version": "1.0.0",
+  "dist_version": "1.0.0",
+  "wheel_files": [
+   "zeropoint-1.0.0.dist-info/INSTALLER",
+   "zeropoint-1.0.0.dist-info/METADATA",
+   "zeropoint-1.0.0.dist-info/RECORD",
+   "zeropoint-1.0.0.dist-info/REQUESTED",
+   "zeropoint-1.0.0.dist-info/WHEEL",
+   "zeropoint-1.0.0.dist-info/licenses/LICENSE",
+   "zeropoint-1.0.0.dist-info/licenses/NOTICE",
+   "zeropoint/__init__.py",
+   "zeropoint/__pycache__/__init__.cpython-313.pyc",
+   "zeropoint/__pycache__/_runtime.cpython-313.pyc",
+   "zeropoint/__pycache__/_version.cpython-313.pyc",
+   "zeropoint/__pycache__/fit.cpython-313.pyc",
+   "zeropoint/__pycache__/model.cpython-313.pyc",
+   "zeropoint/_runtime.py",
+   "zeropoint/_version.py",
+   "zeropoint/fit.py",
+   "zeropoint/model.py",
+   "zeropoint/model/encoder.onnx",
+   "zeropoint/model/head.json",
+   "zeropoint/model/manifest.json",
+   "zeropoint/model/tokenizer.json",
+   "zeropoint/model/vocab_int8.npy",
+   "zeropoint/model/vocab_scale.npy"
+  ],
+  "requires": [
+   "numpy>=1.22",
+   "onnxruntime>=1.17",
+   "tokenizers>=0.15",
+   "pytest>=7; extra == 'dev'",
+   "onnx>=1.15; extra == 'fit'",
+   "torch>=2.1; extra == 'fit'"
+  ],
+  "repr": "ZeroPoint(model=fb0998fc59d7, languages=25, threads=2)",
+  "quick_start": [
+   {
+    "text": "Can you move 200 euros from my savings to my checking account?",
+    "matches_readme": true,
+    "got": "transfer  0.77  ███████████████·····\nbalance   0.02  ····················\npay bill  0.01  ····················\nnone      0.20  ████················\n→ transfer",
+    "latency_ms": 8.9304829999719,
+    "p_none": 0.1998013084132008,
+    "depths": {
+     "transfer": 1.51160792540763,
+     "balance": 0.5727485144191683,
+     "pay bill": 0.4704153655055871
+    }
+   },
+   {
+    "text": "Set an alarm for 6:30 tomorrow morning",
+    "matches_readme": true,
+    "got": "pay bill  0.00  ····················\ntransfer  0.00  ····················\nbalance   0.00  ····················\nnone      1.00  ████████████████████\n→ none",
+    "latency_ms": 7.134845999985373,
+    "p_none": 0.9991638980802031,
+    "depths": {
+     "transfer": 0.006490466418452522,
+     "balance": 0.006478275590437923,
+     "pay bill": 0.006518966434158809
+    }
+   },
+   {
+    "text": "Me han cobrado dos veces la suscripción de marzo, ¿podéis devolverme el duplicado?",
+    "matches_readme": true,
+    "got": "facturación       0.76  ███████████████·····\nsoporte técnico   0.00  ····················\nrecursos humanos  0.00  ····················\nnone              0.24  █████···············\n→ facturación",
+    "latency_ms": 10.085611999897992,
+    "p_none": 0.24301347155069727,
+    "depths": {
+     "facturación": 1.4566282896406735,
+     "soporte técnico": 0.01146604803888561,
+     "recursos humanos": 0.007620591955849611
+    }
+   }
+  ],
+  "usage_md_example": {
+   "choice": null,
+   "p_none": 0.737266550695696
+  },
+  "languages": [
+   "ca",
+   "cs",
+   "da",
+   "de",
+   "en",
+   "es",
+   "et",
+   "eu",
+   "fi",
+   "fr",
+   "ga",
+   "gl",
+   "hr",
+   "hu",
+   "it",
+   "lt",
+   "lv",
+   "mt",
+   "nl",
+   "pl",
+   "pt",
+   "ro",
+   "sk",
+   "sl",
+   "sv"
+  ],
+  "errors": {
+   "duplicate": "ValueError: duplicate options: 'a' and 'a' are the same text",
+   "empty_option": "ValueError: empty option: ' '",
+   "empty_text": "ValueError: empty text",
+   "empty_list": "ValueError: options is empty: give at least one option",
+   "non_string": "TypeError: every option must be a string, got int",
+   "greek": "UnsupportedLanguage: the text is not in the Latin script (100% of its letters are not Latin). Supported languages: ca, cs, da, de, en, es, et, eu, fi, fr, ga, gl, hr, hu, it, lt, lv, mt, nl, pl, pt, ro, sk, sl, sv.",
+   "threads0": "ValueError: threads must be a positive integer",
+   "decide_many_str": "TypeError: texts must be a list of strings; use decide() for one text"
+  },
+  "order_invariant_bits": true,
+  "decide_many_equals_decide": true,
+  "threads_1_vs_2_bits": true,
+  "temperature": 0.25750097501415153,
+  "none_level": 4.517323970794678,
+  "onnx_inputs": [
+   [
+    "inputs_embeds",
+    [
+     1,
+     "L",
+     384
+    ],
+    "tensor(float)"
+   ],
+   [
+    "position_ids",
+    [
+     1,
+     "L"
+    ],
+    "tensor(int64)"
+   ]
+  ],
+  "onnx_outputs": [
+   [
+    "hidden",
+    [
+     "LayerNormalizationhidden_dim_0",
+     "L",
+     384
+    ],
+    "tensor(float)"
+   ]
+  ],
+  "onnx_exposes": "per-token last hidden states ('hidden', shape 1 x L x 384); depths, pooled states and probabilities are computed in numpy by _runtime.py",
+  "recalibrate": {
+   "seconds": 3.573289155960083,
+   "report": {
+    "before": {
+     "lists": 8,
+     "decision_accuracy": 0.375,
+     "choice_accuracy": 0.2857142857142857,
+     "false_admission_090": 0.0,
+     "sure_share": 0.0,
+     "wrong_when_sure": null,
+     "ece": 0.39400120064089467
+    },
+    "after": {
+     "lists": 8,
+     "decision_accuracy": 0.375,
+     "choice_accuracy": 0.2857142857142857,
+     "false_admission_090": 0.0,
+     "sure_share": 0.0,
+     "wrong_when_sure": null,
+     "ece": 0.31730041003563697
+    },
+    "temperature": {
+     "before": 0.25750097501415153,
+     "after": 18.464983521168854
+    },
+    "none_level": {
+     "before": 4.517323970794678,
+     "after": -2.738202956444639
+    },
+    "calibration_lists": 104
+   }
+  },
+  "fit": {
+   "examples": 60,
+   "steps": 10,
+   "seconds_total": 15.437804222106934,
+   "report_seconds": 12.9,
+   "projected_minutes_for_200_steps": 4.3,
+   "report": {
+    "before": {
+     "lists": 8,
+     "decision_accuracy": 0.375,
+     "choice_accuracy": 0.2857142857142857,
+     "false_admission_090": 0.0,
+     "sure_share": 0.0,
+     "wrong_when_sure": null,
+     "ece": 0.39400120064089467
+    },
+    "after": {
+     "lists": 8,
+     "decision_accuracy": 0.25,
+     "choice_accuracy": 0.14285714285714285,
+     "false_admission_090": 0.0,
+     "sure_share": 0.0,
+     "wrong_when_sure": null,
+     "ece": 0.34275615852058733
+    },
+    "held_out_examples": 8,
+    "trained_on": 52,
+    "seconds": 12.9,
+    "steps": 10,
+    "frozen_layers": 8,
+    "seed": 0,
+    "labels": [
+     "Billing and Payments",
+     "Customer Service",
+     "IT Support",
+     "Product Support",
+     "Returns and Exchanges",
+     "Technical Support"
+    ],
+    "note": "Measured on your held-out examples only. Thresholds and confidences fitted on one set of options and one language do not carry over to others: measure again when either changes."
+   }
+  },
+  "fit_save_reload_same_bits": true,
+  "fit_deterministic_same_seed": true,
+  "stderr": ""
+ },
+ "warnings": [
+  "ResourceWarning: unclosed file <_io.TextIOWrapper name='<workdir>/data_zip/data/tickets_fit.jsonl' mode='r' encoding='utf-8'> (s0_packaging.py:125)"
+ ]
+}

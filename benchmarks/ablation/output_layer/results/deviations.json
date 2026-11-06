@@ -1,0 +1,4 @@
+[
+ "Operational, not a change of protocol: the container's disk filled up (about 43 GB usable, mostly taken by earlier sessions' files) while caching E2. After all 25 E1 runs were saved, the E1 feature arrays (X, cls) were dropped from cache/E1 by scripts/slim_cache.py, keeping offsets, gold indices and released depths. The E2 caching was relaunched and resumed from its saved parts. Retraining E1 would require caching its features again.",
+ "Operational: torch was set to one thread per training process (small operations are about 35 times faster than with two threads on this CPU); this changes speed, not the computation."
+]
