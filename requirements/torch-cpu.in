@@ -1,2 +1,2 @@
 # One version for every Python we test (3.10 to 3.13): torch 2.15 has no build for 3.10.
-torch==2.14.1
+torch==2.15.0
