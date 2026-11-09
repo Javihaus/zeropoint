@@ -33,16 +33,21 @@ so ZeroPoint can answer *none* with confidence.
 
 <br>
 
+<p><b>How to read the numbers.</b> Half of the cases have no right option. A random guess, with
+<i>none</i> counted as one more option, gets about 13% right. Always answering <i>none</i> gets
+50% on the first row and 0% when one option is right.</p>
+
 <table>
 <thead>
 <tr><th></th><th><img src="https://raw.githubusercontent.com/Javihaus/zeropoint/main/assets/zeropoint-logo-256.png" width="44" alt=""><br>ZeroPoint</th><th>Strands Decider 2B ¹</th><th>Clef-flash ²</th><th>Semantic Router</th><th>Zero-shot NLI</th></tr>
 </thead>
 <tbody>
 <tr><td><b>Accuracy</b>: right answer, <i>none</i> included</td><td>53.6%</td><td><b>58.6%</b></td><td>53.3%</td><td>19.4%</td><td>20.7%</td></tr>
-<tr><td><b>Same answer whatever the order</b>: decisions that change when the same options are listed in another order</td><td><b>0%</b></td><td>7.3%</td><td>0%</td><td>0.6%</td><td><b>0%</b></td></tr>
+<tr><td><b>Same answer whatever the order</b>: decisions that change when the same options are listed in another order. Lower is better</td><td><b>0%</b></td><td>7.3%</td><td>0%</td><td>0.6%</td><td><b>0%</b></td></tr>
 <tr><td><b>Accuracy</b> when one option is right</td><td>43.8%</td><td><b>58.4%</b></td><td>56.2%</td><td>38.9%</td><td>41.3%</td></tr>
-<tr><td><b>Silent mistakes</b>: no option fits, yet it answers with ≥ 90% confidence</td><td>7.8%</td><td><b>0.0%</b>³</td><td>5.8%</td><td>– ⁴</td><td>22.2%</td></tr>
-<tr><td><b>Latency</b>, median on a CPU (on a GPU)</td><td><b>42 ms</b></td><td>6,770 ms (93 ms)⁵</td><td>+ 20,000 ms (156 ms)⁶</td><td><b>17 ms</b></td><td>1,697 ms</td></tr>
+<tr><td><b>Silent mistakes</b>: no option fits, yet it answers with ≥ 90% confidence. Lower is better</td><td>7.8%</td><td><b>0.0%</b></td><td>5.8%</td><td>– ³</td><td>22.2%</td></tr>
+<tr><td><b>Confident when right</b>: right answers stated with ≥ 90% confidence. Higher is better, and it is what makes the row above comparable: a model that never states 90% cannot make a silent mistake</td><td><b>66%</b></td><td>37%</td><td>⟨Clef⟩%</td><td>– ³</td><td>⟨NLI⟩%</td></tr>
+<tr><td><b>Latency</b>, median on a CPU (on a GPU)</td><td><b>42 ms</b></td><td>6,770 ms (93 ms)⁴</td><td>+ 20,000 ms (156 ms)⁵</td><td><b>17 ms</b></td><td>1,697 ms</td></tr>
 <tr><td><b>Model size</b></td><td><b>89 MB</b></td><td>4.8 GB</td><td>19 GB</td><td>91 MB</td><td>369 MB</td></tr>
 <tr><td><b>Runs on</b></td><td><b>CPU</b></td><td>GPU</td><td>GPU</td><td>CPU</td><td>CPU or GPU</td></tr>
 </tbody>
@@ -52,10 +57,9 @@ so ZeroPoint can answer *none* with confidence.
 support-ticket tests, 300 cases of each, 900 in all, half of them with no right option. ZeroPoint, Semantic Router
 and zero-shot NLI on a 2-core CPU with 2 threads, one case at a time. Semantic Router 1.1.1 with its default
 encoder; zero-shot NLI with DeBERTa-v3-base. ¹ AWS, Apache 2.0, and ² Cloudflare, Apache 2.0, each with "None of
-these" added to every list as one more option, so that it can answer <i>none</i>. ³ Strands Decider rarely states
-90% confidence, even when it is right: 37% of its right answers, against 66% for ZeroPoint. ⁴ Semantic Router gives
-similarities, not probabilities. ⁵ On a CPU: measured on another 2-core CPU, on 118 cases of the 2,000-case test,
-where ZeroPoint takes 18 ms. On a GPU: an NVIDIA L4, on the 900 cases. ⁶ On a CPU: not measured, because
+these" added to every list as one more option, so that it can answer <i>none</i>. ³ Semantic Router gives
+similarities, not probabilities. ⁴ On a CPU: measured on another 2-core CPU, on 118 cases of the 2,000-case test,
+where ZeroPoint takes 18 ms. On a GPU: an NVIDIA L4, on the 900 cases. ⁵ On a CPU: not measured, because
 Clef-flash needs about 19 GB of memory; a lower bound estimated from its size, 4.5 times that of Strands Decider.
 On a GPU: an NVIDIA L4, on the 900 cases. Per-test results, other confidence thresholds and the scripts to run it
 all again: <a href="https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md">BENCHMARK.md</a>.</sub>
