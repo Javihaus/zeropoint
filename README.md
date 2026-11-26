@@ -46,7 +46,7 @@ so ZeroPoint can answer *none* with confidence.
 <tr><td><b>Same answer whatever the order</b>: decisions that change when the same options are listed in another order. Lower is better</td><td><b>0%</b></td><td>7.3%</td><td>0%</td><td>0.6%</td><td><b>0%</b></td></tr>
 <tr><td><b>Accuracy</b> when one option is right</td><td>43.8%</td><td><b>58.4%</b></td><td>56.2%</td><td>38.9%</td><td>41.3%</td></tr>
 <tr><td><b>Silent mistakes</b>: no option fits, yet it answers with ≥ 90% confidence. Lower is better</td><td>7.8%</td><td><b>0.0%</b></td><td>5.8%</td><td>– ³</td><td>22.2%</td></tr>
-<tr><td><b>Confident when right</b>: right answers stated with ≥ 90% confidence. Higher is better, and it is what makes the row above comparable: a model that never states 90% cannot make a silent mistake</td><td><b>66%</b></td><td>37%</td><td>⟨Clef⟩%</td><td>– ³</td><td>⟨NLI⟩%</td></tr>
+<tr><td><b>Confident when right</b>: right answers stated with ≥ 90% confidence. Higher is better, and it is what makes the row above comparable: a model that never states 90% cannot make a silent mistake</td><td><b>66%</b></td><td>37%</td><td>47%</td><td>– ³</td><td>57%</td></tr>
 <tr><td><b>Latency</b>, median on a CPU (on a GPU)</td><td><b>42 ms</b></td><td>6,770 ms (93 ms)⁴</td><td>+ 20,000 ms (156 ms)⁵</td><td><b>17 ms</b></td><td>1,697 ms</td></tr>
 <tr><td><b>Model size</b></td><td><b>89 MB</b></td><td>4.8 GB</td><td>19 GB</td><td>91 MB</td><td>369 MB</td></tr>
 <tr><td><b>Runs on</b></td><td><b>CPU</b></td><td>GPU</td><td>GPU</td><td>CPU</td><td>CPU or GPU</td></tr>
@@ -86,7 +86,7 @@ all again: <a href="https://github.com/Javihaus/zeropoint/blob/main/BENCHMARK.md
 <td valign="top"><h3>89 MB, no GPU</h3><sub>The model ships inside the package: nothing is downloaded at run time. Strands Decider needs 4.8 GB and a GPU; Clef-flash 19 GB.</sub></td>
 <td valign="top"><h3>42 ms on a CPU</h3><sub>Median on the tests above, on 2 CPU cores. On another 2-core CPU, ZeroPoint takes 18 ms per decision and Strands Decider 6.8 s.</sub></td>
 <td valign="top"><h3>Same input, same answer</h3><sub>The order of the options never changes the decision; Strands Decider's changes in 7% of cases, and in 13% of support tickets whose own queue is not on the list. Same decisions on Linux, macOS and Windows, tested on every change.</sub></td>
-<td valign="top"><h3>25 languages</h3><sub>EU languages in the Latin script, plus Catalan, Basque and Galician. <a href="https://github.com/Javihaus/zeropoint/blob/main/LANGUAGES.md">Which ones, and why</a>.</sub></td>
+<td valign="top"><h3>25 languages</h3><sub>EU languages in the Latin script, plus Catalan, Basque and Galician.</sub></td>
 </tr>
 </table>
 
@@ -99,9 +99,15 @@ Routing a support ticket, finding the intent behind a request, sending a documen
 
 ## Quick start
 
-```bash
+
+1. Install the package:
+   
+```python
 pip install zeropoint
 ```
+
+2. Import it.
+
 
 ```python
 from zeropoint import ZeroPoint
@@ -111,7 +117,9 @@ zp.decide("Can you move 200 euros from my savings to my checking account?",
           ["transfer", "balance", "pay bill"])
 ```
 
-```text
+3. Output.
+
+```ruby
 transfer  0.77  ███████████████·····
 balance   0.02  ····················
 pay bill  0.01  ····················
@@ -121,13 +129,15 @@ none      0.20  ████················
 
 <br>
 
-When none of the options fits, ZeroPoint says so:
+
+
+### When none of the options fits, ZeroPoint says so:
 
 ```python
 zp.decide("Set an alarm for 6:30 tomorrow morning", ["transfer", "balance", "pay bill"])
 ```
 
-```text
+```ruby
 pay bill  0.00  ····················
 transfer  0.00  ····················
 balance   0.00  ····················
@@ -137,22 +147,20 @@ none      1.00  ████████████████████
 
 <br>
 
-The options can be any short text, in any of the supported languages:
+### The options can be any short text, in any of the supported languages:
 
 ```python
 zp.decide("Me han cobrado dos veces la suscripción de marzo, ¿podéis devolverme el duplicado?",
           ["facturación", "soporte técnico", "recursos humanos"])
 ```
 
-```text
+```ruby
 facturación       0.76  ███████████████·····
 soporte técnico   0.00  ····················
 recursos humanos  0.00  ····················
 none              0.24  █████···············
 → facturación · 16 ms
 ```
-
-See the Docs: [javihaus.github.io/zeropoint](https://javihaus.github.io/zeropoint/).
 
 <br>
 
@@ -202,17 +210,22 @@ Each text is computed on its own, so every result is exactly what `decide` gives
 
 You can calibrate ZeroPoint on your own labelled data, on a CPU.
 
-```bash
-pip install torch --index-url https://download.pytorch.org/whl/cpu   # optional: CPU-only PyTorch, without the GPU libraries
-pip install "zeropoint[fit]"        # adds PyTorch and onnx; deciding never needs them
+```python
+# Option 1: CPU-only PyTorch, without the GPU libraries
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+# Option 2: adds PyTorch and onnx; deciding never needs them
+pip install "zeropoint[fit]"        
 ```
 
 ```python
-mine, report = zp.fit(texts, labels)   # labels: the right option for each text, or None for "none of these"
-print(report["before"], report["after"])
+""" Labels: the right option for each text, or None for 'none of these' """
+mine, report = zp.fit(texts, labels)  
 mine.save("my-model")
 
 zp = ZeroPoint("my-model")
+
+print(report["before"], report["after"])
 ```
 
 > [!NOTE]
