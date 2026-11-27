@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="360" font-family="system-ui,sans-serif">
+<text x="550.0" y="28" text-anchor="middle" font-size="16" font-weight="600">ZeroPoint Tetris Decision Bench (CPU-first)</text>
+<text x="550.0" y="48" text-anchor="middle" font-size="11" fill="#64748b">OpenAI Decisions: not run in this experiment</text>
+<text x="200.0" y="72" text-anchor="middle" font-size="13" font-weight="600">Lines / game</text>
+<line x1="50.0" y1="300" x2="350.0" y2="300" stroke="#cbd5e1"/>
+<line x1="50.0" y1="90" x2="50.0" y2="300" stroke="#cbd5e1"/>
+<circle cx="87.5" cy="127.33333333333334" r="4" fill="#2563eb" fill-opacity="0.7"/>
+<circle cx="87.5" cy="118.0" r="4" fill="#2563eb" fill-opacity="0.7"/>
+<circle cx="87.5" cy="127.33333333333334" r="4" fill="#2563eb" fill-opacity="0.7"/>
+<circle cx="87.5" cy="122.66666666666666" r="4" fill="#2563eb" fill-opacity="0.7"/>
+<circle cx="87.5" cy="127.33333333333334" r="4" fill="#2563eb" fill-opacity="0.7"/>
+<circle cx="87.5" cy="132.0" r="4" fill="#2563eb" fill-opacity="0.7"/>
+<circle cx="87.5" cy="132.0" r="4" fill="#2563eb" fill-opacity="0.7"/>
+<circle cx="87.5" cy="122.66666666666666" r="4" fill="#2563eb" fill-opacity="0.7"/>
+<circle cx="87.5" cy="132.0" r="4" fill="#2563eb" fill-opacity="0.7"/>
+<circle cx="87.5" cy="127.33333333333334" r="4" fill="#2563eb" fill-opacity="0.7"/>
+<line x1="75.5" y1="126.86666666666667" x2="99.5" y2="126.86666666666667" stroke="#0f172a" stroke-width="2"/>
+<text x="87.5" y="318" text-anchor="middle" font-size="10">greedy</text>
+<circle cx="162.5" cy="295.3333333333333" r="4" fill="#94a3b8" fill-opacity="0.7"/>
+<circle cx="162.5" cy="295.3333333333333" r="4" fill="#94a3b8" fill-opacity="0.7"/>
+<circle cx="162.5" cy="295.3333333333333" r="4" fill="#94a3b8" fill-opacity="0.7"/>
+<circle cx="162.5" cy="295.3333333333333" r="4" fill="#94a3b8" fill-opacity="0.7"/>
+<circle cx="162.5" cy="300.0" r="4" fill="#94a3b8" fill-opacity="0.7"/>
+<circle cx="162.5" cy="295.3333333333333" r="4" fill="#94a3b8" fill-opacity="0.7"/>
+<circle cx="162.5" cy="295.3333333333333" r="4" fill="#94a3b8" fill-opacity="0.7"/>
+<circle cx="162.5" cy="295.3333333333333" r="4" fill="#94a3b8" fill-opacity="0.7"/>
+<circle cx="162.5" cy="295.3333333333333" r="4" fill="#94a3b8" fill-opacity="0.7"/>
+<circle cx="162.5" cy="295.3333333333333" r="4" fill="#94a3b8" fill-opacity="0.7"/>
+<line x1="150.5" y1="295.8" x2="174.5" y2="295.8" stroke="#0f172a" stroke-width="2"/>
+<text x="162.5" y="318" text-anchor="middle" font-size="10">random</text>
+<circle cx="237.5" cy="192.66666666666669" r="4" fill="#059669" fill-opacity="0.7"/>
+<circle cx="237.5" cy="155.33333333333334" r="4" fill="#059669" fill-opacity="0.7"/>
+<circle cx="237.5" cy="127.33333333333334" r="4" fill="#059669" fill-opacity="0.7"/>
+<circle cx="237.5" cy="146.0" r="4" fill="#059669" fill-opacity="0.7"/>
+<circle cx="237.5" cy="169.33333333333334" r="4" fill="#059669" fill-opacity="0.7"/>
+<circle cx="237.5" cy="206.66666666666669" r="4" fill="#059669" fill-opacity="0.7"/>
+<circle cx="237.5" cy="253.33333333333334" r="4" fill="#059669" fill-opacity="0.7"/>
+<circle cx="237.5" cy="127.33333333333334" r="4" fill="#059669" fill-opacity="0.7"/>
+<circle cx="237.5" cy="127.33333333333334" r="4" fill="#059669" fill-opacity="0.7"/>
+<circle cx="237.5" cy="178.66666666666669" r="4" fill="#059669" fill-opacity="0.7"/>
+<line x1="225.5" y1="168.4" x2="249.5" y2="168.4" stroke="#0f172a" stroke-width="2"/>
+<text x="237.5" y="318" text-anchor="middle" font-size="10">zeropoint</text>
+<circle cx="312.5" cy="290.6666666666667" r="4" fill="#dc2626" fill-opacity="0.7"/>
+<circle cx="312.5" cy="290.6666666666667" r="4" fill="#dc2626" fill-opacity="0.7"/>
+<circle cx="312.5" cy="300.0" r="4" fill="#dc2626" fill-opacity="0.7"/>
+<circle cx="312.5" cy="295.3333333333333" r="4" fill="#dc2626" fill-opacity="0.7"/>
+<circle cx="312.5" cy="286.0" r="4" fill="#dc2626" fill-opacity="0.7"/>
+<circle cx="312.5" cy="281.3333333333333" r="4" fill="#dc2626" fill-opacity="0.7"/>
+<circle cx="312.5" cy="286.0" r="4" fill="#dc2626" fill-opacity="0.7"/>
+<circle cx="312.5" cy="290.6666666666667" r="4" fill="#dc2626" fill-opacity="0.7"/>
+<circle cx="312.5" cy="290.6666666666667" r="4" fill="#dc2626" fill-opacity="0.7"/>
+<circle cx="312.5" cy="286.0" r="4" fill="#dc2626" fill-opacity="0.7"/>
+<line x1="300.5" y1="289.73333333333335" x2="324.5" y2="289.73333333333335" stroke="#0f172a" stroke-width="2"/>
+<text x="312.5" y="318" text-anchor="middle" font-size="10">laya</text>
+<text x="550.0" y="72" text-anchor="middle" font-size="13" font-weight="600">Decision latency p50 (ms)</text>
+<line x1="400.0" y1="300" x2="700.0" y2="300" stroke="#cbd5e1"/>
+<line x1="400.0" y1="90" x2="400.0" y2="300" stroke="#cbd5e1"/>
+<rect x="415.0" y="299.99995407666523" width="45.0" height="4.592333476540722e-05" fill="#2563eb"/>
+<text x="437.5" y="318" text-anchor="middle" font-size="10">greedy</text>
+<rect x="490.0" y="299.9997103086587" width="45.0" height="0.00028969134134008257" fill="#94a3b8"/>
+<text x="512.5" y="318" text-anchor="middle" font-size="10">random</text>
+<rect x="565.0" y="294.25783253292684" width="45.0" height="5.742167467073184" fill="#059669"/>
+<text x="587.5" y="318" text-anchor="middle" font-size="10">zeropoint</text>
+<text x="587.5" y="288.25783253292684" text-anchor="middle" font-size="9" fill="#334155">146</text>
+<rect x="640.0" y="109.0909090909091" width="45.0" height="190.9090909090909" fill="#dc2626"/>
+<text x="662.5" y="318" text-anchor="middle" font-size="10">laya</text>
+<text x="662.5" y="103.0909090909091" text-anchor="middle" font-size="9" fill="#334155">4842</text>
+<text x="900.0" y="72" text-anchor="middle" font-size="13" font-weight="600">Survival rate (≥ 100 moves)</text>
+<line x1="750.0" y1="300" x2="1050.0" y2="300" stroke="#cbd5e1"/>
+<line x1="750.0" y1="90" x2="750.0" y2="300" stroke="#cbd5e1"/>
+<rect x="765.0" y="90.0" width="45.0" height="210.0" fill="#2563eb"/>
+<text x="787.5" y="318" text-anchor="middle" font-size="10">greedy</text>
+<rect x="840.0" y="300.0" width="45.0" height="0.0" fill="#94a3b8"/>
+<text x="862.5" y="318" text-anchor="middle" font-size="10">random</text>
+<rect x="915.0" y="153.0" width="45.0" height="147.0" fill="#059669"/>
+<text x="937.5" y="318" text-anchor="middle" font-size="10">zeropoint</text>
+<rect x="990.0" y="300.0" width="45.0" height="0.0" fill="#dc2626"/>
+<text x="1012.5" y="318" text-anchor="middle" font-size="10">laya</text>
+</svg>
